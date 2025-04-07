@@ -1,15 +1,23 @@
 import React from 'react';
+import { Locale } from '@/lib/i18n-config';
+import { getDictionary } from '@/lib/dictionary';
 
-export default function ConsultationPage() {
+export default async function ConsultationPage(
+  props: {
+    params: Promise<{ lang: Locale }>;
+  }
+) {
+  const { lang } = await props.params;
+  const dictionary = await getDictionary(lang);
   return (
     <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Book a Consultation</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-8">{dictionary.consultation.title}</h1>
         <div className="bg-white rounded-lg shadow-md p-8">
           <form className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Full Name
+                {dictionary.consultation.form.name}
               </label>
               <input
                 type="text"
@@ -20,7 +28,7 @@ export default function ConsultationPage() {
             </div>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email Address
+                {dictionary.consultation.form.email}
               </label>
               <input
                 type="email"
@@ -31,7 +39,7 @@ export default function ConsultationPage() {
             </div>
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                Phone Number
+                {dictionary.consultation.form.phone}
               </label>
               <input
                 type="tel"
@@ -42,7 +50,7 @@ export default function ConsultationPage() {
             </div>
             <div>
               <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                Message
+                {dictionary.consultation.form.message}
               </label>
               <textarea
                 id="message"
@@ -56,7 +64,7 @@ export default function ConsultationPage() {
                 type="submit"
                 className="w-full bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors"
               >
-                Request Consultation
+                {dictionary.consultation.form.submit}
               </button>
             </div>
           </form>

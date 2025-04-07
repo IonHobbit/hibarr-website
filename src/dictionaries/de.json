@@ -1,0 +1,52 @@
+{
+  "navigation": {
+    "home": "Startseite",
+    "listings": "Angebote",
+    "about": "Über Uns",
+    "testimonials": "Bewertungen",
+    "partners": "Partner",
+    "consultation": "Beratung Buchen"
+  },
+  "home": {
+    "title": "Willkommen auf unserer Plattform",
+    "subtitle": "Entdecken Sie außergewöhnliche Immobilien und Dienstleistungen"
+  },
+  "listings": {
+    "title": "Unsere Angebote",
+    "description": "Durchsuchen Sie unsere sorgfältig ausgewählten Immobilien"
+  },
+  "about": {
+    "title": "Über Uns",
+    "welcome": "Willkommen in unserem Unternehmen. Wir sind bestrebt, unseren Kunden außergewöhnlichen Service und innovative Lösungen zu bieten.",
+    "mission": {
+      "title": "Unsere Mission",
+      "content": "Hervorragende Werte und Ergebnisse durch unsere Expertise und unser Engagement für Exzellenz zu liefern."
+    },
+    "vision": {
+      "title": "Unsere Vision",
+      "content": "Der führende Anbieter innovativer Lösungen in unserer Branche zu sein."
+    }
+  },
+  "testimonials": {
+    "title": "Bewertungen",
+    "client": "Kunde"
+  },
+  "partners": {
+    "title": "Unsere Partner",
+    "becomePartner": {
+      "title": "Partner Werden",
+      "description": "Wir sind immer auf der Suche nach vertrauenswürdigen Partnern. Werden Sie Teil unseres Netzwerks und liefern Sie gemeinsam mit uns außergewöhnliche Werte für unsere Kunden.",
+      "button": "Kontaktieren Sie Uns"
+    }
+  },
+  "consultation": {
+    "title": "Beratung Buchen",
+    "form": {
+      "name": "Vollständiger Name",
+      "email": "E-Mail-Adresse",
+      "phone": "Telefonnummer",
+      "message": "Nachricht",
+      "submit": "Beratung Anfordern"
+    }
+  }
+} 

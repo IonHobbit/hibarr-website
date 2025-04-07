@@ -1,0 +1,52 @@
+{
+  "navigation": {
+    "home": "Ana Sayfa",
+    "listings": "İlanlar",
+    "about": "Hakkımızda",
+    "testimonials": "Referanslar",
+    "partners": "İş Ortakları",
+    "consultation": "Danışmanlık Al"
+  },
+  "home": {
+    "title": "Platformumuza Hoş Geldiniz",
+    "subtitle": "Olağanüstü mülkler ve hizmetler keşfedin"
+  },
+  "listings": {
+    "title": "İlanlarımız",
+    "description": "Özenle seçilmiş mülklerimizi inceleyin"
+  },
+  "about": {
+    "title": "Hakkımızda",
+    "welcome": "Şirketimize hoş geldiniz. Müşterilerimize olağanüstü hizmet ve yenilikçi çözümler sunmaya kendimizi adamış durumdayız.",
+    "mission": {
+      "title": "Misyonumuz",
+      "content": "Uzmanlığımız ve mükemmellik taahhüdümüz aracılığıyla olağanüstü değer ve sonuçlar sunmak."
+    },
+    "vision": {
+      "title": "Vizyonumuz",
+      "content": "Sektörümüzde yenilikçi çözümlerin önde gelen sağlayıcısı olmak."
+    }
+  },
+  "testimonials": {
+    "title": "Referanslar",
+    "client": "Müşteri"
+  },
+  "partners": {
+    "title": "İş Ortaklarımız",
+    "becomePartner": {
+      "title": "İş Ortağı Olun",
+      "description": "Güvenilir iş ortakları ağımızı genişletmek için sürekli arayıştayız. Müşterilerimize olağanüstü değer sunmak için bizimle birlikte çalışın.",
+      "button": "Bize Ulaşın"
+    }
+  },
+  "consultation": {
+    "title": "Danışmanlık Randevusu Al",
+    "form": {
+      "name": "Ad Soyad",
+      "email": "E-posta Adresi",
+      "phone": "Telefon Numarası",
+      "message": "Mesaj",
+      "submit": "Danışmanlık Talebi Gönder"
+    }
+  }
+} 
