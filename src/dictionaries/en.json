@@ -1,15 +1,65 @@
 {
-  "navigation": {
-    "home": "Home",
-    "listings": "Listings",
-    "about": "About Us",
-    "testimonials": "Testimonials",
-    "partners": "Partners",
-    "consultation": "Book Consultation"
-  },
+  "navigation": [
+    {
+      "name": "Home",
+      "href": "/"
+    },
+    {
+      "name": "Listings",
+      "href": "/listings"
+    },
+    {
+      "name": "About Us",
+      "href": "/about",
+      "children": [
+        {
+          "name": "Who We Are",
+          "href": "/about"
+        },
+        {
+          "name": "Testimonials",
+          "href": "/testimonials"
+        }
+      ]
+    },
+    {
+      "name": "Partners",
+      "href": "/partners",
+      "children": [
+        {
+          "name": "Oscar",
+          "href": "/oscar"
+        },
+        {
+          "name": "Near East",
+          "href": "/near-east"
+        }
+      ]
+    },
+    {
+      "name": "Resources",
+      "href": "/resources",
+      "children": [
+        {
+          "name": "Blog",
+          "href": "/blog"
+        }
+      ]
+    }
+  ],
   "home": {
     "title": "Own Affordable Luxury in North Cyprus",
-    "subtitle": "10 years payment plan, 0% interest, No credit check"
+    "subtitle": "10 years payment plan, 0% interest, No credit check",
+    "buttons": [
+      {
+        "name": "Browse Listings",
+        "href": "/listings"
+      },
+      {
+        "name": "Book a Consultation",
+        "href": "/consultation"
+      }
+    ]
   },
   "listings": {
     "title": "Our Listings",

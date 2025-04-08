@@ -1,15 +1,65 @@
 {
-  "navigation": {
-    "home": "Ana Sayfa",
-    "listings": "İlanlar",
-    "about": "Hakkımızda",
-    "testimonials": "Referanslar",
-    "partners": "İş Ortakları",
-    "consultation": "Danışmanlık Al"
-  },
+  "navigation": [
+    {
+      "name": "Ana Sayfa",
+      "href": "/"
+    },
+    {
+      "name": "İlanlar",
+      "href": "/listings"
+    },
+    {
+      "name": "Hakkımızda",
+      "href": "/about",
+      "children": [
+        {
+          "name": "Biz Kimiz",
+          "href": "/about"
+        },
+        {
+          "name": "Referanslar",
+          "href": "/testimonials"
+        }
+      ]
+    },
+    {
+      "name": "İş Ortakları",
+      "href": "/partners",
+      "children": [
+        {
+          "name": "Oscar",
+          "href": "/oscar"
+        },
+        {
+          "name": "Near East",
+          "href": "/near-east"
+        }
+      ]
+    },
+    {
+      "name": "Kaynaklar",
+      "href": "/resources",
+      "children": [
+        {
+          "name": "Blog",
+          "href": "/blog"
+        }
+      ]
+    }
+  ],
   "home": {
     "title": "Platformumuza Hoş Geldiniz",
-    "subtitle": "Olağanüstü mülkler ve hizmetler keşfedin"
+    "subtitle": "Olağanüstü mülkler ve hizmetler keşfedin",
+    "buttons": [
+      {
+        "name": "İlanları Görüntüle",
+        "href": "/listings"
+      },
+      {
+        "name": "Randevu Al",
+        "href": "/consultation"
+      }
+    ]
   },
   "listings": {
     "title": "İlanlarımız",
@@ -49,4 +99,4 @@
       "submit": "Danışmanlık Talebi Gönder"
     }
   }
-} 
+}

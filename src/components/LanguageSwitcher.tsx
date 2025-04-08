@@ -17,7 +17,7 @@ export default function LanguageSwitcher() {
         <Link
           key={locale}
           href={pathname.replace(`/${lang}`, `/${locale}`)}
-          className={`text-gray-900 hover:text-gray-700 ${locale === lang ? 'font-bold' : ''
+          className={`text-primary-foreground hover:text-primary-foreground/80 ${locale === lang ? 'font-bold' : ''
             }`}
         >
           {locale.toUpperCase()}

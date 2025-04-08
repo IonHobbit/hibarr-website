@@ -1,15 +1,65 @@
 {
-  "navigation": {
-    "home": "Startseite",
-    "listings": "Angebote",
-    "about": "Über Uns",
-    "testimonials": "Bewertungen",
-    "partners": "Partner",
-    "consultation": "Beratung Buchen"
-  },
+  "navigation": [
+    {
+      "name": "Startseite",
+      "href": "/"
+    },
+    {
+      "name": "Angebote",
+      "href": "/listings"
+    },
+    {
+      "name": "Über Uns",
+      "href": "/about",
+      "children": [
+        {
+          "name": "Wer Wir Sind",
+          "href": "/about"
+        },
+        {
+          "name": "Bewertungen",
+          "href": "/testimonials"
+        }
+      ]
+    },
+    {
+      "name": "Partner",
+      "href": "/partners",
+      "children": [
+        {
+          "name": "Oscar",
+          "href": "/oscar"
+        },
+        {
+          "name": "Near East",
+          "href": "/near-east"
+        }
+      ]
+    },
+    {
+      "name": "Ressourcen",
+      "href": "/resources",
+      "children": [
+        {
+          "name": "Blog",
+          "href": "/blog"
+        }
+      ]
+    }
+  ],
   "home": {
     "title": "Willkommen auf unserer Plattform",
-    "subtitle": "Entdecken Sie außergewöhnliche Immobilien und Dienstleistungen"
+    "subtitle": "Entdecken Sie außergewöhnliche Immobilien und Dienstleistungen",
+    "buttons": [
+      {
+        "name": "Angebote Durchsuchen",
+        "href": "/listings"
+      },
+      {
+        "name": "Beratung Buchen",
+        "href": "/consultation"
+      }
+    ]
   },
   "listings": {
     "title": "Unsere Angebote",
@@ -49,4 +99,4 @@
       "submit": "Beratung Anfordern"
     }
   }
-} 
+}
