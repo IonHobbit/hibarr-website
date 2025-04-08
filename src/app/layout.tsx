@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Playfair_Display, Inter, Work_Sans } from "next/font/google";
 import { Locale } from "@/lib/i18n-config";
 import "./globals.css";
 
@@ -10,6 +10,11 @@ const playfairDisplay = Playfair_Display({
 
 const inter = Inter({
   variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const workSans = Work_Sans({
+  variable: "--font-work-sans",
   subsets: ["latin"],
 });
 
@@ -33,7 +38,7 @@ export default async function RootLayout(
   return (
     <html lang={lang} className="scroll-smooth">
       <body
-        className={`${playfairDisplay.variable} ${inter.variable} antialiased`}
+        className={`${playfairDisplay.variable} ${inter.variable} ${workSans.variable} antialiased`}
       >
         {children}
       </body>

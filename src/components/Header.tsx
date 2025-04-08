@@ -14,7 +14,7 @@ export default async function Header(
 
   return (
     <header className="absolute top-0 z-10 w-full flex items-center bg-primary/20 backdrop-blur-sm">
-      <nav className="max-w-screen-xl mx-auto py-6 px-4 sm:px-6 lg:px-8 w-full">
+      <nav className="section py-6 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between">
           <Link href={`/${lang}`}>
             <Image src="/logos/logo.png" alt="Hibarr Estates Logo" className="object-contain" width={140} height={20} />

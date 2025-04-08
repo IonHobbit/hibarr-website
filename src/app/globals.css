@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "../assets/animation.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -48,10 +49,13 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  --animate-scroll: scroll var(--animation-duration, 40s)
+    var(--animation-direction, forwards) linear infinite;
 }
 
 body {
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  font-family: var(--font-work-sans), Arial, Helvetica, sans-serif;
 }
 
 h1,
@@ -61,6 +65,7 @@ h4,
 h5,
 h6 {
   font-family: var(--font-playfair-display), Inter, Helvetica, sans-serif;
+  @apply font-bold;
 }
 
 :root {
@@ -143,5 +148,9 @@ h6 {
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  .section {
+    @apply max-w-screen-xl mx-auto py-10 px-4 sm:px-6 lg:px-8 w-full flex flex-col gap-10;
   }
 }
