@@ -272,8 +272,13 @@
     }
   },
   "testimonials": {
-    "title": "Testimonials",
-    "client": "Client"
+    "name": "Testimonials",
+    "title": "Trusted by clients from all over the world",
+    "description": "Learn why we are consistently considered the biggest expat real estate agency in North Cyprus",
+    "cta": {
+      "text": "Read success stories",
+      "href": "#stories"
+    }
   },
   "partners": {
     "title": "Our Partners",

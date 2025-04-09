@@ -1,5 +1,10 @@
+import Link from 'next/link';
+import { Fragment } from 'react';
+import { Icon } from '@iconify/react';
+import { Button } from '@/components/ui/button';
 import { getDictionary } from '@/lib/dictionary';
 import type { Locale } from '@/lib/i18n-config';
+import { formatDate } from '@/lib/utils';
 
 export default async function TestimonialsPage(
   props: {
@@ -9,26 +14,77 @@ export default async function TestimonialsPage(
   const { lang } = await props.params;
   const dictionary = await getDictionary(lang);
 
+  const testimonials = [
+    {
+      date: '2024-01-01',
+      name: 'Petra Seitz',
+      text: 'Von der ersten Kontaktaufnahme bis zum erfolgreichen Kaufabschluss unserer Villa, haben sich Rabih und Natalie hervorragend um unsere Fragen und Anliegen gekümmert. Sie unterstützen uns (schon fast rund um die Uhr) mit Rat und Tat, waren immer für uns erreichbar. Zu den Behördengängen, Bank-/ Rechtsanwaltterminen und sogar zum Abschluss eines Telefonvertrages, wurden wir von ihnen begleitet. Ein sehr engagiertes und kompetentes Team, welches ich unbedingt weiterempfehlen möchte.',
+    },
+    {
+      date: '2024-01-01',
+      name: 'Petra Seitz',
+      text: 'Von der ersten Kontaktaufnahme bis zum erfolgreichen Kaufabschluss unserer Villa, haben sich Rabih und Natalie hervorragend um unsere Fragen und Anliegen gekümmert. Sie unterstützen uns (schon fast rund um die Uhr) mit Rat und Tat, waren immer für uns erreichbar. Zu den Behördengängen, Bank-/ Rechtsanwaltterminen und sogar zum Abschluss eines Telefonvertrages, wurden wir von ihnen begleitet. Ein sehr engagiertes und kompetentes Team, welches ich unbedingt weiterempfehlen möchte.',
+    },
+    {
+      date: '2024-01-01',
+      name: 'Petra Seitz',
+      text: 'Von der ersten Kontaktaufnahme bis zum erfolgreichen Kaufabschluss unserer Villa, haben sich Rabih und Natalie hervorragend um unsere Fragen und Anliegen gekümmert. Sie unterstützen uns (schon fast rund um die Uhr) mit Rat und Tat, waren immer für uns erreichbar. Zu den Behördengängen, Bank-/ Rechtsanwaltterminen und sogar zum Abschluss eines Telefonvertrages, wurden wir von ihnen begleitet. Ein sehr engagiertes und kompetentes Team, welches ich unbedingt weiterempfehlen möchte.',
+    },
+    {
+      date: '2024-01-01',
+      name: 'Petra Seitz',
+      text: 'Von der ersten Kontaktaufnahme bis zum erfolgreichen Kaufabschluss unserer Villa, haben sich Rabih und Natalie hervorragend um unsere Fragen und Anliegen gekümmert. Sie unterstützen uns (schon fast rund um die Uhr) mit Rat und Tat, waren immer für uns erreichbar. Zu den Behördengängen, Bank-/ Rechtsanwaltterminen und sogar zum Abschluss eines Telefonvertrages, wurden wir von ihnen begleitet. Ein sehr engagiertes und kompetentes Team, welches ich unbedingt weiterempfehlen möchte.',
+    },
+  ]
+
   return (
-    <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">{dictionary.testimonials.title}</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Testimonial cards */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="flex items-center mb-4">
-              <div className="h-12 w-12 rounded-full bg-gray-200 mr-4"></div>
-              <div>
-                <h3 className="font-semibold">John Doe</h3>
-                <p className="text-gray-600 text-sm">{dictionary.testimonials.client}</p>
-              </div>
+    <Fragment>
+      <section id='hero' className="relative grid place-items-center place-content-center h-screen bg-[url('/images/testimonials-hero.jpg')] bg-cover bg-center bg-no-repeat">
+        <div className="max-w-2xl text-center flex flex-col gap-10 z-10 p-4">
+          <div className='flex flex-col gap-2'>
+            <div className='flex items-center p-1 px-3 bg-secondary w-max mx-auto rounded-full'>
+              <p className="uppercase text-sm font-semibold">
+                {dictionary.testimonials.name}
+              </p>
             </div>
-            <p className="text-gray-600">
-              &quot;Excellent service and professional team. Highly recommended!&quot;
+            <h1 className="text-6xl font-bold mb-4 text-primary-foreground">
+              {dictionary.testimonials.title}
+            </h1>
+            <p className="text-md text-primary-foreground">
+              {dictionary.testimonials.description}
             </p>
           </div>
+          <Button variant="accent" size="lg" className='w-max mx-auto' asChild>
+            <Link href={dictionary.testimonials.cta.href} className='uppercase font-semibold'>
+              {dictionary.testimonials.cta.text}
+            </Link>
+          </Button>
         </div>
-      </div>
-    </main>
+        <div className='absolute inset-0 w-full h-full bg-gradient-to-b from-primary via-primary/80 to-transparent'></div>
+
+        <Link href="#stories" className='absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1 text-primary-foreground cursor-pointer'>
+          <p className='text-md uppercase tracking-tight'>Scroll</p>
+          <div className='flex flex-col items-center gap-1'>
+            <Icon icon="iconamoon:mouse-thin" className='size-7' />
+            <Icon icon="ph:arrow-down-thin" className='size-4' />
+          </div>
+          <p className='text-md uppercase'>Down</p>
+        </Link>
+      </section>
+      <section id='stories' className='section'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          {testimonials.map((testimonial, index) => (
+            <div key={index} className='border p-4 rounded-lg flex flex-col gap-4'>
+              <Icon icon="icon-park-outline:quote" className='text-4xl text-accent' />
+              <p className='text-md'>{testimonial.text}</p>
+              <div className='flex flex-col'>
+                <p className='text-lg font-bold'>{testimonial.name}</p>
+                <p className='text-sm text-muted-foreground'>{formatDate(testimonial.date)}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </Fragment>
   );
 } 
