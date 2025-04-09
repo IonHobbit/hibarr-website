@@ -11,6 +11,7 @@ import MeetRabih from './_components/MeetRabih';
 import LeadershipTeamSection from './_components/LeadershipTeamSection';
 import CallToActionSection from './_components/CallToActionSection';
 import FreebieSignupSection from './_components/FreebieSignupSection';
+import FeaturedSection from './_components/FeaturedSection';
 
 export default async function Home(
   props: {
@@ -24,6 +25,7 @@ export default async function Home(
   return (
     <Fragment>
       <LandingSection dictionary={dictionary} />
+      <FeaturedSection />
       <AboutSection dictionary={dictionary} />
       <PartnersSection dictionary={dictionary} />
       <ConsulationProcessSection dictionary={dictionary} />
