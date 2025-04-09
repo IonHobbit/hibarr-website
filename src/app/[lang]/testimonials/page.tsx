@@ -24,7 +24,7 @@ export default async function TestimonialsPage(
               </div>
             </div>
             <p className="text-gray-600">
-              "Excellent service and professional team. Highly recommended!"
+              &quot;Excellent service and professional team. Highly recommended!&quot;
             </p>
           </div>
         </div>

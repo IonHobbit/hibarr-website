@@ -8,16 +8,19 @@ import { Dictionary } from "@/lib/dictionary";
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 
-export default function HeaderItem({ item, lang }: { item: Dictionary['navigation'][number], lang: Locale }) {
+type Item = Dictionary['navigation'][number]
+type Child = { name: string, href: string }
+
+export default function HeaderItem({ item, lang }: { item: Item, lang: Locale }) {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
 
   if (item.hideOnHomePage && pathname === `/${lang}`) {
     return null;
   }
 
   if (item.children) {
-    const [open, setOpen] = useState(false);
-
     return (
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
@@ -29,7 +32,7 @@ export default function HeaderItem({ item, lang }: { item: Dictionary['navigatio
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" sideOffset={5}>
-          {item.children.map((child: any, index: number) => (
+          {item.children.map((child: Child, index: number) => (
             <DropdownMenuItem key={index} asChild>
               <Link href={`/${lang}${child.href}`}>
                 {child.name}

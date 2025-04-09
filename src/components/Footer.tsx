@@ -1,6 +1,4 @@
-import { getDictionary } from "@/lib/dictionary";
 import { Locale } from "@/lib/i18n-config";
-import LanguageSwitcher from "./LanguageSwitcher";
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
@@ -11,7 +9,6 @@ export default async function Footer(
   }
 ) {
   const { lang } = await props.params;
-  const dictionary = await getDictionary(lang);
 
   const currentYear = new Date().getFullYear();
 

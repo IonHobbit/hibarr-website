@@ -52,7 +52,7 @@ export default function PartnersSection({ dictionary }: PartnersSectionProps) {
 
   return (
     <section id='partners' className='section'>
-      <h3 className='text-3xl font-bold text-center'>Our Partners</h3>
+      <h3 className='text-3xl font-bold text-center'>{dictionary.home.partners.title}</h3>
       <div className='relative w-full'>
         <InfiniteMovingCards
           items={partners.map(item => renderLogo(item))}

@@ -12,7 +12,7 @@ type FreebieSignupSectionProps = {
 }
 
 export default function FreebieSignupSection({ dictionary }: FreebieSignupSectionProps) {
-  const { values, isValid, touched, setFieldValue, handleChange, handleSubmit } = useFormik({
+  const { values, isValid, setFieldValue, handleChange, handleSubmit } = useFormik({
     initialValues: {
       firstName: '',
       lastName: '',
@@ -31,7 +31,7 @@ export default function FreebieSignupSection({ dictionary }: FreebieSignupSectio
           <div className="flex flex-col gap-4 p-6">
             <h3 className="text-3xl text-center">{dictionary.home.freebieSignup.title}</h3>
             <p className="text-center">{dictionary.home.freebieSignup.description}</p>
-            <form className="flex flex-col gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div className="grid grid-cols-2 gap-4">
                 <Input type="text" title={dictionary.home.freebieSignup.form.firstName}
                   placeholder={dictionary.home.freebieSignup.form.firstName}

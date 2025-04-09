@@ -11,7 +11,7 @@ const translate = new Translate({
 
 export type SupportedLanguage = 'en' | 'de' | 'tr';
 
-const languageNames: Record<SupportedLanguage, string> = {
+export const languageNames: Record<SupportedLanguage, string> = {
   en: 'English',
   de: 'German',
   tr: 'Turkish',
@@ -33,13 +33,13 @@ export async function translateText(text: string, targetLang: SupportedLanguage)
   }
 }
 
-export async function translateObject<T extends Record<string, any>>(
+export async function translateObject<T extends Record<string, T>>(
   obj: T,
   targetLang: SupportedLanguage
 ): Promise<T> {
   if (targetLang === 'en') return obj;
 
-  const translatedObj: Record<string, any> = {};
+  const translatedObj: Record<string, unknown> = {};
 
   for (const [key, value] of Object.entries(obj)) {
     if (typeof value === 'string') {
