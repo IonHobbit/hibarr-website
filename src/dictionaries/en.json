@@ -239,6 +239,36 @@
     "vision": {
       "title": "Our Vision",
       "content": "To be the leading provider of innovative solutions in our industry."
+    },
+    "cta": {
+      "text": "Talk to us",
+      "href": "/contact"
+    },
+    "aboutRabih": {
+      "title": "About Rabih Rabea",
+      "cta": {
+        "text": "Talk to Rabih",
+        "href": "/consultation"
+      }
+    },
+    "testimonials": {
+      "title": "What Our Clients Say",
+      "cta": {
+        "text": "Read more...",
+        "href": "/testimonials"
+      }
+    },
+    "gallery": {
+      "title": "Our Gallery",
+      "description": "Our gallery showcases a variety of moments and spaces that define our work and culture. From collaborative meetings and client interactions to team portraits and office settings, these images provide a glimpse into our approach and values."
+    },
+    "callToAction": {
+      "title": "Build your future with HIBARR",
+      "description": "Let's make your investment journey easy and secure. Book your free consultation today!",
+      "cta": {
+        "text": "Book free consultation",
+        "href": "/consultation"
+      }
     }
   },
   "testimonials": {

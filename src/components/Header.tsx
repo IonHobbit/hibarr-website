@@ -14,7 +14,7 @@ export default async function Header(
   const dictionary = await getDictionary(lang);
 
   return (
-    <header className="absolute top-0 z-10 w-full flex items-center bg-primary/20 backdrop-blur-sm">
+    <header className="absolute top-0 z-10 w-full flex items-center bg-gradient-to-b from-primary/20 to-transparent backdrop-blur-sm">
       <nav className="section py-6 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-3 gap-2 items-center">
           <Link href={`/${lang}`}>

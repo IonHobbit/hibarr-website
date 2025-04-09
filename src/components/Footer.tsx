@@ -43,11 +43,11 @@ export default async function Footer(
     {
       icon: "mdi:phone",
       text: "(+90) 539 136 00 81",
-      link: "tel:+905338888888",
+      link: "tel:+905391360081",
     },
     {
       icon: "mdi:map-marker",
-      text: "Sehit Mehmet Mustafa Sokak 171 Kyrenia Merkez | North Cyprus",
+      text: "Bedrettin Demirel Caddesi 170, Girne 3300 | North Cyprus",
       link: mapsLocation,
     },
   ]
@@ -55,10 +55,10 @@ export default async function Footer(
   return (
     <footer className="bg-background">
       <div className="section py-6 px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row lg:items-end gap-8 justify-between w-full">
+        <div className="flex flex-col-reverse lg:flex-row lg:items-end gap-8 justify-between w-full">
           <div className="flex flex-col gap-3">
             <Link href={`/${lang}`}>
-              <Image src="/logos/logo-blue.png" alt="Hibarr Estates Logo" className="object-contain" width={140} height={20} />
+              <Image src="/logos/logo-blue.png" alt="Hibarr Estates Logo" className="object-contain w-auto h-auto" width={140} height={20} />
             </Link>
             <p className="text-sm text-foreground font-light">© Copyright {currentYear} <span className="font-semibold">Hibarr Estates</span> all rights reserved</p>
             <div className="flex items-center gap-4">
