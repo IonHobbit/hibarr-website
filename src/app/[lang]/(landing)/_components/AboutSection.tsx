@@ -70,6 +70,7 @@ export default function AboutSection({ dictionary }: AboutSectionProps) {
       <Image
         src={item.src}
         alt={item.alt}
+        sizes="100%"
         fill
         className="object-contain absolute"
       />

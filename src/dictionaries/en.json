@@ -2,7 +2,8 @@
   "navigation": [
     {
       "name": "Home",
-      "href": "/"
+      "href": "/",
+      "hideOnHomePage": true
     },
     {
       "name": "Listings",

@@ -6,7 +6,7 @@ type PartnersSectionProps = {
   dictionary: Dictionary;
 }
 
-export default function PartnersSection({ dictionary }: PartnersSectionProps  ) {
+export default function PartnersSection({ dictionary }: PartnersSectionProps) {
   const partners = [
     {
       alt: 'Creditwest Bank Logo',
@@ -43,6 +43,7 @@ export default function PartnersSection({ dictionary }: PartnersSectionProps  ) 
       <Image
         src={item.src}
         alt={item.alt}
+        sizes="100%"
         fill
         className="object-contain absolute hover:scale-110 transition-all duration-300"
       />
