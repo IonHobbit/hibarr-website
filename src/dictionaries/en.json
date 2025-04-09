@@ -116,16 +116,40 @@
       "description": "At HIBARR, we've developed a 5-step process that takes the guesswork out of property investment. With our expertise, you'll make confident, well-informed decisions every time.",
       "steps": [
         {
+          "icon": "mdi:handshake",
           "title": "Kickoff Meeting",
           "subTitle": "Your journey begins here",
           "description": "We start by getting to know you—your goals, needs, and what you're looking for. This isn't a consultation but a chance for us to understand how we can help. After the kickoff meeting, Our team of experts then reviews your information and creates a strategy just for you. This takes about three to seven days."
         },
         {
+          "icon": "mdi:strategy",
           "title": "Strategy Meeting",
           "subTitle": "We chart your course",
           "description": "Once your strategy is ready, we go over it with you in detail. This strategy is based on your goals and our experience in the market as well as current market trends. It shows you the best way to move forward, whether you're buying a home, investing, or both."
+        },
+        {
+          "icon": "mdi:home-search",
+          "title": "Purchase Decision",
+          "subTitle": "Choosing the ideal property",
+          "description": "When you're happy with the strategy, we move to the next step—choosing the right property. We present options that fit the strategy you accepted, explaining everything clearly so you can make a confident decision."
+        },
+        {
+          "icon": "mdi:file-document-check",
+          "title": "Implementation",
+          "subTitle": "A seamless transition",
+          "description": "Once you've picked a property, we handle all the paperwork and legal steps to make sure everything goes smoothly. We guide you through permits, contracts, payments, and anything else needed to complete the purchase without stress."
+        },
+        {
+          "icon": "mdi:headset",
+          "title": "After Sales",
+          "subTitle": "Our commitment to your satisfaction",
+          "description": "Even after you buy, we're still here to help. We assist with setting up utilities, getting residence permits, arranging insurance, and anything else you need to settle in. If you're renting out your property, we can help with that too. Our goal is to build a relationship with you, even after the deal is done."
         }
-      ]
+      ],
+      "cta": {
+        "text": "Start now",
+        "href": "/consultation"
+      }
     },
     "whyCyprus": {
       "title": "Why Investors Choose North Cyprus?",

@@ -53,11 +53,11 @@ export default function LeadershipTeamSection({ dictionary }: LeadershipTeamSect
           <p className="text-center text-muted-foreground">{dictionary.home.leadershipTeam.description}</p>
         </div>
         <div className="max-w-screen-lg mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:flex flex-wrap justify-center gap-4">
             {leadershipTeam.map((member) => (
-              <div key={member.name} className="flex flex-col gap-2 border p-4 bg-white">
+              <div key={member.name} className="flex flex-col gap-2 border p-4 bg-white basis-full md:basis-[23.5%]">
                 <div className="relative w-full h-52">
-                  <Image src={member.image} alt={member.name} fill sizes="100%" className="object-cover w-full h-full" />
+                  <Image src={member.image} alt={member.name} fill sizes="100%" className="object-cover object-top w-full h-full" />
                 </div>
                 <div className="flex flex-col gap-1">
                   <h4 className="text-lg">{member.name}</h4>
