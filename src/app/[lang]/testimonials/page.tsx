@@ -5,6 +5,11 @@ import { Button } from '@/components/ui/button';
 import { getDictionary } from '@/lib/dictionary';
 import type { Locale } from '@/lib/i18n-config';
 import { formatDate } from '@/lib/utils';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Testimonials',
+}
 
 export default async function TestimonialsPage(
   props: {
