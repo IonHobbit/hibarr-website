@@ -29,7 +29,7 @@ export default function CaseStudiesSection({ dictionary }: CaseStudiesSectionPro
         <h3 className="text-3xl font-bold text-center">{dictionary.home.caseStudies.title}</h3>
         <p className="text-center text-muted-foreground">{dictionary.home.caseStudies.description}</p>
       </div>
-      <div className="max-w-screen-md mx-auto">
+      <div className="max-w-screen-md mx-auto w-full overflow-hidden md:overflow-visible">
         <Carousel opts={{ loop: true }}>
           <CarouselContent>
             {caseStudies.map((caseStudy, index) => (
@@ -38,8 +38,8 @@ export default function CaseStudiesSection({ dictionary }: CaseStudiesSectionPro
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className='border-none bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
-          <CarouselNext className='border-none bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
+          <CarouselPrevious className='border-none translate-x-16 md:translate-x-0 bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
+          <CarouselNext className='border-none -translate-x-16 md:translate-x-0 bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
         </Carousel>
       </div>
     </section>

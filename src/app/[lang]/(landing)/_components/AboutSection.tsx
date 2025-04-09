@@ -126,7 +126,7 @@ export default function AboutSection({ dictionary }: AboutSectionProps) {
           <Image src="/images/about-image.jpg" alt="Hibarr Logo" width={600} height={600} />
         </div>
       </div>
-      <div className="flex flex-col justify-center gap-4 min-h-[60vh] max-w-screen-md mx-auto">
+      <div className="flex flex-col justify-center gap-4 min-h-[60vh] w-full overflow-hidden md:overflow-visible max-w-screen-sm md:max-w-screen-md mx-auto">
         <div className="relative w-max mx-auto">
           <div className="flex items-end gap-2">
             <h3 className="text-3xl font-bold text-center">{dictionary.home.testimonials.title}</h3>
@@ -147,8 +147,8 @@ export default function AboutSection({ dictionary }: AboutSectionProps) {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className='border-none bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
-          <CarouselNext className='border-none bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
+          <CarouselPrevious className='border-none translate-x-16 md:translate-x-0 translate-y-[300%] md:translate-y-0 bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
+          <CarouselNext className='border-none -translate-x-16 md:translate-x-0 translate-y-[300%] md:translate-y-0 bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
         </Carousel>
         <Button variant="link" className='w-max mx-auto' asChild>
           <Link href={dictionary.home.testimonials.cta.href}>
