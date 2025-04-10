@@ -1,4 +1,8 @@
 {
+  "bookCall": {
+    "title": "Book a call",
+    "href": "/consultation"
+  },
   "navigation": [
     {
       "name": "Home",
