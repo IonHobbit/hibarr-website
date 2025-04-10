@@ -28,12 +28,12 @@
       "href": "/partners",
       "children": [
         {
-          "name": "Oscar",
-          "href": "/oscar"
+          "name": "Oscar Group",
+          "href": "/partners/oscar-group"
         },
         {
-          "name": "Near East",
-          "href": "/near-east"
+          "name": "Near East Group",
+          "href": "/partners/near-east-group"
         }
       ]
     },
