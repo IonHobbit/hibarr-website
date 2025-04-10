@@ -75,7 +75,7 @@ export default async function OscarGroup() {
         </div>
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col items-center gap-6'>
-            <Image src="/images/partners/oscar-group/oscar-group-logo.webp" alt="Oscar Group Logo" width={400} height={400} />
+            <Image src="/images/partners/oscar-group/oscar-group-logo.png" alt="Oscar Group Logo" width={400} height={400} />
 
             <p className="text-md md:text-base text-background">
               Real Estate Excellence Starts with the Right Partner – <span className='font-bold'>Oscar Group.</span>
@@ -122,7 +122,7 @@ export default async function OscarGroup() {
       <section className='bg-primary w-full p-6 py-10 md:min-h-[25vh] flex flex-col gap-10 items-center justify-center'>
         <div className='flex flex-col gap-4'>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Image src="/images/partners/oscar-group/oscar-group-logo.webp" alt="Oscar Group Logo" width={400} height={400} />
+            <Image src="/images/partners/oscar-group/oscar-group-logo.png" alt="Oscar Group Logo" width={380} height={380} />
             <Icon icon="mdi:close" className='text-background text-6xl shrink-0' />
             <Image src="/logos/logo-full-white.svg" alt="Hibarr Logo" width={400} height={400} />
           </div>

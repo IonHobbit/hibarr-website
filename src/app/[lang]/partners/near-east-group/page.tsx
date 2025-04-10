@@ -1,8 +1,8 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Icon } from '@iconify/react'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import React, { Fragment } from 'react'
+import FAQAccordion from '../../_components/FAQAccordion'
 
 export const metadata: Metadata = {
   title: 'Near East Group',
@@ -119,29 +119,18 @@ export default async function NearEastGroup() {
       <section className='bg-primary w-full p-6 py-10 md:min-h-[25vh] flex flex-col gap-10 items-center justify-center'>
         <div className='flex flex-col gap-4'>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Image src="/images/partners/near-east-group/near-east-group-logo.png" alt="Near East Group Logo" width={160} height={160} />
+            <Image src="/images/partners/near-east-group/near-east-group-logo.png" alt="Near East Group Logo" width={140} height={140} />
             <Icon icon="mdi:close" className='text-background text-6xl shrink-0' />
             <Image src="/logos/logo-full-white.svg" alt="Hibarr Logo" width={400} height={160} />
           </div>
           <p className='text-primary-foreground text-xl md:text-2xl text-center'>Transforming Futures, Delivering Excellence</p>
         </div>
         <div className="section py-0">
-          <video src="https://hibarr.de/wp-content/uploads/2025/02/Oscar-group-promo-1.mp4" controls playsInline className='w-full h-full object-cover' />
+          <iframe className='w-full h-full object-cover aspect-video rounded-lg overflow-hidden' src="https://www.youtube-nocookie.com/embed/KDPnXIJBDdQ?si=YeSXujsHWIAGxTNR" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
         </div>
         <div className='section py-0'>
           <h3 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h3>
-          <Accordion type='single' collapsible>
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={faq.question}>
-                <AccordionTrigger>
-                  <p className='text-primary-foreground text-lg md:text-2xl !font-sans'>{faq.question}</p>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <p className='text-sm md:text-lg text-primary-foreground'>{faq.answer}</p>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          <FAQAccordion faqs={faqs} />
         </div>
       </section>
     </Fragment >
