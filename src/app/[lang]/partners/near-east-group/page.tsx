@@ -1,0 +1,149 @@
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { Icon } from '@iconify/react'
+import { Metadata } from 'next'
+import Image from 'next/image'
+import React, { Fragment } from 'react'
+
+export const metadata: Metadata = {
+  title: 'Near East Group',
+  description: 'Building Futures, One Property at a Time – Near East Group.',
+}
+
+export default async function NearEastGroup() {
+  const portfolioCompanies = [
+    {
+      name: 'Near East University',
+      image: '/images/partners/near-east-group/near-east-university.png',
+    },
+    {
+      name: 'Near East Bank',
+      image: '/images/partners/near-east-group/near-east-bank.png',
+    },
+    {
+      name: 'Near East Technology',
+      image: '/images/partners/near-east-group/near-east-technology.png',
+    },
+    {
+      name: 'Near East Investment',
+      image: '/images/partners/near-east-group/near-east-investment.png',
+    },
+  ]
+
+  const portfolioAreas = [
+    {
+      name: 'Education',
+      description: 'Near East University is a leading institution offering diverse academic programs and state-of-the-art facilities, preparing students for global success.',
+    },
+    {
+      name: 'Banking & Insurance',
+      description: 'Near East Bank offers innovative financial solutions, including loans, savings accounts, and medical insurance, tailored to meet your needs.',
+    },
+    {
+      name: 'Medical Care',
+      description: 'Near East Hospital provides advanced healthcare services with cutting-edge technology and expert professionals, ensuring top-quality patient care.',
+    }
+  ]
+
+  const faqs = [
+    {
+      question: 'What support does Hibarr provide for professional growth?',
+      answer: 'Hibarr offers extensive support for professional growth, including access to exclusive training programs, mentorship opportunities, and resources to help you develop new skills and advance your career.',
+    },
+    {
+      question: 'How does Hibarr help with networking and collaboration?',
+      answer: 'By joining Hibarr, you gain access to a vibrant community of professionals and experts. This network fosters collaboration, knowledge sharing, and opportunities to connect with like - minded individuals in your industry.',
+    },
+    {
+      question: 'What exclusive resources does Hibarr offer to its members?',
+      answer: 'Hibarr provides members with exclusive resources such as industry reports, tools, and templates to streamline workflows, enhance productivity, and stay ahead in your field.',
+    },
+    {
+      question: 'How does Hibarr support work-life balance?',
+      answer: 'Hibarr is committed to promoting work-life balance by offering flexible work arrangements, wellness programs, and resources to help you manage stress and maintain a healthy lifestyle.',
+    }
+  ]
+
+  return (
+    <Fragment>
+      <section id='root' className="relative grid place-items-center place-content-center h-[60vh] bg-[url('/images/partners/near-east-group/near-east-group-hero.jpg')] bg-cover bg-center">
+        <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
+          <div className='flex flex-col items-center gap-6'>
+            <Image src="/images/partners/near-east-group/near-east-group-logo.png" alt="Near East Group Logo" width={280} height={280} />
+
+            <p className="text-md md:text-base text-background">
+              Building Futures, One Property at a Time – <span className='font-bold'>Near East Group.</span>
+            </p>
+          </div>
+        </div>
+        <div className='absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/40 to-transparent'></div>
+      </section>
+      <section className='section md:py-20'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
+          <div className='flex flex-col gap-6'>
+            <h2 className='text-2xl md:text-4xl'>
+              About Near East Group
+            </h2>
+            <p className='text-md md:text-lg'>
+              The Near East Group is a leading conglomerate based in Cyprus, renowned for its commitment to excellence, innovation, and community development. With a diverse portfolio spanning education, healthcare, banking, and more, the Near East Group has established itself as a cornerstone of progress in the region.
+            </p>
+            <h3 className='text-xl md:text-2xl'>Our Legacy</h3>
+            <p className='text-md md:text-lg'>
+              Founded with a vision to create a better future, the Near East Group has grown into a multifaceted organization that touches the lives of thousands every day. Our journey began with the establishment of <span className='font-semibold'>Near East University</span>, one of the most prestigious higher education institutions in the Eastern Mediterranean. Today, we continue to expand our reach, delivering world-class services across various sectors.
+            </p>
+          </div>
+          <div className='flex flex-col gap-6'>
+            <h3 className='text-xl md:text-2xl'>Discover the Diverse Portfolio of Near East Group</h3>
+            <div className='grid sm:grid-cols-2 md:grid-cols-2 gap-6'>
+              {portfolioCompanies.map((company, index) => (
+                <div key={index} className='relative w-full h-28 overflow-hidden hover:scale-105 transition-all duration-300'>
+                  <Image
+                    src={company.image}
+                    alt={company.name}
+                    fill
+                    className='object-contain'
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="grid md:flex flex-wrap justify-around gap-6">
+              {portfolioAreas.map((area, index) => (
+                <div key={index} className='flex flex-col gap-2 md:basis-[46%] first:md:basis-full'>
+                  <h4 className='text-lg md:text-xl'>{area.name}</h4>
+                  <p className='text-sm md:text-base'>{area.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className='bg-primary w-full p-6 py-10 md:min-h-[25vh] flex flex-col gap-10 items-center justify-center'>
+        <div className='flex flex-col gap-4'>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Image src="/images/partners/near-east-group/near-east-group-logo.png" alt="Near East Group Logo" width={160} height={160} />
+            <Icon icon="mdi:close" className='text-background text-6xl shrink-0' />
+            <Image src="/logos/logo-full-white.svg" alt="Hibarr Logo" width={400} height={160} />
+          </div>
+          <p className='text-primary-foreground text-xl md:text-2xl text-center'>Transforming Futures, Delivering Excellence</p>
+        </div>
+        <div className="section py-0">
+          <video src="https://hibarr.de/wp-content/uploads/2025/02/Oscar-group-promo-1.mp4" controls playsInline className='w-full h-full object-cover' />
+        </div>
+        <div className='section py-0'>
+          <h3 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h3>
+          <Accordion type='single' collapsible>
+            {faqs.map((faq, index) => (
+              <AccordionItem key={index} value={faq.question}>
+                <AccordionTrigger>
+                  <p className='text-primary-foreground text-lg md:text-2xl !font-sans'>{faq.question}</p>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <p className='text-sm md:text-lg text-primary-foreground'>{faq.answer}</p>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+    </Fragment >
+  )
+}
