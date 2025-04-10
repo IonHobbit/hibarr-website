@@ -26,12 +26,12 @@ export default async function AboutPage(
   return (
     <Fragment>
       <section id='root' className="relative grid place-items-center place-content-center h-[60vh] bg-[url('/images/about-hero.jpg')] bg-cover bg-center bg-no-repeat">
-        <div className="max-w-2xl text-center flex flex-col gap-10 z-10">
+        <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col gap-2'>
-            <h1 className="text-6xl font-bold mb-4 text-background uppercase">
+            <h1 className="text-5xl md:text-6xl font-bold mb-4 text-background uppercase">
               {dictionary.about.title}
             </h1>
-            <p className="text-md text-background">
+            <p className="text-md md:text-base text-background">
               {dictionary.about.welcome}
             </p>
           </div>

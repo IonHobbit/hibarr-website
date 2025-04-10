@@ -4,7 +4,7 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import Image from "next/image";
 import Link from "next/link";
 import HeaderItem from "./HeaderItem";
-
+import MobileNavigationMenu from "./MobileNavigationMenu";
 export default async function Header(
   props: {
     params: Promise<{ lang: Locale }>;
@@ -14,20 +14,21 @@ export default async function Header(
   const dictionary = await getDictionary(lang);
 
   return (
-    <header className="absolute top-0 z-10 w-full flex items-center bg-gradient-to-b from-primary/20 to-transparent backdrop-blur-sm">
+    <header className="sticky top-0 z-20 w-full h-[75px] flex items-center bg-gradient-to-b from-primary/20 to-transparent backdrop-blur-sm">
       <nav className="section py-6 px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-3 gap-2 items-center">
+        <div className="flex justify-between md:grid grid-cols-3 gap-2 items-center">
           <Link href={`/${lang}`}>
             <Image src="/logos/logo.png" alt="Hibarr Estates Logo" className="object-contain" width={140} height={20} />
           </Link>
-          <div className="flex space-x-8 items-center w-full justify-center">
+          <div className="hidden md:flex space-x-8 items-center w-full justify-center">
             {dictionary.navigation.map((item, index) => (
               <HeaderItem key={index} item={item} lang={lang} />
             ))}
           </div>
-          <div className="flex justify-end">
+          <div className="hidden md:flex justify-end">
             <LanguageSwitcher />
           </div>
+          <MobileNavigationMenu navigation={dictionary.navigation} lang={lang} />
         </div>
       </nav>
     </header>

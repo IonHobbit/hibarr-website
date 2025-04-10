@@ -56,7 +56,7 @@ export default function LeadershipTeamSection({ dictionary }: LeadershipTeamSect
           <div className="grid grid-cols-1 md:flex flex-wrap justify-center gap-4">
             {leadershipTeam.map((member) => (
               <div key={member.name} className="flex flex-col gap-2 border p-4 bg-white basis-full md:basis-[23.5%]">
-                <div className="relative w-full h-52">
+                <div className="relative w-full h-80 md:h-52">
                   <Image src={member.image} alt={member.name} fill sizes="100%" className="object-cover object-top w-full h-full" />
                 </div>
                 <div className="flex flex-col gap-1">

@@ -10,7 +10,7 @@ type CallToActionSectionProps = {
 export default function CallToActionSection({ dictionary }: CallToActionSectionProps) {
   return (
     <div id='call-to-action' className='section'>
-      <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-4 bg-primary rounded-lg p-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-10 bg-primary rounded-lg p-8">
         <div className="flex flex-col gap-4">
           <h2 className="text-4xl text-primary-foreground">
             {dictionary.about.callToAction.title}

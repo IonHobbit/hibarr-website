@@ -59,7 +59,7 @@ export default function FreebieSignupSection({ dictionary }: FreebieSignupSectio
               </div>
             </form>
           </div>
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-80 md:h-full">
             <Image src="/images/freebie-image.webp" alt="Webinar" fill sizes="100%" className="object-cover" />
           </div>
         </div>

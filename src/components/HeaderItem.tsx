@@ -4,23 +4,28 @@ import { Locale } from "@/lib/i18n-config";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { Dictionary } from "@/lib/dictionary";
 import { useState } from "react";
 import { Icon } from "@iconify/react";
+import { NavigationItem } from "@/types/main";
 
-type Item = Dictionary['navigation'][number]
 type Child = { name: string, href: string }
 
-export default function HeaderItem({ item, lang }: { item: Item, lang: Locale }) {
+type HeaderItemProps = {
+  item: NavigationItem;
+  lang: Locale;
+  mobile?: boolean;
+  onClick?: () => void;
+}
+
+export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-
 
   if (item.hideOnHomePage && pathname === `/${lang}`) {
     return null;
   }
 
-  if (item.children) {
+  if (item.children && !mobile) {
     return (
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
@@ -44,8 +49,23 @@ export default function HeaderItem({ item, lang }: { item: Item, lang: Locale })
     )
   }
 
+  if (mobile && item.children) {
+    return (
+      <div className="flex flex-col gap-2">
+        <p className="text-sm text-primary-foreground/70 hover:text-primary-foreground/80 whitespace-nowrap">
+          {item.name}
+        </p>
+        {item.children.map((child: Child, index: number) => (
+          <Link onClick={onClick} href={`/${lang}${child.href}`} key={index} className="text-primary-foreground ml-4 hover:text-primary-foreground/80 whitespace-nowrap">
+            {child.name}
+          </Link>
+        ))}
+      </div>
+    )
+  }
+
   return (
-    <Link href={`/${lang}${item.href}`} className="text-primary-foreground hover:text-primary-foreground/80 whitespace-nowrap">
+    <Link onClick={onClick} href={`/${lang}${item.href}`} className="text-primary-foreground hover:text-primary-foreground/80 whitespace-nowrap">
       {item.name}
     </Link>
   )

@@ -38,7 +38,7 @@ export default async function RootLayout(
   return (
     <html lang={lang} className="scroll-smooth">
       <body
-        className={`${playfairDisplay.variable} ${inter.variable} ${workSans.variable} antialiased`}
+        className={`${playfairDisplay.variable} ${inter.variable} ${workSans.variable} antialiased relative w-screen`}
       >
         {children}
       </body>
