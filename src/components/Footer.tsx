@@ -22,11 +22,11 @@ export default async function Footer(
       icon: "ri:twitter-x-fill",
     },
     {
-      href: "https://www.youtube.com/@hibarr_estates",
+      href: "https://www.youtube.com/@HIBARR-Official",
       icon: "mdi:youtube",
     },
     {
-      href: "https://www.instagram.com/hibarr_estates",
+      href: "https://www.instagram.com/hibarrestate/",
       icon: "mdi:instagram",
     }
   ]
@@ -54,8 +54,8 @@ export default async function Footer(
 
   return (
     <footer className="bg-background overflow-hidden">
-      <div className="section py-6 px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col-reverse lg:flex-row lg:items-end gap-8 justify-between w-full">
+      <div className="section pt-10 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col-reverse lg:flex-row lg:items-center gap-8 justify-between w-full">
           <div className="flex flex-col gap-3">
             <Link href={`/${lang}`}>
               <Image src="/logos/logo-blue.png" alt="Hibarr Estates Logo" className="object-contain w-auto h-auto" width={140} height={20} />
@@ -69,7 +69,7 @@ export default async function Footer(
               ))}
             </div>
           </div>
-          <div className="flex flex-col lg:flex-row lg:items-end gap-6">
+          <div className="flex flex-col lg:flex-row lg:items-center gap-6">
             <div className="flex flex-col gap-3 lg:items-end max-w-xs">
               <p className="text-lg font-semibold">Contact Us</p>
               {contactInfo.map((item, index) => (

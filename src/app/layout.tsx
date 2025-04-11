@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Playfair_Display, Inter, Work_Sans } from "next/font/google";
 import { Locale } from "@/lib/i18n-config";
 import "./globals.css";
+import ReactQueryProvider from "@/providers/ReactQueryProvider";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair-display",
@@ -40,7 +41,9 @@ export default async function RootLayout(
       <body
         className={`${playfairDisplay.variable} ${inter.variable} ${workSans.variable} antialiased relative w-screen`}
       >
-        {children}
+        <ReactQueryProvider>
+          {children}
+        </ReactQueryProvider>
       </body>
     </html>
   );

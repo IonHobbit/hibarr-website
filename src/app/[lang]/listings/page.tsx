@@ -1,28 +1,21 @@
-import { getDictionary } from '@/lib/dictionary';
-import type { Locale } from '@/lib/i18n-config';
+import { Metadata } from 'next';
+import { Fragment } from 'react';
+import SearchBar from './_components/SearchBar';
+import PropertyList from './_components/PropertyList';
 
-export default async function ListingsPage(
-  props: {
-    params: Promise<{ lang: Locale }>;
-  }
-) {
-  const { lang } = await props.params;
+export const metadata: Metadata = {
+  title: 'Listings',
+  description: 'Listings',
+}
 
-  const dictionary = await getDictionary(lang);
-
+export default async function ListingsPage() {
   return (
-    <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">{dictionary.listings.title}</h1>
-        <p className="text-gray-600 mb-8">{dictionary.listings.description}</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Listing cards will go here */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">Sample Listing</h2>
-            <p className="text-gray-600">Listing description will go here.</p>
-          </div>
-        </div>
-      </div>
-    </main>
+    <Fragment>
+      <section id='root' className="py-20 pt-40 xl:pt-0 relative grid place-items-center place-content-center min-h-[40vh] bg-[url('/images/listings-hero.jpg')] bg-cover bg-center bg-no-repeat">
+        <SearchBar />
+        <div className='absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/40 to-transparent'></div>
+      </section>
+      <PropertyList />
+    </Fragment>
   );
 } 
