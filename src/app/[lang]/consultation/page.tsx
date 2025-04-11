@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { Locale } from '@/lib/i18n-config';
-import { getDictionary } from '@/lib/dictionary';
 import { Metadata } from 'next';
 import { Icon } from '@iconify/react';
 import FAQAccordion from '../_components/FAQAccordion';
@@ -20,7 +19,6 @@ export default async function ConsultationPage(
   }
 ) {
   const { lang } = await props.params;
-  const dictionary = await getDictionary(lang);
 
   const data = await client.fetch<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang });
 

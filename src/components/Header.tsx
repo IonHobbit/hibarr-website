@@ -1,4 +1,3 @@
-import { getDictionary } from "@/lib/dictionary";
 import { Locale } from "@/lib/i18n-config";
 import LanguageSwitcher from "./LanguageSwitcher";
 import Image from "next/image";

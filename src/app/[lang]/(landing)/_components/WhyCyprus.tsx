@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Dictionary } from "@/lib/dictionary";
 import Link from "next/link";
 import { HomePage } from "@/lib/sanity/sanity.types";
 

@@ -51,25 +51,6 @@ export default async function NearEastGroup(
     }
   ]
 
-  const faqs = [
-    {
-      question: 'What support does Hibarr provide for professional growth?',
-      answer: 'Hibarr offers extensive support for professional growth, including access to exclusive training programs, mentorship opportunities, and resources to help you develop new skills and advance your career.',
-    },
-    {
-      question: 'How does Hibarr help with networking and collaboration?',
-      answer: 'By joining Hibarr, you gain access to a vibrant community of professionals and experts. This network fosters collaboration, knowledge sharing, and opportunities to connect with like - minded individuals in your industry.',
-    },
-    {
-      question: 'What exclusive resources does Hibarr offer to its members?',
-      answer: 'Hibarr provides members with exclusive resources such as industry reports, tools, and templates to streamline workflows, enhance productivity, and stay ahead in your field.',
-    },
-    {
-      question: 'How does Hibarr support work-life balance?',
-      answer: 'Hibarr is committed to promoting work-life balance by offering flexible work arrangements, wellness programs, and resources to help you manage stress and maintain a healthy lifestyle.',
-    }
-  ]
-
   return (
     <Fragment>
       <section id='root' className="relative grid place-items-center place-content-center h-[60vh] bg-[url('/images/partners/near-east-group/near-east-group-hero.jpg')] bg-cover bg-center">

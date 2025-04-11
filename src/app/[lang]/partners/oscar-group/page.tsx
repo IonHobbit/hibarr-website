@@ -1,4 +1,3 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Icon } from '@iconify/react'
 import { Metadata } from 'next'
 import Image from 'next/image'
@@ -54,25 +53,6 @@ export default async function OscarGroup(
       name: 'Essential Services',
       description: 'Convenient 24/7 petrol station with additional amenities like a store and EV charging.',
     },
-  ]
-
-  const faqs = [
-    {
-      question: 'What support does Hibarr provide for professional growth?',
-      answer: 'Hibarr offers extensive support for professional growth, including access to exclusive training programs, mentorship opportunities, and resources to help you develop new skills and advance your career.',
-    },
-    {
-      question: 'How does Hibarr help with networking and collaboration?',
-      answer: 'By joining Hibarr, you gain access to a vibrant community of professionals and experts. This network fosters collaboration, knowledge sharing, and opportunities to connect with like - minded individuals in your industry.',
-    },
-    {
-      question: 'What exclusive resources does Hibarr offer to its members?',
-      answer: 'Hibarr provides members with exclusive resources such as industry reports, tools, and templates to streamline workflows, enhance productivity, and stay ahead in your field.',
-    },
-    {
-      question: 'How does Hibarr support work-life balance?',
-      answer: 'Hibarr is committed to promoting work-life balance by offering flexible work arrangements, wellness programs, and resources to help you manage stress and maintain a healthy lifestyle.',
-    }
   ]
 
   return (

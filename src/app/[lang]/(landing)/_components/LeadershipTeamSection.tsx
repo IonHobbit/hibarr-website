@@ -1,4 +1,3 @@
-import { Dictionary } from "@/lib/dictionary";
 import { HomePage } from "@/lib/sanity/sanity.types";
 import Image from "next/image";
 
