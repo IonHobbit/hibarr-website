@@ -1,28 +1,22 @@
 import { Carousel, CarouselItem, CarouselContent, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { HomePage } from "@/lib/sanity/sanity.types";
+import Video from "@/components/Video";
+import { client } from "@/lib/sanity/client";
+import { CaseStudy, HomePage } from "@/lib/sanity/sanity.types";
+import createImageUrlBuilder from "@sanity/image-url";
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+
 
 type CaseStudiesSectionProps = {
   data: HomePage['caseStudiesSection'];
 }
 
-export default function CaseStudiesSection({ data }: CaseStudiesSectionProps) {
-  const caseStudies = [
-    {
-      title: "Case Study 1",
-      image: "https://vz-da4cd036-d13.b-cdn.net/17736d3c-9ed0-441a-8a24-f6f9d5ccffa3/thumbnail_9ca5f86b.jpg",
-      video: "https://vz-da4cd036-d13.b-cdn.net/17736d3c-9ed0-441a-8a24-f6f9d5ccffa3/playlist.m3u8"
-    },
-    {
-      title: "Case Study 2",
-      image: "https://vz-da4cd036-d13.b-cdn.net/17736d3c-9ed0-441a-8a24-f6f9d5ccffa3/thumbnail_9ca5f86b.jpg",
-      video: "https://vz-da4cd036-d13.b-cdn.net/17736d3c-9ed0-441a-8a24-f6f9d5ccffa3/playlist.m3u8"
-    },
-    {
-      title: "Case Study 3",
-      image: "https://vz-da4cd036-d13.b-cdn.net/17736d3c-9ed0-441a-8a24-f6f9d5ccffa3/thumbnail_9ca5f86b.jpg",
-      video: "https://vz-da4cd036-d13.b-cdn.net/17736d3c-9ed0-441a-8a24-f6f9d5ccffa3/playlist.m3u8"
-    }
-  ]
+export default async function CaseStudiesSection({ data }: CaseStudiesSectionProps) {
+  const caseStudies = await client.fetch<CaseStudy[]>(`*[_type == "caseStudy"]`);
+
+
+  const imageUrlFor = (source: SanityImageSource) => {
+    return createImageUrlBuilder(client).image(source);
+  }
 
   return (
     <section id='case-studies' className='section md:min-h-[50vh]'>
@@ -35,7 +29,7 @@ export default function CaseStudiesSection({ data }: CaseStudiesSectionProps) {
           <CarouselContent>
             {caseStudies.map((caseStudy, index) => (
               <CarouselItem key={index}>
-                <video src={caseStudy.video} poster={caseStudy.image} playsInline className='w-full h-full object-cover' />
+                <Video src={caseStudy.videoUrl ?? ''} poster={imageUrlFor(caseStudy.thumbnail as SanityImageSource).url()} />
               </CarouselItem>
             ))}
           </CarouselContent>

@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { HomePage } from "@/lib/sanity/sanity.types";
+import Video from "@/components/Video";
 
 type WhyCyprusProps = {
   data: HomePage['whyCyprusSection'];
@@ -11,11 +12,9 @@ export default function WhyCyprus({ data }: WhyCyprusProps) {
     <section id='why-cyprus' className='section'>
       <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-10">
         <div>
-          <video
-            controls playsInline
-            className='object-cover rounded-lg aspect-video'
-            poster="/images/about-north-cyprus.jpg"
+          <Video
             src="https://vz-da4cd036-d13.b-cdn.net/31c737df-ff40-48a5-a2ab-e8fc0a829df5/play_720p.mp4"
+            poster="/images/about-north-cyprus.jpg"
           />
         </div>
         <div className="flex flex-col gap-6">

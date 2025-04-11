@@ -4,6 +4,7 @@ import Image from 'next/image'
 import React, { Fragment } from 'react'
 import FAQAccordion from '../../_components/FAQAccordion'
 import { Locale } from '@/lib/i18n-config'
+import Video from '@/components/Video'
 
 export const metadata: Metadata = {
   title: 'Oscar Group',
@@ -117,7 +118,7 @@ export default async function OscarGroup(
           <p className='text-primary-foreground text-xl md:text-2xl text-center'>Global Real Estate, Elevated Experiences</p>
         </div>
         <div className="section py-0">
-          <video src="https://hibarr.de/wp-content/uploads/2025/02/Oscar-group-promo-1.mp4" controls playsInline className='w-full h-full object-cover' />
+          <Video src="https://hibarr.de/wp-content/uploads/2025/02/Oscar-group-promo-1.mp4" />
         </div>
         <div className='section py-0'>
           <h3 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h3>
