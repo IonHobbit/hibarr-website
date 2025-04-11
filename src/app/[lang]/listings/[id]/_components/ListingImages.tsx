@@ -2,7 +2,7 @@
 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Image from 'next/image';
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 type ListingImagesProps = {
   images: string[];
@@ -12,14 +12,19 @@ type ListingImagesProps = {
 export default function ListingImages({ images, name }: ListingImagesProps) {
   const [activeImage, setActiveImage] = useState(images[0]);
 
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
   const handleImageHover = (image: string) => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
     setActiveImage(image);
 
-    const timer = setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       setActiveImage(images[0]);
+      timerRef.current = null;
     }, 10000);
-
-    return () => clearTimeout(timer);
   }
 
   return (
