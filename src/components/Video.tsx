@@ -17,9 +17,9 @@ export default function Video({ src, poster }: IVideoProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [percentageWatched, setPercentageWatched] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const videoTotalTime = videoRef.current?.duration;
+  const [videoTotalTime, setVideoTotalTime] = useState<number | null>(null);
 
-  const currentVideoTime = percentageWatched * videoTotalTime! / 100;
+  const currentVideoTime = videoTotalTime ? (percentageWatched * videoTotalTime) / 100 : 0;
 
   // Memoize handlers to prevent unnecessary re-renders
   const handlePlay = React.useCallback(() => {
@@ -152,7 +152,19 @@ export default function Video({ src, poster }: IVideoProps) {
           </div>
         </div>
       </div>
-      <video poster={poster} preload='auto' className="object-contain !h-full w-full" controls={false} playsInline ref={videoRef}>
+      <video
+        poster={poster}
+        preload='auto'
+        className="object-contain !h-full w-full"
+        controls={false}
+        playsInline
+        ref={videoRef}
+        onLoadedMetadata={() => {
+          if (videoRef.current) {
+            setVideoTotalTime(videoRef.current.duration);
+          }
+        }}
+      >
         <source src={src} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
