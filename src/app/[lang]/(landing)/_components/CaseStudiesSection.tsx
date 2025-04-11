@@ -11,7 +11,7 @@ type CaseStudiesSectionProps = {
 }
 
 export default async function CaseStudiesSection({ data }: CaseStudiesSectionProps) {
-  const caseStudies = await client.fetch<CaseStudy[]>(`*[_type == "caseStudy"]`);
+  const caseStudies = await client.fetch<CaseStudy[]>(`*[_type == "caseStudy"]`, {}, { cache: 'no-store' });
 
 
   const imageUrlFor = (source: SanityImageSource) => {

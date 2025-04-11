@@ -9,7 +9,7 @@ type PartnersSectionProps = {
 }
 
 export default async function PartnersSection({ lang }: PartnersSectionProps) {
-  const data = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
+  const data = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   const partners = [
     {

@@ -14,7 +14,7 @@ export default async function Header(
   }
 ) {
   const { lang } = await props.params;
-  const data = await client.fetch<Navigation>(`*[_type == "navigation" && language == $lang][0]`, { lang });
+  const data = await client.fetch<Navigation>(`*[_type == "navigation" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return (
     <header className="absolute top-0 z-20 w-full h-[75px] flex items-center">

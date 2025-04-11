@@ -14,8 +14,8 @@ type TestimonialsSectionProps = {
 }
 
 export default async function TestimonialsSection({ lang }: TestimonialsSectionProps) {
-  const data = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
-  const testimonials = await client.fetch<Testimonial[]>(`*[_type == "testimonial" && language == $lang][0...3]`, { lang });
+  const data = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const testimonials = await client.fetch<Testimonial[]>(`*[_type == "testimonial" && language == $lang][0...3]`, { lang }, { cache: 'no-store' });
 
   return (
     <section id='testimonials' className='section'>

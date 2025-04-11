@@ -26,7 +26,7 @@ export default async function Home(
 ) {
   const { lang } = await props.params;
 
-  const data = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
+  const data = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return (
     <Fragment>

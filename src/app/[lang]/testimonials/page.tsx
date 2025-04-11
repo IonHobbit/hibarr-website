@@ -19,8 +19,8 @@ export default async function TestimonialsPage(
 ) {
   const { lang } = await props.params;
 
-  const data = await client.fetch<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang });
-  const testimonials = await client.fetch<Testimonial[]>(`*[_type == "testimonial" && language == $lang]`, { lang });
+  const data = await client.fetch<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const testimonials = await client.fetch<Testimonial[]>(`*[_type == "testimonial" && language == $lang]`, { lang }, { cache: 'no-store' });
 
   return (
     <Fragment>

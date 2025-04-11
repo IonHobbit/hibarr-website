@@ -20,7 +20,7 @@ export default async function ConsultationPage(
 ) {
   const { lang } = await props.params;
 
-  const data = await client.fetch<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang });
+  const data = await client.fetch<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return (
     <Fragment>

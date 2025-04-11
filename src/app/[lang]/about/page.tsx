@@ -23,7 +23,7 @@ export default async function AboutPage(
 ) {
   const { lang } = await props.params;
 
-  const data = await client.fetch<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang });
+  const data = await client.fetch<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return (
     <Fragment>

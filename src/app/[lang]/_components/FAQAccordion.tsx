@@ -8,7 +8,7 @@ type FAQAccordionProps = {
 }
 
 export default async function FAQAccordion({ lang }: FAQAccordionProps) {
-  const data = await client.fetch<Faq[]>(`*[_type == "faq" && language == $lang]`, { lang });
+  const data = await client.fetch<Faq[]>(`*[_type == "faq" && language == $lang]`, { lang }, { cache: 'no-store' });
 
   return (
     <Accordion type='single' collapsible>
