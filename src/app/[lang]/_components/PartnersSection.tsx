@@ -1,12 +1,16 @@
 import Image from 'next/image'
 import { InfiniteMovingCards } from '@/components/InfiniteMovingCards'
-import { Dictionary } from '@/lib/dictionary';
+import { HomePage } from '@/lib/sanity/sanity.types';
+import { client } from '@/lib/sanity/client';
+import { Locale } from '@/lib/i18n-config';
 
 type PartnersSectionProps = {
-  dictionary: Dictionary;
+  lang: Locale;
 }
 
-export default function PartnersSection({ dictionary }: PartnersSectionProps) {
+export default async function PartnersSection({ lang }: PartnersSectionProps) {
+  const data = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
+
   const partners = [
     {
       alt: 'Creditwest Bank Logo',
@@ -52,7 +56,7 @@ export default function PartnersSection({ dictionary }: PartnersSectionProps) {
 
   return (
     <section id='partners' className='section'>
-      <h3 className='text-3xl font-bold text-center'>{dictionary.home.partners.title}</h3>
+      <h3 className='text-3xl font-bold text-center'>{data?.partnersSection?.title}</h3>
       <div className='relative w-full'>
         <InfiniteMovingCards
           items={partners.map(item => renderLogo(item))}

@@ -11,7 +11,7 @@ export default function Property({ property }: PropertyProps) {
   return (
     <Link href={`/listings/${property.id}`} className='border cursor-pointer'>
       <div className='relative w-full h-60'>
-        <Image src={property.images[0]} alt={property.name} fill className='object-cover' />
+        <Image src={property.images[0]} alt={property.name} fill sizes='100%' className='object-cover' />
         <div className='absolute inset-0 bg-black/20 ' />
         <div className='absolute top-4 right-4 z-10 flex items-center gap-2'>
           {property.labels.map((label, index) => (

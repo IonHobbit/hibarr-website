@@ -3,13 +3,21 @@ import { Icon } from '@iconify/react'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import React, { Fragment } from 'react'
+import FAQAccordion from '../../_components/FAQAccordion'
+import { Locale } from '@/lib/i18n-config'
 
 export const metadata: Metadata = {
   title: 'Oscar Group',
   description: 'Real Estate Excellence Starts with the Right Partner – Oscar Group.',
 }
 
-export default async function OscarGroup() {
+export default async function OscarGroup(
+  props: {
+    params: Promise<{ lang: Locale }>;
+  }
+) {
+  const { lang } = await props.params;
+
   const portfolioCompanies = [
     {
       name: 'Oscar Park Hotel',
@@ -133,18 +141,7 @@ export default async function OscarGroup() {
         </div>
         <div className='section py-0'>
           <h3 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h3>
-          <Accordion type='single' collapsible>
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={faq.question}>
-                <AccordionTrigger>
-                  <p className='text-primary-foreground text-lg md:text-2xl !font-sans'>{faq.question}</p>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <p className='text-sm md:text-lg text-primary-foreground'>{faq.answer}</p>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          <FAQAccordion lang={lang} />
         </div>
       </section>
     </Fragment>

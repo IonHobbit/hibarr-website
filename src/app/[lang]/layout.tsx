@@ -19,7 +19,7 @@ export default async function RootLayout(
   return (
     <Fragment>
       <Header params={params} />
-      <main className='min-h-screen -mt-[75px] overflow-x-hidden w-full'>
+      <main className='min-h-screen overflow-x-hidden w-full'>
         {children}
       </main>
       <Footer params={params} />

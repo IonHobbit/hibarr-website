@@ -1,4 +1,3 @@
-import { getDictionary } from '@/lib/dictionary';
 import type { Locale } from '@/lib/i18n-config';
 import { Metadata } from 'next';
 import { Fragment } from 'react';
@@ -9,6 +8,8 @@ import MissionVisionSection from './_components/MissionVisionSection';
 import AboutRabih from './_components/AboutRabih';
 import CallToActionSection from './_components/CallToActionSection';
 import GallerySection from './_components/GallerySection';
+import { client } from '@/lib/sanity/client';
+import { AboutPage as AboutPageType } from '@/lib/sanity/sanity.types';
 
 export const metadata: Metadata = {
   title: 'About Us',
@@ -21,7 +22,8 @@ export default async function AboutPage(
   }
 ) {
   const { lang } = await props.params;
-  const dictionary = await getDictionary(lang);
+
+  const data = await client.fetch<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang });
 
   return (
     <Fragment>
@@ -29,22 +31,22 @@ export default async function AboutPage(
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col gap-2'>
             <h1 className="text-5xl md:text-6xl font-bold mb-4 text-background uppercase">
-              {dictionary.about.title}
+              {data?.title}
             </h1>
             <p className="text-md md:text-base text-background">
-              {dictionary.about.welcome}
+              {data?.subtitle}
             </p>
           </div>
         </div>
         <div className='absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/40 to-transparent'></div>
       </section>
       <FeaturedSection />
-      <MissionVisionSection dictionary={dictionary} />
-      <AboutRabih dictionary={dictionary} />
-      <PartnersSection dictionary={dictionary} />
-      <TestimonialsSection data={dictionary.about.testimonials} />
-      <GallerySection dictionary={dictionary} />
-      <CallToActionSection dictionary={dictionary} />
+      <MissionVisionSection data={data.missionVisionSection} />
+      <AboutRabih data={data.aboutRabihSection} />
+      <PartnersSection lang={lang} />
+      <TestimonialsSection lang={lang} />
+      <GallerySection data={data.gallerySection} />
+      <CallToActionSection data={data.callToActionSection} />
     </Fragment>
   );
 } 

@@ -1,25 +1,26 @@
 import Link from "next/link";
 import { Dictionary } from "@/lib/dictionary";
 import { Button } from "@/components/ui/button";
+import { HomePage } from "@/lib/sanity/sanity.types";
 
 type MeetRabihProps = {
-  dictionary: Dictionary;
+  data: HomePage['meetRabihSection'];
 }
 
-export default function MeetRabih({ dictionary }: MeetRabihProps) {
+export default function MeetRabih({ data }: MeetRabihProps) {
   return (
     <section id='meet-rabih' className='section min-h-[50vh]'>
       <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-10">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
-            <h3 className="text-3xl font-bold">{dictionary.home.meetRabih.title}</h3>
-            <p className="text-muted-foreground">{dictionary.home.meetRabih.subTitle}</p>
+            <h3 className="text-3xl font-bold">{data?.title}</h3>
+            <p className="text-muted-foreground">{data?.subTitle}</p>
           </div>
-          <p className="text-muted-foreground">{dictionary.home.meetRabih.paragraph1}</p>
-          <p className="text-muted-foreground">{dictionary.home.meetRabih.paragraph2}</p>
+          <p className="text-muted-foreground">{data?.paragraph1}</p>
+          <p className="text-muted-foreground">{data?.paragraph2}</p>
           <Button variant="accent" className='w-max' asChild>
-            <Link href={dictionary.home.meetRabih.cta.href}>
-              {dictionary.home.meetRabih.cta.text}
+            <Link href={data?.CTA?.url ?? ''}>
+              {data?.CTA?.label}
             </Link>
           </Button>
         </div>

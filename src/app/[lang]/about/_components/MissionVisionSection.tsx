@@ -1,13 +1,13 @@
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Dictionary } from '@/lib/dictionary'
+import { AboutPage } from '@/lib/sanity/sanity.types';
 
 type MissionVisionSectionProps = {
-  dictionary: Dictionary;
+  data: AboutPage['missionVisionSection'];
 }
 
-export default function MissionVisionSection({ dictionary }: MissionVisionSectionProps) {
+export default function MissionVisionSection({ data }: MissionVisionSectionProps) {
   return (
     <section id='mission-vision' className="section">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -16,23 +16,23 @@ export default function MissionVisionSection({ dictionary }: MissionVisionSectio
             <Image src="/images/about/vision.png" alt="About Vision" fill sizes='100%' className='object-cover' />
           </div>
           <h3 className="text-3xl">
-            {dictionary.about.vision.title}
+            {data?.vision?.title}
           </h3>
           <p className="">
-            &quot;To guide our clients through the complexities of the real estate journey with expertise, integrity, and personalized service, providing comprehensive support at every stage – from initial consultation to closing and beyond. We empower them to achieve their real estate goals and build lasting foundations, leveraging our in-depth market knowledge, skilled negotiation, and unwavering commitment to ensure a smooth and successful experience.&quot;
+            {data?.vision?.content}
           </p>
           <Button variant="accent" className='w-max' asChild>
-            <Link href={dictionary.about.cta.href}>
-              {dictionary.about.cta.text}
+            <Link href={data?.CTA?.url ?? ''}>
+              {data?.CTA?.label}
             </Link>
           </Button>
         </div>
         <div className="flex flex-col gap-4 order-1 md:order-2">
           <h3 className="text-3xl">
-            {dictionary.about.mission.title}
+            {data?.mission?.title}
           </h3>
           <p className="">
-            &quot;To guide our clients through the complexities of the real estate journey with expertise, integrity, and personalized service, providing comprehensive support at every stage – from initial consultation to closing and beyond. We empower them to achieve their real estate goals and build lasting foundations, leveraging our in-depth market knowledge, skilled negotiation, and unwavering&quot;
+            {data?.mission?.content}
           </p>
           <div className='relative w-full h-96 rounded-lg overflow-hidden'>
             <Image src="/images/about/mission.png" alt="About Mission" fill sizes='100%' className='object-cover' />

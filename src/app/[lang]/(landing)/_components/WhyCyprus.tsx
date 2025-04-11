@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Dictionary } from "@/lib/dictionary";
 import Link from "next/link";
+import { HomePage } from "@/lib/sanity/sanity.types";
 
 type WhyCyprusProps = {
-  dictionary: Dictionary;
+  data: HomePage['whyCyprusSection'];
 }
 
-export default function WhyCyprus({ dictionary }: WhyCyprusProps) {
+export default function WhyCyprus({ data }: WhyCyprusProps) {
   return (
     <section id='why-cyprus' className='section'>
       <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-10">
@@ -19,16 +20,16 @@ export default function WhyCyprus({ dictionary }: WhyCyprusProps) {
           />
         </div>
         <div className="flex flex-col gap-6">
-          <h3 className="text-3xl">{dictionary.home.whyCyprus.title}</h3>
+          <h3 className="text-3xl">{data?.title}</h3>
           <div className="flex flex-col gap-4">
-            {dictionary.home.whyCyprus.reasons.map((reason) => (
+            {data?.reasons?.map((reason) => (
               <div key={reason.title} className="flex gap-2">
                 <p className="text-sm font-semibold">{reason.title}: <span className="font-normal">{reason.description}</span></p>
               </div>
             ))}
           </div>
           <Button className="w-max" variant="accent" asChild>
-            <Link href={dictionary.home.whyCyprus.cta.href}>{dictionary.home.whyCyprus.cta.text}</Link>
+            <Link href={data?.CTA?.url ?? ''}>{data?.CTA?.label}</Link>
           </Button>
         </div>
       </div>

@@ -7,11 +7,11 @@ import { Sheet, SheetTrigger, SheetContent, SheetTitle, SheetDescription } from 
 import LanguageSwitcher from './LanguageSwitcher';
 import { Locale } from '@/lib/i18n-config';
 import Image from 'next/image';
-import { NavigationItem } from '@/types/main';
+import { Navigation } from '@/lib/sanity/sanity.types';
 import { useState } from 'react';
 
 type MobileNavigationMenuProps = {
-  navigation: NavigationItem[];
+  navigation: Navigation['items'];
   lang: Locale;
 }
 
@@ -37,8 +37,8 @@ export default function MobileNavigationMenu({ navigation, lang }: MobileNavigat
           <LanguageSwitcher />
         </div>
         <div className="flex flex-col gap-4">
-          {navigation.map((item, index) => (
-            <HeaderItem key={index} item={item} lang={lang} mobile onClick={() => setOpen(false)} />
+          {navigation?.map((item) => (
+            <HeaderItem key={item._key} item={item} lang={lang} mobile onClick={() => setOpen(false)} />
           ))}
         </div>
       </SheetContent>

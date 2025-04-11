@@ -2,13 +2,13 @@
 import Link from 'next/link'
 import { Icon } from '@iconify/react';
 import { Button } from '@/components/ui/button'
-import { Dictionary } from '@/lib/dictionary';
+import { HomePage } from '@/lib/sanity/sanity.types';
 
 type LandingSectionProps = {
-  dictionary: Dictionary;
+  data: HomePage;
 }
 
-export default function LandingSection({ dictionary }: LandingSectionProps) {
+export default function LandingSection({ data }: LandingSectionProps) {
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center h-screen bg-gradient-to-b from-primary via-primary/80 to-transparent">
       <div className='absolute inset-0 w-full h-full -z-10'>
@@ -18,17 +18,17 @@ export default function LandingSection({ dictionary }: LandingSectionProps) {
       <div className="max-w-4xl text-center flex flex-col gap-10 px-4">
         <div className='flex flex-col gap-2'>
           <h1 className="text-5xl md:text-7xl font-bold mb-4 text-background">
-            {dictionary.home.title}
+            {data.title}
           </h1>
           <p className="text-sm md:text-base text-background">
-            {dictionary.home.subtitle}
+            {data.subtitle}
           </p>
         </div>
         <div className='flex flex-wrap items-center justify-center gap-4'>
-          {dictionary.home.buttons.map((button, index) => (
+          {data.buttons?.map((button, index) => (
             <Button key={index} variant={index === 0 ? 'accent' : 'outline'} size="lg" asChild>
-              <Link href={button.href} className='uppercase font-semibold'>
-                {button.name}
+              <Link href={button.url ?? ''} className='uppercase font-semibold'>
+                {button.label}
               </Link>
             </Button>
           ))}

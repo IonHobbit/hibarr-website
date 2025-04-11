@@ -72,7 +72,7 @@ export default function ConsultationForm() {
   }
 
   return (
-    <form className='flex flex-col gap-4 h-full max-h-[40vh] overflow-y-auto w-full p-8' onSubmit={handleSubmit}>
+    <form className='flex flex-col gap-4 h-full md:max-h-[55vh] overflow-y-auto w-full p-8' onSubmit={handleSubmit}>
       <div className='flex flex-col gap-2'>
         <p className='text-sm'>What country are you currently living in?</p>
         <Input name='country' required value={values.country} onChange={handleChange} placeholder='eg. Germany, Turkey, etc.' />

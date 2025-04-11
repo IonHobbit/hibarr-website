@@ -70,41 +70,37 @@
       "description": "The Most Secure & Profitable Way to Invest in North Cyprus",
       "reasons": [
         {
-          "title": "North Cyprus' #1 Investment Choice for European Buyers",
-          "description": "Investors from Germany, Russia, Poland, and beyond trust us far more than any other agency to build their portfolios."
+          "title": "",
+          "description": ""
         },
         {
-          "title": "Own Two Properties for the Price of One",
-          "description": "Our smart investment strategy allows you to buy two properties and only pay for one."
+          "title": "",
+          "description": ""
         },
         {
-          "title": "Exclusive Privileges & Discounts Through Our Partnerships",
-          "description": "From healthcare and education to hotels, banking, and more, our clients get VIP benefits and savings no one else can access"
+          "title": "",
+          "description": ""
         },
         {
-          "title": "10-Year Payment Plan, 0% Interest, No credit check",
-          "description": "Secure your property with no credit checks, no bank approvals, and a stress-free payment structure."
+          "title": "",
+          "description": ""
         },
         {
-          "title": "Proven Success Stories",
-          "description": "Our investors see high ROI, consistent rental income, and strong appreciation rates year after year."
+          "title": "",
+          "description": ""
         },
         {
-          "title": "Exclusive Listings You Won't Find Anywhere Else",
-          "description": "Gain access to off-market deals and premium investment opportunities."
+          "title": "",
+          "description": ""
         }
       ]
     },
     "about": {
-      "title": "About Us",
-      "description": "The Most Secure & Profitable Way to Invest in North Cyprus",
-      "paragraphs": [
-        "At HIBARR, we know that buying property isn't just about owning real estate—it's about building wealth, securing your future, and creating a life of freedom.",
-        "That's why we've built the most trusted, systemized, and client-focused real estate agency in North Cyprus. With over $500 million in transactions, 24 years of experience, and exclusive partnerships with the biggest institutions on the island, we remove the guesswork from investing so you can buy with confidence, security, and zero stress.",
-        "Beyond real estate, our exclusive partnerships with top institutions like the Near East Group, Grand Pasha hotels,  and Oscar Group give our clients VIP privileges and discounts in healthcare, education, banking, hospitality and many more—benefits no other agency can offer."
-      ],
+      "title": "",
+      "description": "",
+      "paragraphs": ["", "", ""],
       "cta": {
-        "text": "Talk to an agent",
+        "text": "",
         "href": "/consultation"
       }
     },
@@ -119,113 +115,113 @@
       "title": "Our Partners"
     },
     "consulationProcess": {
-      "title": "Our 5 step consulation process",
+      "title": "",
       "description": "At HIBARR, we've developed a 5-step process that takes the guesswork out of property investment. With our expertise, you'll make confident, well-informed decisions every time.",
       "steps": [
         {
           "icon": "mdi:handshake",
           "title": "Kickoff Meeting",
-          "subTitle": "Your journey begins here",
-          "description": "We start by getting to know you—your goals, needs, and what you're looking for. This isn't a consultation but a chance for us to understand how we can help. After the kickoff meeting, Our team of experts then reviews your information and creates a strategy just for you. This takes about three to seven days."
+          "subTitle": "",
+          "description": ""
         },
         {
-          "icon": "mdi:strategy",
-          "title": "Strategy Meeting",
-          "subTitle": "We chart your course",
-          "description": "Once your strategy is ready, we go over it with you in detail. This strategy is based on your goals and our experience in the market as well as current market trends. It shows you the best way to move forward, whether you're buying a home, investing, or both."
+          "icon": "",
+          "title": "",
+          "subTitle": "",
+          "description": ""
         },
         {
-          "icon": "mdi:home-search",
-          "title": "Purchase Decision",
-          "subTitle": "Choosing the ideal property",
-          "description": "When you're happy with the strategy, we move to the next step—choosing the right property. We present options that fit the strategy you accepted, explaining everything clearly so you can make a confident decision."
+          "icon": "",
+          "title": "",
+          "subTitle": "",
+          "description": ""
         },
         {
-          "icon": "mdi:file-document-check",
-          "title": "Implementation",
-          "subTitle": "A seamless transition",
-          "description": "Once you've picked a property, we handle all the paperwork and legal steps to make sure everything goes smoothly. We guide you through permits, contracts, payments, and anything else needed to complete the purchase without stress."
+          "icon": "",
+          "title": "",
+          "subTitle": "",
+          "description": ""
         },
         {
-          "icon": "mdi:headset",
-          "title": "After Sales",
-          "subTitle": "Our commitment to your satisfaction",
-          "description": "Even after you buy, we're still here to help. We assist with setting up utilities, getting residence permits, arranging insurance, and anything else you need to settle in. If you're renting out your property, we can help with that too. Our goal is to build a relationship with you, even after the deal is done."
+          "icon": "",
+          "title": "",
+          "subTitle": "",
+          "description": ""
         }
       ],
       "cta": {
-        "text": "Start now",
-        "href": "/consultation"
+        "text": "",
+        "href": ""
       }
     },
     "whyCyprus": {
-      "title": "Why Investors Choose North Cyprus?",
+      "title": "",
       "reasons": [
         {
-          "title": "High Rental Yields & Rising Property Values",
-          "description": "According to Forbes Magazine, North Cyprus offers exceptional investment opportunities, with properties seeing a 120% increase in value over the past three years. Investors can expect annual net yields of up to 15%, far above many Mediterranean markets."
+          "title": "",
+          "description": ""
         },
         {
-          "title": "Affordable Prices",
-          "description": "According to Forbes magazine, North Cyprus's Iskele long beach is the most affordable place to buy luxury beachfront properties in 2024. It was also ranked as the best place to buy properties globally by Forbes in both 2021 and 2024."
+          "title": "",
+          "description": ""
         },
         {
-          "title": "Flexible Payment Plans & no credit check",
-          "description": "Investors benefit from interest-free payment plans and no credit checks, making purchases easier."
+          "title": "",
+          "description": ""
         },
         {
-          "title": "Tax Benefits",
-          "description": "North Cyprus offers low property taxes (around 0.1-0.2% annually) and no inheritance tax, providing extra financial advantages."
+          "title": "",
+          "description": ""
         },
         {
-          "title": "Low Cost of Living",
-          "description": "North Cyprus ranks among the most affordable Mediterranean countries for expatriates, with a cost of living 30-600% lower than in popular locations like Germany or Spain"
+          "title": "",
+          "description": ""
         },
         {
-          "title": "Safe & Stable",
-          "description": "North Cyprus is recognized for its low crime rates, with crime levels being 80% lower than in many other Mediterranean countries, according to Numbeo. Additionally, the region has a stable political environment and a growing economy, with GDP growth of 5.5% in 2023, according to The World Bank"
+          "title": "",
+          "description": ""
         }
       ],
       "cta": {
-        "text": "Start your Investment today!",
-        "href": "/consultation"
+        "text": "",
+        "href": ""
       }
     },
     "caseStudies": {
-      "title": "Case Studies",
-      "description": "Our case studies are a testament to the success of our investment strategy. We've helped our clients achieve their goals and we can help you too."
+      "title": "",
+      "description": ""
     },
     "meetRabih": {
-      "title": "Meet Rabih",
-      "subTitle": "Founder and CEO",
-      "paragraph1": "Rabih Rabea is the visionary founder and CEO of HIBARR, a leading company in the exclusive real estate sector in Northern Cyprus. With over two decades of experience in the real estate industry, Rabih has developed a profound understanding of the market, earning a reputation for expertise and innovative leadership.",
-      "paragraph2": "He began his career with a degree in Business Administration, graduating with honors. After entering the real estate industry, Rabih quickly climbed the ranks before establishing HIBARR, aiming to realize his vision of a company that not only offers premium properties but also values ethics and excellence.",
+      "title": "",
+      "subTitle": "",
+      "paragraph1": "",
+      "paragraph2": "",
       "cta": {
-        "text": "Book a call with Rabih",
-        "href": "/consultation"
+        "text": "",
+        "href": ""
       }
     },
     "leadershipTeam": {
-      "title": "Meet our Expert Leadership Team",
-      "description": "Our leadership team brings deep market expertise, innovation, and international property knowledge to help you invest with confidence in North Cyprus"
+      "title": "",
+      "description": ""
     },
     "callToAction": {
-      "title": "Not Sure Where to Start? Let's Make It Easy for You",
-      "description": "We know this is a big decision, and we're here to help you every step of the way. Let us answer your questions and make the process simple, so you can feel confident in your next move",
+      "title": "",
+      "description": "",
       "cta": {
-        "text": "Schedule your free consultation",
-        "href": "/consultation"
+        "text": "",
+        "href": ""
       }
     },
     "freebieSignup": {
-      "title": "You dont want to miss this!",
-      "description": "Want to make smarter property investments? 🏡 Join our FREE, exclusive webinar and learn how to profit from North Cyprus real estate. Get insider strategies, expert tips, and discover the best investment opportunities—before anyone else! 🔥 Limited spots available. Reserve yours NOW!",
-      "consent": "By submitting your email, you agree to receive news, updates, and other content from HIBARR. You can unsubscribe at any time.",
+      "title": "",
+      "description": "",
+      "consent": "",
       "form": {
-        "firstName": "First Name",
-        "lastName": "Last Name",
-        "email": "Email",
-        "submit": "Sign up"
+        "firstName": "",
+        "lastName": "",
+        "email": "",
+        "submit": ""
       }
     }
   },
@@ -237,22 +233,22 @@
     "title": "About Us",
     "welcome": "Welcome to our company. We are dedicated to providing exceptional service and innovative solutions to our clients.",
     "mission": {
-      "title": "Our Mission",
-      "content": "To deliver outstanding value and results through our expertise and commitment to excellence."
+      "title": "",
+      "content": ""
     },
     "vision": {
-      "title": "Our Vision",
-      "content": "To be the leading provider of innovative solutions in our industry."
+      "title": "",
+      "content": ""
     },
     "cta": {
-      "text": "Talk to us",
-      "href": "/contact"
+      "text": "",
+      "href": ""
     },
     "aboutRabih": {
-      "title": "About Rabih Rabea",
+      "title": "",
       "cta": {
-        "text": "Talk to Rabih",
-        "href": "/consultation"
+        "text": "",
+        "href": ""
       }
     },
     "testimonials": {
@@ -294,6 +290,7 @@
   },
   "consultation": {
     "title": "Schedule a Free Kick Off Meeting",
+    "subtitle": "Why should you speak with us?",
     "form": {
       "name": "Full Name",
       "email": "Email Address",

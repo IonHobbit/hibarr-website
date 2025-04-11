@@ -4,13 +4,17 @@ import { Icon } from '@iconify/react'
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Dictionary } from '@/lib/dictionary'
+import { HomePage } from '@/lib/sanity/sanity.types'
+import { client } from '@/lib/sanity/client'
+import { Locale } from '@/lib/i18n-config';
 
 type TestimonialsSectionProps = {
-  data: Dictionary['home']['testimonials'];
+  lang: Locale;
 }
 
-export default function TestimonialsSection({ data }: TestimonialsSectionProps) {
+export default async function TestimonialsSection({ lang }: TestimonialsSectionProps) {
+  const data = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
+
   const testimonials = [
     {
       date: '2024-01-01',
@@ -39,7 +43,7 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
       <div className="flex flex-col justify-center gap-4 min-h-[60vh] w-full overflow-hidden md:overflow-visible max-w-screen-sm md:max-w-screen-md mx-auto">
         <div className="relative w-full mx-auto">
           <div className="flex items-end justify-center w-full gap-2">
-            <h3 className="text-3xl font-bold text-center">{data.title}</h3>
+            <h3 className="text-3xl font-bold text-center">{data?.testimonialsSection?.title}</h3>
           </div>
           <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl text-accent absolute -top-10 left-10' />
           <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl rotate-180 text-accent absolute -top-10 right-10' />
@@ -62,8 +66,8 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
           <CarouselNext className='border-none -translate-x-16 md:translate-x-0 translate-y-[450%] md:translate-y-0 bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
         </Carousel>
         <Button variant="link" className='w-max mx-auto' asChild>
-          <Link href={data.cta.href}>
-            {data.cta.text}
+          <Link href={data?.testimonialsSection?.CTA?.url ?? ''}>
+            {data?.testimonialsSection?.CTA?.label}
           </Link>
         </Button>
       </div>

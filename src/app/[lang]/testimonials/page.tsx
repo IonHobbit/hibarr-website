@@ -2,10 +2,11 @@ import Link from 'next/link';
 import { Fragment } from 'react';
 import { Icon } from '@iconify/react';
 import { Button } from '@/components/ui/button';
-import { getDictionary } from '@/lib/dictionary';
 import type { Locale } from '@/lib/i18n-config';
 import { formatDate } from '@/lib/utils';
 import { Metadata } from 'next';
+import { client } from '@/lib/sanity/client';
+import { TestimonialsPage as TestimonialsPageType } from '@/lib/sanity/sanity.types';
 
 export const metadata: Metadata = {
   title: 'Testimonials',
@@ -17,7 +18,8 @@ export default async function TestimonialsPage(
   }
 ) {
   const { lang } = await props.params;
-  const dictionary = await getDictionary(lang);
+
+  const data = await client.fetch<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang });
 
   const testimonials = [
     {
@@ -49,19 +51,19 @@ export default async function TestimonialsPage(
           <div className='flex flex-col gap-2'>
             <div className='flex items-center p-1 px-3 bg-secondary w-max mx-auto rounded-full'>
               <p className="uppercase text-sm font-semibold">
-                {dictionary.testimonials.name}
+                {data?.name}
               </p>
             </div>
             <h1 className="text-6xl font-bold mb-4 text-primary-foreground">
-              {dictionary.testimonials.title}
+              {data?.title}
             </h1>
             <p className="text-md text-primary-foreground">
-              {dictionary.testimonials.description}
+              {data?.description}
             </p>
           </div>
           <Button variant="accent" size="lg" className='w-max mx-auto' asChild>
-            <Link href={dictionary.testimonials.cta.href} className='uppercase font-semibold'>
-              {dictionary.testimonials.cta.text}
+            <Link href={data?.CTA?.url ?? ''} className='uppercase font-semibold'>
+              {data?.CTA?.label}
             </Link>
           </Button>
         </div>

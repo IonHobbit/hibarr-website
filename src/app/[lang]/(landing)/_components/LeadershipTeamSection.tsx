@@ -1,11 +1,12 @@
 import { Dictionary } from "@/lib/dictionary";
+import { HomePage } from "@/lib/sanity/sanity.types";
 import Image from "next/image";
 
 type LeadershipTeamSectionProps = {
-  dictionary: Dictionary;
+  data: HomePage['leadershipTeamSection'];
 }
 
-export default function LeadershipTeamSection({ dictionary }: LeadershipTeamSectionProps) {
+export default function LeadershipTeamSection({ data }: LeadershipTeamSectionProps) {
   const leadershipTeam = [
     {
       name: "Rabih Rabea",
@@ -49,8 +50,8 @@ export default function LeadershipTeamSection({ dictionary }: LeadershipTeamSect
     <section id='leadership-team' className='min-h-[50vh] bg-gray-50/50'>
       <div className="section">
         <div className="max-w-screen-md mx-auto flex flex-col gap-2">
-          <h3 className="text-4xl text-center">{dictionary.home.leadershipTeam.title}</h3>
-          <p className="text-center text-muted-foreground">{dictionary.home.leadershipTeam.description}</p>
+          <h3 className="text-4xl text-center">{data?.title}</h3>
+          <p className="text-center text-muted-foreground">{data?.description}</p>
         </div>
         <div className="max-w-screen-lg mx-auto">
           <div className="grid grid-cols-1 md:flex flex-wrap justify-center gap-4">

@@ -3,13 +3,20 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import React, { Fragment } from 'react'
 import FAQAccordion from '../../_components/FAQAccordion'
+import { Locale } from '@/lib/i18n-config'
 
 export const metadata: Metadata = {
   title: 'Near East Group',
   description: 'Building Futures, One Property at a Time – Near East Group.',
 }
 
-export default async function NearEastGroup() {
+export default async function NearEastGroup(
+  props: {
+    params: Promise<{ lang: Locale }>;
+  }
+) {
+  const { lang } = await props.params;
+
   const portfolioCompanies = [
     {
       name: 'Near East University',
@@ -130,7 +137,7 @@ export default async function NearEastGroup() {
         </div>
         <div className='section py-0'>
           <h3 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h3>
-          <FAQAccordion faqs={faqs} />
+          <FAQAccordion lang={lang} />
         </div>
       </section>
     </Fragment >

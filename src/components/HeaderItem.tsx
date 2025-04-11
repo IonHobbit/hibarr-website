@@ -6,12 +6,13 @@ import { usePathname } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useState } from "react";
 import { Icon } from "@iconify/react";
-import { NavigationItem } from "@/types/main";
+import { Navigation } from "@/lib/sanity/sanity.types";
 
-type Child = { name: string, href: string }
+type Item = NonNullable<Navigation['items']>[number]
+type Child = NonNullable<Item['children']>[number]
 
 type HeaderItemProps = {
-  item: NavigationItem;
+  item: Item;
   lang: Locale;
   mobile?: boolean;
   onClick?: () => void;
@@ -20,6 +21,8 @@ type HeaderItemProps = {
 export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  if (item.hidden) return null;
 
   if (item.hideOnHomePage && pathname === `/${lang}`) {
     return null;

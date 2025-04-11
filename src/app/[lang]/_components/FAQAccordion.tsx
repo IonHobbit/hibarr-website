@@ -1,15 +1,19 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Dictionary } from "@/lib/dictionary";
+import { client } from "@/lib/sanity/client";
+import { Faq } from "@/lib/sanity/sanity.types";
+import { Locale } from "@/lib/i18n-config";
 
 type FAQAccordionProps = {
-  faqs: Dictionary['faqs'];
+  lang: Locale;
 }
 
-export default function FAQAccordion({ faqs }: FAQAccordionProps) {
+export default async function FAQAccordion({ lang }: FAQAccordionProps) {
+  const data = await client.fetch<Faq[]>(`*[_type == "faq" && language == $lang]`, { lang });
+
   return (
     <Accordion type='single' collapsible>
-      {faqs.map((faq, index) => (
-        <AccordionItem key={index} value={faq.question}>
+      {data?.map((faq, index) => (
+        <AccordionItem key={index} value={faq.question ?? ''}>
           <AccordionTrigger>
             <p className='text-primary-foreground text-lg md:text-xl !font-sans font-light'>{faq.question}</p>
           </AccordionTrigger>
