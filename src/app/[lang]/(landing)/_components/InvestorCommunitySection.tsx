@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default function InvestorCommunitySection() {
   return (
@@ -6,7 +7,11 @@ export default function InvestorCommunitySection() {
       <div className="flex flex-wrap md:grid grid-cols-2 justify-between gap-10 bg-accent p-6 rounded-lg">
         <h3 className='text-3xl md:text-5xl text-center md:text-left text-primary-foreground'>Join our community of Investors now on <span className='text-primary'>Facebook</span></h3>
         <div className="flex items-center gap-4 justify-end w-full">
-          <Button size="lg" className='w-full md:w-auto font-semibold'>Join Here</Button>
+          <Button size="lg" className='w-full md:w-auto font-semibold' asChild>
+            <Link href='https://www.facebook.com/groups/100063686709796/' target='_blank'>
+              Join Here
+            </Link>
+          </Button>
         </div>
       </div>
     </section>
