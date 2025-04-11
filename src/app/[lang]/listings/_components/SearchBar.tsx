@@ -37,14 +37,14 @@ export default function SearchBar() {
         { key: 'features', value: values.features.join(',') },
         { key: 'minPrice', value: values.minPrice },
         { key: 'maxPrice', value: values.maxPrice },
-      ].filter(({ value }) => value !== undefined && value !== ''))
+      ].filter(({ value }) => value !== undefined && value !== ''), 'listings')
     }
   })
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
   return (
-    <div className="flex flex-col items-center gap-2 px-4 z-10">
+    <div className="flex flex-col items-center gap-4 px-4 z-10">
       <Tabs defaultValue='all'>
         <TabsList>
           <TabsTrigger value='all'>All</TabsTrigger>
@@ -54,12 +54,14 @@ export default function SearchBar() {
       </Tabs>
       <div className={cn('bg-secondary w-full rounded-md p-4 flex flex-col items-center gap-4 transition-all duration-300 overflow-hidden')}>
         <form onSubmit={handleSubmit} className="flex flex-col xl:flex-row items-center gap-4 w-full">
-          <Select placeholder='Location' options={locations} value={values.location} onSelect={(value) => setFieldValue('location', value)} />
-          <Select placeholder='Property type' options={propertyTypes} value={values.propertyType} onSelect={(value) => setFieldValue('propertyType', value)} />
-          <Select placeholder='Bedrooms' options={count.map(_ => ({ ..._, label: `${_.label} Bedrooms` }))} value={values.bedrooms} onSelect={(value) => setFieldValue('bedrooms', value)} />
-          <Select placeholder='Bathrooms' options={count.map(_ => ({ ..._, label: `${_.label} Bathrooms` }))} value={values.bathrooms} onSelect={(value) => setFieldValue('bathrooms', value)} />
-          <Select placeholder='Features' options={features} value={values.features} onSelect={(value) => setFieldValue('features', value)} />
-          <button onClick={toggleOpen} className='hidden xl:block bg-accent p-2.5 cursor-pointer rounded'>
+          <div className="flex items-center gap-4 overflow-x-auto w-full">
+            <Select placeholder='Location' options={locations} value={values.location} onSelect={(value) => setFieldValue('location', value)} />
+            <Select placeholder='Property type' options={propertyTypes} value={values.propertyType} onSelect={(value) => setFieldValue('propertyType', value)} />
+            <Select placeholder='Bedrooms' options={count.map(_ => ({ ..._, label: `${_.label} Bedrooms` }))} value={values.bedrooms} onSelect={(value) => setFieldValue('bedrooms', value)} />
+            <Select placeholder='Bathrooms' options={count.map(_ => ({ ..._, label: `${_.label} Bathrooms` }))} value={values.bathrooms} onSelect={(value) => setFieldValue('bathrooms', value)} />
+            <Select placeholder='Features' options={features} value={values.features} onSelect={(value) => setFieldValue('features', value)} />
+          </div>
+          <button type='button' onClick={toggleOpen} className='hidden xl:block bg-accent p-2.5 cursor-pointer rounded'>
             <Icon icon={isOpen ? "mdi:minus" : "mdi:plus"} className='w-4 h-4 text-accent-foreground' />
           </button>
           <Button variant='accent' type='submit' className='rounded w-full xl:w-auto'>
