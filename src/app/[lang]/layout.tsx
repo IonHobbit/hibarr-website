@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, Suspense } from 'react';
 import { i18n } from '@/lib/i18n-config';
 import type { Locale } from '@/lib/i18n-config';
 import Header from '@/components/Header';
@@ -17,12 +17,14 @@ export default async function RootLayout(
   const { params, children } = props;
 
   return (
-    <Fragment>
-      <Header params={params} />
-      <main className='min-h-screen overflow-x-hidden w-full'>
-        {children}
-      </main>
-      <Footer params={params} />
-    </Fragment>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Fragment>
+        <Header params={params} />
+        <main className='min-h-screen overflow-x-hidden w-full'>
+          {children}
+        </main>
+        <Footer params={params} />
+      </Fragment>
+    </Suspense>
   );
 } 
