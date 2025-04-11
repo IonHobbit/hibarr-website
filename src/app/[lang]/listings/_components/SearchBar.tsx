@@ -54,7 +54,7 @@ export default function SearchBar() {
       </Tabs>
       <div className={cn('bg-secondary w-full rounded-md p-4 flex flex-col items-center gap-4 transition-all duration-300 overflow-hidden')}>
         <form onSubmit={handleSubmit} className="flex flex-col xl:flex-row items-center gap-4 w-full">
-          <div className="flex items-center gap-4 overflow-x-auto w-full">
+          <div className="flex flex-wrap md:items-center gap-4 md:overflow-x-auto w-full">
             <Select placeholder='Location' options={locations} value={values.location} onSelect={(value) => setFieldValue('location', value)} />
             <Select placeholder='Property type' options={propertyTypes} value={values.propertyType} onSelect={(value) => setFieldValue('propertyType', value)} />
             <Select placeholder='Bedrooms' options={count.map(_ => ({ ..._, label: `${_.label} Bedrooms` }))} value={values.bedrooms} onSelect={(value) => setFieldValue('bedrooms', value)} />
