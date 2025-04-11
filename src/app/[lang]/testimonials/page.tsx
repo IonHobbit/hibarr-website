@@ -6,7 +6,7 @@ import type { Locale } from '@/lib/i18n-config';
 import { formatDate } from '@/lib/utils';
 import { Metadata } from 'next';
 import { client } from '@/lib/sanity/client';
-import { TestimonialsPage as TestimonialsPageType } from '@/lib/sanity/sanity.types';
+import { Testimonial, TestimonialsPage as TestimonialsPageType } from '@/lib/sanity/sanity.types';
 
 export const metadata: Metadata = {
   title: 'Testimonials',
@@ -20,29 +20,7 @@ export default async function TestimonialsPage(
   const { lang } = await props.params;
 
   const data = await client.fetch<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang });
-
-  const testimonials = [
-    {
-      date: '2024-01-01',
-      name: 'Petra Seitz',
-      text: 'Von der ersten Kontaktaufnahme bis zum erfolgreichen Kaufabschluss unserer Villa, haben sich Rabih und Natalie hervorragend um unsere Fragen und Anliegen gekümmert. Sie unterstützen uns (schon fast rund um die Uhr) mit Rat und Tat, waren immer für uns erreichbar. Zu den Behördengängen, Bank-/ Rechtsanwaltterminen und sogar zum Abschluss eines Telefonvertrages, wurden wir von ihnen begleitet. Ein sehr engagiertes und kompetentes Team, welches ich unbedingt weiterempfehlen möchte.',
-    },
-    {
-      date: '2024-01-01',
-      name: 'Petra Seitz',
-      text: 'Von der ersten Kontaktaufnahme bis zum erfolgreichen Kaufabschluss unserer Villa, haben sich Rabih und Natalie hervorragend um unsere Fragen und Anliegen gekümmert. Sie unterstützen uns (schon fast rund um die Uhr) mit Rat und Tat, waren immer für uns erreichbar. Zu den Behördengängen, Bank-/ Rechtsanwaltterminen und sogar zum Abschluss eines Telefonvertrages, wurden wir von ihnen begleitet. Ein sehr engagiertes und kompetentes Team, welches ich unbedingt weiterempfehlen möchte.',
-    },
-    {
-      date: '2024-01-01',
-      name: 'Petra Seitz',
-      text: 'Von der ersten Kontaktaufnahme bis zum erfolgreichen Kaufabschluss unserer Villa, haben sich Rabih und Natalie hervorragend um unsere Fragen und Anliegen gekümmert. Sie unterstützen uns (schon fast rund um die Uhr) mit Rat und Tat, waren immer für uns erreichbar. Zu den Behördengängen, Bank-/ Rechtsanwaltterminen und sogar zum Abschluss eines Telefonvertrages, wurden wir von ihnen begleitet. Ein sehr engagiertes und kompetentes Team, welches ich unbedingt weiterempfehlen möchte.',
-    },
-    {
-      date: '2024-01-01',
-      name: 'Petra Seitz',
-      text: 'Von der ersten Kontaktaufnahme bis zum erfolgreichen Kaufabschluss unserer Villa, haben sich Rabih und Natalie hervorragend um unsere Fragen und Anliegen gekümmert. Sie unterstützen uns (schon fast rund um die Uhr) mit Rat und Tat, waren immer für uns erreichbar. Zu den Behördengängen, Bank-/ Rechtsanwaltterminen und sogar zum Abschluss eines Telefonvertrages, wurden wir von ihnen begleitet. Ein sehr engagiertes und kompetentes Team, welches ich unbedingt weiterempfehlen möchte.',
-    },
-  ]
+  const testimonials = await client.fetch<Testimonial[]>(`*[_type == "testimonial" && language == $lang]`, { lang });
 
   return (
     <Fragment>
@@ -83,10 +61,12 @@ export default async function TestimonialsPage(
           {testimonials.map((testimonial, index) => (
             <div key={index} className='border p-4 rounded-lg flex flex-col gap-4'>
               <Icon icon="icon-park-outline:quote" className='text-4xl text-accent' />
-              <p className='text-md'>{testimonial.text}</p>
+              <p className='text-md'>{testimonial.comment}</p>
               <div className='flex flex-col'>
-                <p className='text-lg font-bold'>{testimonial.name}</p>
-                <p className='text-sm text-muted-foreground'>{formatDate(testimonial.date)}</p>
+                <p className='text-lg font-bold'>{testimonial.clientName}</p>
+                {testimonial.date && (
+                  <p className='text-sm text-muted-foreground'>{formatDate(testimonial.date)}</p>
+                )}
               </div>
             </div>
           ))}

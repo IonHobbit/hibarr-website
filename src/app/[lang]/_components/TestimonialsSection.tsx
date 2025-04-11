@@ -4,9 +4,10 @@ import { Icon } from '@iconify/react'
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { HomePage } from '@/lib/sanity/sanity.types'
+import { HomePage, Testimonial } from '@/lib/sanity/sanity.types'
 import { client } from '@/lib/sanity/client'
 import { Locale } from '@/lib/i18n-config';
+import { formatDate } from '@/lib/utils'
 
 type TestimonialsSectionProps = {
   lang: Locale;
@@ -14,29 +15,7 @@ type TestimonialsSectionProps = {
 
 export default async function TestimonialsSection({ lang }: TestimonialsSectionProps) {
   const data = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
-
-  const testimonials = [
-    {
-      date: '2024-01-01',
-      name: 'Petra Seitz',
-      text: 'Von der ersten Kontaktaufnahme bis zum erfolgreichen Kaufabschluss unserer Villa, haben sich Rabih und Natalie hervorragend um unsere Fragen und Anliegen gekümmert. Sie unterstützen uns (schon fast rund um die Uhr) mit Rat und Tat, waren immer für uns erreichbar. Zu den Behördengängen, Bank-/ Rechtsanwaltterminen und sogar zum Abschluss eines Telefonvertrages, wurden wir von ihnen begleitet. Ein sehr engagiertes und kompetentes Team, welches ich unbedingt weiterempfehlen möchte.',
-    },
-    {
-      date: '2024-01-01',
-      name: 'Petra Seitz',
-      text: 'Von der ersten Kontaktaufnahme bis zum erfolgreichen Kaufabschluss unserer Villa, haben sich Rabih und Natalie hervorragend um unsere Fragen und Anliegen gekümmert. Sie unterstützen uns (schon fast rund um die Uhr) mit Rat und Tat, waren immer für uns erreichbar. Zu den Behördengängen, Bank-/ Rechtsanwaltterminen und sogar zum Abschluss eines Telefonvertrages, wurden wir von ihnen begleitet. Ein sehr engagiertes und kompetentes Team, welches ich unbedingt weiterempfehlen möchte.',
-    },
-    {
-      date: '2024-01-01',
-      name: 'Petra Seitz',
-      text: 'Von der ersten Kontaktaufnahme bis zum erfolgreichen Kaufabschluss unserer Villa, haben sich Rabih und Natalie hervorragend um unsere Fragen und Anliegen gekümmert. Sie unterstützen uns (schon fast rund um die Uhr) mit Rat und Tat, waren immer für uns erreichbar. Zu den Behördengängen, Bank-/ Rechtsanwaltterminen und sogar zum Abschluss eines Telefonvertrages, wurden wir von ihnen begleitet. Ein sehr engagiertes und kompetentes Team, welches ich unbedingt weiterempfehlen möchte.',
-    },
-    {
-      date: '2024-01-01',
-      name: 'Petra Seitz',
-      text: 'Von der ersten Kontaktaufnahme bis zum erfolgreichen Kaufabschluss unserer Villa, haben sich Rabih und Natalie hervorragend um unsere Fragen und Anliegen gekümmert. Sie unterstützen uns (schon fast rund um die Uhr) mit Rat und Tat, waren immer für uns erreichbar. Zu den Behördengängen, Bank-/ Rechtsanwaltterminen und sogar zum Abschluss eines Telefonvertrages, wurden wir von ihnen begleitet. Ein sehr engagiertes und kompetentes Team, welches ich unbedingt weiterempfehlen möchte.',
-    },
-  ]
+  const testimonials = await client.fetch<Testimonial[]>(`*[_type == "testimonial" && language == $lang][0...3]`, { lang });
 
   return (
     <section id='testimonials' className='section'>
@@ -53,10 +32,12 @@ export default async function TestimonialsSection({ lang }: TestimonialsSectionP
             {testimonials.map((testimonial, index) => (
               <CarouselItem key={index}>
                 <div className='flex flex-col items-center gap-2 p-4 relative'>
-                  <p className='text-base text-center font-medium'>{testimonial.text}</p>
+                  <p className='text-base text-center font-medium'>{testimonial.comment}</p>
                   <div className='flex flex-col items-center gap-0.5'>
-                    <p className='text-lg text-primary font-medium'>{testimonial.name}</p>
-                    <p className='text-sm text-muted-foreground'>{testimonial.date}</p>
+                    <p className='text-lg text-primary font-medium'>{testimonial.clientName}</p>
+                    {testimonial.date && (
+                      <p className='text-sm text-muted-foreground'>{formatDate(testimonial.date)}</p>
+                    )}
                   </div>
                 </div>
               </CarouselItem>
