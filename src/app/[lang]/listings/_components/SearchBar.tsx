@@ -9,7 +9,6 @@ import { cn } from '@/lib/utils';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useFormik } from 'formik';
 import { Fragment, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import useURL from '@/hooks/useURL';
 
 export default function SearchBar() {

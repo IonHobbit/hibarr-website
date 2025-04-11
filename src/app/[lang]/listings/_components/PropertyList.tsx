@@ -9,7 +9,7 @@ import useURL from "@/hooks/useURL";
 export default function PropertyList() {
   const { searchParams, updateParams } = useURL();
 
-  const { data: listings, isLoading, error, paginationInfo } = useListings(
+  const { data: listings, paginationInfo } = useListings(
     {
       location: searchParams.get('location')?.split(',') || [],
       propertyType: searchParams.get('propertyType')?.split(',') || [],

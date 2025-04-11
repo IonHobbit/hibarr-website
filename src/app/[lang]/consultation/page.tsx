@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 import { Icon } from '@iconify/react';
 import FAQAccordion from '../_components/FAQAccordion';
 import CalendlyEmbed from '@/components/CalendlyEmbed';
+// import ConsultationForm from './_components/ConsultationForm';
 
 export const metadata: Metadata = {
   title: 'Consultation',
@@ -66,7 +67,7 @@ export default async function ConsultationPage(
             </div>
           </div>
           <div className='relative w-full rounded-lg overflow-hidden bg-secondary grid place-items-center'>
-            <Icon icon="mdi:loading" className='text-primary text-4xl animate-spin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' />
+            {/* <ConsultationForm /> */}
             <CalendlyEmbed url="https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319" />
           </div>
         </div>

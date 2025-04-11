@@ -2,7 +2,6 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbS
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { listings } from '@/lib/mockdata';
-import Image from 'next/image';
 import React, { Fragment } from 'react'
 import ListingImages from './_components/ListingImages';
 
