@@ -24,9 +24,9 @@ export default function PropertyList() {
   );
 
   return (
-    <section className="section">
+    <section className="section h-full grow">
       {listings?.length === 0 && (
-        <div className="flex flex-col items-center justify-center h-full">
+        <div className="flex flex-col items-center justify-center h-[40vh] grow">
           <h1 className="text-2xl font-bold">No listings found</h1>
         </div>
       )}
