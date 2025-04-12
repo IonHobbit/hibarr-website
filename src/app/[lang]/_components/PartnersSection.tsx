@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { InfiniteMovingCards } from '@/components/InfiniteMovingCards'
-import { HomePage } from '@/lib/sanity/sanity.types';
+import { HomePage } from '@/types/sanity.types';
 import { client } from '@/lib/sanity/client';
 import { Locale } from '@/lib/i18n-config';
 

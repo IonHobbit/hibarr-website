@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { AboutPage } from "@/lib/sanity/sanity.types";
+import { AboutPage } from "@/types/sanity.types";
 
 type AboutHostSectionProps = {
   data: AboutPage['aboutRabihSection'];

@@ -1,6 +1,6 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { client } from "@/lib/sanity/client";
-import { Faq } from "@/lib/sanity/sanity.types";
+import { Faq } from "@/types/sanity.types";
 import { Locale } from "@/lib/i18n-config";
 
 type FAQAccordionProps = {

@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { Icon } from '@iconify/react';
 import { Button } from '@/components/ui/button'
-import { HomePage } from '@/lib/sanity/sanity.types';
+import { HomePage } from '@/types/sanity.types';
 
 type LandingSectionProps = {
   data: HomePage;

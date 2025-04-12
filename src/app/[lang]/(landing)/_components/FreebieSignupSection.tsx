@@ -4,7 +4,7 @@ import ThreeDBook from "@/components/ThreeDBook";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { HomePage } from "@/lib/sanity/sanity.types";
+import { HomePage } from "@/types/sanity.types";
 import { useFormik } from "formik";
 import { PortableText } from "next-sanity";
 import Image from "next/image";

@@ -1,5 +1,5 @@
 import { client } from "@/lib/sanity/client";
-import { HomePage, Team } from "@/lib/sanity/sanity.types";
+import { HomePage, Team } from "@/types/sanity.types";
 import Image from "next/image";
 import { generateImageUrl } from "@/lib/utils";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";

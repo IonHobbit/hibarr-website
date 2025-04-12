@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { WebinarPage } from "@/lib/sanity/sanity.types";
+import { WebinarPage } from "@/types/sanity.types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useFormik } from "formik";
 import { useState } from "react";

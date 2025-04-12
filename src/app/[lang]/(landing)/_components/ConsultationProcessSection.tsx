@@ -1,4 +1,4 @@
-import { HomePage } from "@/lib/sanity/sanity.types";
+import { HomePage } from "@/types/sanity.types";
 import { Icon } from "@iconify/react";
 
 type ConsultationProcessSection = {

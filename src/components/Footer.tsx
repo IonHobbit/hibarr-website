@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { client } from "@/lib/sanity/client";
-import { Footer as FooterType } from "@/lib/sanity/sanity.types";
+import { Footer as FooterType } from "@/types/sanity.types";
 
 export default async function Footer(
   props: {

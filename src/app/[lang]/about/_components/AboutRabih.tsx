@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { AboutPage } from "@/lib/sanity/sanity.types";
+import { AboutPage } from "@/types/sanity.types";
 
 type AboutRabihProps = {
   data: AboutPage['aboutRabihSection'];

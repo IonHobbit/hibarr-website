@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { HomePage } from '@/lib/sanity/sanity.types';
+import { HomePage } from '@/types/sanity.types';
 
 type AboutSectionProps = {
   data: HomePage;

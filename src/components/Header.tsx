@@ -5,7 +5,7 @@ import Link from "next/link";
 import HeaderItem from "./HeaderItem";
 import MobileNavigationMenu from "./MobileNavigationMenu";
 import { Button } from "./ui/button";
-import { Navigation } from "@/lib/sanity/sanity.types";
+import { Navigation } from "@/types/sanity.types";
 import { client } from "@/lib/sanity/client";
 
 export default async function Header(

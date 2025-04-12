@@ -6,7 +6,7 @@ import type { Locale } from '@/lib/i18n-config';
 import { formatDate } from '@/lib/utils';
 import { Metadata } from 'next';
 import { client } from '@/lib/sanity/client';
-import { Testimonial, TestimonialsPage as TestimonialsPageType } from '@/lib/sanity/sanity.types';
+import { Testimonial, TestimonialsPage as TestimonialsPageType } from '@/types/sanity.types';
 
 export const metadata: Metadata = {
   title: 'Testimonials',

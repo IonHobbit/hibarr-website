@@ -7,7 +7,7 @@ import { Sheet, SheetTrigger, SheetContent, SheetTitle, SheetDescription } from 
 import LanguageSwitcher from './LanguageSwitcher';
 import { Locale } from '@/lib/i18n-config';
 import Image from 'next/image';
-import { Navigation } from '@/lib/sanity/sanity.types';
+import { Navigation } from '@/types/sanity.types';
 import { useState } from 'react';
 
 type MobileNavigationMenuProps = {

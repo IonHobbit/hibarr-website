@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 import FAQAccordion from '../_components/FAQAccordion';
 // import CalendlyEmbed from '@/components/CalendlyEmbed';
 import { client } from '@/lib/sanity/client';
-import { ConsultationPage as ConsultationPageType } from '@/lib/sanity/sanity.types';
+import { ConsultationPage as ConsultationPageType } from '@/types/sanity.types';
 import ConsultationForm from './_components/ConsultationForm';
 
 export const metadata: Metadata = {

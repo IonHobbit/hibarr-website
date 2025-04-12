@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react'
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { HomePage, Testimonial } from '@/lib/sanity/sanity.types'
+import { HomePage, Testimonial } from '@/types/sanity.types'
 import { client } from '@/lib/sanity/client'
 import { Locale } from '@/lib/i18n-config';
 import { formatDate } from '@/lib/utils'

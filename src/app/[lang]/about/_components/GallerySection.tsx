@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from '@/components/ui/dialog'
-import { AboutPage } from '@/lib/sanity/sanity.types';
+import { AboutPage } from '@/types/sanity.types';
 
 type GallerySectionProps = {
   data: AboutPage['gallerySection'];

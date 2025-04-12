@@ -9,7 +9,7 @@ import AboutRabih from './_components/AboutRabih';
 import CallToActionSection from './_components/CallToActionSection';
 import GallerySection from './_components/GallerySection';
 import { client } from '@/lib/sanity/client';
-import { AboutPage as AboutPageType } from '@/lib/sanity/sanity.types';
+import { AboutPage as AboutPageType } from '@/types/sanity.types';
 
 export const metadata: Metadata = {
   title: 'About Us',

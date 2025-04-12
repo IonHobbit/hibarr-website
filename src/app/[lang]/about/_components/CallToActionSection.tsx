@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import React from 'react'
-import { AboutPage } from '@/lib/sanity/sanity.types';
+import { AboutPage } from '@/types/sanity.types';
 
 type CallToActionSectionProps = {
   data: AboutPage['callToActionSection'];

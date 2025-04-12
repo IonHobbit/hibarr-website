@@ -1,7 +1,7 @@
 import { Carousel, CarouselItem, CarouselContent, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Video from "@/components/Video";
 import { client } from "@/lib/sanity/client";
-import { CaseStudy, HomePage } from "@/lib/sanity/sanity.types";
+import { CaseStudy, HomePage } from "@/types/sanity.types";
 import { generateImageUrl } from "@/lib/utils";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 

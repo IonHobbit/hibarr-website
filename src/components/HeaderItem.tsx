@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useState } from "react";
 import { Icon } from "@iconify/react";
-import { Navigation } from "@/lib/sanity/sanity.types";
+import { Navigation } from "@/types/sanity.types";
 
 type Item = NonNullable<Navigation['items']>[number]
 type Child = NonNullable<Item['children']>[number]

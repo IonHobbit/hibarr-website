@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
-import { AboutPage } from '@/lib/sanity/sanity.types';
+import { AboutPage } from '@/types/sanity.types';
 
 type MissionVisionSectionProps = {
   data: AboutPage['missionVisionSection'];

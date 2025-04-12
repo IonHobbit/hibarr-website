@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { HomePage } from "@/lib/sanity/sanity.types";
+import { HomePage } from "@/types/sanity.types";
 import Video from "@/components/Video";
 
 type WhyCyprusProps = {
