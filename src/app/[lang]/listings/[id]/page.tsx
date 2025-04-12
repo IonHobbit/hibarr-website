@@ -5,6 +5,17 @@ import { listings } from '@/lib/mockdata';
 import React, { Fragment } from 'react'
 import ListingImages from './_components/ListingImages';
 
+export async function generateMetadata(props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params;
+
+  const property = listings.find((property) => property.id === id);
+
+  if (!property) {
+    return { title: 'Property' };
+  }
+  return { title: property.name };
+}
+
 export default async function PropertyPage(
   props: {
     params: Promise<{ id: string }>;

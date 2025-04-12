@@ -4,6 +4,7 @@ import type { Locale } from '@/lib/i18n-config';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
+import ScrollToTop from '@/app/[lang]/_components/ScrollToTop';
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
@@ -28,6 +29,7 @@ export default async function RootLayout(
         <main className='min-h-screen overflow-x-hidden w-full'>
           {children}
         </main>
+        <ScrollToTop />
         <Footer params={params} />
       </Fragment>
     </Suspense>

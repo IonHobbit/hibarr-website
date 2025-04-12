@@ -80,6 +80,7 @@ export type Team = {
   _createdAt: string
   _updatedAt: string
   _rev: string
+  order?: number
   name?: string
   image?: {
     asset?: {
@@ -95,6 +96,65 @@ export type Team = {
   }
   role?: string
   leadership?: boolean
+}
+
+export type WebinarPage = {
+  _id: string
+  _type: 'webinarPage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  subtitle?: string
+  CTA?: {
+    label?: string
+    url?: string
+  }
+  webinarInformationSection?: {
+    date?: string
+    timezone?: string
+  }
+  benefitsSection?: {
+    title?: string
+    benefits?: Array<{
+      title?: string
+      description?: string
+      _key: string
+    }>
+    CTA?: {
+      label?: string
+      url?: string
+    }
+  }
+  aboutHostSection?: {
+    title?: string
+    subTitle?: string
+    paragraph1?: string
+    paragraph2?: string
+  }
+  statisticsSection?: Array<{
+    prefix?: string
+    number?: number
+    postfix?: string
+    description?: string
+    _key: string
+  }>
+  registrationSection?: {
+    form?: {
+      title?: string
+      firstName?: string
+      lastName?: string
+      email?: string
+      phone?: string
+      submitButton?: string
+    }
+    webinarFeatures?: Array<{
+      icon?: string
+      title?: string
+      _key: string
+    }>
+  }
+  publishedAt?: string
 }
 
 export type TranslationMetadata = {
@@ -114,54 +174,54 @@ export type TranslationMetadata = {
 export type InternationalizedArrayReferenceValue = {
   _type: 'internationalizedArrayReferenceValue'
   value?:
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'homePage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'aboutPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'testimonialsPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'navigation'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'consultationPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'faq'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'caseStudy'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'testimonial'
-      }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'homePage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'aboutPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'testimonialsPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'navigation'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'consultationPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'faq'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'caseStudy'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'testimonial'
+  }
 }
 
 export type Testimonial = {
@@ -523,6 +583,7 @@ export type AllSanitySchemaTypes =
   | Geopoint
   | Slug
   | Team
+  | WebinarPage
   | TranslationMetadata
   | InternationalizedArrayReferenceValue
   | Testimonial

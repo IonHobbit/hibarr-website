@@ -7,6 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 import { Navigation } from "@/lib/sanity/sanity.types";
+import { NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink } from "./ui/navigation-menu";
 
 type Item = NonNullable<Navigation['items']>[number]
 type Child = NonNullable<Item['children']>[number]
@@ -28,6 +29,21 @@ export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemPr
     return null;
   }
 
+  // if (item.children && !mobile) {
+  //   return (
+  //     <NavigationMenuItem>
+  //       <NavigationMenuTrigger>
+  //         <NavigationMenuLink>{item.name}</NavigationMenuLink>
+  //       </NavigationMenuTrigger>
+  //       <NavigationMenuContent popoverTarget={item.href ?? ''}>
+  //         {item.children.filter((child) => !child.hidden).map((child: Child, index: number) => (
+  //           <NavigationMenuLink key={index} href={`/${lang}${child.href}`}>{child.name}</NavigationMenuLink>
+  //         ))}
+  //       </NavigationMenuContent>
+  //     </NavigationMenuItem>
+  //   )
+  // }
+
   if (item.children && !mobile) {
     return (
       <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -40,7 +56,7 @@ export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemPr
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" sideOffset={5}>
-          {item.children.map((child: Child, index: number) => (
+          {item.children.filter((child) => !child.hidden).map((child: Child, index: number) => (
             <DropdownMenuItem key={index} asChild>
               <Link href={`/${lang}${child.href}`}>
                 {child.name}
@@ -58,8 +74,12 @@ export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemPr
         <p className="text-sm text-primary-foreground/70 hover:text-primary-foreground/80 whitespace-nowrap">
           {item.name}
         </p>
-        {item.children.map((child: Child, index: number) => (
-          <Link onClick={onClick} href={`/${lang}${child.href}`} key={index} className="text-primary-foreground ml-4 hover:text-primary-foreground/80 whitespace-nowrap">
+        {item.children.filter((child) => !child.hidden).map((child: Child, index: number) => (
+          <Link
+            onClick={onClick}
+            href={`/${lang}${child.href}`}
+            key={index}
+            className="text-primary-foreground ml-4 hover:text-primary-foreground/80 whitespace-nowrap">
             {child.name}
           </Link>
         ))}

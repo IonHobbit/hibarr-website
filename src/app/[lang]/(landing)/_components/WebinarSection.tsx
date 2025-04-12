@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function WebinarSection() {
   return (
-    <section id='free-webinar' className='bg-gray-100 '>
+    <section id='free-webinar' className='bg-gray-50 '>
       <div className="section md:min-h-[50vh]">
         <div className="flex flex-col items-center gap-1.5">
           <h3 className='text-2xl md:text-4xl text-center md:text-left'>Unlock Exclusive North Cyprus Real Estate Opportunities</h3>

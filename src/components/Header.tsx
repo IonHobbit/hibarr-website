@@ -7,6 +7,7 @@ import MobileNavigationMenu from "./MobileNavigationMenu";
 import { Button } from "./ui/button";
 import { Navigation } from "@/lib/sanity/sanity.types";
 import { client } from "@/lib/sanity/client";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from "./ui/navigation-menu";
 
 export default async function Header(
   props: {
@@ -17,9 +18,9 @@ export default async function Header(
   const data = await client.fetch<Navigation>(`*[_type == "navigation" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return (
-    <header className="absolute top-0 z-20 w-full h-[75px] flex items-center">
+    <header className="absolute top-0 z-20 w-full h-[75px] flex items-center bg-primary/90">
       <nav className="section py-6 px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between md:grid grid-cols-3 gap-2 items-center">
+        <div className="flex justify-between gap-2 items-center">
           <Link href={`/${lang}`}>
             <Image src="/logos/logo.png" alt="Hibarr Estates Logo" className="object-contain h-auto" width={140} height={20} />
           </Link>
