@@ -44,7 +44,7 @@ export default async function Home(
       <WebinarSection />
       <WhyCyprus data={data.whyCyprusSection} />
       <CaseStudiesSection data={data.caseStudiesSection} />
-      <InvestorCommunitySection />
+      <InvestorCommunitySection data={data.investorCommunitySection} />
       <MeetRabih data={data.meetRabihSection} />
       <LeadershipTeamSection data={data.leadershipTeamSection} />
       <CallToActionSection data={data.callToActionSection} />
