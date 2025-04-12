@@ -7,7 +7,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 import { Navigation } from "@/lib/sanity/sanity.types";
-import { NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink } from "./ui/navigation-menu";
 
 type Item = NonNullable<Navigation['items']>[number]
 type Child = NonNullable<Item['children']>[number]

@@ -2,8 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Locale } from "@/lib/i18n-config";
-import { client } from "@/lib/sanity/client";
 import { WebinarPage } from "@/lib/sanity/sanity.types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useFormik } from "formik";
