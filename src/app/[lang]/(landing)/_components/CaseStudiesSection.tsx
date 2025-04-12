@@ -2,7 +2,7 @@ import { Carousel, CarouselItem, CarouselContent, CarouselNext, CarouselPrevious
 import Video from "@/components/Video";
 import { client } from "@/lib/sanity/client";
 import { CaseStudy, HomePage } from "@/lib/sanity/sanity.types";
-import createImageUrlBuilder from "@sanity/image-url";
+import { generateImageUrl } from "@/lib/utils";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
 
@@ -12,11 +12,6 @@ type CaseStudiesSectionProps = {
 
 export default async function CaseStudiesSection({ data }: CaseStudiesSectionProps) {
   const caseStudies = await client.fetch<CaseStudy[]>(`*[_type == "caseStudy"]`, {}, { cache: 'no-store' });
-
-
-  const imageUrlFor = (source: SanityImageSource) => {
-    return createImageUrlBuilder(client).image(source);
-  }
 
   return (
     <section id='case-studies' className='section md:min-h-[50vh]'>
@@ -29,7 +24,7 @@ export default async function CaseStudiesSection({ data }: CaseStudiesSectionPro
           <CarouselContent>
             {caseStudies.map((caseStudy, index) => (
               <CarouselItem key={index}>
-                <Video src={caseStudy.videoUrl ?? ''} poster={imageUrlFor(caseStudy.thumbnail as SanityImageSource).url()} />
+                <Video src={caseStudy.videoUrl ?? ''} poster={generateImageUrl(caseStudy.thumbnail as SanityImageSource).url()} />
               </CarouselItem>
             ))}
           </CarouselContent>

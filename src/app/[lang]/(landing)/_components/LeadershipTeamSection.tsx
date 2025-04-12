@@ -1,49 +1,15 @@
-import { HomePage } from "@/lib/sanity/sanity.types";
+import { client } from "@/lib/sanity/client";
+import { HomePage, Team } from "@/lib/sanity/sanity.types";
 import Image from "next/image";
+import { generateImageUrl } from "@/lib/utils";
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
 type LeadershipTeamSectionProps = {
   data: HomePage['leadershipTeamSection'];
 }
 
-export default function LeadershipTeamSection({ data }: LeadershipTeamSectionProps) {
-  const leadershipTeam = [
-    {
-      name: "Rabih Rabea",
-      image: "/images/rabih.jpg",
-      title: "Founder and CEO",
-    },
-    {
-      name: "Philip Janzen",
-      image: "/images/team/philip.jpg",
-      title: "Chief Operating Officer (COO)",
-    },
-    {
-      name: "Jürgen Lehmann",
-      image: "/images/team/jurgen.png",
-      title: "Chief Sales Officer (CSO)",
-    },
-    {
-      name: "Paradox Enabulele",
-      image: "/images/team/paradox.jpg",
-      title: "Chief Marketing Officer (CMO)",
-    },
-    {
-      name: "Manuela Gebhardt",
-      image: "/images/team/manuela.png",
-      title: "Brand Manager",
-    },
-    {
-      name: "Christoph Fiedelsberger",
-      image: "/images/team/christoph.webp",
-      title: "Director of Process Innovation and Automation",
-    },
-    {
-      name: "Florian Wilk",
-      image: "/images/team/florian.png",
-      title: "International Tax Expert",
-    },
-
-  ]
+export default async function LeadershipTeamSection({ data }: LeadershipTeamSectionProps) {
+  const leadershipTeam = await client.fetch<Team[]>(`*[_type == "team" && leadership == true] | order(order asc)`);
 
   return (
     <section id='leadership-team' className='min-h-[50vh] bg-gray-50/50'>
@@ -57,11 +23,11 @@ export default function LeadershipTeamSection({ data }: LeadershipTeamSectionPro
             {leadershipTeam.map((member) => (
               <div key={member.name} className="flex flex-col gap-2 border p-4 bg-white basis-full md:basis-[23.5%]">
                 <div className="relative w-full h-80 md:h-52">
-                  <Image src={member.image} alt={member.name} fill sizes="100%" className="object-cover object-top w-full h-full" />
+                  <Image src={generateImageUrl(member.image as SanityImageSource).url() ?? ''} alt={member.name ?? ''} fill sizes="100%" className="object-cover object-top w-full h-full" />
                 </div>
                 <div className="flex flex-col gap-1">
                   <h4 className="text-lg">{member.name}</h4>
-                  <p className="text-muted-foreground text-sm">{member.title}</p>
+                  <p className="text-muted-foreground text-sm">{member.role}</p>
                 </div>
               </div>
             ))}

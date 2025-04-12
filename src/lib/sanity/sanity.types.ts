@@ -74,6 +74,29 @@ export type Slug = {
   source?: string
 }
 
+export type Team = {
+  _id: string
+  _type: 'team'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  role?: string
+  leadership?: boolean
+}
+
 export type TranslationMetadata = {
   _id: string
   _type: 'translation.metadata'
@@ -499,6 +522,7 @@ export type AllSanitySchemaTypes =
   | SanityFileAsset
   | Geopoint
   | Slug
+  | Team
   | TranslationMetadata
   | InternationalizedArrayReferenceValue
   | Testimonial

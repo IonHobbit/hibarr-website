@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
         hostname: 'hibarr.de',
         protocol: 'https',
       },
+      {
+        hostname: 'cdn.sanity.io',
+        protocol: 'https',
+      },
     ],
   },
 };
