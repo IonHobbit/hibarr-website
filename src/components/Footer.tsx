@@ -16,8 +16,6 @@ export default async function Footer(
 
   const data = await client.fetch<FooterType>(`*[_type == "footer"][0]`, { lang }, { cache: 'no-store' });
 
-  console.log(data)
-
   const socialLinks = [
     {
       href: data.socialMedia?.facebook ?? '',

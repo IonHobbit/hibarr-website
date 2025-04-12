@@ -108,7 +108,7 @@ export default async function ZoomRegistrationPage(
         </div>
       </section>
       <TestimonialsSection lang={lang} />
-      <WhyCyprus data={homePage.whyCyprusSection} />
+      <WhyCyprus data={homePage.whyCyprusSection} link='#register' />
       <RegistrationFormSection data={webinarPage} />
     </Fragment >
   )
