@@ -74,6 +74,36 @@ export type Slug = {
   source?: string
 }
 
+export type Footer = {
+  _id: string
+  _type: 'footer'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  copyright?: string
+  socialMedia?: {
+    facebook?: string
+    twitter?: string
+    instagram?: string
+    youtube?: string
+  }
+  contactSection?: {
+    phone?: {
+      phoneNumber?: string
+      phoneLink?: string
+    }
+    email?: {
+      email?: string
+      emailLink?: string
+    }
+    address?: {
+      fullAddress?: string
+      googleMapsLink?: string
+      mapsEmbedLink?: string
+    }
+  }
+}
+
 export type Team = {
   _id: string
   _type: 'team'
@@ -115,60 +145,60 @@ export type TranslationMetadata = {
 export type InternationalizedArrayReferenceValue = {
   _type: 'internationalizedArrayReferenceValue'
   value?:
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'homePage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'aboutPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'testimonialsPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'webinarPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'navigation'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'consultationPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'faq'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'caseStudy'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'testimonial'
-      }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'homePage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'aboutPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'testimonialsPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'webinarPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'navigation'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'consultationPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'faq'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'caseStudy'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'testimonial'
+  }
 }
 
 export type Testimonial = {
@@ -594,6 +624,7 @@ export type AllSanitySchemaTypes =
   | SanityFileAsset
   | Geopoint
   | Slug
+  | Footer
   | Team
   | TranslationMetadata
   | InternationalizedArrayReferenceValue

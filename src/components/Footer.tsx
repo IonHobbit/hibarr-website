@@ -2,6 +2,8 @@ import { Locale } from "@/lib/i18n-config";
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { client } from "@/lib/sanity/client";
+import { Footer as FooterType } from "@/lib/sanity/sanity.types";
 
 export default async function Footer(
   props: {
@@ -12,43 +14,47 @@ export default async function Footer(
 
   const currentYear = new Date().getFullYear();
 
+  const data = await client.fetch<FooterType>(`*[_type == "footer"][0]`, { lang }, { cache: 'no-store' });
+
+  console.log(data)
+
   const socialLinks = [
     {
-      href: "https://www.facebook.com/hibarr.estates",
+      href: data.socialMedia?.facebook ?? '',
       icon: "mdi:facebook",
     },
     {
-      href: "https://www.x.com/hibarr_estates",
+      href: data.socialMedia?.twitter ?? '',
       icon: "ri:twitter-x-fill",
     },
     {
-      href: "https://www.youtube.com/@HIBARR-Official",
+      href: data.socialMedia?.youtube ?? '',
       icon: "mdi:youtube",
     },
     {
-      href: "https://www.instagram.com/hibarrestate/",
+      href: data.socialMedia?.instagram ?? '',
       icon: "mdi:instagram",
     }
-  ]
+  ].filter((link) => link.href !== '');
 
-  const mapsLocation = "https://www.google.com/maps/place/Bedrettin+Demirel+Caddesi+170,+Girne+3300/@35.3336985,33.3166627,18z/data=!4m6!3m5!1s0x14de6cccdb4417ff:0x2e4bf8cc19bc5142!8m2!3d35.3332887!4d33.3183817!16s%2Fg%2F11cpm46lr6?entry=ttu&g_ep=EgoyMDI1MDIxMC4wIKXMDSoASAFQAw%3D%3D"
-  const embedURL = `https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d482.1690563968745!2d33.31788205231333!3d35.333427485504124!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14de6cccdb4417ff%3A0x2e4bf8cc19bc5142!2sBedrettin%20Demirel%20Caddesi%20170%2C%20Girne%203300!5e0!3m2!1sen!2s!4v1744102378116!5m2!1sen!2s`
+  const mapsLocation = data.contactSection?.address?.googleMapsLink ?? "https://www.google.com/maps/place/Bedrettin+Demirel+Caddesi+170,+Girne+3300/@35.3336985,33.3166627,18z/data=!4m6!3m5!1s0x14de6cccdb4417ff:0x2e4bf8cc19bc5142!8m2!3d35.3332887!4d33.3183817!16s%2Fg%2F11cpm46lr6?entry=ttu&g_ep=EgoyMDI1MDIxMC4wIKXMDSoASAFQAw%3D%3D"
+  const embedURL = data.contactSection?.address?.mapsEmbedLink ?? `https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d482.1690563968745!2d33.31788205231333!3d35.333427485504124!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14de6cccdb4417ff%3A0x2e4bf8cc19bc5142!2sBedrettin%20Demirel%20Caddesi%20170%2C%20Girne%203300!5e0!3m2!1sen!2s!4v1744102378116!5m2!1sen!2s`
 
   const contactInfo = [
     {
       icon: "mdi:email",
-      text: "info@hibarr.de",
-      link: "mailto:info@hibarr.de",
+      text: data.contactSection?.email?.email ?? "info@hibarr.de",
+      link: data.contactSection?.email?.emailLink ?? "mailto:info@hibarr.de",
     },
     {
       icon: "mdi:phone",
-      text: "(+90) 539 136 00 81",
-      link: "tel:+905391360081",
+      text: data.contactSection?.phone?.phoneNumber ?? "(+90) 539 136 00 81",
+      link: data.contactSection?.phone?.phoneLink ?? "tel:+905391360081",
     },
     {
       icon: "mdi:map-marker",
-      text: "Bedrettin Demirel Caddesi 170, Girne 3300 | North Cyprus",
-      link: mapsLocation,
+      text: data.contactSection?.address?.fullAddress ?? "Bedrettin Demirel Caddesi 170, Girne 3300 | North Cyprus",
+      link: data.contactSection?.address?.googleMapsLink ?? mapsLocation,
     },
   ]
 
@@ -81,7 +87,9 @@ export default async function Footer(
                 </div>
               ))}
             </div>
-            <iframe src={embedURL} width="250" height="200" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+            {embedURL && (
+              <iframe src={embedURL} width="250" height="200" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+            )}
           </div>
         </div>
       </div>
