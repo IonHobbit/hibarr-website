@@ -40,8 +40,8 @@ export default async function ConsultationPage(
               <div className="grid grid-cols-3 gap-4">
                 {data?.offerInformation?.items?.map((offering, index) => (
                   <div key={index} className="flex flex-col items-center gap-2">
-                    <Icon icon={offering.icon ?? ''} className="text-primary-foreground text-5xl md:text-7xl text-center" />
-                    <p className="text-base md:text-lg text-primary-foreground text-center">{offering.title}</p>
+                    <Icon icon={offering.icon ?? ''} className="text-primary-foreground text-5xl md:text-5xl text-center" />
+                    <p className="text-base text-primary-foreground text-center">{offering.title}</p>
                   </div>
                 ))}
               </div>

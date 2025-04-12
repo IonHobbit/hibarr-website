@@ -20,7 +20,7 @@ export default async function RootLayout(
   return (
     <Suspense fallback={
       <div className='flex justify-center items-center h-screen'>
-        <Image src='/logos/logo-blue.png' alt='logo' width={100} height={100} />
+        <Image src='/logos/logo-blue.png' className='animate-pulse' alt='logo' width={250} height={58} />
       </div>
     }>
       <Fragment>

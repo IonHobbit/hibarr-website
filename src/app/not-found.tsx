@@ -1,0 +1,19 @@
+import React from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+
+export default async function NotFoundPage() {
+  return (
+    <div className='relative overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center gap-8 h-screen bg-gradient-to-b from-primary via-primary/80 to-transparent'>
+      <div className='absolute inset-0 w-full h-full -z-10'>
+        <video src="https://vz-da4cd036-d13.b-cdn.net/31c737df-ff40-48a5-a2ab-e8fc0a829df5/play_720p.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover' />
+      </div>
+      <Image src='/logos/logo.png' alt='logo' width={300} height={58} />
+      <div className="flex flex-col items-center gap-3">
+        <h1 className='text-4xl text-primary-foreground'>Page Not Found</h1>
+        <p className='text-primary-foreground'>The page you are looking for does not exist.</p>
+        <Link href='/' className='text-primary-foreground hover:underline'>Go back to the home page</Link>
+      </div>
+    </div>
+  )
+}
