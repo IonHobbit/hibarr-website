@@ -1,10 +1,6 @@
-import { Carousel, CarouselItem, CarouselContent, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import Video from "@/components/Video";
 import { client } from "@/lib/sanity/client";
 import { CaseStudy, HomePage } from "@/types/sanity.types";
-import { generateImageUrl } from "@/lib/utils";
-import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
-
+import CaseStudies from "./CaseStudies";
 
 type CaseStudiesSectionProps = {
   data: HomePage['caseStudiesSection'];
@@ -20,17 +16,22 @@ export default async function CaseStudiesSection({ data }: CaseStudiesSectionPro
         <p className="text-center text-muted-foreground">{data?.description}</p>
       </div>
       <div className="max-w-screen-md mx-auto w-full overflow-hidden md:overflow-visible">
-        <Carousel opts={{ loop: true }}>
+        <CaseStudies caseStudies={caseStudies} />
+        {/* <Carousel opts={{ loop: true }}>
           <CarouselContent>
             {caseStudies.map((caseStudy, index) => (
               <CarouselItem key={index}>
-                <Video src={caseStudy.videoUrl ?? ''} poster={generateImageUrl(caseStudy.thumbnail as SanityImageSource).url()} />
+                <Video
+                  ref={(el) => { videoRefs.current[index] = el as VideoRef }}
+                  src={caseStudy.videoUrl ?? ''}
+                  poster={generateImageUrl(caseStudy.thumbnail as SanityImageSource).url()}
+                />
               </CarouselItem>
             ))}
           </CarouselContent>
           <CarouselPrevious className='border-none translate-x-16 md:translate-x-0 bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
           <CarouselNext className='border-none -translate-x-16 md:translate-x-0 bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
-        </Carousel>
+        </Carousel> */}
       </div>
     </section>
   )

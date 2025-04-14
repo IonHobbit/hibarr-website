@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react'
 import { clsx } from 'clsx';
 import { Icon } from '@iconify/react';
 import { cn } from '@/lib/utils';
@@ -13,15 +13,19 @@ interface IVideoProps {
   loop?: boolean;
 }
 
-export default function Video({ src, poster, autoPlay, muted, loop }: IVideoProps) {
+export interface VideoRef {
+  pause: () => void;
+}
+
+const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted, loop }, ref) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const [isMuted, setIsMuted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [percentageWatched, setPercentageWatched] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [videoTotalTime, setVideoTotalTime] = useState<number | null>(null);
 
+  const videoTotalTime = videoRef.current?.duration;
   const currentVideoTime = videoTotalTime ? (percentageWatched * videoTotalTime) / 100 : 0;
 
   // Memoize handlers to prevent unnecessary re-renders
@@ -110,8 +114,13 @@ export default function Video({ src, poster, autoPlay, muted, loop }: IVideoProp
     const pointClick = e.pageX;
     const offset = e.currentTarget.getBoundingClientRect();
     const seekPercentage = (pointClick - offset.left) / e.currentTarget.clientWidth * 100;
+
     handleSeek(seekPercentage * videoTotalTime! / 100);
   }
+
+  useImperativeHandle(ref, () => ({
+    pause: handlePause
+  }));
 
   return (
     <div className="relative group w-full aspect-video rounded-lg overflow-hidden bg-black">
@@ -169,15 +178,14 @@ export default function Video({ src, poster, autoPlay, muted, loop }: IVideoProp
         loop={loop}
         playsInline
         ref={videoRef}
-        onLoadedMetadata={() => {
-          if (videoRef.current) {
-            setVideoTotalTime(videoRef.current.duration);
-          }
-        }}
       >
         <source src={src} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>
   )
-}
+});
+
+Video.displayName = 'Video';
+
+export default Video;
