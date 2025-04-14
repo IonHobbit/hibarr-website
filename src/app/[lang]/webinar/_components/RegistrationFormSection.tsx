@@ -6,12 +6,18 @@ import { WebinarPage } from "@/types/sanity.types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useFormik } from "formik";
 import Countdown from "./Countdown";
-
+import { useRouter } from "next/navigation";
+import useURL from "@/hooks/useURL";
 type RegistrationFormSectionProps = {
   data: WebinarPage;
 };
 
 export default function RegistrationFormSection({ data }: RegistrationFormSectionProps) {
+  const router = useRouter();
+  const { searchParams } = useURL();
+
+  const registration = searchParams.get('registration');
+
   const { values, handleChange, handleSubmit, isValid } = useFormik({
     initialValues: {
       firstName: '',
@@ -21,8 +27,11 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
     },
     onSubmit: (values) => {
       console.log(values);
+      router.push('/webinar?registration=true#register');
     },
-  })
+  });
+
+  console.log(registration)
 
   return (
     <section id='register' className='bg-primary bg-[url("/images/webinar-registration-background.webp")] bg-cover bg-center flex flex-col bg-blend-soft-light'>
@@ -39,34 +48,43 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
               ))}
             </div>
           </div>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-6 bg-background rounded-lg justify-between h-full md:max-w-md mx-auto w-full">
-            <h3 className="text-xl md:text-2xl text-center">{data.registrationSection?.form?.title ?? 'Register for the webinar'}</h3>
-            <Input type="text" title={data.registrationSection?.form?.firstName ?? 'First Name'}
-              placeholder={data.registrationSection?.form?.firstName ?? 'First Name'}
-              name="firstName"
-              value={values.firstName}
-              onChange={handleChange}
-            />
-            <Input type="text" title={data.registrationSection?.form?.lastName ?? 'Last Name'}
-              placeholder={data.registrationSection?.form?.lastName ?? 'Last Name'}
-              name="lastName"
-              value={values.lastName}
-              onChange={handleChange}
-            />
-            <Input type="email" title={data.registrationSection?.form?.email ?? 'Email'}
-              placeholder={data.registrationSection?.form?.email ?? 'Email'}
-              name="email"
-              value={values.email}
-              onChange={handleChange}
-            />
-            <Input type="tel" title={data.registrationSection?.form?.phone ?? 'Phone'}
-              placeholder={data.registrationSection?.form?.phone ?? 'Phone'}
-              name="phone"
-              value={values.phone}
-              onChange={handleChange}
-            />
-            <Button type="submit" disabled={!isValid}>{data.registrationSection?.form?.submitButton ?? 'Register'}</Button>
-          </form>
+
+          {registration === 'true' ?
+            <div className="flex flex-col gap-4 p-6 bg-background rounded-lg justify-between h-max md:max-w-md mx-auto w-full">
+              <h3 className="text-xl md:text-3xl text-center">Registration successful</h3>
+              <p className="text-sm text-center">Thank you for registering for the webinar. We will send you a confirmation email shortly.</p>
+              <p className="text-sm text-center">We look forward to seeing you at the webinar.</p>
+            </div>
+            :
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-6 bg-background rounded-lg justify-between h-full md:max-w-md mx-auto w-full">
+              <h3 className="text-xl md:text-2xl text-center">{data.registrationSection?.form?.title ?? 'Register for the webinar'}</h3>
+              <Input type="text" title={data.registrationSection?.form?.firstName ?? 'First Name'}
+                placeholder={data.registrationSection?.form?.firstName ?? 'First Name'}
+                name="firstName"
+                value={values.firstName}
+                onChange={handleChange}
+              />
+              <Input type="text" title={data.registrationSection?.form?.lastName ?? 'Last Name'}
+                placeholder={data.registrationSection?.form?.lastName ?? 'Last Name'}
+                name="lastName"
+                value={values.lastName}
+                onChange={handleChange}
+              />
+              <Input type="email" title={data.registrationSection?.form?.email ?? 'Email'}
+                placeholder={data.registrationSection?.form?.email ?? 'Email'}
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+              />
+              <Input type="tel" title={data.registrationSection?.form?.phone ?? 'Phone'}
+                placeholder={data.registrationSection?.form?.phone ?? 'Phone'}
+                name="phone"
+                value={values.phone}
+                onChange={handleChange}
+              />
+              <Button type="submit" disabled={!isValid}>{data.registrationSection?.form?.submitButton ?? 'Register'}</Button>
+            </form>
+          }
         </div>
       </div>
     </section >

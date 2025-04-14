@@ -18,7 +18,7 @@ export default function AboutHostSection({ data }: AboutHostSectionProps) {
           <p className="text-muted-foreground">{data?.paragraph2}</p>
         </div>
         <div className="relative w-full md:rounded-full overflow-hidden aspect-square order-first md:order-last">
-          <Image src="/images/rabih.jpg" alt="Rabih" fill className='object-cover' />
+          <Image src="/images/rabih.jpg" sizes="100%" alt="Rabih" fill className='object-cover' />
         </div>
       </div>
     </section>
