@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { HomePage } from '@/types/sanity.types';
+import BounceCards from '@/components/bits/BounceCards/BounceCards';
 
 type AboutSectionProps = {
   data: HomePage;
@@ -47,7 +48,15 @@ export default function AboutSection({ data }: AboutSectionProps) {
           </Button>
         </div>
         <div>
-          <Image src="/images/about-image.jpg" alt="Hibarr Logo" width={600} height={600} />
+          <BounceCards
+            enableHover={true}
+            images={[
+              '/images/about/home/about-image.jpg',
+              '/images/about/home/about-hero.jpg',
+              '/images/about/home/about24.png',
+              '/images/about/home/about1.jpg',
+              '/images/about/home/about2.jpg']}
+          />
         </div>
       </div>
     </section>
