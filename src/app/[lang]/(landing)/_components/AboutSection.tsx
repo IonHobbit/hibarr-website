@@ -9,7 +9,7 @@ type AboutSectionProps = {
 
 export default function AboutSection({ data }: AboutSectionProps) {
   return (
-    <section id='about' className='section min-h-screen'>
+    <section id='about' className='section'>
       <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-10">
         <div>
           <Image src="/logos/logomark.svg" alt="Hibarr Logo" width={400} height={400} />

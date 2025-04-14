@@ -84,10 +84,12 @@ export default async function PropertyPage(
         <div className="section">
           <div className="grid grid-cols-1 md:grid-cols-7 gap-6">
             <div className="flex flex-col gap-6 md:col-span-5">
-              <div className="bg-secondary rounded-lg p-8 flex flex-col gap-2">
-                <p className='text-xl font-medium'>Description</p>
-                <p className='text-lg'>{property.description}</p>
-              </div>
+              {property.description && (
+                <div className="bg-secondary rounded-lg p-8 flex flex-col gap-2">
+                  <p className='text-xl font-medium'>Description</p>
+                  <p className='text-lg'>{property.description}</p>
+                </div>
+              )}
               <div className="bg-secondary rounded-lg p-8 flex flex-col gap-4">
                 <p className='text-xl font-medium'>Details</p>
                 <div className="grid grid-cols-2 gap-4">
