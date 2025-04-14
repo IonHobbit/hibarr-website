@@ -22,10 +22,6 @@ export default function CaseStudies({ caseStudies }: CaseStudiesProps) {
     });
   }
 
-  const handleNavigation = (e: React.MouseEvent<HTMLButtonElement>) => {
-    handlePause();
-  }
-
   return (
     <Carousel opts={{ loop: true }}>
       <CarouselContent>
