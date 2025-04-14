@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function WebinarSection() {
   return (
-    <section id='free-webinar' className='bg-gray-50 '>
+    <section id='free-webinar' className='bg-gray-50/60'>
       <div className="section md:min-h-[50vh]">
         <div className="flex flex-col items-center gap-1.5">
           <h3 className='text-2xl md:text-4xl text-center md:text-left'>Unlock Exclusive North Cyprus Real Estate Opportunities</h3>
@@ -19,7 +20,9 @@ export default function WebinarSection() {
               <h3 className='text-2xl md:text-3xl'>Benefits of joining our webinar</h3>
               <p className='text-sm md:text-base'>Joining our webinar offers you direct access to market insights, expert strategies, and actionable techniques to boost your results. Whether you&apos;re just starting or an experienced professional, you&apos;ll find valuable knowledge tailored to your level. The webinar provides opportunities to network with other professionals, learn from industry leaders, and hear real-world experiences. Plus, you&apos;ll gain all this at no cost price, without the need to search for information elsewhere.</p>
             </div>
-            <Button size="lg" variant="accent" className='w-full md:w-max font-semibold'>Join Here</Button>
+            <Button size="lg" variant="accent" className='w-full md:w-max font-semibold' asChild>
+              <Link href="/webinar">Join Here</Link>
+            </Button>
           </div>
           <div className="relative w-full h-80 md:h-full">
             <Image src="/images/freebie-image.webp" alt="Webinar" fill sizes="100%" className="object-cover" />

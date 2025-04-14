@@ -26,7 +26,9 @@ export default function ScrollToTop() {
     };
   }, []);
   return (
-    <div onClick={scrollToTop} className={cn("fixed bottom-4 right-4 md:bottom-16 md:right-16 size-10 bg-primary rounded-full flex items-center justify-center transition-all duration-700", isVisible ? 'opacity-100 cursor-pointer' : 'opacity-0 -z-50')}>
+    <div
+      onClick={scrollToTop}
+      className={cn("fixed bottom-4 right-4 md:bottom-16 md:right-16 border size-10 bg-primary rounded-full flex items-center justify-center transition-all duration-700", isVisible ? 'opacity-100 cursor-pointer' : 'opacity-0 -z-50')}>
       <Icon icon="mdi:arrow-up" className="text-primary-foreground" />
     </div>
   )

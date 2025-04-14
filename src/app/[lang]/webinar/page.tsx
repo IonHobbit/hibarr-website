@@ -81,7 +81,7 @@ export default async function ZoomRegistrationPage(
           </div>
         </div>
       </section>
-      <section className='bg-primary bg-[url("https://hibarr.de/wp-content/uploads/2025/03/line-wave-background-gradient-style-template.webp")] bg-blend-overlay bg-cover bg-center'>
+      <section className='bg-primary bg-[url("/images/wave-background.webp")] bg-blend-overlay bg-cover bg-center'>
         <div className="sectiion grid place-items-center place-content-center gap-10 py-10 max-w-screen-md mx-auto">
           <h3 className='text-4xl text-primary-foreground text-center'>Ready to learn how to buy two properties for the price of one?</h3>
           <Button className="w-max" variant="accent" asChild>
@@ -90,7 +90,7 @@ export default async function ZoomRegistrationPage(
         </div>
       </section>
       <AboutHostSection data={aboutPage.aboutRabihSection} />
-      <section className='bg-primary bg-[url("https://hibarr.de/wp-content/uploads/2025/03/line-wave-background-gradient-style-template.webp")] bg-blend-overlay bg-cover bg-center'>
+      <section className='bg-primary bg-[url("/images/wave-background.webp")] bg-blend-overlay bg-cover bg-center'>
         <div className="sectiion grid place-items-center place-content-center gap-10 py-20 max-w-screen-md mx-auto">
           <h3 className='text-4xl text-primary-foreground text-center'>Unlocking Success in Exclusive Real Estate with Rabih Rabea</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
