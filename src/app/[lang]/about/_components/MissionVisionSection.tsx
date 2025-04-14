@@ -21,7 +21,7 @@ export default function MissionVisionSection({ data }: MissionVisionSectionProps
           <p className="">
             {data?.vision?.content}
           </p>
-          <Button variant="accent" className='w-max' asChild>
+          <Button variant="accent" size="lg" className='w-max' asChild>
             <Link href={data?.CTA?.url ?? ''}>
               {data?.CTA?.label}
             </Link>

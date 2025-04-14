@@ -75,7 +75,7 @@ export default async function ZoomRegistrationPage(
                 </div>
               ))}
             </div>
-            <Button className="w-max" variant="accent" asChild>
+            <Button className="w-max" size="lg" variant="accent" asChild>
               <Link href={webinarPage?.benefitsSection?.CTA?.url ?? ''}>{webinarPage?.benefitsSection?.CTA?.label}</Link>
             </Button>
           </div>
@@ -84,7 +84,7 @@ export default async function ZoomRegistrationPage(
       <section className='bg-primary bg-[url("/images/wave-background.webp")] bg-blend-overlay bg-cover bg-center'>
         <div className="sectiion grid place-items-center place-content-center gap-10 py-10 max-w-screen-md mx-auto">
           <h3 className='text-4xl text-primary-foreground text-center'>Ready to learn how to buy two properties for the price of one?</h3>
-          <Button className="w-max" variant="accent" asChild>
+          <Button className="w-max" variant="accent" size="lg" asChild>
             <Link href={webinarPage?.benefitsSection?.CTA?.url ?? ''}>{webinarPage?.benefitsSection?.CTA?.label}</Link>
           </Button>
         </div>

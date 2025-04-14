@@ -24,8 +24,8 @@ export default async function TestimonialsSection({ lang }: TestimonialsSectionP
           <div className="flex items-end justify-center w-full gap-2">
             <h3 className="text-3xl font-bold text-center">{data?.testimonialsSection?.title}</h3>
           </div>
-          <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl text-accent absolute -top-10 left-10' />
-          <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl rotate-180 text-accent absolute -top-10 right-10' />
+          <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl text-primary absolute -top-10 left-10' />
+          <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl rotate-180 text-primary absolute -top-10 right-10' />
         </div>
         <Carousel opts={{ loop: true }}>
           <CarouselContent>
@@ -43,10 +43,10 @@ export default async function TestimonialsSection({ lang }: TestimonialsSectionP
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className='border-none translate-x-16 md:translate-x-0 translate-y-[450%] md:translate-y-0 bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
-          <CarouselNext className='border-none -translate-x-16 md:translate-x-0 translate-y-[450%] md:translate-y-0 bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
+          <CarouselPrevious className='border-none translate-x-16 md:translate-x-0 translate-y-[450%] md:translate-y-0 bg-primary hover:bg-primary/80 cursor-pointer disabled:opacity-0' />
+          <CarouselNext className='border-none -translate-x-16 md:translate-x-0 translate-y-[450%] md:translate-y-0 bg-primary hover:bg-primary/80 cursor-pointer disabled:opacity-0' />
         </Carousel>
-        <Button variant="link" className='w-max mx-auto' asChild>
+        <Button variant="link" className='w-max mx-auto text-accent' asChild>
           <Link href={data?.testimonialsSection?.CTA?.url ?? ''}>
             {data?.testimonialsSection?.CTA?.label}
           </Link>

@@ -15,7 +15,7 @@ export default function CallToActionSection({ data }: CallToActionSectionProps) 
             <h3 className='text-4xl text-center text-primary-foreground'>{data?.title}</h3>
             <p className="text-primary-foreground text-center max-w-screen-md mx-auto">{data?.description}</p>
           </div>
-          <Button className="w-fit mx-auto" variant="accent" asChild>
+          <Button className="w-fit mx-auto" variant="accent" size="lg" asChild>
             <Link href={data?.CTA?.url ?? ''} className="uppercase font-semibold whitespace-break-spaces">
               {data?.CTA?.label}
             </Link>

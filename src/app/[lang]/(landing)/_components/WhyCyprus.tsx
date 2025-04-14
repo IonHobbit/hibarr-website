@@ -27,7 +27,7 @@ export default function WhyCyprus({ data, link }: WhyCyprusProps) {
               </div>
             ))}
           </div>
-          <Button className="w-max" variant="accent" asChild>
+          <Button className="w-max" variant="accent" size="lg" asChild>
             <Link href={link ?? data?.CTA?.url ?? ''}>{data?.CTA?.label}</Link>
           </Button>
         </div>

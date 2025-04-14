@@ -18,7 +18,7 @@ export default function MeetRabih({ data }: MeetRabihProps) {
           </div>
           <p className="text-muted-foreground">{data?.paragraph1}</p>
           <p className="text-muted-foreground">{data?.paragraph2}</p>
-          <Button variant="accent" className='w-max' asChild>
+          <Button variant="accent" size="lg" className='w-max' asChild>
             <Link href={data?.CTA?.url ?? ''}>
               {data?.CTA?.label}
             </Link>
