@@ -27,7 +27,7 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
       <div className="flex flex-col justify-center gap-4 min-h-[40vh] w-full overflow-hidden md:overflow-visible max-w-screen-sm md:max-w-screen-md mx-auto">
         <div className="relative w-full mx-auto">
           <div className="flex items-end justify-center w-full gap-2">
-            <h3 className="text-3xl font-bold text-center">{data?.testimonialsSection?.title}</h3>
+            <h3 className="text-3xl md:text-4xl text-center">{data?.testimonialsSection?.title}</h3>
           </div>
           <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl text-primary absolute -top-10 left-10' />
           <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl rotate-180 text-primary absolute -top-10 right-10' />
@@ -43,7 +43,7 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
                     </div>
                   )}
                   <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'items-center', 'flex flex-col gap-2')}>
-                    <p className={cn(showImage && testimonial.clientImage ? 'text-left' : 'text-center', 'text-base font-medium')}>{testimonial.comment}</p>
+                    <p className={cn(showImage && testimonial.clientImage ? 'text-left' : 'text-center', 'text-base md:text-lg font-medium')}>{testimonial.comment}</p>
                     <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'items-center', 'flex flex-col gap-0.5')}>
                       <p className='text-lg text-primary font-medium'>{testimonial.clientName}</p>
                       {testimonial.date && (

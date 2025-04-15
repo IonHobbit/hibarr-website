@@ -12,7 +12,7 @@ export default async function CaseStudiesSection({ data }: CaseStudiesSectionPro
   return (
     <section id='case-studies' className='section md:min-h-[50vh]'>
       <div className="max-w-screen-md mx-auto flex flex-col gap-2">
-        <h3 className="text-3xl font-bold text-center">{data?.title}</h3>
+        <h3 className="text-3xl md:text-4xl font-bold text-center">{data?.title}</h3>
         <p className="text-center md:text-lg text-muted-foreground">{data?.description}</p>
       </div>
       <div className="max-w-screen-md mx-auto w-full overflow-hidden md:overflow-visible">

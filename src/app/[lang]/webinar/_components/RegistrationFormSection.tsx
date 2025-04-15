@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import Countdown from "./Countdown";
 import { useRouter } from "next/navigation";
 import useURL from "@/hooks/useURL";
+
 type RegistrationFormSectionProps = {
   data: WebinarPage;
 };
@@ -31,7 +32,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
     },
   });
 
-  console.log(registration)
+  const isRegistered = registration === 'true';
 
   return (
     <section id='register' className='bg-primary bg-[url("/images/webinar-registration-background.webp")] bg-cover bg-center flex flex-col bg-blend-soft-light'>
@@ -49,7 +50,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
             </div>
           </div>
 
-          {registration === 'true' ?
+          {isRegistered ?
             <div className="flex flex-col gap-4 p-6 bg-background rounded-lg justify-between h-max md:max-w-md mx-auto w-full">
               <h3 className="text-xl md:text-3xl text-center">Registration successful</h3>
               <p className="text-sm text-center">Thank you for registering for the webinar. We will send you a confirmation email shortly.</p>

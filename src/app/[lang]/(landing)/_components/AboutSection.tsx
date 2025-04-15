@@ -34,7 +34,7 @@ export default function AboutSection({ data }: AboutSectionProps) {
         <div className='flex flex-col gap-6'>
           <div className='flex flex-col gap-2'>
             <h3 className="text-3xl font-bold">{data.aboutSection?.title}</h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm md:text-base text-muted-foreground">
               {data.aboutSection?.description}
             </p>
           </div>
