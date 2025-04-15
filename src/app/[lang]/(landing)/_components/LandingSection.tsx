@@ -15,12 +15,12 @@ export default function LandingSection({ data }: LandingSectionProps) {
         <video src="https://vz-da4cd036-d13.b-cdn.net/15ac0674-e562-4448-9853-a4992db2b7ab/play_720p.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover' />
       </div>
 
-      <div className="max-w-4xl text-center flex flex-col gap-10 px-4">
+      <div className="max-w-6xl text-center flex flex-col gap-10 px-4">
         <div className='flex flex-col gap-2'>
-          <h1 className="text-5xl md:text-7xl font-bold mb-4 text-background">
+          <h1 className="text-5xl md:text-8xl font-bold mb-4 text-background">
             {data.title}
           </h1>
-          <p className="text-sm md:text-base text-background">
+          <p className="text-sm md:text-2xl text-background">
             {data.subtitle}
           </p>
         </div>

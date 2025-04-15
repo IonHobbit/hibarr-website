@@ -11,11 +11,15 @@ import { formatDate } from '@/lib/utils'
 
 type TestimonialsSectionProps = {
   lang: Locale;
+  showImage?: boolean;
+  type?: Testimonial['type']
 }
 
-export default async function TestimonialsSection({ lang }: TestimonialsSectionProps) {
+export default async function TestimonialsSection({ lang, type = 'client', showImage = false }: TestimonialsSectionProps) {
   const data = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
-  const testimonials = await client.fetch<Testimonial[]>(`*[_type == "testimonial" && language == $lang][0...3]`, { lang }, { cache: 'no-store' });
+  const testimonials = await client.fetch<Testimonial[]>(`*[_type == "testimonial" && type == $type] | order(date desc)[0...3]`, { type }, { cache: 'no-store' });
+
+  if (testimonials.length === 0) return null;
 
   return (
     <section id='testimonials' className='section'>
@@ -46,7 +50,7 @@ export default async function TestimonialsSection({ lang }: TestimonialsSectionP
           <CarouselPrevious className='border-none translate-x-16 md:translate-x-0 translate-y-[450%] md:translate-y-0 bg-primary hover:bg-primary/80 cursor-pointer disabled:opacity-0' />
           <CarouselNext className='border-none -translate-x-16 md:translate-x-0 translate-y-[450%] md:translate-y-0 bg-primary hover:bg-primary/80 cursor-pointer disabled:opacity-0' />
         </Carousel>
-        <Button variant="link" className='w-max mx-auto text-accent' asChild>
+        <Button variant="link" size="lg" className='w-max mx-auto text-accent' asChild>
           <Link href={data?.testimonialsSection?.CTA?.url ?? ''}>
             {data?.testimonialsSection?.CTA?.label}
           </Link>

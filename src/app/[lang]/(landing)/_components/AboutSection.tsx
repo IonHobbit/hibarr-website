@@ -18,14 +18,14 @@ export default function AboutSection({ data }: AboutSectionProps) {
         <div className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
             <h3 className="text-3xl font-bold">{data.whyUsSection?.title}</h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm md:text-base text-muted-foreground">
               {data.whyUsSection?.description}
             </p>
           </div>
           {data.whyUsSection?.reasons?.map((reason, index) => (
             <div key={index} className='flex flex-col'>
               <p className='text-base font-medium'>{reason.title}</p>
-              <p className='text-sm text-muted-foreground'>{reason.description}</p>
+              <p className='text-sm md:text-base text-muted-foreground'>{reason.description}</p>
             </div>
           ))}
         </div>

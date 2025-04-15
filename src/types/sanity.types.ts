@@ -128,6 +128,30 @@ export type Team = {
   leadership?: boolean
 }
 
+export type Testimonial = {
+  _id: string
+  _type: 'testimonial'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  clientName?: string
+  type?: 'client' | 'webinar-attendee'
+  clientImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  comment?: string
+  date?: string
+}
+
 export type TranslationMetadata = {
   _id: string
   _type: 'translation.metadata'
@@ -145,71 +169,54 @@ export type TranslationMetadata = {
 export type InternationalizedArrayReferenceValue = {
   _type: 'internationalizedArrayReferenceValue'
   value?:
-  | {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'homePage'
-  }
-  | {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'aboutPage'
-  }
-  | {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'testimonialsPage'
-  }
-  | {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'webinarPage'
-  }
-  | {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'navigation'
-  }
-  | {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'consultationPage'
-  }
-  | {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'faq'
-  }
-  | {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'caseStudy'
-  }
-  | {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'testimonial'
-  }
-}
-
-export type Testimonial = {
-  _id: string
-  _type: 'testimonial'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  clientName?: string
-  comment?: string
-  date?: string
+    | {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'homePage'
+      }
+    | {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'aboutPage'
+      }
+    | {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'testimonialsPage'
+      }
+    | {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'webinarPage'
+      }
+    | {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'navigation'
+      }
+    | {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'consultationPage'
+      }
+    | {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'faq'
+      }
+    | {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'caseStudy'
+      }
 }
 
 export type CaseStudy = {
@@ -626,9 +633,9 @@ export type AllSanitySchemaTypes =
   | Slug
   | Footer
   | Team
+  | Testimonial
   | TranslationMetadata
   | InternationalizedArrayReferenceValue
-  | Testimonial
   | CaseStudy
   | SanityImageCrop
   | SanityImageHotspot
