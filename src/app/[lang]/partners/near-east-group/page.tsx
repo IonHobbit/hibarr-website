@@ -58,7 +58,7 @@ export default async function NearEastGroup(
           <div className='flex flex-col items-center gap-6'>
             <Image src="/images/partners/near-east-group/near-east-group-logo.png" alt="Near East Group Logo" width={280} height={280} />
 
-            <p className="text-md md:text-base text-background">
+            <p className="text-md md:text-2xl text-background">
               Building Futures, One Property at a Time – <span className='font-bold'>Near East Group.</span>
             </p>
           </div>
@@ -97,7 +97,7 @@ export default async function NearEastGroup(
               {portfolioAreas.map((area, index) => (
                 <div key={index} className='flex flex-col gap-2 md:basis-[46%] first:md:basis-full'>
                   <h4 className='text-lg md:text-xl'>{area.name}</h4>
-                  <p className='text-sm md:text-base'>{area.description}</p>
+                  <p className='text-sm md:text-lg'>{area.description}</p>
                 </div>
               ))}
             </div>

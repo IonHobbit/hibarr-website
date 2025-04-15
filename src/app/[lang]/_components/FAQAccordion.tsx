@@ -15,7 +15,7 @@ export default async function FAQAccordion({ lang }: FAQAccordionProps) {
       {data?.map((faq, index) => (
         <AccordionItem key={index} value={faq.question ?? ''}>
           <AccordionTrigger>
-            <p className='text-primary-foreground text-lg md:text-xl !font-sans font-light'>{faq.question}</p>
+            <p className='text-primary-foreground text-lg md:text-xl !font-sans font-medium'>{faq.question}</p>
           </AccordionTrigger>
           <AccordionContent>
             <p className='text-sm md:text-lg text-primary-foreground'>{faq.answer}</p>
