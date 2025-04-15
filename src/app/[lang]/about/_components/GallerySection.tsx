@@ -37,8 +37,8 @@ export default function GallerySection({ data }: GallerySectionProps) {
   return (
     <div id='gallery' className='section'>
       <div className='max-w-screen-md mx-auto flex flex-col gap-2'>
-        <h3 className='text-3xl text-center'>{data?.title}</h3>
-        <p className="text-center text-muted-foreground">{data?.description}</p>
+        <h3 className='text-3xl md:text-4xl text-center'>{data?.title}</h3>
+        <p className="text-center text-muted-foreground md:text-lg">{data?.description}</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {gallery.map((item, index) => (

@@ -56,7 +56,7 @@ export default async function PartnersSection({ lang }: PartnersSectionProps) {
 
   return (
     <section id='partners' className='section'>
-      <h3 className='text-3xl font-bold text-center'>{data?.partnersSection?.title}</h3>
+      <h3 className='text-3xl md:text-4xl text-center'>{data?.partnersSection?.title}</h3>
       <div className='relative w-full'>
         <InfiniteMovingCards
           items={partners.map(item => renderLogo(item))}
