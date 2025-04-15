@@ -11,7 +11,7 @@ export default function AboutHostSection({ data }: AboutHostSectionProps) {
       <div className="grid grid-cols-1 md:grid-cols-3 place-items-center gap-10 h-full">
         <div className="flex flex-col gap-6 md:col-span-2">
           <div className="flex flex-col gap-2">
-            <h3 className="text-3xl font-bold">Host: {data?.title}</h3>
+            <h3 className="text-3xl font-bold">{data?.title}</h3>
             <p className="text-muted-foreground">{data?.subTitle}</p>
           </div>
           <p className="text-muted-foreground">{data?.paragraph1}</p>

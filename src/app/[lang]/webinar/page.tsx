@@ -59,7 +59,7 @@ export default async function ZoomRegistrationPage(
       <FeaturedSection />
       <BenefitsSection data={webinarPage?.benefitsSection} />
       <TwoForOneSection data={webinarPage?.benefitsSection} />
-      <AboutHostSection data={aboutPage.aboutRabihSection} />
+      <AboutHostSection data={webinarPage?.aboutHostSection} />
       <StatisticsSection data={webinarPage?.statisticsSection} />
       <TestimonialsSection lang={lang} />
       <WhyCyprus data={homePage.whyCyprusSection} link='#register' />
