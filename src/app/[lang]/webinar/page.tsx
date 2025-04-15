@@ -28,7 +28,6 @@ export default async function ZoomRegistrationPage(
   const { lang } = await props.params;
 
   const homePage = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
-  const aboutPage = await client.fetch<AboutPage>(`*[_type == "aboutPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
   const webinarPage = await client.fetch<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return (
