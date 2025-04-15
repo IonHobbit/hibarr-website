@@ -13,25 +13,10 @@ export default async function CaseStudiesSection({ data }: CaseStudiesSectionPro
     <section id='case-studies' className='section md:min-h-[50vh]'>
       <div className="max-w-screen-md mx-auto flex flex-col gap-2">
         <h3 className="text-3xl font-bold text-center">{data?.title}</h3>
-        <p className="text-center text-muted-foreground">{data?.description}</p>
+        <p className="text-center md:text-lg text-muted-foreground">{data?.description}</p>
       </div>
       <div className="max-w-screen-md mx-auto w-full overflow-hidden md:overflow-visible">
         <CaseStudies caseStudies={caseStudies} />
-        {/* <Carousel opts={{ loop: true }}>
-          <CarouselContent>
-            {caseStudies.map((caseStudy, index) => (
-              <CarouselItem key={index}>
-                <Video
-                  ref={(el) => { videoRefs.current[index] = el as VideoRef }}
-                  src={caseStudy.videoUrl ?? ''}
-                  poster={generateImageUrl(caseStudy.thumbnail as SanityImageSource).url()}
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className='border-none translate-x-16 md:translate-x-0 bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
-          <CarouselNext className='border-none -translate-x-16 md:translate-x-0 bg-accent hover:bg-accent/80 cursor-pointer disabled:opacity-0' />
-        </Carousel> */}
       </div>
     </section>
   )

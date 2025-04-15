@@ -23,7 +23,7 @@ export default function WhyCyprus({ data, link }: WhyCyprusProps) {
           <div className="flex flex-col gap-4">
             {data?.reasons?.map((reason) => (
               <div key={reason.title} className="flex gap-2">
-                <p className="text-sm font-semibold">{reason.title}: <span className="font-normal">{reason.description}</span></p>
+                <p className="text-sm md:text-base font-semibold">{reason.title}: <span className="font-normal">{reason.description}</span></p>
               </div>
             ))}
           </div>

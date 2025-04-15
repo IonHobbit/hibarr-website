@@ -44,7 +44,7 @@ export default async function AboutPage(
       <MissionVisionSection data={data.missionVisionSection} />
       <AboutRabih data={data.aboutRabihSection} />
       <PartnersSection lang={lang} />
-      <TestimonialsSection lang={lang} />
+      <TestimonialsSection lang={lang} showImage />
       <GallerySection data={data.gallerySection} />
       <CallToActionSection data={data.callToActionSection} />
     </Fragment>

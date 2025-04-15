@@ -7,7 +7,8 @@ import Link from 'next/link'
 import { HomePage, Testimonial } from '@/types/sanity.types'
 import { client } from '@/lib/sanity/client'
 import { Locale } from '@/lib/i18n-config';
-import { formatDate } from '@/lib/utils'
+import { cn, formatDate, generateImageUrl } from '@/lib/utils'
+import Image from 'next/image'
 
 type TestimonialsSectionProps = {
   lang: Locale;
@@ -35,13 +36,20 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
           <CarouselContent>
             {testimonials.map((testimonial, index) => (
               <CarouselItem key={index}>
-                <div className='flex flex-col items-center gap-2 p-4 relative'>
-                  <p className='text-base text-center font-medium'>{testimonial.comment}</p>
-                  <div className='flex flex-col items-center gap-0.5'>
-                    <p className='text-lg text-primary font-medium'>{testimonial.clientName}</p>
-                    {testimonial.date && (
-                      <p className='text-sm text-muted-foreground'>{formatDate(testimonial.date)}</p>
-                    )}
+                <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'flex-col items-center', 'flex gap-4 p-4 relative')}>
+                  {showImage && testimonial.clientImage && (
+                    <div className='w-32 h-32 rounded overflow-hidden relative shrink-0'>
+                      <Image src={generateImageUrl(testimonial.clientImage).url()} alt={testimonial.clientName ?? ''} className='w-full h-full object-cover' fill />
+                    </div>
+                  )}
+                  <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'items-center', 'flex flex-col gap-2')}>
+                    <p className={cn(showImage && testimonial.clientImage ? 'text-left' : 'text-center', 'text-base font-medium')}>{testimonial.comment}</p>
+                    <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'items-center', 'flex flex-col gap-0.5')}>
+                      <p className='text-lg text-primary font-medium'>{testimonial.clientName}</p>
+                      {testimonial.date && (
+                        <p className='text-sm text-muted-foreground'>{formatDate(testimonial.date)}</p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </CarouselItem>

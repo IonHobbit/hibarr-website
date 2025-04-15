@@ -14,10 +14,10 @@ export default function MeetRabih({ data }: MeetRabihProps) {
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <h3 className="text-3xl font-bold">{data?.title}</h3>
-            <p className="text-muted-foreground">{data?.subTitle}</p>
+            <p className="text-muted-foreground md:text-lg">{data?.subTitle}</p>
           </div>
-          <p className="text-muted-foreground">{data?.paragraph1}</p>
-          <p className="text-muted-foreground">{data?.paragraph2}</p>
+          <p className="text-muted-foreground md:text-lg">{data?.paragraph1}</p>
+          <p className="text-muted-foreground md:text-lg">{data?.paragraph2}</p>
           <Button variant="accent" size="lg" className='w-max' asChild>
             <Link href={data?.CTA?.url ?? ''}>
               {data?.CTA?.label}
