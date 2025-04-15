@@ -58,10 +58,7 @@ export default async function OscarGroup(
 
   return (
     <Fragment>
-      <section id='root' className="relative grid place-items-center place-content-center h-[60vh] bg-gradient-to-b from-primary via-primary/80 to-transparent">
-        <div className='absolute inset-0 w-full h-full -z-10'>
-          <video src="https://hibarr.de/wp-content/uploads/2025/02/Oscar-group-promo-1.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover' />
-        </div>
+      <section id='root' className="relative grid place-items-center place-content-center h-[60vh] bg-[url('/images/hibarr-oscar.jpg')] bg-cover bg-center bg-no-repeat bg-gradient-to-b from-primary via-primary/80 to-transparent">
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col items-center gap-6'>
             <Image src="/images/partners/oscar-group/oscar-group-logo.png" alt="Oscar Group Logo" width={400} height={400} />
