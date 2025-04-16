@@ -12,7 +12,6 @@ import { useFormik } from "formik";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Fragment } from "react";
 
 type FreebieSignupSectionProps = {
   data: HomePage['freebieSignupSection'];
