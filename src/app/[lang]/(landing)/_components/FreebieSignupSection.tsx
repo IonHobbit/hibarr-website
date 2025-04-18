@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import useRegistrationCheck from "@/hooks/useRegistrationCheck";
 import { cn } from "@/lib/utils";
+import { callZapierWebhook } from "@/lib/zapier";
 import { ZapierUglaPayload } from "@/types/main";
 import { HomePage } from "@/types/sanity.types";
 import { useFormik } from "formik";
@@ -31,10 +32,7 @@ export default function FreebieSignupSection({ data }: FreebieSignupSectionProps
       const payload: ZapierUglaPayload = { firstName: values.firstName, lastName: values.lastName, email: values.email, type: 'ugla' };
 
       try {
-        await fetch("https://hooks.zapier.com/hooks/catch/21571202/20j64i8", {
-          method: 'POST',
-          body: JSON.stringify(payload),
-        });
+        await callZapierWebhook(payload);
         register('/', '#freebie');
       } catch (error) {
         console.error(error);
