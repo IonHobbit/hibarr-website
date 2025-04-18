@@ -19,8 +19,10 @@ type PropertyType = {
   link: string;
 }
 
+type ZapierWebhookType = 'ugla' | 'webinar' | 'consultation'
+
 type ZapierPayload = {
-  type: 'ugla' | 'webinar' | 'consultation'
+  type: ZapierWebhookType
   firstName: string;
   lastName: string;
   email: string;
@@ -37,6 +39,13 @@ type ZapierWebinarPayload = ZapierPayload & {
 
 type ZapierConsultationPayload = Omit<ZapierPayload, 'phoneNumber'> & {
   type: 'consultation'
+  consultationInfo: {
+    country: string
+    interestedIn: string[]
+    budget: string
+    period: string
+    language: string
+  }
 }
 
 export type { NavigationItem, PropertyType, ZapierPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierConsultationPayload }

@@ -8,7 +8,6 @@ import CaseStudiesSection from './_components/CaseStudiesSection';
 import MeetRabih from './_components/MeetRabih';
 import LeadershipTeamSection from './_components/LeadershipTeamSection';
 import CallToActionSection from './_components/CallToActionSection';
-import FreebieSignupSection from './_components/FreebieSignupSection';
 import FeaturedSection from '../_components/FeaturedSection';
 import TestimonialsSection from '@/app/[lang]/_components/TestimonialsSection';
 
@@ -48,7 +47,7 @@ export default async function Home(
       <MeetRabih data={data.meetRabihSection} />
       <LeadershipTeamSection data={data.leadershipTeamSection} />
       <CallToActionSection data={data.callToActionSection} />
-      <FreebieSignupSection data={data.freebieSignupSection} />
+      {/* <FreebieSignupSection data={data.freebieSignupSection} /> */}
     </Fragment>
   );
 } 

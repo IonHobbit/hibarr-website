@@ -6,33 +6,48 @@ import { WebinarPage } from "@/types/sanity.types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useFormik } from "formik";
 import Countdown from "./Countdown";
-import { useRouter } from "next/navigation";
-import useURL from "@/hooks/useURL";
+import useRegistrationCheck from "@/hooks/useRegistrationCheck";
+import { ZapierWebinarPayload } from "@/types/main";
+import { callZapierWebhook } from "@/lib/zapier";
+import { useMutation } from "@tanstack/react-query";
+import * as Yup from 'yup';
 
 type RegistrationFormSectionProps = {
   data: WebinarPage;
 };
 
 export default function RegistrationFormSection({ data }: RegistrationFormSectionProps) {
-  const router = useRouter();
-  const { searchParams } = useURL();
+  const { isRegistered, register } = useRegistrationCheck();
 
-  const registration = searchParams.get('registration');
+  const { mutate } = useMutation({
+    mutationFn: async () => {
+      const payload: ZapierWebinarPayload = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phoneNumber: values.phone,
+        type: 'webinar',
+      }
+      await callZapierWebhook(payload);
+      register('/webinar', '#register');
+    },
+  });
 
-  const { values, handleChange, handleSubmit, isValid } = useFormik({
+  const { values, handleChange, handleSubmit, isValid, errors, touched, setFieldTouched } = useFormik({
     initialValues: {
       firstName: '',
       lastName: '',
       email: '',
       phone: '',
     },
-    onSubmit: (values) => {
-      console.log(values);
-      router.push('/webinar?registration=true#register');
-    },
+    validationSchema: Yup.object().shape({
+      firstName: Yup.string().required('First name is required'),
+      lastName: Yup.string().required('Last name is required'),
+      email: Yup.string().email('Invalid email address, please enter a valid email address').required('Email is required'),
+      phone: Yup.string().required('Phone is required').matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number, please use international format (e.g. +49 123 456 7890)'),
+    }),
+    onSubmit: () => mutate(),
   });
-
-  const isRegistered = registration === 'true';
 
   return (
     <section id='register' className='bg-primary bg-[url("/images/webinar-registration-background.webp")] bg-cover bg-center flex flex-col bg-blend-soft-light'>
@@ -60,28 +75,40 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
             <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-6 bg-background rounded-lg justify-between h-full md:max-w-md mx-auto w-full">
               <h3 className="text-xl md:text-2xl text-center">{data.registrationSection?.form?.title ?? 'Register for the webinar'}</h3>
               <Input type="text" title={data.registrationSection?.form?.firstName ?? 'First Name'}
-                placeholder={data.registrationSection?.form?.firstName ?? 'First Name'}
+                placeholder="eg. John"
                 name="firstName"
+                required
                 value={values.firstName}
                 onChange={handleChange}
+                onBlur={() => setFieldTouched('firstName', true)}
+                error={errors.firstName && touched.firstName ? errors.firstName : undefined}
               />
               <Input type="text" title={data.registrationSection?.form?.lastName ?? 'Last Name'}
-                placeholder={data.registrationSection?.form?.lastName ?? 'Last Name'}
+                placeholder="eg. Doe"
                 name="lastName"
+                required
                 value={values.lastName}
                 onChange={handleChange}
+                onBlur={() => setFieldTouched('lastName', true)}
+                error={errors.lastName && touched.lastName ? errors.lastName : undefined}
               />
               <Input type="email" title={data.registrationSection?.form?.email ?? 'Email'}
-                placeholder={data.registrationSection?.form?.email ?? 'Email'}
+                placeholder="eg. john.doe@example.com"
                 name="email"
+                required
                 value={values.email}
                 onChange={handleChange}
+                onBlur={() => setFieldTouched('email', true)}
+                error={errors.email && touched.email ? errors.email : undefined}
               />
               <Input type="tel" title={data.registrationSection?.form?.phone ?? 'Phone'}
-                placeholder={data.registrationSection?.form?.phone ?? 'Phone'}
+                placeholder="eg. +49 123 456 7890"
                 name="phone"
+                required
                 value={values.phone}
                 onChange={handleChange}
+                onBlur={() => setFieldTouched('phone', true)}
+                error={errors.phone && touched.phone ? errors.phone : undefined}
               />
               <Button type="submit" disabled={!isValid}>{data.registrationSection?.form?.submitButton ?? 'Register'}</Button>
             </form>

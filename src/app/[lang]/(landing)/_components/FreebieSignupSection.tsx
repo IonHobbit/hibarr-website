@@ -4,14 +4,13 @@ import ThreeDBook from "@/components/ThreeDBook";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import useURL from "@/hooks/useURL";
+import useRegistrationCheck from "@/hooks/useRegistrationCheck";
 import { cn } from "@/lib/utils";
 import { ZapierUglaPayload } from "@/types/main";
 import { HomePage } from "@/types/sanity.types";
 import { useFormik } from "formik";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 type FreebieSignupSectionProps = {
   data: HomePage['freebieSignupSection'];
@@ -19,10 +18,7 @@ type FreebieSignupSectionProps = {
 
 export default function FreebieSignupSection({ data }: FreebieSignupSectionProps) {
 
-  const router = useRouter();
-  const { searchParams } = useURL();
-
-  const register = searchParams.get('register');
+  const { isRegistered, register } = useRegistrationCheck();
 
   const { values, isValid, setFieldValue, handleChange, handleSubmit } = useFormik({
     initialValues: {
@@ -39,14 +35,12 @@ export default function FreebieSignupSection({ data }: FreebieSignupSectionProps
           method: 'POST',
           body: JSON.stringify(payload),
         });
-        router.push('/?register=done#freebie');
+        register('/', '#freebie');
       } catch (error) {
         console.error(error);
       }
     },
   })
-
-  const isRegistered = register === 'done';
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
