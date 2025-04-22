@@ -1,10 +1,7 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { listings } from '@/lib/mockdata';
 import React, { Fragment } from 'react'
 import ListingImages from './_components/ListingImages';
-import { Textarea } from '@/components/ui/textarea';
 import EnquiryForm from './_components/EnquiryForm';
 
 export async function generateMetadata(props: { params: Promise<{ id: string }> }) {

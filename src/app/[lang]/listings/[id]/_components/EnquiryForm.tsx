@@ -30,7 +30,7 @@ export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
     }
   })
 
-  const { values, errors, touched, isValid, setFieldTouched, handleChange, handleSubmit } = useFormik<ZapierPropertyEnquiryPayload>({
+  const { values, errors, touched, setFieldTouched, handleChange, handleSubmit } = useFormik<ZapierPropertyEnquiryPayload>({
     initialValues: {
       firstName: '',
       lastName: '',
