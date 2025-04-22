@@ -5,6 +5,7 @@ import { listings } from '@/lib/mockdata';
 import React, { Fragment } from 'react'
 import ListingImages from './_components/ListingImages';
 import { Textarea } from '@/components/ui/textarea';
+import EnquiryForm from './_components/EnquiryForm';
 
 export async function generateMetadata(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
@@ -32,11 +33,6 @@ export default async function PropertyPage(
 
   return (
     <Fragment>
-      {/* <section id='root'
-        style={{ backgroundImage: `url(${property.images[1]})` }}
-        className="pt-40 pb-20 xl:pt-32 relative grid place-items-center place-content-center min-h-[40vh] bg-cover bg-center bg-no-repeat">
-        <div className='absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/40 to-transparent'></div>
-      </section> */}
       <section className='section mt-[76px] gap-6'>
         <Breadcrumb>
           <BreadcrumbList>
@@ -141,19 +137,7 @@ export default async function PropertyPage(
               </div>
             </div>
             <div className="flex flex-col gap-4 md:col-span-2 relative w-full">
-              <div className="sticky top-20 bg-secondary rounded-lg p-8 flex flex-col gap-4">
-                <p className='text-xl font-medium'>Interested in this property?</p>
-                <p className='text-sm text-muted-foreground'>Fill out the form below to get more information</p>
-                <div className="flex flex-col gap-2">
-                  <Input type='text' placeholder='Name' />
-                  <Input type='email' placeholder='Email' />
-                  <Input type='tel' placeholder='Phone' />
-                  <Textarea placeholder='Comment' />
-                </div>
-                <Button className='w-full' size='lg' variant='accent'>
-                  Enquire Now
-                </Button>
-              </div>
+              <EnquiryForm propertyId={property.id} />
             </div>
           </div>
         </div>

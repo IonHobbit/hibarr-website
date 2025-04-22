@@ -1,6 +1,6 @@
-import { ZapierConsultationPayload, ZapierUglaPayload, ZapierWebinarPayload } from "@/types/main"
+import { ZapierConsultationPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierPropertyEnquiryPayload } from "@/types/main"
 
-const callZapierWebhook = async (payload: ZapierUglaPayload | ZapierConsultationPayload | ZapierWebinarPayload) => {
+const callZapierWebhook = async (payload: ZapierUglaPayload | ZapierConsultationPayload | ZapierWebinarPayload | ZapierPropertyEnquiryPayload) => {
   try {
     const response = await fetch('https://hooks.zapier.com/hooks/catch/21571202/20j64i8/', {
       method: 'POST',
