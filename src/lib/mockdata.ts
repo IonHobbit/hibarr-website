@@ -1032,6 +1032,14 @@ export const propertyTypes = [
     label: 'Apartment',
   },
   {
+    value: 'villa',
+    label: 'Villa',
+  },
+  {
+    value: 'studio',
+    label: 'Studio',
+  },
+  {
     value: 'bungalow',
     label: 'Bungalow',
   },
@@ -1060,16 +1068,8 @@ export const propertyTypes = [
     label: 'Maisonette',
   },
   {
-    value: 'studio',
-    label: 'Studio',
-  },
-  {
     value: 'townhouse',
     label: 'Townhouse',
-  },
-  {
-    value: 'villa',
-    label: 'Villa',
   },
 ]
 

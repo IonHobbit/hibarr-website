@@ -17,7 +17,7 @@ export default async function Header(
   const data = await client.fetch<Navigation>(`*[_type == "navigation" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return (
-    <header className="absolute top-0 z-20 w-full h-[75px] flex items-center bg-primary/90">
+    <header className="absolute top-0 z-20 w-full h-[75px] flex items-center bg-gradient-to-b from-primary/90 to-transparent">
       <nav className="section py-6 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between gap-2 items-center">
           <Link href={`/${lang}`}>

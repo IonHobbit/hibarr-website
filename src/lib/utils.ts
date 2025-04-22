@@ -15,3 +15,9 @@ export function formatDate(date: string) {
 export function generateImageUrl(image: SanityImageSource) {
   return createImageUrlBuilder(client).image(image);
 }
+
+export function joinWith(array: string[], conjunction?: string) {
+  if (array.length === 0) return '';
+  if (array.length === 1) return array[0];
+  return array.slice(0, -1).join(', ') + ' ' + (conjunction || 'and') + ' ' + array.slice(-1)[0];
+}

@@ -5,19 +5,28 @@ import Property from "./Property";
 import { Pagination, PaginationNext } from "@/components/ui/pagination";
 import { PaginationContent, PaginationItem, PaginationLink, PaginationPrevious } from "@/components/ui/pagination";
 import useURL from "@/hooks/useURL";
+import { joinWith } from "@/lib/utils";
 
 export default function PropertyList() {
   const { searchParams, updateParams } = useURL();
 
+  const location = searchParams.get('location')?.split(',') || [];
+  const propertyType = searchParams.get('propertyType')?.split(',') || [];
+  const bedrooms = searchParams.get('bedrooms') || '';
+  const bathrooms = searchParams.get('bathrooms') || '';
+  const features = searchParams.get('features')?.split(',') || [];
+  const minPrice = parseInt(searchParams.get('minPrice') || '0');
+  const maxPrice = parseInt(searchParams.get('maxPrice') || '0');
+
   const { data: listings, paginationInfo } = useListings(
     {
-      location: searchParams.get('location')?.split(',') || [],
-      propertyType: searchParams.get('propertyType')?.split(',') || [],
-      bedrooms: searchParams.get('bedrooms') || '',
-      bathrooms: searchParams.get('bathrooms') || '',
-      features: searchParams.get('features')?.split(',') || [],
-      minPrice: parseInt(searchParams.get('minPrice') || '0'),
-      maxPrice: parseInt(searchParams.get('maxPrice') || '0'),
+      location,
+      propertyType,
+      bedrooms,
+      bathrooms,
+      features,
+      minPrice,
+      maxPrice,
     },
     parseInt(searchParams.get('page') || '1'),
     parseInt(searchParams.get('limit') || '9'),
@@ -26,8 +35,14 @@ export default function PropertyList() {
   return (
     <section className="section h-full grow">
       {listings?.length === 0 && (
-        <div className="flex flex-col items-center justify-center h-[40vh] grow">
-          <h1 className="text-2xl font-bold">No listings found</h1>
+        <div className="flex flex-col gap-1 items-center justify-center h-[40vh] grow max-w-screen-sm mx-auto">
+          <h1 className="text-2xl font-bold">No {joinWith(propertyType, 'or')} listings found</h1>
+          <p className="text-sm text-muted-foreground text-center">
+            {location.length > 0 ? `in ${joinWith(location, 'or')}` : ''}
+            {bedrooms ? ` with ${bedrooms} bedrooms` : ''}
+            {bathrooms ? ` with ${bathrooms} bathrooms` : ''}
+            {features.length > 0 ? ` with ${features.join(', ')}` : ''}
+            {maxPrice ? ` for less than €${maxPrice.toLocaleString()}` : ''}</p>
         </div>
       )}
       {listings && listings.length > 0 && (

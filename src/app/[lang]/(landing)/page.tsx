@@ -32,7 +32,7 @@ export default async function Home(
       <LandingSection data={data} />
       <FeaturedSection />
       <div className='section'>
-        <div className='bg-primary rounded-lg p-4 py-8 md:py-4 md:px-2'>
+        <div className='bg-primary rounded-lg p-4 py-8 md:py-4 md:px-2 max-w-screen-sm xl:max-w-screen-xl mx-auto'>
           <SearchBar />
         </div>
       </div>

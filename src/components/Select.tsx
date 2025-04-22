@@ -53,7 +53,7 @@ export function Select({ options, placeholder, value, onSelect }: SelectProps) {
           variant="ghost"
           role="combobox"
           aria-expanded={open}
-          className="w-full xl:w-auto xl:min-w-[180px] xl:max-w-[300px] justify-between overflow-hidden"
+          className="w-full xl:w-auto xl:min-w-[180px] xl:max-w-[200px] justify-between overflow-hidden"
         >
           <p className="overflow-hidden text-ellipsis whitespace-nowrap">
             {Array.isArray(value)

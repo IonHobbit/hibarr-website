@@ -9,10 +9,10 @@ interface PropertyProps {
 
 export default function Property({ property }: PropertyProps) {
   return (
-    <Link href={`/listings/${property.id}`} className='border cursor-pointer overflow-hidden'>
-      <div className='relative w-full h-60'>
-        <Image src={property.images[0]} alt={property.name} fill sizes='100%' className='object-cover' />
-        <div className='absolute inset-0 bg-black/20 ' />
+    <Link href={`/listings/${property.id}`} className='border group cursor-pointer overflow-hidden'>
+      <div className='relative w-full h-60 overflow-hidden'>
+        <Image src={property.images[0]} alt={property.name} fill sizes='100%' className='object-cover group-hover:scale-105 transition-all duration-300' />
+        <div className='absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300' />
         <div className='absolute top-4 right-4 z-10 flex items-center gap-2'>
           {property.labels.map((label, index) => (
             <div key={index} className='bg-secondary/90 p-1 px-3'>
@@ -20,7 +20,7 @@ export default function Property({ property }: PropertyProps) {
             </div>
           ))}
         </div>
-        <p className='text-lg font-bold text-primary-foreground absolute bottom-4 left-4'>£{property.price.toLocaleString()}</p>
+        <p className='text-2xl font-semibold text-primary-foreground absolute bottom-4 left-4'>£{property.price.toLocaleString()}</p>
       </div>
       <div className="p-4 flex flex-col gap-2">
         <p className='text-md font-semibold line-clamp-1'>{property.name}</p>

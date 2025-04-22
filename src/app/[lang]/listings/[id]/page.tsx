@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { listings } from '@/lib/mockdata';
 import React, { Fragment } from 'react'
 import ListingImages from './_components/ListingImages';
+import { Textarea } from '@/components/ui/textarea';
 
 export async function generateMetadata(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
@@ -31,6 +32,11 @@ export default async function PropertyPage(
 
   return (
     <Fragment>
+      {/* <section id='root'
+        style={{ backgroundImage: `url(${property.images[1]})` }}
+        className="pt-40 pb-20 xl:pt-32 relative grid place-items-center place-content-center min-h-[40vh] bg-cover bg-center bg-no-repeat">
+        <div className='absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/40 to-transparent'></div>
+      </section> */}
       <section className='section mt-[76px] gap-6'>
         <Breadcrumb>
           <BreadcrumbList>
@@ -49,7 +55,7 @@ export default async function PropertyPage(
         </Breadcrumb>
         <div className="flex items-start flex-wrap gap-4 justify-between">
           <h1 className='text-4xl font-bold'>{property.name}</h1>
-          <p className='text-2xl font-bold'>£{property.price.toLocaleString()}</p>
+          <p className='text-4xl font-bold'>£{property.price.toLocaleString()}</p>
         </div>
         <div className="flex items-center gap-2">
           {
@@ -142,6 +148,7 @@ export default async function PropertyPage(
                   <Input type='text' placeholder='Name' />
                   <Input type='email' placeholder='Email' />
                   <Input type='tel' placeholder='Phone' />
+                  <Textarea placeholder='Comment' />
                 </div>
                 <Button className='w-full' size='lg' variant='accent'>
                   Enquire Now

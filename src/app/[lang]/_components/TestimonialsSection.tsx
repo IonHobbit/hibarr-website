@@ -23,7 +23,7 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
   if (testimonials.length === 0) return null;
 
   return (
-    <section id='testimonials' className='section'>
+    <section id='testimonials' className='section pt-20'>
       <div className="flex flex-col justify-center gap-4 min-h-[40vh] w-full overflow-hidden md:overflow-visible max-w-screen-sm md:max-w-screen-md mx-auto">
         <div className="relative w-full mx-auto">
           <div className="flex items-end justify-center w-full gap-2">

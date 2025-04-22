@@ -8,7 +8,7 @@ import { count, features, locations, propertyTypes } from '@/lib/mockdata';
 import { cn } from '@/lib/utils';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useFormik } from 'formik';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import useURL from '@/hooks/useURL';
 
 export default function SearchBar() {
@@ -18,7 +18,7 @@ export default function SearchBar() {
 
   const [min, max] = [0, 1000000];
 
-  const { values, setFieldValue, handleSubmit } = useFormik({
+  const { values, setFieldValue, handleSubmit, resetForm } = useFormik({
     initialValues: {
       location: searchParams.get('location')?.split(',') || [],
       propertyType: searchParams.get('propertyType')?.split(',') || [],
@@ -41,6 +41,24 @@ export default function SearchBar() {
     }
   })
 
+  const setLocation = (value: string | string[]) => {
+    if (Array.isArray(value)) {
+      setFieldValue('location', value[value.length - 1] === '' ? [''] : value.filter(Boolean));
+    } else {
+      setFieldValue('location', value);
+    }
+    setIsOpen(false);
+  }
+
+  const setPropertyType = (value: string | string[]) => {
+    if (Array.isArray(value)) {
+      setFieldValue('propertyType', value[value.length - 1] === '' ? [''] : value.filter(Boolean));
+    } else {
+      setFieldValue('propertyType', value);
+    }
+    setIsOpen(false);
+  }
+
   const toggleOpen = () => setIsOpen(!isOpen);
 
   return (
@@ -53,24 +71,32 @@ export default function SearchBar() {
         </TabsList>
       </Tabs>
       <div className={cn('bg-secondary w-full rounded-md p-4 flex flex-col items-center gap-4 transition-all duration-300 overflow-hidden')}>
-        <form onSubmit={handleSubmit} className="flex flex-col xl:flex-row items-center gap-4 w-full">
+        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4 w-full">
           <div className="flex flex-wrap md:items-center gap-4 md:overflow-x-auto w-full">
-            <Select placeholder='Location' options={locations} value={values.location} onSelect={(value) => setFieldValue('location', value)} />
-            <Select placeholder='Property type' options={propertyTypes} value={values.propertyType} onSelect={(value) => setFieldValue('propertyType', value)} />
+            <Select placeholder='Location' options={locations} value={values.location} onSelect={setLocation} />
+            <Select placeholder='Property type' options={propertyTypes} value={values.propertyType} onSelect={setPropertyType} />
             <Select placeholder='Bedrooms' options={count.map(_ => ({ ..._, label: `${_.label} Bedrooms` }))} value={values.bedrooms} onSelect={(value) => setFieldValue('bedrooms', value)} />
             <Select placeholder='Bathrooms' options={count.map(_ => ({ ..._, label: `${_.label} Bathrooms` }))} value={values.bathrooms} onSelect={(value) => setFieldValue('bathrooms', value)} />
             <Select placeholder='Features' options={features} value={values.features} onSelect={(value) => setFieldValue('features', value)} />
           </div>
-          <button type='button' onClick={toggleOpen} className='hidden xl:block bg-accent p-2.5 cursor-pointer rounded'>
-            <Icon icon={isOpen ? "mdi:minus" : "mdi:plus"} className='w-4 h-4 text-accent-foreground' />
-          </button>
-          <Button variant='accent' type='submit' className='rounded w-full xl:w-auto'>
-            <Icon icon="mdi:magnify" className='w-4 h-4' />
-            Search
-          </Button>
+          <div className="flex flex-wrap items-center justify-center gap-2 w-full">
+            <Button type='button' onClick={toggleOpen} className='hidden cursor-pointer rounded xl:flex'>
+              <Icon icon={isOpen ? "mdi:minus" : "mdi:plus"} className='w-4 h-4 text-accent-foreground' />
+              Price Range
+            </Button>
+            {(values.location.length > 0 || values.propertyType.length > 0 || parseInt(values.bedrooms) > 0 || parseInt(values.bathrooms) > 0 || values.features.length > 0) && (
+              <Button type='button' onClick={() => resetForm()} className='rounded w-full xl:w-auto'>
+                Reset Filters
+              </Button>
+            )}
+            <Button variant='accent' type='submit' className='rounded w-full xl:w-auto'>
+              <Icon icon="mdi:magnify" className='w-4 h-4' />
+              Search
+            </Button>
+          </div>
         </form>
         {isOpen && (
-          <Fragment>
+          <div className='max-w-lg w-full mx-auto flex flex-col items-center gap-2'>
             <p className='text-sm text-muted-foreground flex items-center gap-2'>
               From <span className='font-semibold text-primary text-lg'>€{values.minPrice.toLocaleString()}</span> to <span className='font-semibold text-primary text-lg'>€{values.maxPrice.toLocaleString()}</span>
             </p>
@@ -83,7 +109,7 @@ export default function SearchBar() {
               min={min}
               max={max}
             />
-          </Fragment>
+          </div>
         )}
       </div>
     </div>
