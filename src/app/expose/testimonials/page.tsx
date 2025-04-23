@@ -23,12 +23,12 @@ export default async function ExposeTestimonialsPage() {
           <h3 className='text-4xl font-bold text-primary-foreground'>Testimonials</h3>
           <p className='text-primary-foreground'>Hear from our clients</p>
         </div>
-        <div className="w-[80vw] md:w-[70vw] h-[70vh] relative overflow-y-auto text-center flex flex-col px-3 lg:px-8 bg-secondary rounded-lg z-10">
+        <div className="w-[80vw] md:w-[70vw] h-[70vh] relative overflow-y-auto text-center px-3 lg:px-8 bg-secondary rounded-lg z-10">
           <CaseStudiesSection data={{ title: '', description: '' }} />
           <section id='stories' className='section pt-0'>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
               {testimonials.map((testimonial, index) => (
-                <div key={index} className='border p-4 rounded-lg flex flex-col gap-4'>
+                <div key={index} className='border p-4 rounded-lg flex flex-col justify-around gap-4'>
                   <Icon icon="icon-park-outline:quote" className='text-4xl text-accent' />
                   <p className='text-sm md:text-lg'>{testimonial.comment}</p>
                   <div className='flex flex-col'>
