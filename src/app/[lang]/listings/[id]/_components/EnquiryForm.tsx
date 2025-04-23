@@ -47,13 +47,16 @@ export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
       phoneNumber: Yup.string().matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number, please use international format (e.g. +491234567890)'),
       comment: Yup.string()
     }),
-    onSubmit: () => {
-      mutate()
-    }
+    onSubmit: () => mutate()
   })
 
+  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    handleSubmit()
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="sticky top-20 bg-secondary rounded-lg p-8 flex flex-col gap-4">
+    <form onSubmit={submitForm} className="sticky top-20 bg-secondary rounded-lg p-8 flex flex-col gap-4">
       {isSuccess ? (
         <div className='flex flex-col gap-2'>
           <p className='text-base font-medium'>Enquiry sent successfully</p>
