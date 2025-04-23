@@ -1,0 +1,48 @@
+import CaseStudiesSection from '@/app/[lang]/(landing)/_components/CaseStudiesSection'
+import { client } from '@/lib/sanity/client'
+import { formatDate } from '@/lib/utils'
+import { Testimonial } from '@/types/sanity.types'
+import { Icon } from '@iconify/react/dist/iconify.js'
+import Image from 'next/image'
+import React from 'react'
+
+export const metadata = {
+  title: 'Expose Testimonials',
+  description: 'Expose Testimonials',
+}
+
+export default async function ExposeTestimonialsPage() {
+  const testimonials = await client.fetch<Testimonial[]>(`*[_type == "testimonial"] | order(date desc)`, {}, { cache: 'no-store' });
+  return (
+    <section id='hero' className="relative w-full overflow-hidden px-4 lg:px-8 grid place-items-center gap-4 place-content-center h-screen bg-[url('/images/testimonials-hero.jpg')] bg-cover bg-center bg-no-repeat">
+      <div className='absolute inset-0 w-full h-full bg-gradient-to-b from-primary via-primary/80 to-transparent'></div>
+
+      <div className='flex flex-col items-center gap-4 z-10'>
+        <Image src="/logos/logo-full-white.svg" alt="Testimonials Hero" width={200} height={40} className='object-cover' />
+        <div className="flex flex-col items-center gap-1">
+          <h3 className='text-4xl font-bold text-primary-foreground'>Testimonials</h3>
+          <p className='text-primary-foreground'>Hear from our clients</p>
+        </div>
+        <div className="w-[70vw] h-[70vh] overflow-y-auto text-center flex flex-col px-4 lg:px-8 bg-secondary pb-4 rounded-lg z-10">
+          <CaseStudiesSection data={{ title: '', description: '' }} />
+          <section id='stories' className='section'>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+              {testimonials.map((testimonial, index) => (
+                <div key={index} className='border p-4 rounded-lg flex flex-col gap-4'>
+                  <Icon icon="icon-park-outline:quote" className='text-4xl text-accent' />
+                  <p className='md:text-lg'>{testimonial.comment}</p>
+                  <div className='flex flex-col'>
+                    <p className='text-lg font-bold'>{testimonial.clientName}</p>
+                    {testimonial.date && (
+                      <p className='text-sm text-muted-foreground'>{formatDate(testimonial.date)}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  )
+}
