@@ -59,7 +59,7 @@ export default function SignupSection({ data }: SignupSectionProps) {
       };
 
       try {
-        // await callZapierWebhook(payload);
+        await callZapierWebhook(payload);
         register('/', 'signup');
       } catch (error) {
         console.error(error);
