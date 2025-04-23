@@ -176,7 +176,7 @@ export default function SignupSection({ data }: SignupSectionProps) {
                     onChange={handleChange}
                     error={errors.alphaCashReferral && touched.alphaCashReferral ? errors.alphaCashReferral : undefined}
                     onBlur={() => setFieldTouched('alphaCashReferral', true)}
-                    placeholder="https://member.alphacashclub.com/shared/register?sponsor=XXXXXXXXX"
+                    placeholder="Enter your Alpha Cash Referral link"
                   />
                 )}
 
