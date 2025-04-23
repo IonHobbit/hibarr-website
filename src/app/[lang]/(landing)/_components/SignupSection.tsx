@@ -71,7 +71,7 @@ export default function SignupSection({ data }: SignupSectionProps) {
     {
       label: 'VIP Package',
       value: 'vip',
-      price: values.isAlphaCashMember ? 1000 : 5000,
+      price: 5000,
     },
     {
       label: 'Bank Package',
