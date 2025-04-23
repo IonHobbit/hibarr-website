@@ -44,7 +44,7 @@ export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
       firstName: Yup.string().required('First name is required'),
       lastName: Yup.string().required('Last name is required'),
       email: Yup.string().email('Invalid email address, please enter a valid email address').required('Email is required'),
-      phoneNumber: Yup.string().matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number, please use international format (e.g. +49 123 456 7890)'),
+      phoneNumber: Yup.string().matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number, please use international format (e.g. +491234567890)'),
       comment: Yup.string()
     }),
     onSubmit: () => {

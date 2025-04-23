@@ -17,6 +17,7 @@ import ConsultationProcessSection from './_components/ConsultationProcessSection
 import SearchBar from '../listings/_components/SearchBar';
 import InvestorCommunitySection from './_components/InvestorCommunitySection';
 import WebinarSection from './_components/WebinarSection';
+import SignupSection from './_components/SignupSection';
 
 export default async function Home(
   props: {
@@ -48,6 +49,7 @@ export default async function Home(
       <LeadershipTeamSection data={data.leadershipTeamSection} />
       <CallToActionSection data={data.callToActionSection} />
       {/* <FreebieSignupSection data={data.freebieSignupSection} /> */}
+      <SignupSection data={data.freebieSignupSection} />
     </Fragment>
   );
 } 
