@@ -209,6 +209,12 @@ export type InternationalizedArrayReferenceValue = {
         _ref: string
         _type: 'reference'
         _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'waitlistPage'
+      }
+    | {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
         [internalGroqTypeReferenceTo]?: 'faq'
       }
     | {
@@ -241,63 +247,6 @@ export type CaseStudy = {
   }
 }
 
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top?: number
-  bottom?: number
-  left?: number
-  right?: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x?: number
-  y?: number
-  height?: number
-  width?: number
-}
-
-export type SanityImageAsset = {
-  _id: string
-  _type: 'sanity.imageAsset'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  originalFilename?: string
-  label?: string
-  title?: string
-  description?: string
-  altText?: string
-  sha1hash?: string
-  extension?: string
-  mimeType?: string
-  size?: number
-  assetId?: string
-  uploadId?: string
-  path?: string
-  url?: string
-  metadata?: SanityImageMetadata
-  source?: SanityAssetSourceData
-}
-
-export type SanityAssetSourceData = {
-  _type: 'sanity.assetSourceData'
-  name?: string
-  id?: string
-  url?: string
-}
-
-export type SanityImageMetadata = {
-  _type: 'sanity.imageMetadata'
-  location?: Geopoint
-  dimensions?: SanityImageDimensions
-  palette?: SanityImagePalette
-  lqip?: string
-  blurHash?: string
-  hasAlpha?: boolean
-  isOpaque?: boolean
-}
-
 export type Faq = {
   _id: string
   _type: 'faq'
@@ -306,6 +255,28 @@ export type Faq = {
   _rev: string
   question?: string
   answer?: string
+}
+
+export type WaitlistPage = {
+  _id: string
+  _type: 'waitlistPage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  seo?: SeoMetaFields
+  title?: string
+  subtitle?: string
+  waitlistForm?: {
+    form?: {
+      title?: string
+      firstName?: string
+      lastName?: string
+      email?: string
+      phone?: string
+      submitButton?: string
+    }
+  }
+  publishedAt?: string
 }
 
 export type ConsultationPage = {
@@ -624,6 +595,146 @@ export type InternationalizedArrayReference = Array<
   } & InternationalizedArrayReferenceValue
 >
 
+export type MetaTag = {
+  _type: 'metaTag'
+  metaAttributes?: Array<
+    {
+      _key: string
+    } & MetaAttribute
+  >
+}
+
+export type MetaAttribute = {
+  _type: 'metaAttribute'
+  attributeKey?: string
+  attributeType?: 'string' | 'image'
+  attributeValueImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  attributeValueString?: string
+}
+
+export type SeoMetaFields = {
+  _type: 'seoMetaFields'
+  nofollowAttributes?: boolean
+  metaTitle?: string
+  metaDescription?: string
+  metaImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  seoKeywords?: Array<string>
+  openGraph?: OpenGraph
+  additionalMetaTags?: Array<
+    {
+      _key: string
+    } & MetaTag
+  >
+  twitter?: Twitter
+}
+
+export type Twitter = {
+  _type: 'twitter'
+  cardType?: string
+  creator?: string
+  site?: string
+  handle?: string
+}
+
+export type OpenGraph = {
+  _type: 'openGraph'
+  url?: string
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  title?: string
+  description?: string
+  siteName?: string
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top?: number
+  bottom?: number
+  left?: number
+  right?: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x?: number
+  y?: number
+  height?: number
+  width?: number
+}
+
+export type SanityImageAsset = {
+  _id: string
+  _type: 'sanity.imageAsset'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  originalFilename?: string
+  label?: string
+  title?: string
+  description?: string
+  altText?: string
+  sha1hash?: string
+  extension?: string
+  mimeType?: string
+  size?: number
+  assetId?: string
+  uploadId?: string
+  path?: string
+  url?: string
+  metadata?: SanityImageMetadata
+  source?: SanityAssetSourceData
+}
+
+export type SanityAssetSourceData = {
+  _type: 'sanity.assetSourceData'
+  name?: string
+  id?: string
+  url?: string
+}
+
+export type SanityImageMetadata = {
+  _type: 'sanity.imageMetadata'
+  location?: Geopoint
+  dimensions?: SanityImageDimensions
+  palette?: SanityImagePalette
+  lqip?: string
+  blurHash?: string
+  hasAlpha?: boolean
+  isOpaque?: boolean
+}
+
 export type AllSanitySchemaTypes =
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -637,12 +748,8 @@ export type AllSanitySchemaTypes =
   | TranslationMetadata
   | InternationalizedArrayReferenceValue
   | CaseStudy
-  | SanityImageCrop
-  | SanityImageHotspot
-  | SanityImageAsset
-  | SanityAssetSourceData
-  | SanityImageMetadata
   | Faq
+  | WaitlistPage
   | ConsultationPage
   | Navigation
   | WebinarPage
@@ -650,4 +757,14 @@ export type AllSanitySchemaTypes =
   | AboutPage
   | HomePage
   | InternationalizedArrayReference
+  | MetaTag
+  | MetaAttribute
+  | SeoMetaFields
+  | Twitter
+  | OpenGraph
+  | SanityImageCrop
+  | SanityImageHotspot
+  | SanityImageAsset
+  | SanityAssetSourceData
+  | SanityImageMetadata
 export declare const internalGroqTypeReferenceTo: unique symbol

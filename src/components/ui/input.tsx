@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 
 function Input({ className, type, title, error, ...props }: React.ComponentProps<"input"> & { error?: string }) {
   return (
-    <div className="relative flex flex-col gap-1">
+    <div className="relative flex flex-col items-start gap-1">
       {title && <label htmlFor={props.id} className="text-sm text-muted-foreground">{title}</label>}
       <input
         type={type}
