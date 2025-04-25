@@ -14,7 +14,7 @@ type PackageCardProps = {
 
 export default function PackageCard({ icon, title, description, price, features, onSelect }: PackageCardProps) {
   return (
-    <Card className='flex flex-col gap-2 h-max'>
+    <Card className='flex flex-col gap-3 h-max'>
       <CardHeader>
         <div className="grid place-items-center size-8 bg-accent rounded-sm mb-4">
           <Icon icon={icon} className='text-primary-foreground' />
@@ -22,9 +22,9 @@ export default function PackageCard({ icon, title, description, price, features,
         <CardTitle className='text-xl font-medium'>{title}</CardTitle>
         <p className='text-sm text-muted-foreground'>{description}</p>
       </CardHeader>
-      <CardContent className='flex flex-col gap-4'>
-        <p className='text-3xl font-semibold'>€{price.toLocaleString()}</p>
-        <Button onClick={onSelect}>Click Here to Register</Button>
+      <CardContent className='flex flex-col gap-3'>
+        <p className='text-4xl font-semibold text-center'>€ {price.toLocaleString()}</p>
+        <Button onClick={onSelect}>Book your package</Button>
         <ul className='flex flex-col gap-2'>
           {features.map((feature) => (
             <li key={feature} className='text-sm font-medium'>{feature}</li>

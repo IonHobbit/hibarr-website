@@ -9,7 +9,6 @@ import { Icon } from '@iconify/react';
 
 import React, { Fragment, useEffect, useState } from 'react'
 import { PopoverClose } from '@radix-ui/react-popover';
-import migrateProperties from '@/lib/sanity/migrateProperties';
 
 
 const salutations = [
@@ -79,12 +78,18 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
     },
   })
 
+  const getMinimumDeposit = minimumDeposit[values.package as keyof typeof minimumDeposit]
+
+  useEffect(() => {
+    setFieldValue('package', activePackageSlug)
+  }, [activePackageSlug])
+
   const sections = [
     {
       title: 'Personal Information',
       component:
         <div className='flex flex-col gap-2'>
-          <p className='font-medium'>Personal Information</p>
+          {/* <p className='font-medium'>Personal Information</p> */}
           <div className='flex flex-col gap-3'>
             <div className="grid grid-cols-2 lg:grid-cols-8 gap-2">
               <div className='col-span-2 overflow-hidden'>
@@ -117,23 +122,23 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
       title: 'Next of Kin',
       component:
         <div className='flex flex-col gap-2'>
-          <p className='font-medium'>Next of Kin Information</p>
+          {/* <p className='font-medium'>Next of Kin Information</p> */}
           <div className="grid grid-cols-2 gap-3">
-            <Input type='text' title='Fathers First Name' name='fathersFirstName' value={values.fathersFirstName} onChange={handleChange} placeholder='eg. John' />
-            <Input type='text' title='Fathers Last Name' name='fathersLastName' value={values.fathersLastName} onChange={handleChange} placeholder='eg. Doe' />
+            <Input type='text' title="Father's First Name" name='fathersFirstName' value={values.fathersFirstName} onChange={handleChange} placeholder='eg. John' />
+            <Input type='text' title="Father's Last Name" name='fathersLastName' value={values.fathersLastName} onChange={handleChange} placeholder='eg. Doe' />
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <Input type='text' title='Mothers First Name' name='mothersFirstName' value={values.mothersFirstName} onChange={handleChange} placeholder='eg. Jane' />
-            <Input type='text' title='Mothers Last Name' name='mothersLastName' value={values.mothersLastName} onChange={handleChange} placeholder='eg. Smith' />
+            <Input type='text' title="Mother's First Name" name='mothersFirstName' value={values.mothersFirstName} onChange={handleChange} placeholder='eg. Jane' />
+            <Input type='text' title="Mother's Last Name" name='mothersLastName' value={values.mothersLastName} onChange={handleChange} placeholder='eg. Smith' />
           </div>
-          <Input type='text' title='Mother&apos;s Maiden Name' name='motherMaidenName' value={values.motherMaidenName} onChange={handleChange} placeholder='eg. Doe' />
+          <Input type='text' title="Mother's Maiden Name" name='motherMaidenName' value={values.motherMaidenName} onChange={handleChange} placeholder='eg. Doe' />
         </div>,
     },
     {
       title: 'Document Uploads',
       component:
         <div className='flex flex-col gap-2'>
-          <p className='font-medium'>Document Uploads</p>
+          {/* <p className='font-medium'>Document Uploads</p> */}
           <div className='flex flex-col gap-3'>
             <Input type='file' value={values.passport} title='Upload Passport' onChange={(e) => setFieldValue('passport', e.target.files?.[0])} placeholder='Upload Passport' />
             <div className="grid grid-cols-2 gap-2">
@@ -149,9 +154,9 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
       component:
         <Fragment>
           <div className='flex flex-col gap-2'>
-            <p className='font-medium'>Banking Details</p>
+            {/* <p className='font-medium'>Banking Details</p> */}
             <div className='grid grid-cols-2 gap-3'>
-              <Input type='number' title='Initial Deposit' min={minimumDeposit[values.package as keyof typeof minimumDeposit]} name='openingBalance' value={values.openingBalance || minimumDeposit[values.package as keyof typeof minimumDeposit]} onChange={handleChange} />
+              <Input type='number' title='Initial Deposit' min={getMinimumDeposit} name='openingBalance' value={values.openingBalance || getMinimumDeposit} onChange={handleChange} />
               <Input type='number' title='Amount to be transferred' name='futureBalance' value={values.futureBalance} onChange={handleChange} />
             </div>
           </div>
@@ -196,27 +201,35 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
   }, [activePackageSlug]);
 
   return (
-    <Card className='max-w-lg w-full mx-auto p-6'>
+    <Card className='max-w-xl w-full mx-auto p-6'>
       <form className='flex flex-col gap-4'>
-        <div className="flex items-center gap-2 rounded-sm px-3 py-2 w-max bg-primary text-primary-foreground">
-          <p className='font-normal'>Package:</p>
-          <Popover>
-            <PopoverTrigger className='cursor-pointer flex items-center gap-2'>
-              {values.package ? (
-                <p className='font-medium'>{packages.find((pkg) => pkg.slug === values.package)?.title} {packages.find((pkg) => pkg.slug === values.package)?.price ? `(€${packages.find((pkg) => pkg.slug === values.package)?.price.toLocaleString()})` : ''}</p>
-              ) : (
-                <p className='font-medium text-muted-foreground'>Select Package</p>
-              )}
-              <Icon icon='mdi:chevron-down' className='w-4 h-4' />
-            </PopoverTrigger>
-            <PopoverContent align='start' className='w-max flex flex-col items-start gap-2'>
-              {packages.map((pack, index) => (
-                <PopoverClose asChild key={index}>
-                  <p className='cursor-pointer w-full' onClick={() => setFieldValue('package', pack.slug)}>{pack.title} {pack.price ? `(€${pack.price.toLocaleString()})` : ''}</p>
-                </PopoverClose>
-              ))}
-            </PopoverContent>
-          </Popover>
+        <div className="flex items-center gap-2">
+          {sections.map((_, index) => (
+            <div key={index} className={`w-full h-1 rounded-full ${activeStep === index ? 'bg-primary' : 'bg-muted'}`} />
+          ))}
+        </div>
+        <div className="flex items-center justify-between">
+          <p className='font-medium'>{sections[activeStep].title}</p>
+          <div className="flex items-center gap-2 rounded-sm px-3 py-2 w-max bg-primary text-primary-foreground shrink-0">
+            <p className='font-normal'>Package:</p>
+            <Popover>
+              <PopoverTrigger className='cursor-pointer flex items-center gap-2'>
+                {values.package ? (
+                  <p className='font-medium'>{packages.find((pkg) => pkg.slug === values.package)?.title} {packages.find((pkg) => pkg.slug === values.package)?.price ? `(€${packages.find((pkg) => pkg.slug === values.package)?.price.toLocaleString()})` : ''}</p>
+                ) : (
+                  <p className='font-medium text-muted-foreground'>Select Package</p>
+                )}
+                <Icon icon='mdi:chevron-down' className='w-4 h-4' />
+              </PopoverTrigger>
+              <PopoverContent align='end' className='w-max flex flex-col items-start gap-2'>
+                {packages.map((pack, index) => (
+                  <PopoverClose asChild key={index}>
+                    <p className='cursor-pointer w-full' onClick={() => setFieldValue('package', pack.slug)}>{pack.title} {pack.price ? `(€${pack.price.toLocaleString()})` : ''}</p>
+                  </PopoverClose>
+                ))}
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
         {sections[activeStep].component}
         <div className="flex items-center gap-2 overflow-hidden justify-between">
