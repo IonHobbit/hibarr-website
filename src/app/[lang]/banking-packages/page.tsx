@@ -78,7 +78,7 @@ export default function BankingPackagesPage() {
 
   const router = useRouter()
 
-  const { values, handleChange, handleSubmit, setFieldValue } = useFormik({
+  const { values, handleChange, setFieldValue } = useFormik({
     initialValues: {
       package: packages[0].slug,
       salutation: 'mr',
@@ -110,7 +110,7 @@ export default function BankingPackagesPage() {
         <div className='flex flex-col gap-3 max-w-2xl mx-auto'>
           <h1 className='text-4xl font-bold text-center'>Our Packages</h1>
           <p className="text-md md:text-center">
-            At HIBARR, we provide tailored banking support for our clients in Northern Cyprus, whether you're seeking a simple account setup or an exclusive real estate-banking combination.
+            At HIBARR, we provide tailored banking support for our clients in Northern Cyprus, whether you&apos;re seeking a simple account setup or an exclusive real estate-banking combination.
           </p>
         </div>
       </section>
