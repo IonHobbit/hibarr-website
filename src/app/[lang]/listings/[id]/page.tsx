@@ -30,7 +30,7 @@ export default async function PropertyPage(
 
   return (
     <Fragment>
-      <section className='section mt-[76px] gap-6'>
+      <section className='section header-offset gap-6'>
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

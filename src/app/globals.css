@@ -153,4 +153,8 @@ h6 {
   .section {
     @apply max-w-screen-xl mx-auto py-10 px-4 sm:px-6 lg:px-8 w-full flex flex-col gap-10;
   }
+
+  .header-offset {
+    @apply mt-[76px];
+  }
 }
