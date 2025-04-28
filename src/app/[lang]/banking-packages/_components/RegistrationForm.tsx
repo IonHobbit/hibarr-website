@@ -107,10 +107,10 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
                 </Select>
               </div>
               <div className='col-span-3'>
-                <Input type='text' title='First Name' name='firstName' value={values.firstName} onChange={handleChange} placeholder='eg. John' />
+                <Input type='text' title='First Name' name='firstName' value={values.firstName} onChange={handleChange} placeholder=' John' />
               </div>
               <div className='col-span-3'>
-                <Input type='text' title='Last Name' name='lastName' value={values.lastName} onChange={handleChange} placeholder='eg. Doe' />
+                <Input type='text' title='Last Name' name='lastName' value={values.lastName} onChange={handleChange} placeholder=' Doe' />
               </div>
             </div>
             <Input type='email' title='Email' name='email' value={values.email} onChange={handleChange} placeholder='eg. john.doe@example.com' />
@@ -179,6 +179,12 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
                   </SelectContent>
                 </Select>
               )}
+              <div className='grid grid-cols-2 gap-3'>
+                  <Input type="datetime" title='Arrival Date + Time'/>
+                  <Input type="datetime" title='Departure Date + Time'/>
+              </div>
+              
+              
               <Input type='file' title='Upload Proof of Travel (with dates, times, flight number & airport)'
                 placeholder='Upload Proof of Travel' />
             </div>

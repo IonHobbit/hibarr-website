@@ -10,7 +10,7 @@ export default function BankingPackagesPage() {
     {
       icon: 'mdi:euro',
       slug: 'free',
-      title: 'Free',
+      title: 'Free-Package',
       description: 'Perfect for independent travelers who want a hassle-free start',
       price: 0,
       features: [
@@ -22,7 +22,7 @@ export default function BankingPackagesPage() {
     {
       icon: 'mdi:bank',
       slug: 'banking',
-      title: 'Banking Package',
+      title: 'VIP-Banking-Package',
       description: 'Ideal for those who value hands-on assistance and comfort',
       price: 1000,
       features: [
@@ -35,7 +35,7 @@ export default function BankingPackagesPage() {
     {
       icon: 'mdi:home',
       slug: 'vip',
-      title: 'VIP Package',
+      title: 'Real-Estate-Package',
       description: 'Best for serious buyers ready to explore real estate opportunities in North Cyprus',
       price: 5000,
       features: [
