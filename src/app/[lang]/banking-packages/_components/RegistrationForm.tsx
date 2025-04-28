@@ -286,7 +286,9 @@ const handleFileChange = (index: number, e: React.ChangeEvent<HTMLInputElement>)
     },
     {
       title: 'Document Uploads 2',
-      component: (
+      component: 
+      <Fragment>
+        
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-3">
             <div className="mb-4">
@@ -311,7 +313,8 @@ const handleFileChange = (index: number, e: React.ChangeEvent<HTMLInputElement>)
             ))}
           </div>
         </div>
-      ),
+      
+      </Fragment>
     },
 
   ]
