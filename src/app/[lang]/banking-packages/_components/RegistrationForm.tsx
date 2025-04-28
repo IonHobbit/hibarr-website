@@ -109,28 +109,28 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
   const getMinimumDeposit = minimumDeposit[values.package as keyof typeof minimumDeposit]
 
 // Dynamic file upload handling
-const [numUploads, setNumUploads] = useState(0);  // Number of fields to generate
-const [fileFields, setFileFields] = useState<any[]>([]);  // Store files for each upload
+// const [numUploads, setNumUploads] = useState(0);  // Number of fields to generate
+// const [fileFields, setFileFields] = useState<any[]>([]);  // Store files for each upload
 
-const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const value = parseInt(e.target.value, 10);
-  if (!isNaN(value) && value > 0) {
-    setNumUploads(value);
-    setFileFields(Array.from({ length: value }, () => null));  // Create array for file tracking
-  } else {
-    setNumUploads(0);
-    setFileFields([]);
-  }
-};
+// const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//   const value = parseInt(e.target.value, 10);
+//   if (!isNaN(value) && value > 0) {
+//     setNumUploads(value);
+//     setFileFields(Array.from({ length: value }, () => null));  // Create array for file tracking
+//   } else {
+//     setNumUploads(0);
+//     setFileFields([]);
+//   }
+// };
 
-const handleFileChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
-  const files = e.target.files;
-  if (files && files[0]) {
-    const updatedFiles = [...fileFields];
-    updatedFiles[index] = files[0];
-    setFileFields(updatedFiles);
-  }
-};
+// const handleFileChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+//   const files = e.target.files;
+//   if (files && files[0]) {
+//     const updatedFiles = [...fileFields];
+//     updatedFiles[index] = files[0];
+//     setFileFields(updatedFiles);
+//   }
+// };
 
 
   useEffect(() => {
@@ -284,38 +284,38 @@ const handleFileChange = (index: number, e: React.ChangeEvent<HTMLInputElement>)
           </div>
         </Fragment>,
     },
-    {
-      title: 'Document Uploads 2',
-      component: 
-      <Fragment>
+    // {
+    //   title: 'Document Uploads 2',
+    //   component: 
+    //   <Fragment>
         
-        <div className="flex flex-col gap-2">
-          <div className="flex flex-col gap-3">
-            <div className="mb-4">
-              <label className="block mb-2 text-white">Enter the number of files to upload</label>
-              <Input
-                type="number"
-                min="1"
-                onChange={handleNumberChange}
-                className="block w-full px-4 py-2 border border-gray-300 rounded"
-              />
-            </div>
-            {/* Render file upload fields dynamically based on the number input */}
-            {fileFields.map((_, index) => (
-              <div key={index} className="mb-4">
-                <label className="block mb-1 text-white">Upload Document #{index + 1}</label>
-                <Input
-                  type="file"
-                  onChange={(e) => handleFileChange(index, e)}
-                  className="block w-full"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+    //     <div className="flex flex-col gap-2">
+    //       <div className="flex flex-col gap-3">
+    //         <div className="mb-4">
+    //           <label className="block mb-2 text-white">Enter the number of files to upload</label>
+    //           <Input
+    //             type="number"
+    //             min="1"
+    //             onChange={handleNumberChange}
+    //             className="block w-full px-4 py-2 border border-gray-300 rounded"
+    //           />
+    //         </div>
+    //         {/* Render file upload fields dynamically based on the number input */}
+    //         {fileFields.map((_, index) => (
+    //           <div key={index} className="mb-4">
+    //             <label className="block mb-1 text-white">Upload Document #{index + 1}</label>
+    //             <Input
+    //               type="file"
+    //               onChange={(e) => handleFileChange(index, e)}
+    //               className="block w-full"
+    //             />
+    //           </div>
+    //         ))}
+    //       </div>
+    //     </div>
       
-      </Fragment>
-    },
+    //   </Fragment>
+    // },
 
   ]
 
