@@ -24,9 +24,24 @@ const salutations = [
     label: 'Ms',
     value: 'ms',
   },
+]
+
+const marital_Status = [
   {
-    label: 'Dr',
-    value: 'dr',
+    label: 'Single',
+    value: 'single',
+  },
+  {
+    label: 'Married',
+    value: 'married',
+  },
+  {
+    label: 'Divorced',
+    value: 'divorced',
+  },
+   {
+    label: 'Widowed',
+    value: 'widowed',
   },
 ]
 
@@ -126,6 +141,37 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
             </div>
             <Input type='email' title='Email' name='email' value={values.email} onChange={handleChange} placeholder=' john.doe@example.com' />
             <Input type='tel' title='Phone Number' name='phone' value={values.phone} onChange={handleChange} placeholder=' +905555555555' />
+            <div className='grid grid-cols-2 gap-3'>
+                  <Input type="date" title='Date of Birth' value={values.dateOfBirth} onChange={handleChange}/>
+                  <Input type="text" title='Place of Birth' value={values.placeOfBirth} onChange={handleChange}/>
+              </div>
+            <Input type='text' title='Street' value={values.address} onChange={handleChange}/>
+            <div className='grid grid-cols-2 lg:grid-cols-8 gap-2'>
+                <div className='col-span-2 overflow-hidden'>
+                  <Input type="number" title='ZIP-code' value={values.zipCode} onChange={handleChange}/>
+                </div>
+                <div className='col-span-3'>
+                  <Input type="Text" title='City' value={values.city} onChange={handleChange}/>
+                </div>
+                <div className='col-span-3'>
+                  <Input type="Text" title='Country' value={values.country} onChange={handleChange}/>
+                </div>
+            </div>
+            <div className='grid grid-cols-2 gap-3'>
+            <Select onValueChange={(value) => setFieldValue('salutation', value)}>
+                  <SelectTrigger title='Marital Status' className='w-full'>
+                    <SelectValue placeholder='Marital status' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {marital_Status.map((marital_Status) => (
+                      <SelectItem key={marital_Status.value} value={marital_Status.value}>
+                        {marital_Status.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                  <Input type="text" title='Profession' value={values.profession} onChange={handleChange}/>
+              </div>  
           </div>
         </div>,
     },
@@ -191,8 +237,8 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
                 </Select>
               )}
               <div className='grid grid-cols-2 gap-3'>
-                  <Input type="datetime" title='Arrival Date + Time' value={values.arrivalDate} onChange={handleChange}/>
-                  <Input type="datetime" title='Departure Date + Time' value={values.departureDate} onChange={handleChange}/>
+                  <Input type="datetime-local" title='Arrival Date + Time' value={values.arrivalDate} onChange={handleChange}/>
+                  <Input type="datetime-local" title='Departure Date + Time' value={values.departureDate} onChange={handleChange}/>
               </div>
               
               
