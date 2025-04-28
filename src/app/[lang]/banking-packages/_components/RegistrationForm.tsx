@@ -97,6 +97,9 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
       country: '',
       maritalStatus: '',
       profession: '',
+      bankAppointment:false,
+      lawyerAppointment:false,
+
     },
     onSubmit: (values) => {
       console.log(values)
@@ -104,6 +107,31 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
   })
 
   const getMinimumDeposit = minimumDeposit[values.package as keyof typeof minimumDeposit]
+
+// Dynamic file upload handling
+const [numUploads, setNumUploads] = useState(0);  // Number of fields to generate
+const [fileFields, setFileFields] = useState<any[]>([]);  // Store files for each upload
+
+const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const value = parseInt(e.target.value, 10);
+  if (!isNaN(value) && value > 0) {
+    setNumUploads(value);
+    setFileFields(Array.from({ length: value }, () => null));  // Create array for file tracking
+  } else {
+    setNumUploads(0);
+    setFileFields([]);
+  }
+};
+
+const handleFileChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const files = e.target.files;
+  if (files && files[0]) {
+    const updatedFiles = [...fileFields];
+    updatedFiles[index] = files[0];
+    setFileFields(updatedFiles);
+  }
+};
+
 
   useEffect(() => {
     setFieldValue('package', activePackageSlug)
@@ -141,10 +169,10 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
             <Input type='email' title='Email' name='email' value={values.email} onChange={handleChange} placeholder=' john.doe@example.com' />
             <Input type='tel' title='Phone Number' name='phone' value={values.phone} onChange={handleChange} placeholder=' +905555555555' />
             <div className='grid grid-cols-2 gap-3'>
-              <Input type="date" title='Date of Birth' name='dateOfBirth' value={values.dateOfBirth} onChange={handleChange} />
+              <Input type="date" title='Date of Birth' name='dateOfBirth' value={values.dateOfBirth} onChange={handleChange}  />
               <Input type="text" title='Place of Birth' name='placeOfBirth' value={values.placeOfBirth} onChange={handleChange} />
             </div>
-            <Input type='text' title='Street' name='address' value={values.address} onChange={handleChange} placeholder='Entert a valid address' />
+            <Input type='text' title='Street' name='address' value={values.address} onChange={handleChange} placeholder='Enter a valid address' />
             <div className='grid grid-cols-2 lg:grid-cols-8 gap-2'>
               <div className='col-span-2 overflow-hidden'>
                 <Input title='ZIP code' name='zipCode' value={values.zipCode} onChange={handleChange} />
@@ -256,6 +284,36 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
           </div>
         </Fragment>,
     },
+    {
+      title: 'Document Uploads 2',
+      component: (
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
+            <div className="mb-4">
+              <label className="block mb-2 text-white">Enter the number of files to upload</label>
+              <Input
+                type="number"
+                min="1"
+                onChange={handleNumberChange}
+                className="block w-full px-4 py-2 border border-gray-300 rounded"
+              />
+            </div>
+            {/* Render file upload fields dynamically based on the number input */}
+            {fileFields.map((_, index) => (
+              <div key={index} className="mb-4">
+                <label className="block mb-1 text-white">Upload Document #{index + 1}</label>
+                <Input
+                  type="file"
+                  onChange={(e) => handleFileChange(index, e)}
+                  className="block w-full"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      ),
+    },
+
   ]
 
   useEffect(() => {
