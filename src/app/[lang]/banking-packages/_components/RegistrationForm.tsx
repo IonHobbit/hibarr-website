@@ -39,7 +39,7 @@ const marital_Status = [
     label: 'Divorced',
     value: 'divorced',
   },
-   {
+  {
     label: 'Widowed',
     value: 'widowed',
   },
@@ -86,18 +86,17 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
       proofOfTravel: '',
       requireRentalCar: false,
       rentalCar: 'small',
-      arrivalDate:'',
-      departureDate:'',
+      arrivalDate: '',
+      departureDate: '',
       airportTransfer: false,
-      dateOfBirth:'',
-      placeOfBirth:'',
-      address:'',
-      zipCode:'',
-      city:'',
-      country:'',
-      maritalStatus:'',
-      profession:'',
-
+      dateOfBirth: '',
+      placeOfBirth: '',
+      address: '',
+      zipCode: '',
+      city: '',
+      country: '',
+      maritalStatus: '',
+      profession: '',
     },
     onSubmit: (values) => {
       console.log(values)
@@ -142,36 +141,36 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
             <Input type='email' title='Email' name='email' value={values.email} onChange={handleChange} placeholder=' john.doe@example.com' />
             <Input type='tel' title='Phone Number' name='phone' value={values.phone} onChange={handleChange} placeholder=' +905555555555' />
             <div className='grid grid-cols-2 gap-3'>
-                  <Input type="date" title='Date of Birth' value={values.dateOfBirth} onChange={handleChange} />
-                  <Input type="text" title='Place of Birth' value={values.placeOfBirth} onChange={handleChange}/>
-              </div>
-            <Input type='text' title='Street' name='street' value={values.address} onChange={handleChange} placeholder='Entert a valid address'/>
+              <Input type="date" title='Date of Birth' value={values.dateOfBirth} onChange={handleChange} />
+              <Input type="text" title='Place of Birth' value={values.placeOfBirth} onChange={handleChange} />
+            </div>
+            <Input type='text' title='Street' name='street' value={values.address} onChange={handleChange} placeholder='Entert a valid address' />
             <div className='grid grid-cols-2 lg:grid-cols-8 gap-2'>
-                <div className='col-span-2 overflow-hidden'>
-                  <Input type="number" title='ZIP-code' name='zipCode' value={values.zipCode} onChange={handleChange}/>
-                </div>
-                <div className='col-span-3'>
-                  <Input type="Text" title='City' value={values.city} onChange={handleChange}/>
-                </div>
-                <div className='col-span-3'>
-                  <Input type="Text" title='Country' value={values.country} onChange={handleChange}/>
-                </div>
+              <div className='col-span-2 overflow-hidden'>
+                <Input title='ZIP code' name='zipCode' value={values.zipCode} onChange={handleChange} />
+              </div>
+              <div className='col-span-3'>
+                <Input type="Text" title='City' name='city' value={values.city} onChange={handleChange} />
+              </div>
+              <div className='col-span-3'>
+                <Input type="Text" title='Country' name='country' value={values.country} onChange={handleChange} />
+              </div>
             </div>
             <div className='grid grid-cols-2 gap-3'>
-            <Select onValueChange={(value) => setFieldValue('salutation', value)}>
-                  <SelectTrigger title='Marital Status' className='w-full'>
-                    <SelectValue placeholder='Marital status' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {marital_Status.map((marital_Status) => (
-                      <SelectItem key={marital_Status.value} value={marital_Status.value}>
-                        {marital_Status.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                  <Input type="text" title='Profession' value={values.profession} onChange={handleChange}/>
-              </div>  
+              <Select onValueChange={(value) => setFieldValue('salutation', value)}>
+                <SelectTrigger title='Marital Status' className='w-full'>
+                  <SelectValue placeholder='Marital status' />
+                </SelectTrigger>
+                <SelectContent>
+                  {marital_Status.map((marital_Status) => (
+                    <SelectItem key={marital_Status.value} value={marital_Status.value}>
+                      {marital_Status.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Input type="text" title='Profession' name='profession' value={values.profession} onChange={handleChange} />
+            </div>
           </div>
         </div>,
     },
@@ -237,12 +236,12 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
                 </Select>
               )}
               <div className='grid grid-cols-2 gap-3'>
-                  <Input type="datetime-local" title='Arrival Date + Time' value={values.arrivalDate} onChange={handleChange}/>
-                  <Input type="datetime-local" title='Departure Date + Time' value={values.departureDate} onChange={handleChange}/>
+                <Input type="datetime-local" name='arrivalDate' title='Arrival Date + Time' value={values.arrivalDate} onChange={handleChange} />
+                <Input type="datetime-local" name='departureDate' title='Departure Date + Time' value={values.departureDate} onChange={handleChange} />
               </div>
-              
-              
-              <Input type='file' title='Upload Proof of Travel (with dates, times, flight number & airport)'
+
+
+              <Input type='file' name='proofOfTravel' title='Upload Proof of Travel (with dates, times, flight number & airport)'
                 placeholder='Upload Proof of Travel' />
             </div>
           </div>
