@@ -148,7 +148,7 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
             <Input type='text' title='Street' name='street' value={values.address} onChange={handleChange} placeholder='Entert a valid address'/>
             <div className='grid grid-cols-2 lg:grid-cols-8 gap-2'>
                 <div className='col-span-2 overflow-hidden'>
-                  <Input type="number" title='ZIP-code' value={values.zipCode} onChange={handleChange}/>
+                  <Input type="number" title='ZIP-code' name='zipCode' value={values.zipCode} onChange={handleChange}/>
                 </div>
                 <div className='col-span-3'>
                   <Input type="Text" title='City' value={values.city} onChange={handleChange}/>
