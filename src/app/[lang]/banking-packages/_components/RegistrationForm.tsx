@@ -141,10 +141,10 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
             <Input type='email' title='Email' name='email' value={values.email} onChange={handleChange} placeholder=' john.doe@example.com' />
             <Input type='tel' title='Phone Number' name='phone' value={values.phone} onChange={handleChange} placeholder=' +905555555555' />
             <div className='grid grid-cols-2 gap-3'>
-              <Input type="date" title='Date of Birth' value={values.dateOfBirth} onChange={handleChange} />
-              <Input type="text" title='Place of Birth' value={values.placeOfBirth} onChange={handleChange} />
+              <Input type="date" title='Date of Birth' name='dateOfBirth' value={values.dateOfBirth} onChange={handleChange} />
+              <Input type="text" title='Place of Birth' name='placeOfBirth' value={values.placeOfBirth} onChange={handleChange} />
             </div>
-            <Input type='text' title='Street' name='street' value={values.address} onChange={handleChange} placeholder='Entert a valid address' />
+            <Input type='text' title='Street' name='address' value={values.address} onChange={handleChange} placeholder='Entert a valid address' />
             <div className='grid grid-cols-2 lg:grid-cols-8 gap-2'>
               <div className='col-span-2 overflow-hidden'>
                 <Input title='ZIP code' name='zipCode' value={values.zipCode} onChange={handleChange} />
@@ -157,7 +157,7 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
               </div>
             </div>
             <div className='grid grid-cols-2 gap-3'>
-              <Select onValueChange={(value) => setFieldValue('salutation', value)}>
+              <Select onValueChange={(value) => setFieldValue('maritalStatus', value)}>
                 <SelectTrigger title='Marital Status' className='w-full'>
                   <SelectValue placeholder='Marital status' />
                 </SelectTrigger>
