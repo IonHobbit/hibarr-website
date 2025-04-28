@@ -71,7 +71,18 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
       proofOfTravel: '',
       requireRentalCar: false,
       rentalCar: 'small',
+      arrivalDate:'',
+      departureDate:'',
       airportTransfer: false,
+      dateOfBirth:'',
+      placeOfBirth:'',
+      address:'',
+      zipCode:'',
+      city:'',
+      country:'',
+      maritalStatus:'',
+      profession:'',
+
     },
     onSubmit: (values) => {
       console.log(values)
@@ -95,7 +106,7 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
               <div className='col-span-2 overflow-hidden'>
                 <Select onValueChange={(value) => setFieldValue('salutation', value)}>
                   <SelectTrigger title='Salutation' className='w-full'>
-                    <SelectValue placeholder='eg. Mr, Mrs, Ms, Dr' />
+                    <SelectValue placeholder=' Mr, Mrs, Ms, Dr' />
                   </SelectTrigger>
                   <SelectContent>
                     {salutations.map((salutation) => (
@@ -113,8 +124,8 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
                 <Input type='text' title='Last Name' name='lastName' value={values.lastName} onChange={handleChange} placeholder=' Doe' />
               </div>
             </div>
-            <Input type='email' title='Email' name='email' value={values.email} onChange={handleChange} placeholder='eg. john.doe@example.com' />
-            <Input type='tel' title='Phone Number' name='phone' value={values.phone} onChange={handleChange} placeholder='eg. +905555555555' />
+            <Input type='email' title='Email' name='email' value={values.email} onChange={handleChange} placeholder=' john.doe@example.com' />
+            <Input type='tel' title='Phone Number' name='phone' value={values.phone} onChange={handleChange} placeholder=' +905555555555' />
           </div>
         </div>,
     },
@@ -124,14 +135,14 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
         <div className='flex flex-col gap-2'>
           {/* <p className='font-medium'>Next of Kin Information</p> */}
           <div className="grid grid-cols-2 gap-3">
-            <Input type='text' title="Father's First Name" name='fathersFirstName' value={values.fathersFirstName} onChange={handleChange} placeholder='eg. John' />
-            <Input type='text' title="Father's Last Name" name='fathersLastName' value={values.fathersLastName} onChange={handleChange} placeholder='eg. Doe' />
+            <Input type='text' title="Father's First Name" name='fathersFirstName' value={values.fathersFirstName} onChange={handleChange} placeholder=' John' />
+            <Input type='text' title="Father's Last Name" name='fathersLastName' value={values.fathersLastName} onChange={handleChange} placeholder=' Doe' />
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <Input type='text' title="Mother's First Name" name='mothersFirstName' value={values.mothersFirstName} onChange={handleChange} placeholder='eg. Jane' />
-            <Input type='text' title="Mother's Last Name" name='mothersLastName' value={values.mothersLastName} onChange={handleChange} placeholder='eg. Smith' />
+            <Input type='text' title="Mother's First Name" name='mothersFirstName' value={values.mothersFirstName} onChange={handleChange} placeholder=' Jane' />
+            <Input type='text' title="Mother's Last Name" name='mothersLastName' value={values.mothersLastName} onChange={handleChange} placeholder=' Smith' />
           </div>
-          <Input type='text' title="Mother's Maiden Name" name='motherMaidenName' value={values.motherMaidenName} onChange={handleChange} placeholder='eg. Doe' />
+          <Input type='text' title="Mother's Maiden Name" name='motherMaidenName' value={values.motherMaidenName} onChange={handleChange} placeholder=' Doe' />
         </div>,
     },
     {
@@ -170,7 +181,7 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
               {values.requireRentalCar && (
                 <Select value={values.rentalCar} onValueChange={(value) => setFieldValue('rentalCar', value)}>
                   <SelectTrigger title='What size of car do you require?' className='w-full'>
-                    <SelectValue placeholder='eg. Small, Medium, Large' />
+                    <SelectValue placeholder=' Small, Medium, Large' />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value='small'>Small</SelectItem>
@@ -180,8 +191,8 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
                 </Select>
               )}
               <div className='grid grid-cols-2 gap-3'>
-                  <Input type="datetime" title='Arrival Date + Time'/>
-                  <Input type="datetime" title='Departure Date + Time'/>
+                  <Input type="datetime" title='Arrival Date + Time' value={values.arrivalDate} onChange={handleChange}/>
+                  <Input type="datetime" title='Departure Date + Time' value={values.departureDate} onChange={handleChange}/>
               </div>
               
               
