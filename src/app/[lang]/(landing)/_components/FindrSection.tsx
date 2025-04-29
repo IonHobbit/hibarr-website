@@ -1,6 +1,6 @@
-import React from 'react'
+import Expandable from "@/components/animata/carousel/expandable";
 
-export default function Findr() {
+export default function FindrSection() {
   return (
     <section className='section'>
       <div className='container'>
@@ -9,6 +9,7 @@ export default function Findr() {
         </h2>
         <p className='text-center text-muted-foreground'>Discover the possibilities with Hibarr</p>
       </div>
+      {/* <Expandable /> */}
     </section>
   )
 }

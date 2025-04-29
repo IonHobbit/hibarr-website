@@ -17,7 +17,7 @@ export default function LandingSection({ data }: LandingSectionProps) {
 
       <div className="max-w-6xl text-center flex flex-col gap-10 px-4">
         <div className='flex flex-col gap-2'>
-          <h1 className="text-5xl md:text-8xl font-bold mb-4 text-background">
+          <h1 className="text-5xl md:text-7xl xl:text-8xl font-bold mb-4 text-background">
             {data.title}
           </h1>
           <p className="text-sm md:text-2xl text-background">

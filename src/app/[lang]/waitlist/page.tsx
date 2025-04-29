@@ -6,6 +6,7 @@ import { generateSEOMetadata } from '@/lib/utils'
 import type { WaitlistPage } from '@/types/sanity.types'
 import { Metadata } from 'next'
 import Image from 'next/image'
+import WaitlistForm from './_components/WaitlistForm'
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -30,13 +31,6 @@ export default async function WaitlistPage(
   const pageData = {
     title: waitlistPage?.title || 'Join the Waitlist for our',
     subtitle: waitlistPage?.subtitle || 'Facebook Group',
-    form: waitlistPage?.waitlistForm?.form || {
-      firstName: 'First Name',
-      lastName: 'Last Name',
-      email: 'Email',
-      phone: 'Phone Number',
-      submitButton: 'Join the Waitlist',
-    },
   }
 
   return (
@@ -51,41 +45,7 @@ export default async function WaitlistPage(
             <span className='text-accent font-medium'>{pageData.title}</span> <br /> {pageData.subtitle}
           </h1>
         </div>
-        <form className='flex flex-col gap-2'>
-          <div className="grid grid-cols-2 gap-2">
-            <Input
-              type="text"
-              required
-              title={pageData.form.firstName}
-              name="firstName"
-              placeholder="eg. John"
-            />
-            <Input
-              type="text"
-              required
-              title={pageData.form.lastName}
-              name="lastName"
-              placeholder="eg. Doe"
-            />
-          </div>
-          <Input
-            type="email"
-            required
-            title={pageData.form.email}
-            name="email"
-            placeholder="eg. john.doe@gmail.com"
-          />
-          <Input
-            type="tel"
-            required
-            title={pageData.form.phone}
-            name="phoneNumber"
-            placeholder="eg. +1234567890"
-          />
-          <Button variant='accent' className='!mt-4 uppercase font-semibold' type='submit'>
-            {pageData.form.submitButton}
-          </Button>
-        </form>
+        <WaitlistForm formData={waitlistPage?.waitlistForm} />
       </div>
     </section>
   )

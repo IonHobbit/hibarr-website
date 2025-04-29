@@ -32,7 +32,7 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
           <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl text-primary absolute -top-10 left-10' />
           <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl rotate-180 text-primary absolute -top-10 right-10' />
         </div>
-        <Carousel opts={{ loop: true }}>
+        <Carousel opts={{ loop: true }} className='max-h-52'>
           <CarouselContent>
             {testimonials.map((testimonial, index) => (
               <CarouselItem key={index}>
@@ -43,7 +43,7 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
                     </div>
                   )}
                   <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'items-center', 'flex flex-col gap-2')}>
-                    <p className={cn(showImage && testimonial.clientImage ? 'text-left' : 'text-center', 'text-base md:text-lg font-medium')}>{testimonial.comment}</p>
+                    <p className={cn(showImage && testimonial.clientImage ? 'text-left' : 'text-center', 'text-base md:text-lg font-medium line-clamp-5')}>{testimonial.comment}</p>
                     <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'items-center', 'flex flex-col gap-0.5')}>
                       <p className='text-lg text-primary font-medium'>{testimonial.clientName}</p>
                       {testimonial.date && (
