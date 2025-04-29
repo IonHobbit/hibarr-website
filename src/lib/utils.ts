@@ -49,3 +49,7 @@ export function generateSEOMetadata(seo?: SeoMetaFields, defaults?: {
     },
   }
 }
+
+export function generateRandomFileName(file: File) {
+  return `${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}.${file.type.split('/')[1]}`;
+}
