@@ -41,7 +41,7 @@ export default function AdditionalInformationForm({ values, handleChange, setFie
           value={values.additionalInformation.placeOfBirth}
           onChange={handleChange} />
       </div>
-      <Input type='text' required title='Street (Current Address)' name='additionalInformation.address'
+      <Input type='text' required title='Current Street Address' name='additionalInformation.address'
         value={values.additionalInformation.address}
         onChange={handleChange} placeholder='Enter a valid address' />
       <div className='grid grid-cols-2 lg:grid-cols-8 gap-2'>

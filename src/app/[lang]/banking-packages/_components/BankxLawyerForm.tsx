@@ -80,7 +80,7 @@ export default function BankxLawyerForm({ values, handleChange, setFieldValue }:
         <div className='flex flex-col gap-3'>
           <div className="flex items-start gap-2">
             <Checkbox id="travelInfo.airportTransfer" required checked={values.travelInfo.airportTransfer} onClick={() => setFieldValue('travelInfo.airportTransfer', !values.travelInfo.airportTransfer)} />
-            <label htmlFor="travelInfo.airportTransfer" className="text-xs cursor-pointer">Do you require Airport Transfer? ({values.package === 'free' ? 'You will bear the cost' : 'Included in your package'})</label>
+            <label htmlFor="travelInfo.airportTransfer" className="text-xs cursor-pointer">Do you require Airport Transfer? ({values.package === 'free-package' ? 'You will bear the cost' : 'Included in your package'})</label>
           </div>
         </div>
       </div>
