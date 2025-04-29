@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 function Input({ className, type, title, error, ...props }: React.ComponentProps<"input"> & { error?: string }) {
   return (
     <div className="relative flex flex-col items-start gap-1">
-      {title && <label htmlFor={props.id} className="text-sm text-muted-foreground">{title}</label>}
+      {title && <label htmlFor={props.id} className="text-sm text-muted-foreground">{title} {props.required && <span className="text-destructive text-xs">*</span>}</label>}
       <input
         type={type}
         data-slot="input"

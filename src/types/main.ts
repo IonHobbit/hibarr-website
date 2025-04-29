@@ -28,6 +28,56 @@ type ContactInfo = {
   phoneNumber: string;
 }
 
+type DocumentUpload = {
+  passport: string;
+  idFront: string;
+  idBack: string;
+  utilityBill: string;
+  proofOfTravel: string;
+}
+
+type RegistrationFormType = {
+  package: string;
+  personalInformation: ContactInfo & {
+    salutation: string;
+  };
+  additionalInformation: {
+    dateOfBirth: string;
+    placeOfBirth: string;
+    address: string;
+    zipCode: string;
+    city: string;
+    country: string;
+    maritalStatus: string;
+    profession: string;
+  };
+  nextOfKin: {
+    fathersFirstName: string;
+    fathersLastName: string;
+    mothersFirstName: string;
+    mothersLastName: string;
+    motherMaidenName: string;
+  };
+  bankAndLawyer: {
+    bankAppointment: boolean;
+    lawyerAppointment: boolean;
+    openingBalance: string;
+    futureBalance: string;
+  };
+  travelInfo: {
+    rentalCar: string;
+    requireRentalCar: boolean;
+    numberOfPeople: number;
+    arrivalDate: string;
+    departureDate: string;
+    airportTransfer: boolean;
+  };
+  documentUpload: {
+    main: DocumentUpload;
+    additional: Partial<Omit<DocumentUpload & { type: 'passport' | 'id' }, 'utilityBill'>>[];
+  };
+}
+
 type ZapierPayload = ContactInfo & {
   type: ZapierWebhookType
 }
@@ -65,6 +115,6 @@ type ZapierPropertyEnquiryPayload = ZapierPayload & ContactInfo & {
 }
 
 export type {
-  NavigationItem, PropertyType,
+  NavigationItem, PropertyType, RegistrationFormType,
   ZapierPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierConsultationPayload, ZapierPropertyEnquiryPayload, ZapierSignupPayload
 }

@@ -1,56 +1,16 @@
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
 import { useFormik } from 'formik';
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { Icon } from '@iconify/react';
-
-import React, { Fragment, useEffect, useState } from 'react'
+import { Card } from '@/components/ui/card';
+import PartnerInformationForm from './PartnerInformationForm';
+import { Button } from '@/components/ui/button';
+import BankxLawyerForm from './BankxLawyerForm';
+import React, { useEffect, useMemo, useState } from 'react'
+import { RegistrationFormType } from '@/types/main';
 import { PopoverClose } from '@radix-ui/react-popover';
-
-
-const salutations = [
-  {
-    label: 'Mr',
-    value: 'mr',
-  },
-  {
-    label: 'Mrs',
-    value: 'mrs',
-  },
-  {
-    label: 'Ms',
-    value: 'ms',
-  },
-]
-
-const marital_Status = [
-  {
-    label: 'Single',
-    value: 'single',
-  },
-  {
-    label: 'Married',
-    value: 'married',
-  },
-  {
-    label: 'Divorced',
-    value: 'divorced',
-  },
-  {
-    label: 'Widowed',
-    value: 'widowed',
-  },
-]
-
-
-const minimumDeposit = {
-  free: 1000,
-  banking: 500,
-  vip: 100,
-}
+import DocumentUploadsForm from './DocumentUploadsForm';
+import PersonalInformationForm from './PersonalInformationForm';
+import AdditionalInformationForm from './AdditionalInformationForm';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 
 type RegistrationFormProps = {
   activePackageSlug: string;
@@ -64,264 +24,105 @@ type RegistrationFormProps = {
 export default function RegistrationForm({ packages, activePackageSlug }: RegistrationFormProps) {
   const [activeStep, setActiveStep] = useState(0);
 
-  const { values, handleChange, setFieldValue } = useFormik({
+  const { values, handleChange, setFieldValue } = useFormik<RegistrationFormType>({
     initialValues: {
       package: activePackageSlug,
-      salutation: 'mr',
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      passport: '',
-      idFront: '',
-      idBack: '',
-      utilityBill: '',
-      fathersFirstName: '',
-      fathersLastName: '',
-      mothersFirstName: '',
-      mothersLastName: '',
-      motherMaidenName: '',
-      openingBalance: '',
-      futureBalance: '',
-      proofOfTravel: '',
-      requireRentalCar: false,
-      rentalCar: 'small',
-      arrivalDate: '',
-      departureDate: '',
-      airportTransfer: false,
-      dateOfBirth: '',
-      placeOfBirth: '',
-      address: '',
-      zipCode: '',
-      city: '',
-      country: '',
-      maritalStatus: '',
-      profession: '',
-      bankAppointment:false,
-      lawyerAppointment:false,
-
+      personalInformation: {
+        salutation: 'mr',
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+      },
+      additionalInformation: {
+        dateOfBirth: '',
+        placeOfBirth: '',
+        address: '',
+        zipCode: '',
+        city: '',
+        country: '',
+        maritalStatus: 'single',
+        profession: '',
+      },
+      nextOfKin: {
+        fathersFirstName: '',
+        fathersLastName: '',
+        mothersFirstName: '',
+        mothersLastName: '',
+        motherMaidenName: '',
+      },
+      bankAndLawyer: {
+        openingBalance: '',
+        futureBalance: '',
+        bankAppointment: false,
+        lawyerAppointment: false,
+      },
+      travelInfo: {
+        numberOfPeople: 0,
+        arrivalDate: '',
+        departureDate: '',
+        rentalCar: 'small',
+        requireRentalCar: false,
+        airportTransfer: false,
+      },
+      documentUpload: {
+        main: {
+          passport: '',
+          idFront: '',
+          idBack: '',
+          utilityBill: '',
+          proofOfTravel: '',
+        },
+        additional: [],
+      },
     },
     onSubmit: (values) => {
       console.log(values)
     },
   })
 
-  const getMinimumDeposit = minimumDeposit[values.package as keyof typeof minimumDeposit]
+  const sections = [
+    {
+      title: 'Personal Information',
+      component: <PersonalInformationForm values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
+    },
+    {
+      title: 'Additional Information',
+      component: <AdditionalInformationForm values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
+    },
+    {
+      title: "Parent\'s Information",
+      component: <PartnerInformationForm values={values} handleChange={handleChange} />,
+    },
+    {
+      title: 'Bank & Lawyer',
+      component: <BankxLawyerForm values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
+    },
+    {
+      title: 'Document Uploads',
+      component: <DocumentUploadsForm values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
+    },
+  ]
 
-// Dynamic file upload handling
-// const [numUploads, setNumUploads] = useState(0);  // Number of fields to generate
-// const [fileFields, setFileFields] = useState<any[]>([]);  // Store files for each upload
+  const isFormValid = useMemo(() => {
+    if (activeStep === 0) {
+      return values.personalInformation.firstName && values.personalInformation.lastName && values.personalInformation.email && values.personalInformation.phoneNumber;
+    } else if (activeStep === 1) {
+      return values.additionalInformation.dateOfBirth && values.additionalInformation.placeOfBirth && values.additionalInformation.address && values.additionalInformation.zipCode && values.additionalInformation.city && values.additionalInformation.country && values.additionalInformation.maritalStatus && values.additionalInformation.profession;
+    } else if (activeStep === 2) {
+      return values.nextOfKin.fathersFirstName && values.nextOfKin.fathersLastName && values.nextOfKin.mothersFirstName && values.nextOfKin.mothersLastName && values.nextOfKin.motherMaidenName;
+    } else if (activeStep === 3) {
+      return values.travelInfo.arrivalDate && values.travelInfo.departureDate;
+    } else if (activeStep === 4) {
+      return values.documentUpload.main.passport && values.documentUpload.main.idFront && values.documentUpload.main.idBack && values.documentUpload.main.utilityBill && values.documentUpload.main.proofOfTravel;
+    }
 
-// const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//   const value = parseInt(e.target.value, 10);
-//   if (!isNaN(value) && value > 0) {
-//     setNumUploads(value);
-//     setFileFields(Array.from({ length: value }, () => null));  // Create array for file tracking
-//   } else {
-//     setNumUploads(0);
-//     setFileFields([]);
-//   }
-// };
-
-// const handleFileChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
-//   const files = e.target.files;
-//   if (files && files[0]) {
-//     const updatedFiles = [...fileFields];
-//     updatedFiles[index] = files[0];
-//     setFileFields(updatedFiles);
-//   }
-// };
-
+    return true;
+  }, [activeStep, values])
 
   useEffect(() => {
     setFieldValue('package', activePackageSlug)
   }, [activePackageSlug])
-
-  const sections = [
-    {
-      title: 'Personal Information',
-      component:
-        <div className='flex flex-col gap-2'>
-          {/* <p className='font-medium'>Personal Information</p> */}
-          <div className='flex flex-col gap-3'>
-            <div className="grid grid-cols-2 lg:grid-cols-8 gap-2">
-              <div className='col-span-2 overflow-hidden'>
-                <Select onValueChange={(value) => setFieldValue('salutation', value)}>
-                  <SelectTrigger title='Salutation' className='w-full'>
-                    <SelectValue placeholder=' Mr, Mrs, Ms, Dr' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {salutations.map((salutation) => (
-                      <SelectItem key={salutation.value} value={salutation.value}>
-                        {salutation.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className='col-span-3'>
-                <Input type='text' title='First Name' name='firstName' value={values.firstName} onChange={handleChange} placeholder=' John' />
-              </div>
-              <div className='col-span-3'>
-                <Input type='text' title='Last Name' name='lastName' value={values.lastName} onChange={handleChange} placeholder=' Doe' />
-              </div>
-            </div>
-            <Input type='email' title='Email' name='email' value={values.email} onChange={handleChange} placeholder=' john.doe@example.com' />
-            <Input type='tel' title='Phone Number' name='phone' value={values.phone} onChange={handleChange} placeholder=' +905555555555' />
-            <div className='grid grid-cols-2 gap-3'>
-              <Input type="date" title='Date of Birth' name='dateOfBirth' value={values.dateOfBirth} onChange={handleChange}  />
-              <Input type="text" title='Place of Birth' name='placeOfBirth' value={values.placeOfBirth} onChange={handleChange} />
-            </div>
-            <Input type='text' title='Street' name='address' value={values.address} onChange={handleChange} placeholder='Enter a valid address' />
-            <div className='grid grid-cols-2 lg:grid-cols-8 gap-2'>
-              <div className='col-span-2 overflow-hidden'>
-                <Input title='ZIP code' name='zipCode' value={values.zipCode} onChange={handleChange} />
-              </div>
-              <div className='col-span-3'>
-                <Input type="Text" title='City' name='city' value={values.city} onChange={handleChange} />
-              </div>
-              <div className='col-span-3'>
-                <Input type="Text" title='Country' name='country' value={values.country} onChange={handleChange} />
-              </div>
-            </div>
-            <div className='grid grid-cols-2 gap-3'>
-              <Select onValueChange={(value) => setFieldValue('maritalStatus', value)}>
-                <SelectTrigger title='Marital Status' className='w-full'>
-                  <SelectValue placeholder='Marital status' />
-                </SelectTrigger>
-                <SelectContent>
-                  {marital_Status.map((marital_Status) => (
-                    <SelectItem key={marital_Status.value} value={marital_Status.value}>
-                      {marital_Status.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Input type="text" title='Profession' name='profession' value={values.profession} onChange={handleChange} />
-            </div>
-          </div>
-        </div>,
-    },
-    {
-      title: 'Next of Kin',
-      component:
-        <div className='flex flex-col gap-2'>
-          {/* <p className='font-medium'>Next of Kin Information</p> */}
-          <div className="grid grid-cols-2 gap-3">
-            <Input type='text' title="Father's First Name" name='fathersFirstName' value={values.fathersFirstName} onChange={handleChange} placeholder=' John' />
-            <Input type='text' title="Father's Last Name" name='fathersLastName' value={values.fathersLastName} onChange={handleChange} placeholder=' Doe' />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <Input type='text' title="Mother's First Name" name='mothersFirstName' value={values.mothersFirstName} onChange={handleChange} placeholder=' Jane' />
-            <Input type='text' title="Mother's Last Name" name='mothersLastName' value={values.mothersLastName} onChange={handleChange} placeholder=' Smith' />
-          </div>
-          <Input type='text' title="Mother's Maiden Name" name='motherMaidenName' value={values.motherMaidenName} onChange={handleChange} placeholder=' Doe' />
-        </div>,
-    },
-    {
-      title: 'Document Uploads',
-      component:
-        <div className='flex flex-col gap-2'>
-          {/* <p className='font-medium'>Document Uploads</p> */}
-          <div className='flex flex-col gap-3'>
-            <Input type='file' value={values.passport} title='Upload Passport' onChange={(e) => setFieldValue('passport', e.target.files?.[0])} placeholder='Upload Passport' />
-            <div className="grid grid-cols-2 gap-2">
-              <Input type='file' value={values.idFront} title='Upload ID (Front)' onChange={(e) => setFieldValue('idFront', e.target.files?.[0])} placeholder='Upload ID (Front)' />
-              <Input type='file' value={values.idBack} title='Upload ID (Back)' onChange={(e) => setFieldValue('idBack', e.target.files?.[0])} placeholder='Upload ID (Back)' />
-            </div>
-            <Input type='file' value={values.utilityBill} title='Utility Bill' onChange={(e) => setFieldValue('utilityBill', e.target.files?.[0])} placeholder='Upload Utility Bill' />
-          </div>
-        </div>,
-    },
-    {
-      title: 'Banking Details',
-      component:
-        <Fragment>
-          <div className='flex flex-col gap-2'>
-            {/* <p className='font-medium'>Banking Details</p> */}
-            <div className='grid grid-cols-2 gap-3'>
-              <Input type='number' title='Initial Deposit' min={getMinimumDeposit} name='openingBalance' value={values.openingBalance || getMinimumDeposit} onChange={handleChange} />
-              <Input type='number' title='Amount to be transferred' name='futureBalance' value={values.futureBalance} onChange={handleChange} />
-            </div>
-          </div>
-          <div className='flex flex-col gap-2'>
-            <p className='font-medium'>Travel Details</p>
-            <div className='flex flex-col gap-3'>
-              <div className="flex items-start gap-2">
-                <Checkbox id="requireRentalCar" required checked={values.requireRentalCar} onClick={() => setFieldValue('requireRentalCar', !values.requireRentalCar)} />
-                <label htmlFor="requireRentalCar" className="text-xs cursor-pointer">Do you require a rental car? (Minimum rental period is 3 days)</label>
-              </div>
-              {values.requireRentalCar && (
-                <Select value={values.rentalCar} onValueChange={(value) => setFieldValue('rentalCar', value)}>
-                  <SelectTrigger title='What size of car do you require?' className='w-full'>
-                    <SelectValue placeholder=' Small, Medium, Large' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='small'>Small</SelectItem>
-                    <SelectItem value='medium'>Medium</SelectItem>
-                    <SelectItem value='large'>Large</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-              <div className='grid grid-cols-2 gap-3'>
-                <Input type="datetime-local" name='arrivalDate' title='Arrival Date + Time' value={values.arrivalDate} onChange={handleChange} />
-                <Input type="datetime-local" name='departureDate' title='Departure Date + Time' value={values.departureDate} onChange={handleChange} />
-              </div>
-
-
-              <Input type='file' name='proofOfTravel' title='Upload Proof of Travel (with dates, times, flight number & airport)'
-                placeholder='Upload Proof of Travel' />
-            </div>
-          </div>
-          <div className='flex flex-col gap-2'>
-            <p className='font-medium'>Additional Services</p>
-            <div className='flex flex-col gap-3'>
-              <div className="flex items-start gap-2">
-                <Checkbox id="airportTransfer" required checked={values.airportTransfer} onClick={() => setFieldValue('airportTransfer', !values.airportTransfer)} />
-                <label htmlFor="airportTransfer" className="text-xs cursor-pointer">Do you require Airport Transfer? ({values.package === 'free' ? 'You will bear the cost' : 'Included in your package'})</label>
-              </div>
-            </div>
-          </div>
-        </Fragment>,
-    },
-    // {
-    //   title: 'Document Uploads 2',
-    //   component: 
-    //   <Fragment>
-        
-    //     <div className="flex flex-col gap-2">
-    //       <div className="flex flex-col gap-3">
-    //         <div className="mb-4">
-    //           <label className="block mb-2 text-white">Enter the number of files to upload</label>
-    //           <Input
-    //             type="number"
-    //             min="1"
-    //             onChange={handleNumberChange}
-    //             className="block w-full px-4 py-2 border border-gray-300 rounded"
-    //           />
-    //         </div>
-    //         {/* Render file upload fields dynamically based on the number input */}
-    //         {fileFields.map((_, index) => (
-    //           <div key={index} className="mb-4">
-    //             <label className="block mb-1 text-white">Upload Document #{index + 1}</label>
-    //             <Input
-    //               type="file"
-    //               onChange={(e) => handleFileChange(index, e)}
-    //               className="block w-full"
-    //             />
-    //           </div>
-    //         ))}
-    //       </div>
-    //     </div>
-      
-    //   </Fragment>
-    // },
-
-  ]
-
-  useEffect(() => {
-    setFieldValue('package', activePackageSlug);
-  }, [activePackageSlug]);
 
   return (
     <Card className='max-w-xl w-full mx-auto p-6'>
@@ -354,16 +155,18 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
             </Popover>
           </div>
         </div>
-        {sections[activeStep].component}
+        <div className='flex flex-col gap-2'>
+          {sections[activeStep].component}
+        </div>
         <div className="flex items-center gap-2 overflow-hidden justify-between">
           {activeStep > 0 && (
             <Button variant='secondary' className='w-full shrink' type='button' onClick={() => setActiveStep(activeStep - 1)}>Back</Button>
           )}
           {activeStep < sections.length - 1 && (
-            <Button className='w-full shrink' type='button' onClick={() => setActiveStep(activeStep + 1)}>Next</Button>
+            <Button disabled={!isFormValid} className='w-full shrink' type='button' onClick={() => setActiveStep(activeStep + 1)}>Next</Button>
           )}
           {activeStep === sections.length - 1 && (
-            <Button className='w-full shrink' type='submit'>Register</Button>
+            <Button disabled={!isFormValid} className='w-full shrink' type='submit'>Register</Button>
           )}
         </div>
       </form>

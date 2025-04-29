@@ -9,8 +9,8 @@ export default function BankingPackagesPage() {
   const packages = [
     {
       icon: 'mdi:euro',
-      slug: 'free',
-      title: 'Free-Package',
+      slug: 'free-package',
+      title: 'Free Package',
       description: 'Perfect for independent travelers who want a hassle-free start',
       price: 0,
       features: [
@@ -21,8 +21,8 @@ export default function BankingPackagesPage() {
     },
     {
       icon: 'mdi:bank',
-      slug: 'banking',
-      title: 'VIP-Banking-Package',
+      slug: 'vip-banking-package',
+      title: 'VIP Banking Package',
       description: 'Ideal for those who value hands-on assistance and comfort',
       price: 1000,
       features: [
@@ -34,8 +34,8 @@ export default function BankingPackagesPage() {
     },
     {
       icon: 'mdi:home',
-      slug: 'vip',
-      title: 'Real-Estate-Package',
+      slug: 'real-estate-package',
+      title: 'Real Estate Package',
       description: 'Best for serious buyers ready to explore real estate opportunities in North Cyprus',
       price: 5000,
       features: [
@@ -74,7 +74,7 @@ export default function BankingPackagesPage() {
           ))}
         </div>
       </section>
-      <div className='bg-primary'>
+      <div className='bg-primary bg-[url("/images/wave-background.webp")] bg-blend-overlay bg-cover bg-center bg-no-repeat w-full'>
         <section id='register' className='section'>
           <div className='flex flex-col gap-3 max-w-2xl mx-auto'>
             <h2 className='text-4xl font-bold text-center text-primary-foreground'>Register for a package</h2>
