@@ -26,7 +26,7 @@ const maritalStatus = [
 type AdditionalInformationFormProps = {
   values: RegistrationFormType;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  setFieldValue: (field: string, value: any) => void;
+  setFieldValue: (field: string, value: string) => void;
 }
 
 export default function AdditionalInformationForm({ values, handleChange, setFieldValue }: AdditionalInformationFormProps) {

@@ -1,7 +1,6 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import React, { Fragment } from 'react'
 import { RegistrationFormType } from '@/types/main'
 
 const minimumDeposit = {
@@ -13,7 +12,7 @@ const minimumDeposit = {
 type BankxLawyerFormProps = {
   values: RegistrationFormType;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  setFieldValue: (field: string, value: any) => void;
+  setFieldValue: (field: string, value: string | boolean | number | object) => void;
 }
 
 export default function BankxLawyerForm({ values, handleChange, setFieldValue }: BankxLawyerFormProps) {

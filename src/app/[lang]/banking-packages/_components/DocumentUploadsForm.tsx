@@ -6,10 +6,10 @@ import React, { Fragment } from 'react'
 type DocumentUploadsFormProps = {
   values: RegistrationFormType;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  setFieldValue: (field: string, value: any) => void;
+  setFieldValue: (field: string, value: string | File | undefined) => void;
 }
 
-export default function DocumentUploadsForm({ values, handleChange, setFieldValue }: DocumentUploadsFormProps) {
+export default function DocumentUploadsForm({ values, setFieldValue }: DocumentUploadsFormProps) {
   return (
     <div className='flex flex-col gap-3'>
       <p className='font-medium'>Main Traveller Documents</p>
