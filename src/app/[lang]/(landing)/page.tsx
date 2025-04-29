@@ -39,7 +39,7 @@ export default async function Home(
         </div>
       </div>
       <AboutSection data={data} />
-      {/* <FindrSection /> */}
+      <FindrSection />
       <TestimonialsSection lang={lang} />
       <PartnersSection lang={lang} />
       <ConsultationProcessSection data={data.consultationProcessSection} />

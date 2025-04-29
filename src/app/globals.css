@@ -9,6 +9,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-work-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-playfair-display);
 
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);

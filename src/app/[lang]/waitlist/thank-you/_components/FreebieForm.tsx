@@ -15,7 +15,7 @@ type FreebieFormProps = {
 }
 
 export default function FreebieForm({ data, postSubmissionPath }: FreebieFormProps) {
-  const { isRegistered, register } = useRegistrationCheck();
+  const { register } = useRegistrationCheck();
 
   const { values, isValid, setFieldValue, handleChange, handleSubmit } = useFormik({
     initialValues: {
