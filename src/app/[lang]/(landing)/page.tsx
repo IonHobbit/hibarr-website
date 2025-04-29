@@ -18,7 +18,7 @@ import SearchBar from '../listings/_components/SearchBar';
 import InvestorCommunitySection from './_components/InvestorCommunitySection';
 import WebinarSection from './_components/WebinarSection';
 import SignupSection from './_components/SignupSection';
-import FindrSection from './_components/FindrSection';
+// import FindrSection from './_components/FindrSection';
 
 export default async function Home(
   props: {
@@ -39,7 +39,7 @@ export default async function Home(
         </div>
       </div>
       <AboutSection data={data} />
-      <FindrSection />
+      {/* <FindrSection /> */}
       <TestimonialsSection lang={lang} />
       <PartnersSection lang={lang} />
       <ConsultationProcessSection data={data.consultationProcessSection} />
