@@ -7,19 +7,19 @@ import { RegistrationFormType } from '@/types/main'
 const maritalStatus = [
   {
     label: 'Single',
-    value: 'single',
+    value: 'Single',
   },
   {
     label: 'Married',
-    value: 'married',
+    value: 'Married',
   },
   {
     label: 'Divorced',
-    value: 'divorced',
+    value: 'Divorced',
   },
   {
     label: 'Widowed',
-    value: 'widowed',
+    value: 'Widowed',
   },
 ]
 

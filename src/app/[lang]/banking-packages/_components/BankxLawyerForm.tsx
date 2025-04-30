@@ -4,9 +4,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { RegistrationFormType } from '@/types/main'
 
 const minimumDeposit = {
-  'free-package': 1000,
-  'vip-banking-package': 500,
-  'real-estate-package': 100,
+  'Free Package': 1000,
+  'VIP Banking Package': 500,
+  'Real Estate Package': 100,
 }
 
 type BankxLawyerFormProps = {
@@ -40,8 +40,8 @@ export default function BankxLawyerForm({ values, handleChange, setFieldValue }:
         </div>
         {values.bankAndLawyer.bankAppointment && (
           <div className='grid grid-cols-2 gap-3'>
-            <Input type='number' title='Initial Deposit' min={getMinimumDeposit} name='bankAndLawyer.openingBalance' value={values.bankAndLawyer.openingBalance || getMinimumDeposit} onChange={handleChange} />
-            <Input type='number' title='Amount to be transferred' name='bankAndLawyer.futureBalance' value={values.bankAndLawyer.futureBalance} onChange={handleChange} />
+            <Input type='number' title='Initial Deposit (€)' min={getMinimumDeposit} name='bankAndLawyer.openingBalance' value={values.bankAndLawyer.openingBalance || getMinimumDeposit} onChange={handleChange} />
+            <Input type='number' title='Amount to be transferred (€)' name='bankAndLawyer.futureBalance' value={values.bankAndLawyer.futureBalance} onChange={handleChange} />
           </div>
         )}
         <div className="flex items-start gap-2">
@@ -67,9 +67,9 @@ export default function BankxLawyerForm({ values, handleChange, setFieldValue }:
                 <SelectValue placeholder=' Small, Medium, Large' />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='small'>Small</SelectItem>
-                <SelectItem value='medium'>Medium</SelectItem>
-                <SelectItem value='large'>Large</SelectItem>
+                <SelectItem value='Small'>Small</SelectItem>
+                <SelectItem value='Medium'>Medium</SelectItem>
+                <SelectItem value='Large'>Large</SelectItem>
               </SelectContent>
             </Select>
           )}
@@ -80,7 +80,7 @@ export default function BankxLawyerForm({ values, handleChange, setFieldValue }:
         <div className='flex flex-col gap-3'>
           <div className="flex items-start gap-2">
             <Checkbox id="travelInfo.airportTransfer" required checked={values.travelInfo.airportTransfer} onClick={() => setFieldValue('travelInfo.airportTransfer', !values.travelInfo.airportTransfer)} />
-            <label htmlFor="travelInfo.airportTransfer" className="text-xs cursor-pointer">Do you require Airport Transfer? ({values.package === 'free-package' ? 'You will bear the cost' : 'Included in your package'})</label>
+            <label htmlFor="travelInfo.airportTransfer" className="text-xs cursor-pointer">Do you require Airport Transfer? ({values.package === 'Free Package' ? 'You will bear the cost' : 'Included in your package'})</label>
           </div>
         </div>
       </div>

@@ -5,15 +5,15 @@ import { RegistrationFormType } from '@/types/main';
 const salutations = [
   {
     label: 'Mr',
-    value: 'mr',
+    value: 'Mr.',
   },
   {
     label: 'Mrs',
-    value: 'mrs',
+    value: 'Mrs.',
   },
   {
     label: 'Ms',
-    value: 'ms',
+    value: 'Ms.',
   },
 ]
 
