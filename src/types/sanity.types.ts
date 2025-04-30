@@ -241,6 +241,12 @@ export type Property = {
       [internalGroqTypeReferenceTo]?: 'propertyFeature'
     }>
   }
+  agent?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'propertyAgent'
+  }
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -274,6 +280,31 @@ export type Property = {
     residential?: boolean
     furnished?: boolean
     availableForViewing?: boolean
+  }
+}
+
+export type PropertyAgent = {
+  _id: string
+  _type: 'propertyAgent'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  code?: string
+  name?: string
+  lastName?: string
+  email?: string
+  phone?: string
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
   }
 }
 
@@ -877,6 +908,7 @@ export type AllSanitySchemaTypes =
   | Testimonial
   | PropertyFeature
   | Property
+  | PropertyAgent
   | TranslationMetadata
   | InternationalizedArrayReferenceValue
   | CaseStudy

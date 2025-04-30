@@ -39,6 +39,11 @@ export default function useListings(
     queryFn: () => mockListings.filter((listing) => runFilters(filters, listing)).slice((page - 1) * limit, page * limit),
   });
 
+  // const fetchListings = useQuery({
+  //   queryKey: ['listings-v2', filters, page, limit],
+  //   queryFn: () => client.fetch<PropertyType[]>(`*[_type == "property"]`),
+  // })
+
   const paginationInfo = {
     totalPages: Math.ceil(mockListings.filter((listing) => runFilters(filters, listing)).length / limit),
     currentPage: page,
