@@ -18,7 +18,17 @@ import SearchBar from '../listings/_components/SearchBar';
 import InvestorCommunitySection from './_components/InvestorCommunitySection';
 import WebinarSection from './_components/WebinarSection';
 import SignupSection from './_components/SignupSection';
+import { Metadata } from 'next';
+import { generateSEOMetadata } from '@/lib/utils';
 // import FindrSection from './_components/FindrSection';
+
+export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await props.params;
+
+  const { seo } = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+
+  return generateSEOMetadata(seo)
+}
 
 export default async function Home(
   props: {

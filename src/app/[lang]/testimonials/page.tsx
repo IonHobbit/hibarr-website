@@ -3,13 +3,19 @@ import { Fragment } from 'react';
 import { Icon } from '@iconify/react';
 import { Button } from '@/components/ui/button';
 import type { Locale } from '@/lib/i18n-config';
-import { formatDate } from '@/lib/utils';
+import { formatDate, generateSEOMetadata } from '@/lib/utils';
 import { Metadata } from 'next';
 import { client } from '@/lib/sanity/client';
 import { Testimonial, TestimonialsPage as TestimonialsPageType } from '@/types/sanity.types';
 
-export const metadata: Metadata = {
-  title: 'Testimonials',
+export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await props.params;
+
+  const { seo } = await client.fetch<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+
+  return generateSEOMetadata(seo, {
+    title: 'Testimonials',
+  })
 }
 
 export default async function TestimonialsPage(

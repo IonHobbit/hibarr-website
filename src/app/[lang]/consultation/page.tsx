@@ -7,10 +7,17 @@ import FAQAccordion from '../_components/FAQAccordion';
 import { client } from '@/lib/sanity/client';
 import { ConsultationPage as ConsultationPageType } from '@/types/sanity.types';
 import ConsultationForm from './_components/ConsultationForm';
+import { generateSEOMetadata } from '@/lib/utils';
 
-export const metadata: Metadata = {
-  title: 'Consultation',
-  description: 'Consultation page',
+export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await props.params;
+
+  const { seo } = await client.fetch<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+
+  return generateSEOMetadata(seo, {
+    title: 'Schedule a Free Kick Off hdshhs Meeting',
+    description: 'We are the only company in North Cyprus that can offer 10 year payment plans, 0% interest, and no credit checks.',
+  })
 }
 
 export default async function ConsultationPage(
@@ -20,7 +27,7 @@ export default async function ConsultationPage(
 ) {
   const { lang } = await props.params;
 
-  
+
 
   const data = await client.fetch<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 

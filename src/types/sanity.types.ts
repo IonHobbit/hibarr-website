@@ -152,6 +152,131 @@ export type Testimonial = {
   date?: string
 }
 
+export type PropertyFeature = {
+  _id: string
+  _type: 'propertyFeature'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  type?: 'external' | 'internal'
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  description?: string
+}
+
+export type Property = {
+  _id: string
+  _type: 'property'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  basicInfo?: {
+    title?: string
+    price?: {
+      currency?: 'GBP' | 'USD' | 'EUR' | 'AED' | 'TRY'
+      amount?: number
+    }
+    images?: Array<{
+      image?: {
+        asset?: {
+          _ref: string
+          _type: 'reference'
+          _weak?: boolean
+          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+        }
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+      }
+      isCover?: boolean
+      alt?: string
+      _key: string
+    }>
+    status?: 'draft' | 'published' | 'archived' | 'sold' | 'rented' | 'on-hold'
+    type?:
+      | 'apartment'
+      | 'villa'
+      | 'studio'
+      | 'bungalow'
+      | 'commercial'
+      | 'condo'
+      | 'farm'
+      | 'land'
+      | 'loft'
+      | 'maisonette'
+      | 'townhouse'
+    featured?: boolean
+    location?: 'famagusta' | 'girne' | 'lefkosa' | 'guzelyurt' | 'iskele' | 'lefke' | 'meneou'
+    listingType?: 'sale' | 'rent'
+    saleType?: 'off-plan' | 'resale'
+    bedrooms?: number
+    livingRooms?: number
+    bathrooms?: number
+  }
+  features?: {
+    external?: Array<{
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      _key: string
+      [internalGroqTypeReferenceTo]?: 'propertyFeature'
+    }>
+    internal?: Array<{
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      _key: string
+      [internalGroqTypeReferenceTo]?: 'propertyFeature'
+    }>
+  }
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  details?: {
+    area?: {
+      size?: number
+      unit?: 'm2' | 'sqft' | 'sqkm' | 'sqmi'
+    }
+    yearBuilt?: number
+    titleDeed?: 'exchange' | 'english' | 'turkish' | 'cyprus'
+    floors?: number
+    floorLevel?: number
+    availableForTrade?: boolean
+    gatedCommunity?: boolean
+    management?: boolean
+    residential?: boolean
+    furnished?: boolean
+    availableForViewing?: boolean
+  }
+}
+
 export type TranslationMetadata = {
   _id: string
   _type: 'translation.metadata'
@@ -285,6 +410,7 @@ export type ConsultationPage = {
   _createdAt: string
   _updatedAt: string
   _rev: string
+  seo?: SeoMetaFields
   title?: string
   subtitle?: string
   offerInformation?: {
@@ -335,6 +461,7 @@ export type WebinarPage = {
   _createdAt: string
   _updatedAt: string
   _rev: string
+  seo?: SeoMetaFields
   title?: string
   subtitle?: string
   CTA?: {
@@ -394,6 +521,7 @@ export type TestimonialsPage = {
   _createdAt: string
   _updatedAt: string
   _rev: string
+  seo?: SeoMetaFields
   name?: string
   title?: string
   description?: string
@@ -410,6 +538,7 @@ export type AboutPage = {
   _createdAt: string
   _updatedAt: string
   _rev: string
+  seo?: SeoMetaFields
   title?: string
   subtitle?: string
   missionVisionSection?: {
@@ -464,6 +593,7 @@ export type HomePage = {
   _createdAt: string
   _updatedAt: string
   _rev: string
+  seo?: SeoMetaFields
   title?: string
   subtitle?: string
   buttons?: Array<{
@@ -745,6 +875,8 @@ export type AllSanitySchemaTypes =
   | Footer
   | Team
   | Testimonial
+  | PropertyFeature
+  | Property
   | TranslationMetadata
   | InternationalizedArrayReferenceValue
   | CaseStudy

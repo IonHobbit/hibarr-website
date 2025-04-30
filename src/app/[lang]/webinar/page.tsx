@@ -13,9 +13,16 @@ import RegistrationFormSection from './_components/RegistrationFormSection'
 import TwoForOneSection from './_components/TwoForOneSection'
 import BenefitsSection from './_components/BenefitsSection'
 import StatisticsSection from './_components/StatisticsSection'
+import { generateSEOMetadata } from '@/lib/utils'
 
-export const metadata: Metadata = {
-  title: 'Webinar',
+export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await props.params;
+
+  const { seo } = await client.fetch<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+
+  return generateSEOMetadata(seo, {
+    title: 'Webinar',
+  })
 }
 
 type ZoomRegistrationPageProps = {

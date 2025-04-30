@@ -10,10 +10,17 @@ import CallToActionSection from './_components/CallToActionSection';
 import GallerySection from './_components/GallerySection';
 import { client } from '@/lib/sanity/client';
 import { AboutPage as AboutPageType } from '@/types/sanity.types';
+import { generateSEOMetadata } from '@/lib/utils';
 
-export const metadata: Metadata = {
-  title: 'About Us',
-  description: 'About Us',
+export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await props.params;
+
+  const { seo } = await client.fetch<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+
+  return generateSEOMetadata(seo, {
+    title: 'About Us',
+    description: 'About Us',
+  })
 }
 
 export default async function AboutPage(
