@@ -1,19 +1,18 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { AlertCircle, Download, FileText, User, Check, File } from "lucide-react";
+import { AlertCircle, FileText, User, File } from "lucide-react";
 import * as Papa from "papaparse";
 import { LineChart, XAxis, YAxis, Tooltip, CartesianGrid, Line, Legend, ResponsiveContainer } from "recharts";
-import { Button } from "@/components/ui/button";
 
 export default function WorkReportGenerator() {
-  const [csvData, setCsvData] = useState<any[]>([]);
+  const [csvData, setCsvData] = useState<unknown[]>([]);
   const [employees, setEmployees] = useState<{ name: string; hoursPerWeek: number }[]>([]);
   const [selectedEmployee, setSelectedEmployee] = useState<string | null>(null);
-  const [reportData, setReportData] = useState<any | null>(null);
+  const [reportData, setReportData] = useState<unknown | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isProcessed, setIsProcessed] = useState(false);
-  const [selectedReport, setSelectedReport] = useState<string | null>(null);
+  // const [selectedReport, setSelectedReport] = useState<string | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -37,7 +36,7 @@ export default function WorkReportGenerator() {
           processEmployees(results.data);
           setIsLoading(false);
         },
-        error: (error: any) => {
+        error: (error: unknown) => {
           console.error("Error parsing CSV:", error);
           setIsLoading(false);
         }
@@ -345,13 +344,13 @@ export default function WorkReportGenerator() {
     return recommendations.length > 0 ? recommendations : ["Employee shows good work patterns overall. Continue monitoring for any developing trends."];
   };
 
-  const downloadPDF = (employeeName) => {
-    setSelectedReport(employeeName);
-    // In a real implementation, this would generate and download a PDF
-    setTimeout(() => {
-      setSelectedReport(null);
-    }, 1500);
-  };
+  // const downloadPDF = (employeeName) => {
+  //   setSelectedReport(employeeName);
+  //   // In a real implementation, this would generate and download a PDF
+  //   setTimeout(() => {
+  //     setSelectedReport(null);
+  //   }, 1500);
+  // };
 
   return (
     <div className="flex flex-col min-h-screen max-w-full">
