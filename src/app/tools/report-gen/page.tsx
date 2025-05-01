@@ -455,7 +455,7 @@ export default function WorkReportGenerator() {
           >
             <input type="file" ref={inputRef} className="hidden" onChange={loadCSV} />
             <File className="w-4 h-4 mr-2" />
-            Change CSV
+            Upload CSV
           </button>
         )}
       </div>
