@@ -5,14 +5,94 @@ import { AlertCircle, FileText, User, File } from "lucide-react";
 import * as Papa from "papaparse";
 import { LineChart, XAxis, YAxis, Tooltip, CartesianGrid, Line, Legend, ResponsiveContainer } from "recharts";
 
+// Type Definitions
+type TimeEntry = {
+  hours: number;
+  minutes: number;
+  clockIn?: string;
+  clockOut?: string;
+};
+
+type DayData = {
+  date: string;
+  totalMinutes: number;
+  hours: number;
+  minutes: number;
+  clockIn?: string;
+  clockOut?: string;
+  isLate: boolean;
+  note: string;
+};
+
+type WeekData = {
+  week: number;
+  totalMinutes: number;
+  days: DayData[];
+};
+
+type WeeklySummary = {
+  week: number;
+  hoursWorked: string;
+  expectedHours: string;
+  difference: string;
+  totalMinutesWorked: number;
+  totalMinutesExpected: number;
+  totalMinutesDifference: number;
+};
+
+type EmployeeSummary = {
+  totalHoursWorked: string;
+  totalDaysWorked: number;
+  averageHoursPerDay: string;
+  dayWithMostHours: {
+    date: string;
+    hours: string;
+  };
+  dayWithLeastHours: {
+    date: string;
+    hours: string;
+  };
+};
+
+type PunctualityData = {
+  lateDays: number;
+  latePercentage: string;
+  averageStartTime: string;
+  averageEndTime: string;
+};
+
+type WeeklyTotals = {
+  hoursWorked: string;
+  expectedHours: string;
+  difference: string;
+};
+
+type ReportData = {
+  employeeName: string;
+  hoursPerWeek: number;
+  summary: EmployeeSummary;
+  punctuality: PunctualityData;
+  weeklyData: WeeklySummary[];
+  dailyData: DayData[];
+  chartData: Array<{
+    date: string;
+    hoursWorked: number;
+  }>;
+  weeklyTotals: WeeklyTotals;
+};
+
+type Employee = {
+  name: string;
+  hoursPerWeek: number;
+};
+
 export default function WorkReportGenerator() {
-  const [csvData, setCsvData] = useState<unknown[]>([]);
-  const [employees, setEmployees] = useState<{ name: string; hoursPerWeek: number }[]>([]);
+  const [csvData, setCsvData] = useState<string[][]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
   const [selectedEmployee, setSelectedEmployee] = useState<string | null>(null);
-  const [reportData, setReportData] = useState<unknown | null>(null);
+  const [reportData, setReportData] = useState<ReportData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isProcessed, setIsProcessed] = useState(false);
-  // const [selectedReport, setSelectedReport] = useState<string | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -32,8 +112,8 @@ export default function WorkReportGenerator() {
         skipEmptyLines: true,
         dynamicTyping: true,
         complete: (results) => {
-          setCsvData(results.data);
-          processEmployees(results.data);
+          setCsvData(results.data as string[][]);
+          processEmployees(results.data as string[][]);
           setIsLoading(false);
         },
         error: (error: unknown) => {
@@ -47,12 +127,12 @@ export default function WorkReportGenerator() {
     }
   };
 
-  const processEmployees = (data) => {
-    const employeeList = [];
+  const processEmployees = (data: string[][]): void => {
+    const employeeList: Employee[] = [];
 
     for (let i = 2; i < data.length; i++) {
       const row = data[i];
-      if (row[0] && !row[0].includes("Struktur") && !row[0].endsWith("Agent") && !row[0].endsWith("Department") && row[0] !== "") {
+      if (row[0] && !row[0].toString().includes("Struktur") && !row[0].toString().endsWith("Agent") && !row[0].toString().endsWith("Department") && row[0] !== "") {
         // Check if this is an employee row with actual time data
         let hasTimeData = false;
         for (let j = 2; j < row.length; j++) {
@@ -64,8 +144,8 @@ export default function WorkReportGenerator() {
 
         if (hasTimeData) {
           employeeList.push({
-            name: row[0],
-            hoursPerWeek: row[1]
+            name: row[0].toString(),
+            hoursPerWeek: Number(row[1]) || 0
           });
         }
       }
@@ -74,12 +154,12 @@ export default function WorkReportGenerator() {
     setEmployees(employeeList);
   };
 
-  const parseTimeEntry = (entry) => {
+  const parseTimeEntry = (entry: string): TimeEntry | null => {
     if (!entry || typeof entry !== 'string' || !entry.includes('-')) return null;
 
     // Basic format: "7 30 09:00 - 16:30" (hours minutes clockIn - clockOut)
     const parts = entry.trim().split(' ');
-    let hours, minutes, clockIn, clockOut;
+    let hours = 0, minutes = 0, clockIn: string | undefined, clockOut: string | undefined;
 
     // Handle different formats in the data
     if (parts.length >= 4) {
@@ -97,12 +177,12 @@ export default function WorkReportGenerator() {
     return { hours, minutes, clockIn, clockOut };
   };
 
-  const generateReport = (employeeName) => {
+  const generateReport = (employeeName: string): void => {
     setIsLoading(true);
 
     // Find employee row in the data
     const employeeRowIndex = csvData.findIndex(row =>
-      row[0] === employeeName
+      Array.isArray(row) && row[0] === employeeName
     );
 
     if (employeeRowIndex === -1) {
@@ -111,11 +191,21 @@ export default function WorkReportGenerator() {
     }
 
     const employeeRow = csvData[employeeRowIndex];
-    const hoursPerWeek = employeeRow[1];
+    if (!Array.isArray(employeeRow)) {
+      setIsLoading(false);
+      return;
+    }
+
+    const hoursPerWeek = Number(employeeRow[1]) || 0;
 
     // Process each day's entry
-    const daysData = [];
-    const dates = csvData[0].slice(2); // First row contains dates
+    const daysData: DayData[] = [];
+    const datesRow = csvData[0];
+    if (!Array.isArray(datesRow)) {
+      setIsLoading(false);
+      return;
+    }
+    const dates = datesRow.slice(2); // First row contains dates
 
     for (let i = 2; i < employeeRow.length; i++) {
       const entry = employeeRow[i];
@@ -134,12 +224,12 @@ export default function WorkReportGenerator() {
           const totalMinutes = (hours * 60) + minutes;
 
           // Determine if late (only if morning clock-in)
-          const isLate = clockIn &&
+          const isLate = Boolean(clockIn &&
             clockIn.includes(':') &&
             parseInt(clockIn.split(':')[0]) < 12 &&
             (parseInt(clockIn.split(':')[0]) > 9 ||
               (parseInt(clockIn.split(':')[0]) === 9 &&
-                parseInt(clockIn.split(':')[1]) > 5));
+                parseInt(clockIn.split(':')[1]) > 5)));
 
           daysData.push({
             date: dateStr,
@@ -156,11 +246,11 @@ export default function WorkReportGenerator() {
     }
 
     // Calculate weekly data
-    const weeklyData = [];
+    const weeklyData: WeeklySummary[] = [];
     const workDays = daysData.filter(day => day.totalMinutes > 0);
 
     // Group by week
-    const weekMap = {};
+    const weekMap: Record<number, WeekData> = {};
     workDays.forEach(day => {
       const dateMatch = day.date.match(/(\w+)\s+(\d+)/);
       if (dateMatch) {
@@ -182,9 +272,9 @@ export default function WorkReportGenerator() {
 
     // Convert week map to array and calculate expected hours
     Object.keys(weekMap).forEach(weekNum => {
-      const week = weekMap[weekNum];
-      const hours = week.days.length < 6 ? (hoursPerWeek / 6) * week.days.length : hoursPerWeek
-      const expectedMinutes = parseFloat(hours) * 60 || 48 * 60; // Default to 48 if not specified
+      const week = weekMap[parseInt(weekNum)];
+      // const hours = week.days.length < 6 ? (hoursPerWeek / 6) * week.days.length : hoursPerWeek;
+      const expectedMinutes = parseFloat(hoursPerWeek.toString()) * 60 || 48 * 60; // Default to 48 if not specified
       const differenceMinutes = week.totalMinutes - expectedMinutes;
 
       weeklyData.push({
@@ -204,15 +294,15 @@ export default function WorkReportGenerator() {
     const averageMinutesPerDay = totalDaysWorked > 0 ? totalMinutesWorked / totalDaysWorked : 0;
 
     // Find day with most/least hours
-    let maxDay = { totalMinutes: 0 };
-    let minDay = { totalMinutes: Number.MAX_SAFE_INTEGER };
+    let maxDay = { totalMinutes: 0, date: '' };
+    let minDay = { totalMinutes: Number.MAX_SAFE_INTEGER, date: '' };
 
     workDays.forEach(day => {
       if (day.totalMinutes > maxDay.totalMinutes) {
-        maxDay = day;
+        maxDay = { totalMinutes: day.totalMinutes, date: day.date };
       }
       if (day.totalMinutes < minDay.totalMinutes) {
-        minDay = day;
+        minDay = { totalMinutes: day.totalMinutes, date: day.date };
       }
     });
 
@@ -224,14 +314,14 @@ export default function WorkReportGenerator() {
     const clockInTimes = workDays
       .filter(day => day.clockIn && day.clockIn.includes(':'))
       .map(day => {
-        const [hours, minutes] = day.clockIn.split(':').map(num => parseInt(num));
+        const [hours, minutes] = day.clockIn!.split(':').map(num => parseInt(num));
         return hours * 60 + minutes;
       });
 
     const clockOutTimes = workDays
       .filter(day => day.clockOut && day.clockOut.includes(':'))
       .map(day => {
-        const [hours, minutes] = day.clockOut.split(':').map(num => parseInt(num));
+        const [hours, minutes] = day.clockOut!.split(':').map(num => parseInt(num));
         return hours * 60 + minutes;
       });
 
@@ -249,15 +339,13 @@ export default function WorkReportGenerator() {
     const totalWeeklyMinutesDifference = totalWeeklyMinutesWorked - totalWeeklyMinutesExpected;
 
     // Generate chart data
-    const chartData = daysData.map(day => {
-      return {
-        date: day.date,
-        hoursWorked: day.totalMinutes / 60
-      };
-    });
+    const chartData = daysData.map(day => ({
+      date: day.date,
+      hoursWorked: day.totalMinutes / 60
+    }));
 
     // Create report object
-    const report = {
+    const report: ReportData = {
       employeeName,
       hoursPerWeek,
       summary: {
@@ -295,7 +383,7 @@ export default function WorkReportGenerator() {
     setIsProcessed(true);
   };
 
-  const formatHoursMinutes = (totalMinutes, showSign = false) => {
+  const formatHoursMinutes = (totalMinutes: number, showSign = false): string => {
     const sign = totalMinutes < 0 ? '-' : (showSign ? '+' : '');
     const absMinutes = Math.abs(totalMinutes);
     const hours = Math.floor(absMinutes / 60);
@@ -303,17 +391,17 @@ export default function WorkReportGenerator() {
     return `${sign}${hours}:${minutes.toString().padStart(2, '0')}`;
   };
 
-  const formatTimeFromMinutes = (totalMinutes) => {
+  const formatTimeFromMinutes = (totalMinutes: number): string => {
     const hours = Math.floor(totalMinutes / 60) % 24;
     const minutes = Math.floor(totalMinutes % 60);
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
   };
 
-  const generateRecommendations = (report) => {
-    const recommendations = [];
+  const generateRecommendations = (report: ReportData): string[] => {
+    const recommendations: string[] = [];
 
     // Check punctuality
-    if (report.punctuality.latePercentage > 20) {
+    if (parseFloat(report.punctuality.latePercentage) > 20) {
       recommendations.push("Consider improving morning punctuality. Arriving before 9:05 AM would increase productivity and overall work time.");
     }
 
@@ -497,7 +585,7 @@ export default function WorkReportGenerator() {
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="date" />
                       <YAxis />
-                      <Tooltip formatter={(value) => [`${value.toFixed(2)} hours`, 'Hours Worked']} />
+                      <Tooltip formatter={(value) => [`${Number(value).toFixed(2)} hours`, 'Hours Worked']} />
                       <Legend />
                       <Line
                         type="monotone"
