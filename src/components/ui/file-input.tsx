@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 function FileInput({ className, title, error, required, fileValue, onUpload, ...props }: React.ComponentProps<"input"> & { error?: string, onUpload: (result: string) => void, required?: boolean, fileValue?: string }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
