@@ -30,6 +30,9 @@ const buttonVariants = cva(
         lg: "h-14 text-lg px-8 uppercase has-[>svg]:px-4",
         icon: "size-9",
       },
+      fullWidth: {
+        true: "w-full",
+      },
     },
     defaultVariants: {
       variant: "default",
@@ -58,7 +61,7 @@ function Button({
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     >
-      <div className="flex items-center gap-2 w-full">
+      <div className="flex items-center gap-2">
         {isLoading && <Icon icon="mdi:loading" className="size-4 animate-spin" />}
         {props.children}
       </div>
