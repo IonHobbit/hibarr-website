@@ -191,9 +191,9 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
           <div className="flex items-center justify-between">
             <p className='font-medium'>{sections[activeStep].title}</p>
             <div className="flex items-center gap-2 rounded-sm px-3 py-2 w-max bg-primary text-primary-foreground shrink-0">
-              <p className='font-normal'>Package:</p>
               <Popover>
                 <PopoverTrigger className='cursor-pointer flex items-center gap-2'>
+                  <p className='font-normal'>Package:</p>
                   {values.package ? (
                     <p className='font-medium'>{packages.find((pkg) => pkg.slug === values.package)?.title} {packages.find((pkg) => pkg.slug === values.package)?.price ? `(€${packages.find((pkg) => pkg.slug === values.package)?.price.toLocaleString()})` : ''}</p>
                   ) : (

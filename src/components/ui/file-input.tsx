@@ -4,9 +4,8 @@ import { cn } from "@/lib/utils"
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRef, useState } from "react";
 
-function FileInput({ className, title, error, required, onUpload, ...props }: React.ComponentProps<"input"> & { error?: string, onUpload: (result: string) => void, required?: boolean }) {
+function FileInput({ className, title, error, required, fileValue, onUpload, ...props }: React.ComponentProps<"input"> & { error?: string, onUpload: (result: string) => void, required?: boolean, fileValue?: string }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [file, setFile] = useState<File | null>(null);
 
   const openFileInput = () => {
     fileInputRef.current?.click();
@@ -15,7 +14,6 @@ function FileInput({ className, title, error, required, onUpload, ...props }: Re
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setFile(file);
       const formData = new FormData();
       formData.append('file', file);
       formData.append('folderName', 'banking-packages-form-entries');
@@ -35,16 +33,16 @@ function FileInput({ className, title, error, required, onUpload, ...props }: Re
       <div className="relative border-input flex items-center justify-between gap-4 min-h-10 w-full min-w-0 border bg-transparent file:border-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive rounded px-3 py-1.5">
         <div className="flex items-center gap-2">
           <Icon icon="mdi:file-document-outline" className="w-4 h-4" />
-          {file ? (
+          {fileValue ? (
             <div className="flex flex-col gap-1">
-              <p className="text-sm text-muted-foreground line-clamp-1">{file.name}</p>
+              <p className="text-sm text-muted-foreground line-clamp-1">File uploaded</p>
               <p onClick={openFileInput} className="text-xs text-primary hover:font-medium transition-all duration-300 cursor-pointer">Replace document</p>
             </div>
           ) : (
             <p onClick={openFileInput} className="text-sm text-muted-foreground hover:font-medium transition-all duration-300 cursor-pointer">Upload document</p>
           )}
         </div>
-        {file && <p onClick={() => { setFile(null); onUpload?.(""); }} className="text-xs text-destructive hover:font-medium transition-all duration-300 cursor-pointer">Remove</p>}
+        {fileValue && <p onClick={() => { onUpload?.(""); }} className="text-xs text-destructive hover:font-medium transition-all duration-300 cursor-pointer">Remove</p>}
         <input
           ref={fileInputRef}
           type="file"
