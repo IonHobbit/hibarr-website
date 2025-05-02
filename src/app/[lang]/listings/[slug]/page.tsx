@@ -53,7 +53,7 @@ export default function PropertyPage(
     );
   }
 
-  const { basicInfo, description, details, features, agent } = property;
+  const { basicInfo, description, details, features } = property;
   const { title, images, location, price, bedrooms, bathrooms, livingRooms, type, saleType } = basicInfo!;
   const { area, yearBuilt, titleDeed, floors, floorLevel, availableForTrade, gatedCommunity, management, residential, furnished, availableForViewing } = details!;
 
