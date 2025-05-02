@@ -37,6 +37,7 @@ export function shortenAndEncryptJSON<T>(jsonObject: T, secretKey: string): stri
 
     return result;
   } catch (e: unknown) {
+    console.error(e);
     return null;
   }
 }
@@ -71,6 +72,7 @@ export function decryptJSON<T>(encryptedData: string, secretKey: string): T | nu
     // Parse the decrypted string back to a JSON object
     return JSON.parse(decrypted) as T;
   } catch (e: unknown) {
+    console.error(e);
     return null;
   }
 }

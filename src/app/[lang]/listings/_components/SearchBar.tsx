@@ -11,7 +11,7 @@ import { useFormik } from 'formik';
 import { useState } from 'react';
 import useURL from '@/hooks/useURL';
 import useFeatures from '@/hooks/useFeatures';
-import { decryptJSON, shortenAndEncryptJSON, TOKEN_SECRET } from '@/lib/tokenize';
+import { decryptJSON, shortenAndEncryptJSON, TOKEN_SECRET } from '@/lib/encryptor';
 import { Filters } from '@/hooks/useListings';
 import usePropertyTypes from '@/hooks/usePropertyTypes';
 
@@ -27,7 +27,7 @@ export default function SearchBar() {
   const propertyTypes = propertyTypesHook.data?.map(({ name, id }) => ({ label: name, value: id })).filter(({ value }) => Boolean(value)) || [];
 
   const q = searchParams.get('q') || '';
-  const filters: Filters = decryptJSON(q, TOKEN_SECRET) || {};
+  const filters: Filters = q ? decryptJSON(q, TOKEN_SECRET) || {} : {};
 
   const [min, max] = [0, 1000000];
 

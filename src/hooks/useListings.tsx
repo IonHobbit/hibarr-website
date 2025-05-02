@@ -1,10 +1,9 @@
 'use client';
 
-import { PropertyListing, PropertyType } from "@/types/main";
+import { PropertyType } from "@/types/main";
 import { listings as mockListings } from "@/lib/mockdata";
 import { useQuery } from "@tanstack/react-query";
 import { client } from "@/lib/sanity/client";
-import { Property } from "@/types/sanity.types";
 import { PropertyListResponse } from "@/types/property";
 
 export type Filters = {
@@ -49,7 +48,7 @@ export default function useListings(
     '&& basicInfo.status != "draft" && basicInfo.status != "archived" && basicInfo.status != "sold" && basicInfo.status != "rented"',
   ].filter(Boolean);
 
-  const { data, isLoading, error } = useQuery({
+  const fetchListingsQuery = useQuery({
     queryKey: ['listings', filters, page, limit],
     queryFn: () => client.fetch<PropertyListResponse[]>(`
       *[_type == "property" ${filtersString.join(' ')}] | order(_updatedAt desc) [${(page - 1) * limit}...${page * limit}] {
@@ -75,5 +74,5 @@ export default function useListings(
     totalItems: mockListings.length,
   }
 
-  return { data, isLoading, error, paginationInfo };
+  return { ...fetchListingsQuery, paginationInfo };
 }

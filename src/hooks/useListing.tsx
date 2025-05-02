@@ -3,7 +3,8 @@ import { PropertyResponse } from "@/types/property";
 import { useQuery } from "@tanstack/react-query";
 
 export default function useListing(slug: string) {
-  const { data, isLoading, error } = useQuery({
+
+  const fetchListingQuery = useQuery({
     queryKey: ['listing', slug],
     queryFn: () => client.fetch<PropertyResponse>(`
       *[_type == "property" && basicInfo.slug.current == "${slug}"][0] {
@@ -21,5 +22,5 @@ export default function useListing(slug: string) {
     }`)
   });
 
-  return { data, isLoading, error };
+  return fetchListingQuery;
 }

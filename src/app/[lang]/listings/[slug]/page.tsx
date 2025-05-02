@@ -4,12 +4,15 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbS
 import React, { Fragment, use } from 'react'
 import EnquiryForm from './_components/EnquiryForm';
 import { SanityImageAsset } from '@/types/sanity.types';
-import useCurrency from '@/hooks/useCurrency';
 import { areaUnit, titleDeeds } from '@/lib/property';
 import { PortableText } from 'next-sanity';
 import PropertyDetail from './_components/PropertyDetail';
 import ListingImages from './_components/ListingImages';
 import useListing from '@/hooks/useListing';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { formatCurrency } from '@/lib/currency';
 
 export default function PropertyPage(
   props: {
@@ -20,12 +23,34 @@ export default function PropertyPage(
 
   const decodedSlug = decodeURIComponent(slug);
 
-  const { data, isLoading, error } = useListing(decodedSlug);
+  const { data, isLoading, error, refetch } = useListing(decodedSlug);
 
   const property = data || null;
 
+  if (error) {
+    return <section className='section flex flex-col items-center justify-center h-screen gap-3'>
+      <h4 className='text-4xl font-bold'>An error occurred while loading this property</h4>
+      <p>Please try again later</p>
+      <Button isLoading={isLoading} onClick={() => refetch()}>Try Again</Button>
+    </section>;
+  }
+
+  if (isLoading) {
+    return <section className='section flex items-center justify-center h-screen'>
+      <Icon icon='mdi:loading' className='size-10 animate-spin' />
+    </section>;
+  }
+
   if (!property) {
-    return <section className='section flex items-center justify-center h-screen'>Property not found</section>;
+    return (
+      <section className='section flex flex-col items-center justify-center h-screen gap-3'>
+        <h4 className='text-4xl font-bold'>This property is no longer available</h4>
+        <p>Let&apos;s find you a new one</p>
+        <Button asChild>
+          <Link href='/listings'>View Listings</Link>
+        </Button>
+      </section>
+    );
   }
 
   const { basicInfo, description, details, features, agent } = property;
@@ -33,9 +58,9 @@ export default function PropertyPage(
   const { area, yearBuilt, titleDeed, floors, floorLevel, availableForTrade, gatedCommunity, management, residential, furnished, availableForViewing } = details!;
 
   const propertySize = area?.size ? `${area?.size} ${areaUnit[area?.unit as keyof typeof areaUnit]}` : undefined;
-  const propertyAge = details?.yearBuilt ?
+  const propertyAge = yearBuilt ?
     <Fragment>
-      {details?.yearBuilt} <span className='text-xs text-gray-500'>({new Date().getFullYear() - details?.yearBuilt} years old)</span>
+      {details?.yearBuilt} <span className='text-xs text-gray-500'>({new Date().getFullYear() - yearBuilt} years old)</span>
     </Fragment> : undefined;
 
   return (
@@ -68,7 +93,7 @@ export default function PropertyPage(
             <h1 className='text-4xl font-bold'>{title}</h1>
             <p className='text-xl font-light capitalize'>{location}</p>
           </div>
-          <p className='text-4xl font-bold'>{useCurrency(price)}</p>
+          <p className='text-4xl font-bold'>{formatCurrency(price)}</p>
         </div>
         <div className="flex items-center gap-2">
           <div className='bg-primary p-1 px-3'>
@@ -110,7 +135,7 @@ export default function PropertyPage(
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   <PropertyDetail label='Property Type' value={type ? type?.join(', ') : undefined} />
                   <PropertyDetail capitalize label='Location' value={location} />
-                  <PropertyDetail label='Price' value={price ? useCurrency(price) : undefined} />
+                  <PropertyDetail label='Price' value={price ? formatCurrency(price) : undefined} />
                   <PropertyDetail label='Bedrooms' value={bedrooms} />
                   <PropertyDetail label='Bathrooms' value={bathrooms} />
                   <PropertyDetail label='Living Rooms' value={livingRooms} />

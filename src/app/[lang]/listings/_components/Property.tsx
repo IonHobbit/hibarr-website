@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { generateImageUrl } from '@/lib/utils'
 import { PropertyListResponse } from '@/types/property'
 import { areaUnit } from '@/lib/property'
-import useCurrency from '@/hooks/useCurrency'
+import { formatCurrency } from '@/lib/currency'
+
 interface PropertyProps {
   property: PropertyListResponse
 }
@@ -36,7 +37,7 @@ export default function Property({ property }: PropertyProps) {
             </div>
           ))} */}
         </div>
-        <p className='text-2xl font-semibold text-primary-foreground absolute bottom-4 left-4'>{useCurrency(price)}</p>
+        <p className='text-2xl font-semibold text-primary-foreground absolute bottom-4 left-4'>{formatCurrency(price)}</p>
       </div>
       <div className="p-4 flex flex-col gap-2">
         <p className='text-md font-semibold line-clamp-1'>{title}</p>

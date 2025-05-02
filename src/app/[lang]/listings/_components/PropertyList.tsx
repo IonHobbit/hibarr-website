@@ -6,7 +6,7 @@ import { Pagination, PaginationNext } from "@/components/ui/pagination";
 import { PaginationContent, PaginationItem, PaginationLink, PaginationPrevious } from "@/components/ui/pagination";
 import useURL from "@/hooks/useURL";
 import { joinWith, cn } from "@/lib/utils";
-import { decryptJSON, TOKEN_SECRET } from "@/lib/tokenize";
+import { decryptJSON, TOKEN_SECRET } from "@/lib/encryptor";
 import useFeatures from "@/hooks/useFeatures";
 import pluralize from "pluralize";
 import usePropertyTypes from "@/hooks/usePropertyTypes";
@@ -16,7 +16,7 @@ export default function PropertyList() {
   const { searchParams, updateParams } = useURL();
 
   const q = searchParams.get('q') || '';
-  const filters: Filters = decryptJSON(q, TOKEN_SECRET) || {};
+  const filters: Filters = q ? decryptJSON(q, TOKEN_SECRET) || {} : {};
 
   const location = filters.location || [];
   const propertyType = filters.propertyType || [];
@@ -27,7 +27,7 @@ export default function PropertyList() {
   const maxPrice = parseInt(searchParams.get('maxPrice') || '0');
   const listingType = filters.listingType || '';
 
-  const { data: listings, isLoading, paginationInfo } = useListings(
+  const { data: listings, isPending, error, refetch, paginationInfo } = useListings(
     {
       location,
       propertyType,
@@ -70,7 +70,13 @@ export default function PropertyList() {
         </div>
       )}
       <div className="min-h-[80vh]">
-        {isLoading && (
+        {error && (
+          <div className="flex flex-col gap-2 items-center justify-center h-[80vh]">
+            <h3 className="text-3xl font-bold max-w-md text-center">Looks like something went wrong loading the listings</h3>
+            <p className="text-lg text-muted-foreground hover:underline cursor-pointer" onClick={() => refetch()}>Please try again</p>
+          </div>
+        )}
+        {((!listings && !error) || isPending) && (
           <div className="flex items-center justify-center h-[80vh]">
             <Icon icon="mdi:loading" className="size-8 animate-spin" />
           </div>
