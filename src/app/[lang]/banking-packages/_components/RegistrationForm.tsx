@@ -1,7 +1,8 @@
+'use client'
+
 import { useFormik } from 'formik';
 import { Icon } from '@iconify/react';
 import { Card } from '@/components/ui/card';
-import PartnerInformationForm from './PartnerInformationForm';
 import { Button } from '@/components/ui/button';
 import BankxLawyerForm from './BankxLawyerForm';
 import React, { useEffect, useMemo, useState } from 'react'
@@ -11,14 +12,14 @@ import DocumentUploadsForm from './DocumentUploadsForm';
 import PersonalInformationForm from './PersonalInformationForm';
 import AdditionalInformationForm from './AdditionalInformationForm';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import useURL from '@/hooks/useURL';
+import { BankPackage } from './PackageCard';
+import { BankPackagesPage } from '@/types/sanity.types';
+import ParentInformationForm from './ParentInformationForm';
 
 type RegistrationFormProps = {
-  activePackageSlug: string;
-  packages: {
-    slug: string;
-    title: string;
-    price: number;
-  }[];
+  packages: BankPackage[]
+  form: BankPackagesPage['form']
 }
 
 const minimumDeposit = {
@@ -27,10 +28,13 @@ const minimumDeposit = {
   'Real Estate Package': 100,
 }
 
-export default function RegistrationForm({ packages, activePackageSlug }: RegistrationFormProps) {
+export default function RegistrationForm({ packages, form }: RegistrationFormProps) {
+  const { searchParams } = useURL();
   const [activeStep, setActiveStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const activePackageSlug = searchParams.get('package') || packages[0].slug;
 
   const { values, handleChange, setFieldValue, handleSubmit } = useFormik<RegistrationFormType>({
     initialValues: {
@@ -123,24 +127,24 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
 
   const sections = [
     {
-      title: 'Personal Information',
-      component: <PersonalInformationForm values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
+      title: form?.personalInformationSection?.title,
+      component: <PersonalInformationForm form={form} values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
     },
     {
-      title: 'Additional Information',
-      component: <AdditionalInformationForm values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
+      title: form?.additionalInformationSection?.title,
+      component: <AdditionalInformationForm form={form} values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
     },
     {
-      title: "Parent\'s Information",
-      component: <PartnerInformationForm values={values} handleChange={handleChange} />,
+      title: form?.parentsInformationSection?.title,
+      component: <ParentInformationForm form={form} values={values} handleChange={handleChange} />,
     },
     {
-      title: 'Bank & Lawyer',
-      component: <BankxLawyerForm values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
+      title: form?.bankAndLawyerSection?.title,
+      component: <BankxLawyerForm form={form} values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
     },
     {
-      title: 'Document Uploads',
-      component: <DocumentUploadsForm values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
+      title: form?.documentUploadsSection?.title,
+      component: <DocumentUploadsForm form={form} values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
     },
   ]
 
@@ -216,13 +220,19 @@ export default function RegistrationForm({ packages, activePackageSlug }: Regist
           </div>
           <div className="flex items-center gap-2 overflow-hidden justify-between">
             {activeStep > 0 && (
-              <Button variant='secondary' className='w-full shrink' type='button' onClick={() => setActiveStep(activeStep - 1)}>Back</Button>
+              <Button variant='secondary' className='w-full shrink' type='button' onClick={() => setActiveStep(activeStep - 1)}>
+                {form?.buttons?.back}
+              </Button>
             )}
             {activeStep < sections.length - 1 && (
-              <Button disabled={!isFormValid} className='w-full shrink' type='button' onClick={() => setActiveStep(activeStep + 1)}>Next</Button>
+              <Button disabled={!isFormValid} className='w-full shrink' type='button' onClick={() => setActiveStep(activeStep + 1)}>
+                {form?.buttons?.next}
+              </Button>
             )}
             {activeStep === sections.length - 1 && (
-              <Button isLoading={isLoading} disabled={!isFormValid} className='w-full shrink' type='submit'>Register</Button>
+              <Button isLoading={isLoading} disabled={!isFormValid} className='w-full shrink' type='submit'>
+                {form?.buttons?.submit}
+              </Button>
             )}
           </div>
         </form>

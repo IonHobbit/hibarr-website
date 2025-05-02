@@ -1,9 +1,11 @@
-import { Metadata } from 'next'
-import React from 'react'
+import { client } from '@/lib/sanity/client'
+import { generateSEOMetadata } from '@/lib/utils'
+import { BankPackagesPage } from '@/types/sanity.types'
 
-export const metadata: Metadata = {
-  title: 'Banking Packages',
-  description: 'Banking Packages',
+export async function generateMetadata() {
+  const bankingPackages = await client.fetch<BankPackagesPage>(`*[_type == "bankPackagesPage"][0]{seo}`)
+
+  return generateSEOMetadata(bankingPackages.seo)
 }
 
 export default function BankingPackagesLayout({ children }: { children: React.ReactNode }) {

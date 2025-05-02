@@ -346,60 +346,66 @@ export type TranslationMetadata = {
 export type InternationalizedArrayReferenceValue = {
   _type: 'internationalizedArrayReferenceValue'
   value?:
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'homePage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'aboutPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'testimonialsPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'webinarPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'navigation'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'consultationPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'waitlistPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'faq'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'caseStudy'
-      }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'homePage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'aboutPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'testimonialsPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'webinarPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'navigation'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'consultationPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'bankPackagesPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'waitlistPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'faq'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'caseStudy'
+  }
 }
 
 export type CaseStudy = {
@@ -451,6 +457,108 @@ export type WaitlistPage = {
       email?: string
       phone?: string
       submitButton?: string
+    }
+  }
+  publishedAt?: string
+}
+
+export type BankPackagesPage = {
+  _id: string
+  _type: 'bankPackagesPage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  seo?: SeoMetaFields
+  title?: string
+  subtitle?: string
+  packages?: Array<{
+    title?: string
+    icon?: string
+    slug?: string
+    buttonText?: string
+    description?: string
+    price?: number
+    features?: Array<{
+      title?: string
+      _key: string
+    }>
+    _key: string
+  }>
+  form?: {
+    title?: string
+    personalInformationSection?: {
+      title?: string
+      salutation?: string
+      firstName?: string
+      lastName?: string
+      email?: string
+      phone?: string
+    }
+    additionalInformationSection?: {
+      title?: string
+      dateOfBirth?: string
+      placeOfBirth?: string
+      address?: string
+      city?: string
+      country?: string
+      zipCode?: string
+      maritalStatus?: string
+      profession?: string
+    }
+    parentsInformationSection?: {
+      title?: string
+      fathersFirstName?: string
+      fathersLastName?: string
+      mothersFirstName?: string
+      mothersLastName?: string
+      mothersMaidenName?: string
+    }
+    bankAndLawyerSection?: {
+      title?: string
+      bankAppointment?: string
+      initialDeposit?: string
+      amountToBeTransferred?: string
+      lawyerAppointment?: string
+      travelDetails?: {
+        title?: string
+        numberOfPeople?: string
+        arrivalDate?: string
+        departureDate?: string
+        requireRentalCar?: string
+        carSize?: string
+      }
+      additionalServices?: {
+        title?: string
+        airportTransfer?: string
+      }
+    }
+    documentUploadsSection?: {
+      title?: string
+      mainTravellerDocuments?: {
+        title?: string
+        passport?: string
+        utilityBill?: string
+        idFront?: string
+        idBack?: string
+        proofOfTravel?: string
+      }
+      additionalTravellerDocuments?: {
+        title?: string
+        additionalTravellerRadios?: {
+          title?: string
+          passport?: string
+          id?: string
+        }
+        passport?: string
+        idFront?: string
+        idBack?: string
+        proofOfTravel?: string
+      }
+    }
+    buttons?: {
+      back?: string
+      next?: string
+      submit?: string
     }
   }
   publishedAt?: string
@@ -936,6 +1044,7 @@ export type AllSanitySchemaTypes =
   | CaseStudy
   | Faq
   | WaitlistPage
+  | BankPackagesPage
   | ConsultationPage
   | Navigation
   | WebinarPage
