@@ -1,24 +1,33 @@
 'use client';
 
-import useListings from "@/hooks/useListings";
+import useListings, { Filters } from "@/hooks/useListings";
 import Property from "./Property";
 import { Pagination, PaginationNext } from "@/components/ui/pagination";
 import { PaginationContent, PaginationItem, PaginationLink, PaginationPrevious } from "@/components/ui/pagination";
 import useURL from "@/hooks/useURL";
-import { joinWith } from "@/lib/utils";
+import { joinWith, cn } from "@/lib/utils";
+import { decryptJSON, TOKEN_SECRET } from "@/lib/tokenize";
+import useFeatures from "@/hooks/useFeatures";
+import pluralize from "pluralize";
+import usePropertyTypes from "@/hooks/usePropertyTypes";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function PropertyList() {
   const { searchParams, updateParams } = useURL();
 
-  const location = searchParams.get('location')?.split(',') || [];
-  const propertyType = searchParams.get('propertyType')?.split(',') || [];
-  const bedrooms = searchParams.get('bedrooms') || '';
-  const bathrooms = searchParams.get('bathrooms') || '';
-  const features = searchParams.get('features')?.split(',') || [];
+  const q = searchParams.get('q') || '';
+  const filters: Filters = decryptJSON(q, TOKEN_SECRET) || {};
+
+  const location = filters.location || [];
+  const propertyType = filters.propertyType || [];
+  const bedrooms = filters.bedrooms || '';
+  const bathrooms = filters.bathrooms || '';
+  const features = filters.features || [];
   const minPrice = parseInt(searchParams.get('minPrice') || '0');
   const maxPrice = parseInt(searchParams.get('maxPrice') || '0');
+  const listingType = filters.listingType || '';
 
-  const { data: listings, paginationInfo } = useListings(
+  const { data: listings, isLoading, paginationInfo } = useListings(
     {
       location,
       propertyType,
@@ -27,31 +36,53 @@ export default function PropertyList() {
       features,
       minPrice,
       maxPrice,
+      listingType,
     },
     parseInt(searchParams.get('page') || '1'),
     parseInt(searchParams.get('limit') || '9'),
   );
 
+  const featuresHook = useFeatures();
+  const propertyTypesHook = usePropertyTypes();
+
+  const findFeature = (id: string) => {
+    return featuresHook.data?.find(({ id: featureId }) => featureId === id)?.name;
+  }
+
+  const findPropertyType = (id: string) => {
+    return propertyTypesHook.data?.find(({ id: propertyTypeId }) => propertyTypeId === id)?.name;
+  }
+
+  const featureList = features.map(feature => pluralize(findFeature(feature) || ''));
+  const propertyTypeList = propertyType.map(propertyType => pluralize(findPropertyType(propertyType) || '', 1));
+
   return (
     <section className="section h-full grow">
       {listings?.length === 0 && (
         <div className="flex flex-col gap-1 items-center justify-center h-[40vh] grow max-w-screen-sm mx-auto">
-          <h1 className="text-2xl font-bold">No {joinWith(propertyType, 'or')} listings found</h1>
+          <h1 className="text-2xl font-bold">No {joinWith(propertyTypeList, 'or')} listings found</h1>
           <p className="text-sm text-muted-foreground text-center">
             {location.length > 0 ? `in ${joinWith(location, 'or')}` : ''}
             {bedrooms ? ` with ${bedrooms} bedrooms` : ''}
             {bathrooms ? ` with ${bathrooms} bathrooms` : ''}
-            {features.length > 0 ? ` with ${features.join(', ')}` : ''}
+            {featureList.length > 0 ? ` with ${featureList.join(', ')}` : ''}
             {maxPrice ? ` for less than €${maxPrice.toLocaleString()}` : ''}</p>
         </div>
       )}
-      {listings && listings.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {listings?.map((listing, index) => (
-            <Property key={index} property={listing} />
-          ))}
-        </div>
-      )}
+      <div className="min-h-[80vh]">
+        {isLoading && (
+          <div className="flex items-center justify-center h-[80vh]">
+            <Icon icon="mdi:loading" className="size-8 animate-spin" />
+          </div>
+        )}
+        {listings && listings.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {listings?.map((listing, index) => (
+              <Property key={index} property={listing} />
+            ))}
+          </div>
+        )}
+      </div>
       {paginationInfo.totalPages > 1 && (
         <Pagination>
           <PaginationContent>
@@ -61,7 +92,7 @@ export default function PropertyList() {
               </PaginationItem>
             )}
             {Array.from({ length: paginationInfo.totalPages }, (_, index) => (
-              <PaginationItem key={index}>
+              <PaginationItem key={index} className={cn(paginationInfo.currentPage === index + 1 && 'bg-accent text-accent-foreground')}>
                 <PaginationLink onClick={() => updateParams({ key: 'page', value: index + 1 })}>
                   {index + 1}
                 </PaginationLink>

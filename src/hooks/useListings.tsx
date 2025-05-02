@@ -1,11 +1,15 @@
 'use client';
 
-import { PropertyType } from "@/types/main";
+import { PropertyListing, PropertyType } from "@/types/main";
 import { listings as mockListings } from "@/lib/mockdata";
 import { useQuery } from "@tanstack/react-query";
+import { client } from "@/lib/sanity/client";
+import { Property } from "@/types/sanity.types";
+import { PropertyListResponse } from "@/types/property";
 
-type Filters = {
+export type Filters = {
   location?: string[];
+  listingType?: string;
   propertyType?: string[];
   bedrooms?: string;
   bathrooms?: string;
@@ -34,15 +38,36 @@ export default function useListings(
   page: number,
   limit: number,
 ) {
-  const { data, isLoading, error } = useQuery<PropertyType[]>({
-    queryKey: ['listings', filters, page, limit],
-    queryFn: () => mockListings.filter((listing) => runFilters(filters, listing)).slice((page - 1) * limit, page * limit),
-  });
+  const filtersString = [
+    (filters.propertyType?.length || filters.features?.length) ? `&& references(${filters.propertyType?.concat(filters.features || []).flat(2).map(feature => `"${feature}"`).join(',')})` : '',
+    filters.location?.length ? `&& basicInfo.location in ${JSON.stringify(filters.location)}` : '',
+    filters.listingType ? `&& basicInfo.listingType == "${filters.listingType}"` : '',
+    filters.bedrooms ? `&& basicInfo.bedrooms == ${filters.bedrooms}` : '',
+    filters.bathrooms ? `&& basicInfo.bathrooms == ${filters.bathrooms}` : '',
+    filters.minPrice ? `&& basicInfo.price.amount >= ${filters.minPrice}` : '',
+    filters.maxPrice ? `&& basicInfo.price.amount <= ${filters.maxPrice}` : '',
+    '&& basicInfo.status != "draft" && basicInfo.status != "archived" && basicInfo.status != "sold" && basicInfo.status != "rented"',
+  ].filter(Boolean);
 
-  // const fetchListings = useQuery({
-  //   queryKey: ['listings-v2', filters, page, limit],
-  //   queryFn: () => client.fetch<PropertyType[]>(`*[_type == "property"]`),
-  // })
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['listings', filters, page, limit],
+    queryFn: () => client.fetch<PropertyListResponse[]>(`
+      *[_type == "property" ${filtersString.join(' ')}] | order(_updatedAt desc) [${(page - 1) * limit}...${page * limit}] {
+        "id": _id,
+        _createdAt,
+        _updatedAt,
+        "title": basicInfo.title,
+        "slug": basicInfo.slug.current,
+        "image": images[0],
+        "price": basicInfo.price,
+        "type": basicInfo.type[]->name,
+        "bathrooms": basicInfo.bathrooms,
+        "bedrooms": basicInfo.bedrooms,
+        "area": details.area,
+        "location": basicInfo.location,
+      }
+    `),
+  })
 
   const paginationInfo = {
     totalPages: Math.ceil(mockListings.filter((listing) => runFilters(filters, listing)).length / limit),

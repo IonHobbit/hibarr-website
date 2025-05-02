@@ -58,7 +58,7 @@ function Button({
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 w-full">
         {isLoading && <Icon icon="mdi:loading" className="size-4 animate-spin" />}
         {props.children}
       </div>

@@ -114,7 +114,37 @@ type ZapierPropertyEnquiryPayload = ZapierPayload & ContactInfo & {
   comment: string
 }
 
+type PropertyListing = {
+  _id: string;
+  _createdAt: string;
+  _updatedAt: string;
+  title: string;
+  slug: string;
+  description: string;
+  images: string[];
+  basicInfo: {
+    price: number;
+    bedrooms: number;
+    bathrooms: number;
+    area: number;
+    type: Array<{
+      name: string;
+      slug: string;
+    }>;
+    listingType: string;
+    location: string;
+  };
+  externalFeatures: string[];
+  internalFeatures: string[];
+  agent: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+};
+
 export type {
   NavigationItem, PropertyType, RegistrationFormType,
-  ZapierPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierConsultationPayload, ZapierPropertyEnquiryPayload, ZapierSignupPayload
+  ZapierPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierConsultationPayload, ZapierPropertyEnquiryPayload, ZapierSignupPayload,
+  PropertyListing
 }

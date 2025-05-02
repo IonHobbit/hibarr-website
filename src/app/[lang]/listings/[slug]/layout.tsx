@@ -1,0 +1,22 @@
+import { client } from '@/lib/sanity/client';
+import React from 'react'
+
+
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
+  const { slug } = await props.params;
+
+  const decodedSlug = decodeURIComponent(slug);
+
+  const property = await client.fetch(`*[_type == "property" && basicInfo.slug.current == "${decodedSlug}"][0]
+    {"title": basicInfo.title}`);
+
+  if (!property) {
+    return { title: 'Property Not Found' };
+  }
+
+  return { title: property?.title };
+}
+
+export default function ListingLayout({ children }: { children: React.ReactNode; }) {
+  return children;
+}

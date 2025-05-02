@@ -4,40 +4,48 @@ import { Select } from '@/components/Select'
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { count, features, locations, propertyTypes } from '@/lib/mockdata';
+import { count, locations } from '@/lib/mockdata';
 import { cn } from '@/lib/utils';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import useURL from '@/hooks/useURL';
+import useFeatures from '@/hooks/useFeatures';
+import { decryptJSON, shortenAndEncryptJSON, TOKEN_SECRET } from '@/lib/tokenize';
+import { Filters } from '@/hooks/useListings';
+import usePropertyTypes from '@/hooks/usePropertyTypes';
 
 export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const featureHook = useFeatures();
+  const propertyTypesHook = usePropertyTypes();
+
   const { searchParams, replaceParams } = useURL();
+
+  const features = featureHook.data?.map(({ name, id }) => ({ label: name, value: id })).filter(({ value }) => Boolean(value)) || [];
+  const propertyTypes = propertyTypesHook.data?.map(({ name, id }) => ({ label: name, value: id })).filter(({ value }) => Boolean(value)) || [];
+
+  const q = searchParams.get('q') || '';
+  const filters: Filters = decryptJSON(q, TOKEN_SECRET) || {};
 
   const [min, max] = [0, 1000000];
 
   const { values, setFieldValue, handleSubmit, resetForm } = useFormik({
     initialValues: {
-      location: searchParams.get('location')?.split(',') || [],
-      propertyType: searchParams.get('propertyType')?.split(',') || [],
-      bedrooms: searchParams.get('bedrooms') || '',
-      bathrooms: searchParams.get('bathrooms') || '',
-      features: searchParams.get('features')?.split(',') || [],
-      minPrice: parseInt(searchParams.get('minPrice') || min.toString()),
-      maxPrice: parseInt(searchParams.get('maxPrice') || max.toString()),
+      location: filters.location || [],
+      propertyType: filters.propertyType || [],
+      bedrooms: filters.bedrooms || '',
+      bathrooms: filters.bathrooms || '',
+      features: filters.features || [],
+      minPrice: parseInt(filters.minPrice?.toString() || min.toString()),
+      maxPrice: parseInt(filters.maxPrice?.toString() || max.toString()),
+      listingType: filters.listingType || '',
     },
     onSubmit: (values) => {
-      replaceParams([
-        { key: 'location', value: values.location.join(',') },
-        { key: 'propertyType', value: values.propertyType.join(',') },
-        { key: 'bedrooms', value: values.bedrooms },
-        { key: 'bathrooms', value: values.bathrooms },
-        { key: 'features', value: values.features.join(',') },
-        { key: 'minPrice', value: values.minPrice },
-        { key: 'maxPrice', value: values.maxPrice },
-      ].filter(({ value }) => value !== undefined && value !== ''), 'listings')
+      const value = shortenAndEncryptJSON(values, TOKEN_SECRET);
+      if (!value) return;
+      replaceParams({ key: 'q', value }, 'listings')
     }
   })
 
@@ -59,14 +67,19 @@ export default function SearchBar() {
     setIsOpen(false);
   }
 
+  const setListingType = (value: string) => {
+    setFieldValue('listingType', value);
+    handleSubmit();
+  }
+
   const toggleOpen = () => setIsOpen(!isOpen);
 
   return (
     <div className="flex flex-col items-center gap-4 px-4 z-10">
-      <Tabs defaultValue='all'>
+      <Tabs defaultValue={values.listingType} onValueChange={(value) => setListingType(value)}>
         <TabsList>
-          <TabsTrigger value='all'>All</TabsTrigger>
-          <TabsTrigger value='buy'>For Sale</TabsTrigger>
+          <TabsTrigger value=''>All</TabsTrigger>
+          <TabsTrigger value='sale'>For Sale</TabsTrigger>
           <TabsTrigger value='rent'>For Rent</TabsTrigger>
         </TabsList>
       </Tabs>

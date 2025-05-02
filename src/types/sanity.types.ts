@@ -68,12 +68,6 @@ export type Geopoint = {
   alt?: number
 }
 
-export type Slug = {
-  _type: 'slug'
-  current?: string
-  source?: string
-}
-
 export type Footer = {
   _id: string
   _type: 'footer'
@@ -159,7 +153,32 @@ export type PropertyFeature = {
   _updatedAt: string
   _rev: string
   name?: string
+  slug?: Slug
   type?: 'external' | 'internal'
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  description?: string
+}
+
+export type PropertyKind = {
+  _id: string
+  _type: 'propertyKind'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  slug?: Slug
+  main?: boolean
   image?: {
     asset?: {
       _ref: string
@@ -183,6 +202,7 @@ export type Property = {
   _rev: string
   basicInfo?: {
     title?: string
+    slug?: Slug
     price?: {
       currency?: 'GBP' | 'USD' | 'EUR' | 'AED' | 'TRY'
       amount?: number
@@ -205,18 +225,13 @@ export type Property = {
       _key: string
     }>
     status?: 'draft' | 'published' | 'archived' | 'sold' | 'rented' | 'on-hold'
-    type?:
-      | 'apartment'
-      | 'villa'
-      | 'studio'
-      | 'bungalow'
-      | 'commercial'
-      | 'condo'
-      | 'farm'
-      | 'land'
-      | 'loft'
-      | 'maisonette'
-      | 'townhouse'
+    type?: Array<{
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      _key: string
+      [internalGroqTypeReferenceTo]?: 'propertyKind'
+    }>
     featured?: boolean
     location?: 'famagusta' | 'girne' | 'lefkosa' | 'guzelyurt' | 'iskele' | 'lefke' | 'meneou'
     listingType?: 'sale' | 'rent'
@@ -290,7 +305,7 @@ export type PropertyAgent = {
   _updatedAt: string
   _rev: string
   code?: string
-  name?: string
+  firstName?: string
   lastName?: string
   email?: string
   phone?: string
@@ -306,6 +321,12 @@ export type PropertyAgent = {
     crop?: SanityImageCrop
     _type: 'image'
   }
+}
+
+export type Slug = {
+  _type: 'slug'
+  current?: string
+  source?: string
 }
 
 export type TranslationMetadata = {
@@ -902,13 +923,14 @@ export type AllSanitySchemaTypes =
   | SanityImageDimensions
   | SanityFileAsset
   | Geopoint
-  | Slug
   | Footer
   | Team
   | Testimonial
   | PropertyFeature
+  | PropertyKind
   | Property
   | PropertyAgent
+  | Slug
   | TranslationMetadata
   | InternationalizedArrayReferenceValue
   | CaseStudy
