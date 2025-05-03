@@ -36,7 +36,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
               <HeaderItem key={index} item={item} lang={lang} />
             ))}
           </div>
-          <div className="hidden md:flex items-center justify-end gap-6">
+          <div className="hidden md:flex items-center justify-end gap-4">
             <Button variant="outline" asChild>
               <Link href={navigationData?.bookCall?.href ?? ''}>
                 {navigationData?.bookCall?.title}
