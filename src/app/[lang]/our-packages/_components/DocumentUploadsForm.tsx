@@ -29,7 +29,7 @@ export default function DocumentUploadsForm({ form, values, setFieldValue }: Doc
         <FileInput required name='proofOfTravel' fileValue={values.documentUpload.main.proofOfTravel} title='Proof of Travel (with dates, times, flight number & airport)' onUpload={(value) => setFieldValue('documentUpload.main.proofOfTravel', value)} />
       </div>
 
-      {values.travelInfo.numberOfPeople > 0 && (
+      {/* {values.travelInfo.numberOfPeople > 0 && (
         <Fragment>
           <p className='font-medium'>{documentUploadsSection?.additionalTravellerDocuments?.title || 'Additional Traveller Documents'}</p>
           <div className='flex flex-col gap-4'>
@@ -68,7 +68,7 @@ export default function DocumentUploadsForm({ form, values, setFieldValue }: Doc
             ))}
           </div>
         </Fragment>
-      )}
+      )} */}
     </div>
   )
 }
