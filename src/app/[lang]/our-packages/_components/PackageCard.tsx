@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 export type BankPackage = {
   title: string
   icon: string
+  subtitle: string
   slug: string
   description: string
   price: number
@@ -27,7 +28,7 @@ type PackageCardProps = {
 export default function PackageCard({ pkg }: PackageCardProps) {
   const router = useRouter()
 
-  const { title, icon, slug, description, price, buttonText, features } = pkg;
+  const { title, subtitle, icon, slug, description, price, buttonText, features } = pkg;
 
   const handleSelect = () => {
     router.push(`/banking-packages?package=${slug}#register`)
@@ -40,6 +41,7 @@ export default function PackageCard({ pkg }: PackageCardProps) {
           <Icon icon={icon as string} className='text-primary-foreground' />
         </div>
         <CardTitle className='text-xl font-medium'>{title}</CardTitle>
+        {subtitle && <p className='text-sm text-muted-foreground'>{subtitle}</p>}
         <p className='text-sm text-muted-foreground'>{description}</p>
       </CardHeader>
       <CardContent className='flex flex-col gap-3'>
