@@ -10,7 +10,6 @@ import { RegistrationFormType } from '@/types/main';
 import { PopoverClose } from '@radix-ui/react-popover';
 import DocumentUploadsForm from './DocumentUploadsForm';
 import PersonalInformationForm from './PersonalInformationForm';
-import AdditionalInformationForm from './AdditionalInformationForm';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import useURL from '@/hooks/useURL';
 import { BankPackage } from './PackageCard';
