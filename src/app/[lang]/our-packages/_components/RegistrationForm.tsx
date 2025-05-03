@@ -55,7 +55,6 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
       },
       bankAndLawyer: {
         openingBalance: minimumDeposit[activePackageSlug as keyof typeof minimumDeposit].toString(),
-        futureBalance: '0',
         bankAppointment: false,
         lawyerAppointment: false,
       },
@@ -88,7 +87,6 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
           bankAndLawyer: {
             ...values.bankAndLawyer,
             openingBalance: values.bankAndLawyer.openingBalance ? `€${Number(values.bankAndLawyer.openingBalance).toLocaleString()}` : '€0',
-            futureBalance: values.bankAndLawyer.futureBalance ? `€${Number(values.bankAndLawyer.futureBalance).toLocaleString()}` : '€0',
           },
           travelInfo: {
             ...values.travelInfo,

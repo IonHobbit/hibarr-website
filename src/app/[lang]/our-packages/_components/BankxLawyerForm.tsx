@@ -42,10 +42,7 @@ export default function BankxLawyerForm({ form, values, handleChange, setFieldVa
           <label htmlFor="bankAndLawyer.bankAppointment" className="text-xs cursor-pointer">{bankAndLawyerSection?.bankAppointment?.replace('{amount}', getMinimumDeposit.toLocaleString()) || 'Do you require a bank appointment? (Minimum deposit is €{amount})'.replace('{amount}', getMinimumDeposit.toLocaleString())}</label>
         </div>
         {values.bankAndLawyer.bankAppointment && (
-          <div className='grid grid-cols-2 gap-3'>
-            <Input type='number' title={bankAndLawyerSection?.initialDeposit || 'Initial Deposit (€)'} min={getMinimumDeposit} name='bankAndLawyer.openingBalance' value={values.bankAndLawyer.openingBalance || getMinimumDeposit} onChange={handleChange} />
-            <Input type='number' title={bankAndLawyerSection?.amountToBeTransferred || 'Amount to be transferred (€)'} name='bankAndLawyer.futureBalance' value={values.bankAndLawyer.futureBalance} onChange={handleChange} />
-          </div>
+          <Input type='number' title={bankAndLawyerSection?.initialDeposit || 'Initial Deposit (€)'} min={getMinimumDeposit} name='bankAndLawyer.openingBalance' value={values.bankAndLawyer.openingBalance || getMinimumDeposit} onChange={handleChange} />
         )}
         <div className="flex items-start gap-2">
           <Checkbox id="bankAndLawyer.lawyerAppointment" required checked={values.bankAndLawyer.lawyerAppointment} onClick={() => setFieldValue('bankAndLawyer.lawyerAppointment', !values.bankAndLawyer.lawyerAppointment)} />
@@ -73,6 +70,7 @@ export default function BankxLawyerForm({ form, values, handleChange, setFieldVa
                 <SelectItem value='Small'>Small</SelectItem>
                 <SelectItem value='Medium'>Medium</SelectItem>
                 <SelectItem value='Large'>Large</SelectItem>
+                <SelectItem value='Jeep'>Jeep</SelectItem>
               </SelectContent>
             </Select>
           )}

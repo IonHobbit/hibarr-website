@@ -52,7 +52,6 @@ type RegistrationFormType = {
     bankAppointment: boolean;
     lawyerAppointment: boolean;
     openingBalance: string;
-    futureBalance: string;
   };
   travelInfo: {
     rentalCar: string;
