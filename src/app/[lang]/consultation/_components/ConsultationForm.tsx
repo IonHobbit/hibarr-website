@@ -120,15 +120,15 @@ export default function ConsultationForm() {
       label: 'Let\'s get to know you',
       component: <div className='flex flex-col gap-4'>
         <div className='grid grid-cols-2 gap-4'>
-          <Input name='firstName' title='First name' required value={values.firstName} onChange={handleChange} placeholder='eg. John' />
-          <Input name='lastName' title='Last name' required value={values.lastName} onChange={handleChange} placeholder='eg. Doe' />
+          <Input name='firstName' title='First name' required value={values.firstName} onChange={handleChange} placeholder='John' />
+          <Input name='lastName' title='Last name' required value={values.lastName} onChange={handleChange} placeholder='Doe' />
         </div>
-        <Input name='email' title='Email Address' required value={values.email} onChange={handleChange} placeholder='eg. john.doe@example.com' />
+        <Input name='email' title='Email Address' required value={values.email} onChange={handleChange} placeholder='john.doe@example.com' />
       </div>
     },
     {
       label: 'What country are you currently living in?',
-      component: <Input name='country' required value={values.country} onChange={handleChange} placeholder='eg. Germany, Turkey, etc.' />
+      component: <Input name='country' required value={values.country} onChange={handleChange} placeholder='Germany, Turkey, etc.' />
     },
     {
       label: 'What are you interested in?',
@@ -171,7 +171,7 @@ export default function ConsultationForm() {
     },
     {
       label: 'Is there anything else you would like us to know before we contact you?',
-      component: <Textarea name='message' value={values.message} onChange={handleChange} placeholder='eg. I am looking for a property in Istanbul, I am a first time buyer, etc.' />
+      component: <Textarea name='message' value={values.message} onChange={handleChange} placeholder='I am looking for a property in Istanbul, I am a first time buyer, etc.' />
     },
     {
       label: 'What is your preferred language?',

@@ -35,7 +35,7 @@ export default function SignupSection({ data }: SignupSectionProps) {
       firstName: Yup.string().required('First name is required'),
       lastName: Yup.string().required('Last name is required'),
       email: Yup.string().email('Invalid email').required('Email is required'),
-      phoneNumber: Yup.string().matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number, please use international format (e.g. +491234567890)'),
+      phoneNumber: Yup.string().matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number, please use international format (+491234567890)'),
       consent: Yup.boolean().required('Consent is required').oneOf([true], 'Consent is required'),
       package: Yup.string().required('Package is required'),
       alphaCashReferral: Yup.string().url('Invalid referral link')

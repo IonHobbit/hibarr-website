@@ -40,7 +40,7 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
           required
           title={formData?.form?.firstName || 'First Name'}
           name="firstName"
-          placeholder="eg. John"
+          placeholder="John"
           value={values.firstName}
           onChange={handleChange}
         />
@@ -49,7 +49,7 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
           required
           title={formData?.form?.lastName || 'Last Name'}
           name="lastName"
-          placeholder="eg. Doe"
+          placeholder="Doe"
           value={values.lastName}
           onChange={handleChange}
         />
@@ -59,7 +59,7 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
         required
         title={formData?.form?.email || 'Email'}
         name="email"
-        placeholder="eg. john.doe@gmail.com"
+        placeholder="john.doe@gmail.com"
         value={values.email}
         onChange={handleChange}
       />
@@ -68,7 +68,7 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
         required
         title={formData?.form?.phone || 'Phone Number'}
         name="phoneNumber"
-        placeholder="eg. +1234567890"
+        placeholder="+1234567890"
         value={values.phoneNumber}
         onChange={handleChange}
       />

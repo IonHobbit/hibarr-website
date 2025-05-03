@@ -44,7 +44,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
       firstName: Yup.string().required('First name is required'),
       lastName: Yup.string().required('Last name is required'),
       email: Yup.string().email('Invalid email address, please enter a valid email address').required('Email is required'),
-      phone: Yup.string().required('Phone is required').matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number, please use international format (e.g. +49 123 456 7890)'),
+      phone: Yup.string().required('Phone is required').matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number, please use international format (+49 123 456 7890)'),
     }),
     onSubmit: () => mutate(),
   });
@@ -75,7 +75,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
             <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-6 bg-background rounded-lg justify-between h-full md:max-w-md mx-auto w-full">
               <h3 className="text-xl md:text-2xl text-center">{data.registrationSection?.form?.title ?? 'Register for the webinar'}</h3>
               <Input type="text" title={data.registrationSection?.form?.firstName ?? 'First Name'}
-                placeholder="eg. John"
+                placeholder="John"
                 name="firstName"
                 required
                 value={values.firstName}
@@ -84,7 +84,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
                 error={errors.firstName && touched.firstName ? errors.firstName : undefined}
               />
               <Input type="text" title={data.registrationSection?.form?.lastName ?? 'Last Name'}
-                placeholder="eg. Doe"
+                placeholder="Doe"
                 name="lastName"
                 required
                 value={values.lastName}
@@ -93,7 +93,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
                 error={errors.lastName && touched.lastName ? errors.lastName : undefined}
               />
               <Input type="email" title={data.registrationSection?.form?.email ?? 'Email'}
-                placeholder="eg. john.doe@example.com"
+                placeholder="john.doe@example.com"
                 name="email"
                 required
                 value={values.email}
@@ -102,7 +102,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
                 error={errors.email && touched.email ? errors.email : undefined}
               />
               <Input type="tel" title={data.registrationSection?.form?.phone ?? 'Phone'}
-                placeholder="eg. +49 123 456 7890"
+                placeholder="+49 123 456 7890"
                 name="phone"
                 required
                 value={values.phone}

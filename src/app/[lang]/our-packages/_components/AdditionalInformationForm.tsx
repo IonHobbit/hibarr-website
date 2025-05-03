@@ -41,7 +41,7 @@ export default function AdditionalInformationForm({ form, values, handleChange, 
           value={values.additionalInformation.dateOfBirth}
           onChange={handleChange} />
         <Input type="text" required title={additionalInformationSection?.placeOfBirth || 'Place of Birth'} name='additionalInformation.placeOfBirth'
-          placeholder='eg. Berlin, Germany'
+          placeholder='Berlin, Germany'
           value={values.additionalInformation.placeOfBirth}
           onChange={handleChange} />
       </div>
@@ -51,19 +51,19 @@ export default function AdditionalInformationForm({ form, values, handleChange, 
       <div className='grid grid-cols-2 lg:grid-cols-8 gap-2'>
         <div className='col-span-3'>
           <Input type="Text" required title={additionalInformationSection?.city || 'City'} name='additionalInformation.city'
-            placeholder='eg. Berlin'
+            placeholder='Berlin'
             value={values.additionalInformation.city}
             onChange={handleChange} />
         </div>
         <div className='col-span-3'>
           <Input type="Text" required title={additionalInformationSection?.country || 'Country'} name='additionalInformation.country'
-            placeholder='eg. Germany'
+            placeholder='Germany'
             value={values.additionalInformation.country}
             onChange={handleChange} />
         </div>
         <div className='col-span-2 overflow-hidden'>
           <Input required title={additionalInformationSection?.zipCode || 'ZIP code'} name='additionalInformation.zipCode'
-            placeholder='eg. 12345'
+            placeholder='12345'
             value={values.additionalInformation.zipCode}
             onChange={handleChange} />
         </div>
@@ -82,7 +82,7 @@ export default function AdditionalInformationForm({ form, values, handleChange, 
             ))}
           </SelectContent>
         </Select>
-        <Input type="text" required title={additionalInformationSection?.profession || 'Profession'} placeholder='eg. Engineer' name='additionalInformation.profession'
+        <Input type="text" required title={additionalInformationSection?.profession || 'Profession'} placeholder='Engineer' name='additionalInformation.profession'
           value={values.additionalInformation.profession} onChange={handleChange} />
       </div>
     </div>
