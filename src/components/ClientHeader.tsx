@@ -20,7 +20,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
 
   const pathname = usePathname()
 
-  const excludedPaths = ['/banking-packages', '/listings/']
+  const excludedPaths = ['/our-packages', '/listings/']
 
   const isExcludedPath = excludedPaths.some(path => pathname.includes(path))
 
