@@ -41,16 +41,6 @@ type RegistrationFormType = {
   personalInformation: ContactInfo & {
     salutation: string;
   };
-  additionalInformation: {
-    dateOfBirth: string;
-    placeOfBirth: string;
-    address: string;
-    zipCode: string;
-    city: string;
-    country: string;
-    maritalStatus: string;
-    profession: string;
-  };
   nextOfKin: {
     fathersFirstName: string;
     fathersLastName: string;

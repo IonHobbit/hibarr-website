@@ -46,16 +46,6 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
         email: '',
         phoneNumber: '',
       },
-      additionalInformation: {
-        dateOfBirth: '',
-        placeOfBirth: '',
-        address: '',
-        zipCode: '',
-        city: '',
-        country: '',
-        maritalStatus: 'Single',
-        profession: '',
-      },
       nextOfKin: {
         fathersFirstName: '',
         fathersLastName: '',
@@ -94,10 +84,6 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
         const payload = {
           package: values.package,
           personalInformation: values.personalInformation,
-          additionalInformation: {
-            ...values.additionalInformation,
-            dateOfBirth: values.additionalInformation.dateOfBirth ? new Date(values.additionalInformation.dateOfBirth).toLocaleDateString() : '',
-          },
           nextOfKin: values.nextOfKin,
           bankAndLawyer: {
             ...values.bankAndLawyer,
@@ -131,10 +117,6 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
       component: <PersonalInformationForm form={form} values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
     },
     {
-      title: form?.additionalInformationSection?.title,
-      component: <AdditionalInformationForm form={form} values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
-    },
-    {
       title: form?.parentsInformationSection?.title,
       component: <ParentInformationForm form={form} values={values} handleChange={handleChange} />,
     },
@@ -162,12 +144,10 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     if (activeStep === 0) {
       return values.personalInformation.firstName && values.personalInformation.lastName && values.personalInformation.email && values.personalInformation.phoneNumber;
     } else if (activeStep === 1) {
-      return values.additionalInformation.dateOfBirth && values.additionalInformation.placeOfBirth && values.additionalInformation.address && values.additionalInformation.zipCode && values.additionalInformation.city && values.additionalInformation.country && values.additionalInformation.maritalStatus && values.additionalInformation.profession;
-    } else if (activeStep === 2) {
       return values.nextOfKin.fathersFirstName && values.nextOfKin.fathersLastName && values.nextOfKin.mothersFirstName && values.nextOfKin.mothersLastName && values.nextOfKin.motherMaidenName;
-    } else if (activeStep === 3) {
+    } else if (activeStep === 2) {
       return values.travelInfo.arrivalDate && values.travelInfo.departureDate;
-    } else if (activeStep === 4) {
+    } else if (activeStep === 3) {
       return values.documentUpload.main.passport && values.documentUpload.main.idFront && values.documentUpload.main.idBack && values.documentUpload.main.utilityBill && values.documentUpload.main.proofOfTravel;
     }
 
