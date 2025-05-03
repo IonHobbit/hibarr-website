@@ -477,6 +477,7 @@ export type BankPackagesPage = {
     subtitle?: string
     slug?: string
     buttonText?: string
+    moreText?: string
     description?: string
     price?: number
     features?: Array<{
