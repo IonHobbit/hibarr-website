@@ -21,7 +21,7 @@ export default function SearchBar() {
   const featureHook = useFeatures();
   const propertyTypesHook = usePropertyTypes();
 
-  const { searchParams, replaceParams } = useURL();
+  const { searchParams, replaceParams, clearParams } = useURL();
 
   const features = featureHook.data?.map(({ name, id }) => ({ label: name, value: id })).filter(({ value }) => Boolean(value)) || [];
   const propertyTypes = propertyTypesHook.data?.map(({ name, id }) => ({ label: name, value: id })).filter(({ value }) => Boolean(value)) || [];
@@ -72,6 +72,14 @@ export default function SearchBar() {
     handleSubmit();
   }
 
+  const clearFilters = () => {
+    resetForm();
+    handleSubmit();
+    setTimeout(() => {
+      clearParams();
+    }, 4);
+  }
+
   const toggleOpen = () => setIsOpen(!isOpen);
 
   return (
@@ -98,8 +106,8 @@ export default function SearchBar() {
               Price Range
             </Button>
             {(values.location.length > 0 || values.propertyType.length > 0 || parseInt(values.bedrooms) > 0 || parseInt(values.bathrooms) > 0 || values.features.length > 0) && (
-              <Button type='button' onClick={() => resetForm()} className='rounded w-full xl:w-auto'>
-                Reset Filters
+              <Button type='button' onClick={clearFilters} className='rounded w-full xl:w-auto'>
+                Clear Filters
               </Button>
             )}
             <Button variant='accent' type='submit' className='rounded w-full xl:w-auto'>
