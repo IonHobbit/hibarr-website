@@ -1,7 +1,6 @@
 export const i18n = {
   defaultLocale: 'en',
-  // locales: ['en', 'de', 'tr'],
-  locales: ['en', 'de'],
+  locales: ['en', 'de', 'tr'],
 } as const;
 
 export const localeInfo = {
@@ -12,6 +11,10 @@ export const localeInfo = {
   de: {
     flag: '🇩🇪',
     name: 'Deutsch',
+  },
+  tr: {
+    flag: '🇹🇷',
+    name: 'Türkçe',
   },
 } as const;
 
