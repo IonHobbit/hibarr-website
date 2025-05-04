@@ -1,7 +1,3 @@
-import { Dictionary } from "@/lib/dictionary";
-
-type NavigationItem = Dictionary['navigation'][number]
-
 type PropertyType = {
   id: string;
   name: string;
@@ -132,8 +128,7 @@ type PropertyListing = {
   };
 };
 
-export type {
-  NavigationItem, PropertyType, RegistrationFormType,
+export type { PropertyType, RegistrationFormType,
   ZapierPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierConsultationPayload, ZapierPropertyEnquiryPayload, ZapierSignupPayload,
   PropertyListing
 }
