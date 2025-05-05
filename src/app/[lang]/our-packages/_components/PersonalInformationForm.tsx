@@ -45,14 +45,14 @@ export default function PersonalInformationForm({ form, values, handleChange, se
           </Select>
         </div>
         <div className='col-span-3'>
-          <Input required type='text' title={personalInformationSection?.firstName || 'First Name'} name='personalInformation.firstName' value={values.personalInformation.firstName} onChange={handleChange} placeholder=' John' />
+          <Input required type='text' title={personalInformationSection?.firstName || 'First Name'} name='personalInformation.firstName' value={values.personalInformation.firstName} onChange={handleChange} placeholder='John' />
         </div>
         <div className='col-span-3'>
-          <Input required type='text' title={personalInformationSection?.lastName || 'Last Name'} name='personalInformation.lastName' value={values.personalInformation.lastName} onChange={handleChange} placeholder=' Doe' />
+          <Input required type='text' title={personalInformationSection?.lastName || 'Last Name'} name='personalInformation.lastName' value={values.personalInformation.lastName} onChange={handleChange} placeholder='Doe' />
         </div>
       </div>
-      <Input required type='email' title={personalInformationSection?.email || 'Email'} name='personalInformation.email' value={values.personalInformation.email} onChange={handleChange} placeholder=' john.doe@example.com' />
-      <Input required type='tel' title={personalInformationSection?.phone || 'Phone Number'} name='personalInformation.phoneNumber' value={values.personalInformation.phoneNumber} onChange={handleChange} placeholder=' +905555555555' />
+      <Input required type='email' title={personalInformationSection?.email || 'Email'} name='personalInformation.email' value={values.personalInformation.email} onChange={handleChange} placeholder='john.doe@example.com' />
+      <Input required type='tel' title={personalInformationSection?.phone || 'Phone Number'} name='personalInformation.phoneNumber' value={values.personalInformation.phoneNumber} onChange={handleChange} placeholder='+905555555555' />
     </div>
   )
 }

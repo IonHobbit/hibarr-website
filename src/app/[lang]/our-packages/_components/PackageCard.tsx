@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 import { Icon } from '@iconify/react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -11,6 +12,7 @@ export type BankPackage = {
   icon: string
   subtitle: string
   slug: string
+  minimumDeposit: number
   description: string
   price: number
   buttonText: string
@@ -42,8 +44,8 @@ export default function PackageCard({ pkg }: PackageCardProps) {
         <div className="grid place-items-center size-8 bg-accent rounded-sm mb-4">
           <Icon icon={icon as string} className='text-primary-foreground' />
         </div>
-        <CardTitle className='text-xl font-medium'>{title}</CardTitle>
-        {subtitle && <p className='text-sm text-muted-foreground'>{subtitle}</p>}
+        <CardTitle className='text-xl font-medium flex flex-wrap gap-1'>{title} {subtitle && <span className='text-xs text-muted-foreground'>{subtitle}</span>}</CardTitle>
+
         <p className='text-sm text-muted-foreground'>{description}</p>
       </CardHeader>
       <CardContent className='flex flex-col'>
@@ -53,10 +55,10 @@ export default function PackageCard({ pkg }: PackageCardProps) {
           <p className='text-sm text-muted-foreground'>{moreText || 'More information'}</p>
           <Icon icon='mdi:chevron-down' className={`text-muted-foreground transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
         </div>
-        <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 mt-3' : 'max-h-0'}`}>
+        <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-[900px] mt-3' : 'max-h-0'}`}>
           <ul className='flex flex-col gap-2'>
             {features?.map((feature, index) => (
-              <li key={index} className='text-sm font-medium'>{feature.title}</li>
+              <li key={index} className={cn('text-sm', feature.title.includes('plus...') && 'font-semibold')}>{feature.title}</li>
             ))}
           </ul>
         </div>

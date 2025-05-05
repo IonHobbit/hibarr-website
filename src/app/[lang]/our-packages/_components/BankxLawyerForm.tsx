@@ -3,24 +3,21 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { RegistrationFormType } from '@/types/main'
 import { BankPackagesPage } from '@/types/sanity.types';
-
-const minimumDeposit = {
-  'Free Package': 1000,
-  'VIP Banking Package': 500,
-  'Real Estate Package': 100,
-}
+import { BankPackage } from './PackageCard';
+import { PACKAGE_TYPE } from '@/lib/mockdata';
 
 type BankxLawyerFormProps = {
   form: BankPackagesPage['form']
+  activePackage: BankPackage
   values: RegistrationFormType;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setFieldValue: (field: string, value: string | boolean | number | object) => void;
 }
 
-export default function BankxLawyerForm({ form, values, handleChange, setFieldValue }: BankxLawyerFormProps) {
+export default function BankxLawyerForm({ form, activePackage, values, handleChange, setFieldValue }: BankxLawyerFormProps) {
   const { bankAndLawyerSection } = form!;
 
-  const getMinimumDeposit = minimumDeposit[values.package as keyof typeof minimumDeposit];
+  const getMinimumDeposit = activePackage.minimumDeposit;
 
   const handleChangeInNumberOfPeople = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(e);
@@ -64,7 +61,7 @@ export default function BankxLawyerForm({ form, values, handleChange, setFieldVa
           {values.travelInfo.requireRentalCar && (
             <Select value={values.travelInfo.rentalCar} onValueChange={(value) => setFieldValue('travelInfo.rentalCar', value)}>
               <SelectTrigger title={bankAndLawyerSection?.travelDetails?.carSize || 'What size of car do you require?'} className='w-full'>
-                <SelectValue placeholder=' Small, Medium, Large' />
+                <SelectValue placeholder='Small, Medium, Large or Jeep' />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value='Small'>Small</SelectItem>
@@ -82,8 +79,8 @@ export default function BankxLawyerForm({ form, values, handleChange, setFieldVa
           <div className="flex items-start gap-2">
             <Checkbox id="travelInfo.airportTransfer" required checked={values.travelInfo.airportTransfer} onClick={() => setFieldValue('travelInfo.airportTransfer', !values.travelInfo.airportTransfer)} />
             <label htmlFor="travelInfo.airportTransfer" className="text-xs cursor-pointer">
-              {bankAndLawyerSection?.additionalServices?.airportTransfer + ` (${values.package === 'Free Package' ? 'You will bear the cost' : 'Included in your package'})` ||
-                `Do you require Airport Transfer? (${values.package === 'Free Package' ? 'You will bear the cost' : 'Included in your package'})`}
+              {bankAndLawyerSection?.additionalServices?.airportTransfer + ` (${values.package === PACKAGE_TYPE['basic-package'] ? 'You will bear the cost' : 'Included in your package'})` ||
+                `Do you require Airport Transfer? (${values.package === PACKAGE_TYPE['basic-package'] ? 'You will bear the cost' : 'Included in your package'})`}
             </label>
           </div>
         </div>

@@ -15,16 +15,11 @@ import useURL from '@/hooks/useURL';
 import { BankPackage } from './PackageCard';
 import { BankPackagesPage } from '@/types/sanity.types';
 import ParentInformationForm from './ParentInformationForm';
+import { PACKAGE_TYPE } from '@/lib/mockdata';
 
 type RegistrationFormProps = {
   packages: BankPackage[]
   form: BankPackagesPage['form']
-}
-
-const minimumDeposit = {
-  'Free Package': 1000,
-  'VIP Banking Package': 500,
-  'Real Estate Package': 100,
 }
 
 export default function RegistrationForm({ packages, form }: RegistrationFormProps) {
@@ -33,7 +28,9 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const activePackageSlug = searchParams.get('package') || packages[0].slug;
+  const activePackageSlug = searchParams.get('package') || packages[0].slug || PACKAGE_TYPE['basic-package'];
+
+  const activePackage = packages.find((pkg) => pkg.slug === activePackageSlug) as BankPackage;
 
   const { values, handleChange, setFieldValue, handleSubmit } = useFormik<RegistrationFormType>({
     initialValues: {
@@ -53,7 +50,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
         motherMaidenName: '',
       },
       bankAndLawyer: {
-        openingBalance: minimumDeposit[activePackageSlug as keyof typeof minimumDeposit].toString(),
+        openingBalance: activePackage?.minimumDeposit ? activePackage.minimumDeposit.toString() : '0',
         bankAppointment: false,
         lawyerAppointment: false,
       },
@@ -80,7 +77,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
       setIsLoading(true);
       try {
         const payload = {
-          package: values.package,
+          package: PACKAGE_TYPE[values.package as keyof typeof PACKAGE_TYPE],
           personalInformation: values.personalInformation,
           nextOfKin: values.nextOfKin,
           bankAndLawyer: {
@@ -119,7 +116,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     },
     {
       title: form?.bankAndLawyerSection?.title,
-      component: <BankxLawyerForm form={form} values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
+      component: <BankxLawyerForm form={form} activePackage={activePackage} values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
     },
     {
       title: form?.documentUploadsSection?.title,
@@ -134,7 +131,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
 
   const updatePackage = (slug: string) => {
     setFieldValue('package', slug);
-    setFieldValue('bankAndLawyer.openingBalance', minimumDeposit[slug as keyof typeof minimumDeposit].toString());
+    setFieldValue('bankAndLawyer.openingBalance', activePackage?.minimumDeposit ? activePackage.minimumDeposit.toString() : '0');
   }
 
   const isFormValid = useMemo(() => {
@@ -185,7 +182,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
                 <PopoverContent align='end' className='w-max flex flex-col items-start gap-2'>
                   {packages.map((pack, index) => (
                     <PopoverClose asChild key={index}>
-                      <p className='cursor-pointer w-full' onClick={() => updatePackage(pack.slug)}>{pack.title} {pack.price ? `(€${pack.price.toLocaleString()})` : ''}</p>
+                      <p className='cursor-pointer w-full' onClick={() => updatePackage(pack.slug)}>{pack.title} {pack.price ? `(€${pack.price.toLocaleString()})` : '()'}</p>
                     </PopoverClose>
                   ))}
                 </PopoverContent>
