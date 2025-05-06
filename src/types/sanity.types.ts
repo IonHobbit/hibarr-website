@@ -476,6 +476,7 @@ export type BankPackagesPage = {
     icon?: string
     subtitle?: string
     slug?: string
+    stripePriceId?: string
     minimumDeposit?: number
     buttonText?: string
     moreText?: string

@@ -16,6 +16,8 @@ import { BankPackage } from './PackageCard';
 import { BankPackagesPage } from '@/types/sanity.types';
 import ParentInformationForm from './ParentInformationForm';
 import { PACKAGE_TYPE } from '@/lib/mockdata';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 type RegistrationFormProps = {
   packages: BankPackage[]
@@ -24,7 +26,9 @@ type RegistrationFormProps = {
 
 export default function RegistrationForm({ packages, form }: RegistrationFormProps) {
   const { searchParams } = useURL();
+  const router = useRouter();
   const [activeStep, setActiveStep] = useState(0);
+  const [url, setUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -79,6 +83,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
         const payload = {
           package: PACKAGE_TYPE[values.package as keyof typeof PACKAGE_TYPE],
           packagePrice: packages.find((pkg) => pkg.slug === values.package)?.price,
+          stripePriceId: packages.find((pkg) => pkg.slug === values.package)?.stripePriceId,
           personalInformation: values.personalInformation,
           nextOfKin: values.nextOfKin,
           bankAndLawyer: {
@@ -99,7 +104,16 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
         const data = await response.json()
         setIsLoading(false);
         setIsSuccess(true);
-        window.open(data.url, '_blank')
+        if (data.url) {
+          router.push(data.url);
+          setTimeout(() => {
+            setUrl(data.url);
+          }, 1000);
+        } else {
+          setTimeout(() => {
+            router.push('webinar')
+          }, 2000);
+        }
       } catch (error) {
         console.error(error);
         setIsLoading(false);
@@ -149,7 +163,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     } else if (activeStep === 2) {
       return values.travelInfo.arrivalDate && values.travelInfo.departureDate;
     } else if (activeStep === 3) {
-      return values.documentUpload.main.passport && values.documentUpload.main.idFront && values.documentUpload.main.idBack && values.documentUpload.main.utilityBill && values.documentUpload.main.proofOfTravel;
+      // return values.documentUpload.main.passport && values.documentUpload.main.idFront && values.documentUpload.main.idBack && values.documentUpload.main.utilityBill && values.documentUpload.main.proofOfTravel;
     }
 
     return true;
@@ -164,7 +178,23 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
       {isSuccess ? (
         <div className='flex flex-col gap-4 items-center justify-center'>
           <Icon icon='mdi:check-circle' className='size-20 text-primary' />
-          <p className='text-lg text-center'>Your registration has been successfully submitted. <br /> We will get back to you soon.</p>
+          <p className='text-base text-center'>
+            Your registration has been successfully submitted.
+            <br />
+            {values.package === 'basic-package' ?
+              'We will get back to you soon.'
+              :
+              'You will be redirected to make payment shortly.'
+            }
+          </p>
+          {values.package === 'basic-package' && (
+            <p className='text-sm text-center'>You will be redirected shortly.</p>
+          )}
+          {url && (
+            <p className='text-sm text-center'>
+              If you are not redirected, please click <Link className='text-sm text-primary font-medium hover:underline' href={url} target='_blank' rel='noopener noreferrer'>here to proceed to make payment</Link>
+            </p>
+          )}
         </div>
       ) : (
         <form onSubmit={submitForm} className='flex flex-col gap-4'>

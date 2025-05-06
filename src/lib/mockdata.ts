@@ -1121,9 +1121,9 @@ export const count = [
 ]
 
 export const PACKAGE_TYPE = {
-  'basic-package': 'basicPackage',
-  'bank-vip-package': 'bankVipPackage',
-  'immo-package': 'immoPackage',
+  'basic-package': 'Basic Package',
+  'bank-vip-package': 'Bank VIP Package',
+  'immo-package': 'Immo Package',
 } as const;
 
 const _features = listings.map((listing) => listing.features).flat();
