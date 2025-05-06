@@ -3,6 +3,7 @@ import { Playfair_Display, Inter, Work_Sans } from "next/font/google";
 import { Locale } from "@/lib/i18n-config";
 import "./globals.css";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import { PostHogProvider } from "@/providers/PostHogProvider";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair-display",
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
     default: "Hibarr Estates",
   },
   description: "Unlock the potential of real estate in North Cyprus and see why it is the preferred choice for international investors.",
-}
+};
 
 export default async function RootLayout(
   props: Readonly<{
@@ -41,9 +42,11 @@ export default async function RootLayout(
       <body
         className={`${playfairDisplay.variable} ${inter.variable} ${workSans.variable} antialiased relative w-screen`}
       >
-        <ReactQueryProvider>
-          {children}
-        </ReactQueryProvider>
+        <PostHogProvider>
+          <ReactQueryProvider>
+            {children}
+          </ReactQueryProvider>
+        </PostHogProvider>
       </body>
     </html>
   );

@@ -37,6 +37,8 @@
     "next-sanity": "^9.10.1",
     "papaparse": "^5.5.2",
     "pluralize": "^8.0.0",
+    "posthog-js": "^1.239.1",
+    "posthog-node": "^4.17.1",
     "react": "^19.0.0",
     "react-circle-flags": "^0.0.23",
     "react-dom": "^19.0.0",

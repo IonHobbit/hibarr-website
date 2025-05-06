@@ -78,6 +78,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
       try {
         const payload = {
           package: PACKAGE_TYPE[values.package as keyof typeof PACKAGE_TYPE],
+          packagePrice: packages.find((pkg) => pkg.slug === values.package)?.price,
           personalInformation: values.personalInformation,
           nextOfKin: values.nextOfKin,
           bankAndLawyer: {
@@ -95,9 +96,10 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
           method: 'POST',
           body: JSON.stringify(payload),
         })
-        await response.json()
+        const data = await response.json()
         setIsLoading(false);
         setIsSuccess(true);
+        window.open(data.url, '_blank')
       } catch (error) {
         console.error(error);
         setIsLoading(false);
