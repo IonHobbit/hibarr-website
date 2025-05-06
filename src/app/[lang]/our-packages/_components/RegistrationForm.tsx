@@ -32,9 +32,12 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const activePackageSlug = searchParams.get('package') || packages[0].slug || PACKAGE_TYPE['basic-package'];
+  const [activePackageSlug, setActivePackageSlug] = useState(searchParams.get('package') || packages[0].slug || PACKAGE_TYPE['basic-package']);
 
-  const activePackage = packages.find((pkg) => pkg.slug === activePackageSlug) as BankPackage;
+  const activePackage = useMemo(() =>
+    packages.find((pkg) => pkg.slug === activePackageSlug) as BankPackage,
+    [packages, activePackageSlug]
+  );
 
   const { values, handleChange, setFieldValue, handleSubmit } = useFormik<RegistrationFormType>({
     initialValues: {
@@ -59,6 +62,8 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
         lawyerAppointment: false,
       },
       travelInfo: {
+        areYouTravelingAlone: undefined,
+        numberOfChildren: 0,
         numberOfPeople: 0,
         arrivalDate: '',
         departureDate: '',
@@ -147,6 +152,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
 
   const updatePackage = (slug: string) => {
     const selectedPackage = packages.find((pkg) => pkg.slug === slug) as BankPackage;
+    setActivePackageSlug(slug);
     setFieldValue('package', slug);
     setFieldValue('bankAndLawyer.openingBalance', selectedPackage?.minimumDeposit ? selectedPackage.minimumDeposit.toString() : '0');
   }
@@ -163,7 +169,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     } else if (activeStep === 2) {
       return values.travelInfo.arrivalDate && values.travelInfo.departureDate;
     } else if (activeStep === 3) {
-      // return values.documentUpload.main.passport && values.documentUpload.main.idFront && values.documentUpload.main.idBack && values.documentUpload.main.utilityBill && values.documentUpload.main.proofOfTravel;
+      return values.documentUpload.main.passport && values.documentUpload.main.idFront && values.documentUpload.main.idBack && values.documentUpload.main.utilityBill && values.documentUpload.main.proofOfTravel;
     }
 
     return true;

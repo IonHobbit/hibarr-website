@@ -59,7 +59,10 @@ export default function PackageCard({ pkg }: PackageCardProps) {
         <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-[900px] mt-3' : 'max-h-0'}`}>
           <ul className='flex flex-col gap-2'>
             {features?.map((feature, index) => (
-              <li key={index} className={cn('text-sm', feature.title.includes('plus...') && 'font-semibold')}>{feature.title}</li>
+              <div key={index} className='flex items-start gap-2'>
+                {!feature.title.includes('plus...') && <div className='size-1.5 bg-primary mt-1.5 shrink-0' />}
+                <li key={index} className={cn('text-sm', feature.title.includes('plus...') && 'font-semibold')}>{feature.title}</li>
+              </div>
             ))}
           </ul>
         </div>

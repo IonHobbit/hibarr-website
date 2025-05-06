@@ -1,12 +1,23 @@
 'use client';
 
-import { cn } from "@/lib/utils"
+import { cn, joinWith } from "@/lib/utils"
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useMutation } from "@tanstack/react-query";
 import { Fragment, useRef } from "react";
 
 function FileInput({ className, title, error, required, fileValue, onUpload, ...props }: React.ComponentProps<"input"> & { error?: string, onUpload: (result: string) => void, required?: boolean, fileValue?: string }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const TYPE_MAP = {
+    'application/pdf': 'pdf',
+    'image/png': 'image',
+    'image/jpeg': 'image',
+    'image/jpg': 'image',
+    'image/webp': 'image',
+  }
+
+  const accepted = [...new Set(Object.keys(TYPE_MAP).filter(type => props.accept?.includes(type)).map(type => TYPE_MAP[type as keyof typeof TYPE_MAP]))];
+
 
   const openFileInput = () => {
     fileInputRef.current?.click();
@@ -54,7 +65,7 @@ function FileInput({ className, title, error, required, fileValue, onUpload, ...
                   <p className="text-sm text-muted-foreground">Uploading...</p>
                 </Fragment>
               ) : (
-                <p onClick={openFileInput} className="text-sm text-muted-foreground hover:font-medium transition-all duration-300 cursor-pointer">Upload document</p>
+                <p onClick={openFileInput} className="text-sm text-muted-foreground hover:font-medium transition-all duration-300 cursor-pointer">Upload a {accepted.length > 1 ? joinWith(accepted, 'or') : 'file'}</p>
               )}
             </Fragment>
           )}

@@ -50,6 +50,8 @@ type RegistrationFormType = {
     openingBalance: string;
   };
   travelInfo: {
+    areYouTravelingAlone: boolean | undefined;
+    numberOfChildren: number;
     rentalCar: string;
     requireRentalCar: boolean;
     numberOfPeople: number;
@@ -128,7 +130,8 @@ type PropertyListing = {
   };
 };
 
-export type { PropertyType, RegistrationFormType,
+export type {
+  PropertyType, RegistrationFormType,
   ZapierPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierConsultationPayload, ZapierPropertyEnquiryPayload, ZapierSignupPayload,
   PropertyListing
 }
