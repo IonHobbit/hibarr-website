@@ -21,7 +21,7 @@ export default async function BankingPackagesPage(
       <section className="header-offset section">
         <div className='flex flex-col gap-3 max-w-2xl mx-auto'>
           <h1 className='text-4xl font-bold text-center'>{title}</h1>
-          <p className="text-md md:text-center">
+          <p className="text-md text-center">
             {subtitle}
           </p>
         </div>

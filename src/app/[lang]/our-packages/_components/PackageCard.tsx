@@ -35,7 +35,7 @@ export default function PackageCard({ pkg }: PackageCardProps) {
   const { title, subtitle, icon, slug, description, price, buttonText, moreText, features } = pkg;
 
   const handleSelect = () => {
-    router.push(`/banking-packages?package=${slug}#register`)
+    router.push(`/our-packages?package=${slug}#register`)
   }
 
   return (

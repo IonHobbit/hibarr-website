@@ -2,7 +2,8 @@
 
 import { cn } from "@/lib/utils"
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useRef } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { Fragment, useRef } from "react";
 
 function FileInput({ className, title, error, required, fileValue, onUpload, ...props }: React.ComponentProps<"input"> & { error?: string, onUpload: (result: string) => void, required?: boolean, fileValue?: string }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -11,9 +12,8 @@ function FileInput({ className, title, error, required, fileValue, onUpload, ...
     fileInputRef.current?.click();
   }
 
-  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
+  const { mutateAsync: uploadFile, isPending } = useMutation({
+    mutationFn: async (file: File): Promise<string> => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('folderName', 'banking-packages-form-entries');
@@ -22,7 +22,15 @@ function FileInput({ className, title, error, required, fileValue, onUpload, ...
         body: formData,
       });
       const data = await result.json();
-      onUpload?.(data.fileUrl);
+      return data.fileUrl;
+    },
+  })
+
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const result = await uploadFile(file);
+      onUpload?.(result);
       event.target.value = '';
     }
   };
@@ -31,7 +39,7 @@ function FileInput({ className, title, error, required, fileValue, onUpload, ...
     <div className="relative flex flex-col items-start gap-1">
       {title && <label htmlFor={props.id} className="text-sm text-muted-foreground">{title} {required && <span className="text-destructive text-xs">*</span>}</label>}
       <div className="relative border-input flex items-center justify-between gap-4 min-h-10 w-full min-w-0 border bg-transparent file:border-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive rounded px-3 py-1.5">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <Icon icon="mdi:file-document-outline" className="w-4 h-4" />
           {fileValue ? (
             <div className="flex flex-col gap-1">
@@ -39,7 +47,16 @@ function FileInput({ className, title, error, required, fileValue, onUpload, ...
               <p onClick={openFileInput} className="text-xs text-primary hover:font-medium transition-all duration-300 cursor-pointer">Replace document</p>
             </div>
           ) : (
-            <p onClick={openFileInput} className="text-sm text-muted-foreground hover:font-medium transition-all duration-300 cursor-pointer">Upload document</p>
+            <Fragment>
+              {isPending ? (
+                <Fragment>
+                  <Icon icon="mdi:loading" className="w-4 h-4 animate-spin" />
+                  <p className="text-sm text-muted-foreground">Uploading...</p>
+                </Fragment>
+              ) : (
+                <p onClick={openFileInput} className="text-sm text-muted-foreground hover:font-medium transition-all duration-300 cursor-pointer">Upload document</p>
+              )}
+            </Fragment>
           )}
         </div>
         {fileValue && <p onClick={() => { onUpload?.(""); }} className="text-xs text-destructive hover:font-medium transition-all duration-300 cursor-pointer">Remove</p>}

@@ -16,11 +16,11 @@ export default function DocumentUploadsForm({ form, values, setFieldValue }: Doc
     <div className='flex flex-col gap-3'>
       <p className='font-medium'>{documentUploadsSection?.mainTravellerDocuments?.title || 'Main Traveller Documents'}</p>
       <div className='flex flex-col gap-2'>
-        <div className="grid grid-cols-2 gap-2 items-end">
+        <div className="grid lg:grid-cols-2 gap-2 items-end">
           <FileInput required name='passport' fileValue={values.documentUpload.main.passport} title='Passport' onUpload={(value) => setFieldValue('documentUpload.main.passport', value)} />
           <FileInput required name='utilityBill' fileValue={values.documentUpload.main.utilityBill} title='Utility Bill' onUpload={(value) => setFieldValue('documentUpload.main.utilityBill', value)} />
         </div>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid lg:grid-cols-2 gap-2">
           <FileInput required name='idFront' fileValue={values.documentUpload.main.idFront} title='ID (Front)' onUpload={(value) => setFieldValue('documentUpload.main.idFront', value)} />
           <FileInput required name='idBack' fileValue={values.documentUpload.main.idBack} title='ID (Back)' onUpload={(value) => setFieldValue('documentUpload.main.idBack', value)} />
         </div>

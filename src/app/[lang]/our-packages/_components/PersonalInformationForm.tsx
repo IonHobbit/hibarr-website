@@ -29,8 +29,8 @@ export default function PersonalInformationForm({ form, values, handleChange, se
 
   return (
     <div className='flex flex-col gap-3'>
-      <div className="grid grid-cols-2 lg:grid-cols-8 gap-2">
-        <div className='col-span-2 overflow-hidden'>
+      <div className="grid lg:grid-cols-8 gap-2">
+        <div className='lg:col-span-2 overflow-hidden'>
           <Select defaultValue={values.personalInformation.salutation} onValueChange={(value) => setFieldValue('personalInformation.salutation', value)}>
             <SelectTrigger title={personalInformationSection?.salutation || 'Salutation'} className='w-full'>
               <SelectValue placeholder=' Mr, Mrs, Ms, Dr' />
@@ -44,10 +44,10 @@ export default function PersonalInformationForm({ form, values, handleChange, se
             </SelectContent>
           </Select>
         </div>
-        <div className='col-span-3'>
+        <div className='lg:col-span-3'>
           <Input required type='text' title={personalInformationSection?.firstName || 'First Name'} name='personalInformation.firstName' value={values.personalInformation.firstName} onChange={handleChange} placeholder='John' />
         </div>
-        <div className='col-span-3'>
+        <div className='lg:col-span-3'>
           <Input required type='text' title={personalInformationSection?.lastName || 'Last Name'} name='personalInformation.lastName' value={values.personalInformation.lastName} onChange={handleChange} placeholder='Doe' />
         </div>
       </div>

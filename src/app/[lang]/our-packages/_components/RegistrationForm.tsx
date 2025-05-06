@@ -132,8 +132,9 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
   }
 
   const updatePackage = (slug: string) => {
+    const selectedPackage = packages.find((pkg) => pkg.slug === slug) as BankPackage;
     setFieldValue('package', slug);
-    setFieldValue('bankAndLawyer.openingBalance', activePackage?.minimumDeposit ? activePackage.minimumDeposit.toString() : '0');
+    setFieldValue('bankAndLawyer.openingBalance', selectedPackage?.minimumDeposit ? selectedPackage.minimumDeposit.toString() : '0');
   }
 
   const updatePackageField = useCallback((slug: string) => {
@@ -172,7 +173,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
               <div key={index} className={`w-full h-1 rounded-full ${activeStep === index ? 'bg-primary' : 'bg-muted'}`} />
             ))}
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap gap-4 items-center justify-between">
             <p className='font-medium'>{sections[activeStep].title}</p>
             <div className="flex items-center gap-2 rounded-sm px-3 py-2 w-max bg-primary text-primary-foreground shrink-0">
               <Popover>
@@ -188,7 +189,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
                 <PopoverContent align='end' className='w-max flex flex-col items-start gap-2'>
                   {packages.map((pack, index) => (
                     <PopoverClose asChild key={index}>
-                      <p className='cursor-pointer w-full' onClick={() => updatePackage(pack.slug)}>{pack.title} {pack.price ? `(€${pack.price.toLocaleString()})` : '()'}</p>
+                      <p className='cursor-pointer w-full' onClick={() => updatePackage(pack.slug)}>{pack.title} {pack.price ? `(€${pack.price.toLocaleString()})` : ''}</p>
                     </PopoverClose>
                   ))}
                 </PopoverContent>
