@@ -1,4 +1,7 @@
 import { FileInput } from '@/components/ui/file-input';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { PACKAGE_TYPE } from '@/lib/mockdata';
+import { cn } from '@/lib/utils';
 import { RegistrationFormType } from '@/types/main'
 import { BankPackagesPage } from '@/types/sanity.types';
 import { Fragment } from 'react';
@@ -17,15 +20,21 @@ export default function DocumentUploadsForm({ form, values, setFieldValue }: Doc
     <div className='flex flex-col gap-3'>
       <p className='font-medium'>{documentUploadsSection?.mainTravellerDocuments?.title || 'Main Traveller Documents'}</p>
       <div className='flex flex-col gap-2'>
-        <div className="grid lg:grid-cols-2 gap-2 items-end">
-          <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='passport' fileValue={values.documentUpload.main.passport} title='Passport' onUpload={(value) => setFieldValue('documentUpload.main.passport', value)} />
-          <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='utilityBill' fileValue={values.documentUpload.main.utilityBill} title='Utility Bill' onUpload={(value) => setFieldValue('documentUpload.main.utilityBill', value)} />
-        </div>
-        <div className="grid lg:grid-cols-2 gap-2">
-          <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='idFront' fileValue={values.documentUpload.main.idFront} title='ID (Front)' onUpload={(value) => setFieldValue('documentUpload.main.idFront', value)} />
-          <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='idBack' fileValue={values.documentUpload.main.idBack} title='ID (Back)' onUpload={(value) => setFieldValue('documentUpload.main.idBack', value)} />
-        </div>
         <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='proofOfTravel' fileValue={values.documentUpload.main.proofOfTravel} title='Proof of Travel (with dates, times, flight number & airport)' onUpload={(value) => setFieldValue('documentUpload.main.proofOfTravel', value)} />
+        <div className="grid lg:grid-cols-2 gap-2 items-end">
+          {!values.documentUpload.main.idFront && (
+            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='passport' fileValue={values.documentUpload.main.passport} title='Passport' onUpload={(value) => setFieldValue('documentUpload.main.passport', value)} />
+          )}
+          <div className={cn(values.documentUpload.main.idFront && 'col-span-2')}>
+            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='utilityBill' fileValue={values.documentUpload.main.utilityBill} title='Utility Bill' onUpload={(value) => setFieldValue('documentUpload.main.utilityBill', value)} />
+          </div>
+        </div>
+        {!values.documentUpload.main.passport && (
+          <div className="grid lg:grid-cols-2 gap-2">
+            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='idFront' fileValue={values.documentUpload.main.idFront} title='ID (Front)' onUpload={(value) => setFieldValue('documentUpload.main.idFront', value)} />
+            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='idBack' fileValue={values.documentUpload.main.idBack} title='ID (Back)' onUpload={(value) => setFieldValue('documentUpload.main.idBack', value)} />
+          </div>
+        )}
       </div>
 
       {values.travelInfo.numberOfPeople > 0 && (
@@ -67,6 +76,27 @@ export default function DocumentUploadsForm({ form, values, setFieldValue }: Doc
             ))}
           </div>
         </Fragment>
+      )}
+
+      {PACKAGE_TYPE[values.package as keyof typeof PACKAGE_TYPE] !== PACKAGE_TYPE['basic-package'] && (
+        <div className="flex flex-col gap-2">
+          <p className='font-medium'>Payment Method</p>
+          <div className="flex items-center gap-2">
+            <RadioGroup
+              className='flex items-center gap-2'
+              defaultValue={values.paymentMethod}
+              onValueChange={(value) => setFieldValue('paymentMethod', value)}>
+              <div className="flex items-center gap-2">
+                <RadioGroupItem value='bankTransfer' title='Bank Transfer' />
+                <p className='text-sm'>Bank Transfer</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <RadioGroupItem value='payOnline' title='Pay Online' />
+                <p className='text-sm'>Pay Online</p>
+              </div>
+            </RadioGroup>
+          </div>
+        </div>
       )}
     </div>
   )

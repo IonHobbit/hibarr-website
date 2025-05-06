@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import BankxLawyerForm from './BankxLawyerForm';
-import React, { useEffect, useMemo, useState, useCallback } from 'react'
+import React, { useEffect, useMemo, useState, useCallback, Fragment } from 'react'
 import { RegistrationFormType } from '@/types/main';
 import { PopoverClose } from '@radix-ui/react-popover';
 import DocumentUploadsForm from './DocumentUploadsForm';
@@ -18,6 +18,7 @@ import ParentInformationForm from './ParentInformationForm';
 import { PACKAGE_TYPE } from '@/lib/mockdata';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import BankDetailsModal from './BankDetailsModal';
 
 type RegistrationFormProps = {
   packages: BankPackage[]
@@ -31,6 +32,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
   const [url, setUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showBankTransferModal, setShowBankTransferModal] = useState(false);
 
   const [activePackageSlug, setActivePackageSlug] = useState(searchParams.get('package') || packages[0].slug || PACKAGE_TYPE['basic-package']);
 
@@ -63,13 +65,13 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
       },
       travelInfo: {
         areYouTravelingAlone: undefined,
-        numberOfChildren: 0,
         numberOfPeople: 0,
         arrivalDate: '',
         departureDate: '',
         rentalCar: 'Small',
         requireRentalCar: false,
         airportTransfer: false,
+        comments: '',
       },
       documentUpload: {
         main: {
@@ -81,6 +83,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
         },
         additional: [],
       },
+      paymentMethod: 'bankTransfer',
     },
     onSubmit: async (values) => {
       setIsLoading(true);
@@ -101,6 +104,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
             departureDate: values.travelInfo.departureDate ? new Date(values.travelInfo.departureDate).toLocaleString() : '',
           },
           documentUpload: values.documentUpload,
+          paymentMethod: values.paymentMethod,
         }
         const response = await fetch('https://automations.hibarr.net/webhook/b420ae2d-1fa1-42a0-9955-a0228b381e0d', {
           method: 'POST',
@@ -109,11 +113,13 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
         const data = await response.json()
         setIsLoading(false);
         setIsSuccess(true);
-        if (data.url) {
+        if (values.paymentMethod === 'payOnline' && data.url) {
           router.push(data.url);
           setTimeout(() => {
             setUrl(data.url);
           }, 1000);
+        } else if (values.paymentMethod === 'bankTransfer') {
+          setShowBankTransferModal(true);
         } else {
           setTimeout(() => {
             router.push('webinar')
@@ -169,7 +175,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     } else if (activeStep === 2) {
       return values.travelInfo.arrivalDate && values.travelInfo.departureDate;
     } else if (activeStep === 3) {
-      return values.documentUpload.main.passport && values.documentUpload.main.idFront && values.documentUpload.main.idBack && values.documentUpload.main.utilityBill && values.documentUpload.main.proofOfTravel;
+      return (values.documentUpload.main.passport || (values.documentUpload.main.idFront && values.documentUpload.main.idBack)) && values.documentUpload.main.utilityBill && values.documentUpload.main.proofOfTravel;
     }
 
     return true;
@@ -182,26 +188,29 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
   return (
     <Card className='max-w-xl w-full mx-auto p-6'>
       {isSuccess ? (
-        <div className='flex flex-col gap-4 items-center justify-center'>
-          <Icon icon='mdi:check-circle' className='size-20 text-primary' />
-          <p className='text-base text-center'>
-            Your registration has been successfully submitted.
-            <br />
-            {values.package === 'basic-package' ?
-              'We will get back to you soon.'
-              :
-              'You will be redirected to make payment shortly.'
-            }
-          </p>
-          {values.package === 'basic-package' && (
-            <p className='text-sm text-center'>You will be redirected shortly.</p>
-          )}
-          {url && (
-            <p className='text-sm text-center'>
-              If you are not redirected, please click <Link className='text-sm text-primary font-medium hover:underline' href={url} target='_blank' rel='noopener noreferrer'>here to proceed to make payment</Link>
+        <Fragment>
+          <BankDetailsModal activePackage={activePackage} showBankTransferModal={showBankTransferModal} setShowBankTransferModal={setShowBankTransferModal} />
+          <div className='flex flex-col gap-4 items-center justify-center'>
+            <Icon icon='mdi:check-circle' className='size-20 text-primary' />
+            <p className='text-base text-center'>
+              Your registration has been successfully submitted.
+              <br />
+              {values.package === 'basic-package' ?
+                'We will get back to you soon.'
+                :
+                'You will be redirected to make payment shortly.'
+              }
             </p>
-          )}
-        </div>
+            {values.package === 'basic-package' && (
+              <p className='text-sm text-center'>You will be redirected shortly.</p>
+            )}
+            {url && (
+              <p className='text-sm text-center'>
+                If you are not redirected, please click <Link className='text-sm text-primary font-medium hover:underline' href={url} target='_blank' rel='noopener noreferrer'>here to proceed to make payment</Link>
+              </p>
+            )}
+          </div>
+        </Fragment>
       ) : (
         <form onSubmit={submitForm} className='flex flex-col gap-4'>
           <div className="flex items-center gap-2">

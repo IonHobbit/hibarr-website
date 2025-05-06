@@ -6,7 +6,9 @@ import { BankPackagesPage } from '@/types/sanity.types';
 import { BankPackage } from './PackageCard';
 import { PACKAGE_TYPE } from '@/lib/mockdata';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { cn } from '@/lib/utils';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { Textarea } from '@/components/ui/textarea';
+import { Fragment } from 'react';
 
 type BankxLawyerFormProps = {
   form: BankPackagesPage['form']
@@ -21,9 +23,9 @@ export default function BankxLawyerForm({ form, activePackage, values, handleCha
 
   const getMinimumDeposit = activePackage.minimumDeposit;
 
-  const handleChangeInNumberOfPeople = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleChange(e);
-    const number = Number(e.target.value);
+  const handleChangeInNumberOfPeople = (value: string) => {
+    const number = Number(value);
+    setFieldValue('travelInfo.numberOfPeople', number);
     setFieldValue('documentUpload.additional', Array.from({ length: number }, () => ({
       passport: null,
       proofOfTravel: null,
@@ -31,12 +33,6 @@ export default function BankxLawyerForm({ form, activePackage, values, handleCha
       idBack: null,
       type: 'passport',
     })));
-  }
-
-  const handleChangeInNumberOfChildren = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleChange(e);
-    const number = Number(e.target.value);
-    setFieldValue('travelInfo.numberOfChildren', number);
   }
 
   return (
@@ -47,40 +43,47 @@ export default function BankxLawyerForm({ form, activePackage, values, handleCha
           <label htmlFor="bankAndLawyer.bankAppointment" className="text-xs cursor-pointer">{bankAndLawyerSection?.bankAppointment?.replace('{amount}', getMinimumDeposit.toLocaleString()) || 'Do you require a bank appointment? (Minimum deposit is €{amount})'.replace('{amount}', getMinimumDeposit.toLocaleString())}</label>
         </div> */}
 
-        <div className="flex flex-col items-start gap-2">
-          <p className='text-sm'>{bankAndLawyerSection?.bankAppointment?.replace('{amount}', getMinimumDeposit.toLocaleString()) || 'Do you require a bank appointment? (Minimum deposit is €{amount})'.replace('{amount}', getMinimumDeposit.toLocaleString())}</p>
-          <RadioGroup
-            className='flex items-center gap-2'
-            value={values.bankAndLawyer.bankAppointment ? 'yes' : 'no'}
-            onValueChange={(value) => setFieldValue(`bankAndLawyer.bankAppointment`, value === 'yes')}>
-            <div className="flex items-center gap-2">
-              <RadioGroupItem value='yes' title='Yes' />
-              <p className='text-sm'>Yes</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <RadioGroupItem value='no' title='No' />
-              <p className='text-sm'>No</p>
-            </div>
-          </RadioGroup>
+        <div className="flex items-center gap-4">
+          <Icon icon='noto:bank' className='text-primary size-8' />
+          <div className="flex flex-col items-start gap-2">
+            <p className='text-sm'>{bankAndLawyerSection?.bankAppointment?.replace('{amount}', getMinimumDeposit.toLocaleString()) || 'Do you require a bank appointment? (Minimum deposit is €{amount})'.replace('{amount}', getMinimumDeposit.toLocaleString())}</p>
+            <RadioGroup
+              className='flex items-center gap-2'
+              value={values.bankAndLawyer.bankAppointment ? 'yes' : 'no'}
+              onValueChange={(value) => setFieldValue(`bankAndLawyer.bankAppointment`, value === 'yes')}>
+              <div className="flex items-center gap-2">
+                <RadioGroupItem value='yes' title='Yes' />
+                <p className='text-sm'>Yes</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <RadioGroupItem value='no' title='No' />
+                <p className='text-sm'>No</p>
+              </div>
+            </RadioGroup>
+          </div>
         </div>
         {values.bankAndLawyer.bankAppointment && (
           <Input type='number' title={bankAndLawyerSection?.initialDeposit || 'Initial Deposit (€)'} min={getMinimumDeposit} name='bankAndLawyer.openingBalance' value={values.bankAndLawyer.openingBalance || getMinimumDeposit} onChange={handleChange} />
         )}
-        <div className="flex flex-col items-start gap-2">
-          <p className='text-sm'>{bankAndLawyerSection?.lawyerAppointment || 'Do you require a lawyers appointment?'}</p>
-          <RadioGroup
-            className='flex items-center gap-2'
-            value={values.bankAndLawyer.lawyerAppointment ? 'yes' : 'no'}
-            onValueChange={(value) => setFieldValue(`bankAndLawyer.lawyerAppointment`, value === 'yes')}>
-            <div className="flex items-center gap-2">
-              <RadioGroupItem value='yes' title='Yes' />
-              <p className='text-sm'>Yes</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <RadioGroupItem value='no' title='No' />
-              <p className='text-sm'>No</p>
-            </div>
-          </RadioGroup>
+
+        <div className="flex items-center gap-4">
+          <Icon icon='fluent-emoji:balance-scale' className='text-primary size-8' />
+          <div className="flex flex-col items-start gap-2">
+            <p className='text-sm'>{bankAndLawyerSection?.lawyerAppointment || 'Do you require a lawyers appointment?'}</p>
+            <RadioGroup
+              className='flex items-center gap-2'
+              value={values.bankAndLawyer.lawyerAppointment ? 'yes' : 'no'}
+              onValueChange={(value) => setFieldValue(`bankAndLawyer.lawyerAppointment`, value === 'yes')}>
+              <div className="flex items-center gap-2">
+                <RadioGroupItem value='yes' title='Yes' />
+                <p className='text-sm'>Yes</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <RadioGroupItem value='no' title='No' />
+                <p className='text-sm'>No</p>
+              </div>
+            </RadioGroup>
+          </div>
         </div>
         {/* <div className="flex items-start gap-2">
           <Checkbox id="bankAndLawyer.lawyerAppointment" required checked={values.bankAndLawyer.lawyerAppointment} onClick={() => setFieldValue('bankAndLawyer.lawyerAppointment', !values.bankAndLawyer.lawyerAppointment)} />
@@ -111,6 +114,31 @@ export default function BankxLawyerForm({ form, activePackage, values, handleCha
             </RadioGroup>
           </div>
           {
+            (!values.travelInfo.areYouTravelingAlone && values.travelInfo.areYouTravelingAlone !== undefined) &&
+            <Fragment>
+              <div className='flex flex-col gap-1.5'>
+                <Select
+                  value={values.travelInfo.numberOfPeople.toString()}
+                  onValueChange={(value) => handleChangeInNumberOfPeople(value)}>
+                  <SelectTrigger title='How many people are traveling with you?' className='w-full'>
+                    <SelectValue placeholder='Select an option' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='1'>1 person</SelectItem>
+                    <SelectItem value='2'>2 people</SelectItem>
+                    <SelectItem value='3'>3 people</SelectItem>
+                    <SelectItem value='4'>4 people</SelectItem>
+                    <SelectItem value='5'>5 people</SelectItem>
+                  </SelectContent>
+                </Select>
+                {(PACKAGE_TYPE[values.package as keyof typeof PACKAGE_TYPE] !== PACKAGE_TYPE['basic-package'] && values.travelInfo.numberOfPeople > 1) && (
+                  <p className='text-xs text-primary'>**Please note that the costs for the hotel rooms will only be covered for <span className='font-bold'>you and one other person.</span></p>
+                )}
+              </div>
+              <Textarea title='Comments' rows={6} placeholder='Preferred room setup? Pets or other needs?' value={values.travelInfo.comments} onChange={(e) => setFieldValue('travelInfo.comments', e.target.value)} />
+            </Fragment>
+          }
+          {/* {
             (!values.travelInfo.areYouTravelingAlone && values.travelInfo.areYouTravelingAlone !== undefined) && (
               <div className="grid grid-cols-2 gap-3">
                 <div className={cn(values.travelInfo.numberOfPeople < 1 && 'col-span-2')}>
@@ -127,7 +155,7 @@ export default function BankxLawyerForm({ form, activePackage, values, handleCha
                 }
               </div>
             )
-          }
+          } */}
           <div className="flex items-start gap-2">
             <Checkbox id="travelInfo.airportTransfer" required checked={values.travelInfo.airportTransfer} onClick={() => setFieldValue('travelInfo.airportTransfer', !values.travelInfo.airportTransfer)} />
             <label htmlFor="travelInfo.airportTransfer" className="text-xs cursor-pointer">

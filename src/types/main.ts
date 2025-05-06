@@ -51,18 +51,19 @@ type RegistrationFormType = {
   };
   travelInfo: {
     areYouTravelingAlone: boolean | undefined;
-    numberOfChildren: number;
     rentalCar: string;
     requireRentalCar: boolean;
     numberOfPeople: number;
     arrivalDate: string;
     departureDate: string;
     airportTransfer: boolean;
+    comments: string;
   };
   documentUpload: {
     main: DocumentUpload;
     additional: Partial<Omit<DocumentUpload & { type: 'passport' | 'id' }, 'utilityBill'>>[];
   };
+  paymentMethod: 'bankTransfer' | 'payOnline';
 }
 
 type ZapierPayload = ContactInfo & {
