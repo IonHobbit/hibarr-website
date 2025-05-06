@@ -144,6 +144,7 @@ export default function BounceCards({
           onMouseEnter={() => pushSiblings(idx)}
           onMouseLeave={resetSiblings}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="w-full h-full object-cover"
             src={src}

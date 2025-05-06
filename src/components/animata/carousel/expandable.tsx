@@ -34,6 +34,7 @@ const List = ({ item, className, index, activeItem, onItemClick, ...props }: Ima
       {...props}
     >
       <div className="absolute inset-0 bg-primary/30 z-10 group-hover:opacity-100 opacity-0 transition-all duration-300 delay-300 ease-in-out" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={item.image}
         alt={item.title}

@@ -20,7 +20,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
 
   const pathname = usePathname()
 
-  const excludedPaths = ['/our-packages', '/listings/']
+  const excludedPaths = ['/our-packages', '/listings/', '/thank-you']
 
   const isExcludedPath = excludedPaths.some(path => pathname.includes(path))
 
@@ -37,7 +37,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
             ))}
           </div>
           <div className="hidden md:flex items-center justify-end gap-4">
-            <Button variant="outline" asChild>
+            <Button variant="accent" className='rounded uppercase' asChild>
               <Link href={navigationData?.bookCall?.href ?? ''}>
                 {navigationData?.bookCall?.title}
               </Link>

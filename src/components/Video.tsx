@@ -24,6 +24,7 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
   const [isPlaying, setIsPlaying] = useState(false);
   const [percentageWatched, setPercentageWatched] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const videoTotalTime = videoRef.current?.duration;
   const currentVideoTime = videoTotalTime ? (percentageWatched * videoTotalTime) / 100 : 0;
@@ -80,7 +81,11 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
       timeupdate: () => {
         const percentage = (videoElement.currentTime / videoElement.duration) * 100;
         setPercentageWatched(percentage);
-      }
+      },
+      waiting: () => setIsLoading(true),
+      canplay: () => setIsLoading(false),
+      loadstart: () => setIsLoading(true),
+      loadeddata: () => setIsLoading(false)
     };
 
     // Add event listeners
@@ -130,9 +135,13 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
             className="absolute inset-0 grid place-items-center z-10 w-full h-full group-hover:bg-black/30 transition-all ease-linear">
             <div
               onClick={togglePlay}
-              className={cn('rounded-full flex-shrink-0 bg-white size-16 z-20 grid place-items-center cursor-pointer opacity-0 group-hover:opacity-100 transition-all ease-linear', !isPlaying && 'opacity-100')}
+              className={cn('rounded-full flex-shrink-0 bg-white size-16 z-20 grid place-items-center cursor-pointer opacity-0 group-hover:opacity-100 transition-all ease-linear', (!isPlaying || isLoading) && 'opacity-100')}
             >
-              <Icon icon={isPlaying ? 'ri:pause-mini-fill' : 'ri:play-mini-fill'} className="size-8 text-black" />
+              {isLoading ? (
+                <Icon icon="ri:loader-4-line" className="size-8 text-black animate-spin" />
+              ) : (
+                <Icon icon={isPlaying ? 'ri:pause-mini-fill' : 'ri:play-mini-fill'} className="size-8 text-black" />
+              )}
             </div>
           </div>
           <div className={clsx(

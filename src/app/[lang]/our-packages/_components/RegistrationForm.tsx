@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import BankxLawyerForm from './BankxLawyerForm';
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState, useCallback } from 'react'
 import { RegistrationFormType } from '@/types/main';
 import { PopoverClose } from '@radix-ui/react-popover';
 import DocumentUploadsForm from './DocumentUploadsForm';
@@ -134,6 +134,10 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     setFieldValue('bankAndLawyer.openingBalance', activePackage?.minimumDeposit ? activePackage.minimumDeposit.toString() : '0');
   }
 
+  const updatePackageField = useCallback((slug: string) => {
+    setFieldValue('package', slug)
+  }, [setFieldValue])
+
   const isFormValid = useMemo(() => {
     if (activeStep === 0) {
       return values.personalInformation.firstName && values.personalInformation.lastName && values.personalInformation.email && values.personalInformation.phoneNumber;
@@ -149,8 +153,8 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
   }, [activeStep, values])
 
   useEffect(() => {
-    setFieldValue('package', activePackageSlug)
-  }, [activePackageSlug])
+    updatePackageField(activePackageSlug)
+  }, [activePackageSlug, updatePackageField])
 
   return (
     <Card className='max-w-xl w-full mx-auto p-6'>

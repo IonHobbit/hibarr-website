@@ -50,6 +50,7 @@ export function Select({ options, placeholder, value, onSelect }: SelectProps) {
       <PopoverTrigger asChild>
         <div
           role="combobox"
+          aria-controls="select-options"
           aria-expanded={open}
           className="w-full rounded xl:w-auto xl:min-w-[180px] xl:max-w-[200px] flex items-center justify-between overflow-hidden py-2 px-4 cursor-pointer hover:bg-accent hover:text-accent-foreground transition-all duration-300"
         >

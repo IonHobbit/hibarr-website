@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 export const InfiniteMovingCards = ({
   items,
@@ -22,28 +22,8 @@ export const InfiniteMovingCards = ({
 
   const [start, setStart] = useState(false);
 
-  useEffect(() => {
-    function addAnimation() {
-      if (containerRef.current && scrollerRef.current) {
-        const scrollerContent = Array.from(scrollerRef.current.children);
 
-        scrollerContent.forEach((item) => {
-          const duplicatedItem = item.cloneNode(true);
-          if (scrollerRef.current) {
-            scrollerRef.current.appendChild(duplicatedItem);
-          }
-        });
-
-        getDirection();
-        getSpeed();
-        setStart(true);
-      }
-    }
-
-    addAnimation();
-  }, []);
-
-  const getDirection = () => {
+  const getDirection = useCallback(() => {
     if (containerRef.current) {
       if (direction === "left") {
         containerRef.current.style.setProperty(
@@ -57,9 +37,9 @@ export const InfiniteMovingCards = ({
         );
       }
     }
-  };
+  }, [direction]);
 
-  const getSpeed = () => {
+  const getSpeed = useCallback(() => {
     if (containerRef.current) {
       if (speed === "fast") {
         containerRef.current.style.setProperty("--animation-duration", "20s");
@@ -69,7 +49,28 @@ export const InfiniteMovingCards = ({
         containerRef.current.style.setProperty("--animation-duration", "80s");
       }
     }
-  };
+  }, [speed]);
+
+  useEffect(() => {
+    if (!containerRef.current || !scrollerRef.current) return;
+
+    const scrollerContent = Array.from(scrollerRef.current.children);
+
+    // Clear any existing duplicated items
+    while (scrollerRef.current.children.length > items.length) {
+      scrollerRef.current.removeChild(scrollerRef.current.lastChild!);
+    }
+
+    // Add new duplicated items
+    scrollerContent.forEach((item) => {
+      const duplicatedItem = item.cloneNode(true);
+      scrollerRef.current?.appendChild(duplicatedItem);
+    });
+
+    getDirection();
+    getSpeed();
+    setStart(true);
+  }, [getDirection, getSpeed, items]);
 
   return (
     <div

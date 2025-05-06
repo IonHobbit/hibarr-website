@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import ThreeDBook from '@/components/ThreeDBook';
@@ -10,14 +10,18 @@ import ThreeDBook from '@/components/ThreeDBook';
 export default function WaitlistThankYouPage() {
   const router = useRouter()
 
+  const redirectToWaitlist = useCallback(() => {
+    router.push('/waitlist');
+  }, [router]);
+
   useEffect(() => {
     const waitlistFormData = localStorage.getItem('waitlist-form-data')
     const formData = waitlistFormData ? JSON.parse(waitlistFormData) : null
 
     if (!formData) {
-      router.push('/waitlist');
+      redirectToWaitlist();
     }
-  }, [])
+  }, [redirectToWaitlist])
 
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 py-10 grid place-items-center place-content-center min-h-screen bg-gradient-to-b from-primary via-primary/80 to-transparent">
