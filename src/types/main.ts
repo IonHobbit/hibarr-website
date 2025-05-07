@@ -54,6 +54,7 @@ type RegistrationFormType = {
     rentalCar: string;
     requireRentalCar: boolean;
     numberOfPeople: number;
+    numberOfChildren: number;
     arrivalDate: string;
     departureDate: string;
     airportTransfer: boolean;
@@ -61,7 +62,7 @@ type RegistrationFormType = {
   };
   documentUpload: {
     main: DocumentUpload;
-    additional: Partial<Omit<DocumentUpload & { type: 'passport' | 'id' }, 'utilityBill'>>[];
+    additional: Partial<Omit<DocumentUpload & { type: 'passport' | 'id', child?: boolean }, 'utilityBill'>>[];
   };
   paymentMethod: 'bankTransfer' | 'payOnline';
 }

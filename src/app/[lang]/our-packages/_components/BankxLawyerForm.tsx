@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { Textarea } from '@/components/ui/textarea';
 import { Fragment } from 'react';
+import pluralize from 'pluralize';
 
 type BankxLawyerFormProps = {
   form: BankPackagesPage['form']
@@ -34,7 +35,33 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
       idFront: null,
       idBack: null,
       type: 'passport',
+      child: false,
     })));
+  }
+
+  const handleChangeInNumberOfChildren = (value: string) => {
+    const numberOfChildren = Number(value);
+    setFieldValue('travelInfo.numberOfChildren', numberOfChildren);
+
+    // Get the number of adults (excluding children)
+    const numberOfAdults = values.travelInfo.numberOfPeople;
+
+    // Create the new array with adults first, then children
+    const newAdditional = [
+      // Keep existing adult entries
+      ...values.documentUpload.additional.slice(0, numberOfAdults),
+      // Add or update children entries
+      ...Array.from({ length: numberOfChildren }, () => ({
+        child: true,
+        passport: null,
+        proofOfTravel: null,
+        idFront: null,
+        idBack: null,
+        type: 'passport',
+      }))
+    ];
+
+    setFieldValue('documentUpload.additional', newAdditional);
   }
 
   const handleAreYouTravelingAlone = (value: boolean) => {
@@ -57,7 +84,7 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
         <div className="flex items-center gap-4">
           <Icon icon='noto:bank' className='text-primary size-8' />
           <div className="flex flex-col items-start gap-2">
-            <p className='text-sm'>{bankAndLawyerSection?.bankAppointment?.replace('{amount}', getMinimumDeposit.toLocaleString()) || 'Do you require a bank appointment? (Minimum deposit is €{amount})'.replace('{amount}', getMinimumDeposit.toLocaleString())}</p>
+            <p className='text-sm'><span className='font-semibold'>{'Bank Appointment?'}</span> (Min. deposit is €{getMinimumDeposit.toLocaleString()})</p>
             <RadioGroup
               className='flex items-center gap-2'
               value={values.bankAndLawyer.bankAppointment ? 'yes' : 'no'}
@@ -74,7 +101,7 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
           </div>
         </div>
         {values.bankAndLawyer.bankAppointment && (
-          <div className='flex flex-col gap-1'>
+          <div className='flex flex-col gap-1.5'>
             <Input type='number' title={bankAndLawyerSection?.initialDeposit || 'Initial Deposit (€)'} min={getMinimumDeposit} name='bankAndLawyer.openingBalance' value={values.bankAndLawyer.openingBalance || getMinimumDeposit} onChange={handleChange} onBlur={() => setFieldTouched('bankAndLawyer.openingBalance', true)} />
             {errors.openingBalance && <p className='text-xs text-red-500'>Minimum deposit is €{getMinimumDeposit.toLocaleString()}</p>}
           </div>
@@ -83,7 +110,7 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
         <div className="flex items-center gap-4">
           <Icon icon='fluent-emoji:balance-scale' className='text-primary size-8' />
           <div className="flex flex-col items-start gap-2">
-            <p className='text-sm'>{bankAndLawyerSection?.lawyerAppointment || 'Do you require a lawyers appointment?'}</p>
+            <p className='text-sm'><span className='font-semibold'>{'Legal Appointment?'}</span></p>
             <RadioGroup
               className='flex items-center gap-2'
               value={values.bankAndLawyer.lawyerAppointment ? 'yes' : 'no'}
@@ -108,50 +135,79 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
         <p className='font-medium'>{bankAndLawyerSection?.travelDetails?.title || 'Travel Details'}</p>
         <div className='flex flex-col gap-4'>
           <div className='grid grid-cols-2 gap-3'>
-            <Input required type="datetime-local" name='travelInfo.arrivalDate' title={bankAndLawyerSection?.travelDetails?.arrivalDate || 'Arrival Date + Time'} value={values.travelInfo.arrivalDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.arrivalDate', true)} error={errors.arrivalDate} />
-            <Input required type="datetime-local" name='travelInfo.departureDate' title={bankAndLawyerSection?.travelDetails?.departureDate || 'Departure Date + Time'} value={values.travelInfo.departureDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.departureDate', true)} error={errors.departureDate} />
+            <Input required type="datetime-local" titleClassName='font-semibold text-black' name='travelInfo.arrivalDate' title={'Arrival Date/Time'} value={values.travelInfo.arrivalDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.arrivalDate', true)} error={errors.arrivalDate} />
+            <Input required type="datetime-local" titleClassName='font-semibold text-black' name='travelInfo.departureDate' title={'Departure Date/Time'} value={values.travelInfo.departureDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.departureDate', true)} error={errors.departureDate} />
           </div>
-          <div className="flex items-center gap-2">
-            <p className='text-sm'>Are you traveling alone?</p>
-            <RadioGroup
-              className='flex items-center gap-2'
-              value={values.travelInfo.areYouTravelingAlone !== undefined ? (values.travelInfo.areYouTravelingAlone ? 'yes' : 'no') : undefined}
-              onValueChange={(value) => handleAreYouTravelingAlone(value === 'yes')}>
-              <div className="flex items-center gap-2">
-                <RadioGroupItem value='yes' title='Yes' />
-                <p className='text-sm'>Yes</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <RadioGroupItem value='no' title='No' />
-                <p className='text-sm'>No</p>
-              </div>
-            </RadioGroup>
-          </div>
-          {
-            (!values.travelInfo.areYouTravelingAlone && values.travelInfo.areYouTravelingAlone !== undefined) &&
+          {activePackage.price == 0 &&
             <Fragment>
-              <div className='flex flex-col gap-1.5'>
-                <Select
-                  value={values.travelInfo.numberOfPeople.toString()}
-                  onValueChange={(value) => handleChangeInNumberOfPeople(value)}>
-                  <SelectTrigger title='How many people are traveling with you?' className='w-full'>
-                    <SelectValue placeholder='Select an option' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='1'>1 person</SelectItem>
-                    <SelectItem value='2'>2 people</SelectItem>
-                    <SelectItem value='3'>3 people</SelectItem>
-                    <SelectItem value='4'>4 people</SelectItem>
-                    <SelectItem value='5'>5 people</SelectItem>
-                  </SelectContent>
-                </Select>
-                {(PACKAGE_TYPE[values.package as keyof typeof PACKAGE_TYPE] !== PACKAGE_TYPE['basic-package'] && values.travelInfo.numberOfPeople > 1) && (
-                  <p className='text-xs text-primary'>**Please note that the costs for the hotel rooms will only be covered for <span className='font-bold'>you and one other person.</span></p>
-                )}
+              <div className="flex items-center gap-2">
+                <p className='text-sm'>Are you traveling alone?</p>
+                <RadioGroup
+                  className='flex items-center gap-2'
+                  value={values.travelInfo.areYouTravelingAlone !== undefined ? (values.travelInfo.areYouTravelingAlone ? 'yes' : 'no') : undefined}
+                  onValueChange={(value) => handleAreYouTravelingAlone(value === 'yes')}>
+                  <div className="flex items-center gap-2">
+                    <RadioGroupItem value='yes' title='Yes' />
+                    <p className='text-sm'>Yes</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <RadioGroupItem value='no' title='No' />
+                    <p className='text-sm'>No</p>
+                  </div>
+                </RadioGroup>
               </div>
-              <Textarea title='Comments' rows={6} placeholder='Preferred room setup? Pets or other needs?' value={values.travelInfo.comments} onChange={(e) => setFieldValue('travelInfo.comments', e.target.value)} />
+              {
+                (!values.travelInfo.areYouTravelingAlone && values.travelInfo.areYouTravelingAlone !== undefined) &&
+                <Fragment>
+                  <div className='flex flex-col gap-1.5'>
+                    <Select
+                      value={values.travelInfo.numberOfPeople.toString()}
+                      onValueChange={(value) => handleChangeInNumberOfPeople(value)}>
+                      <SelectTrigger title='How many in your group?' className='w-full'>
+                        <SelectValue placeholder='Select an option' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Array.from({ length: 10 }, (_, index) => (
+                          <SelectItem key={index} value={(index + 1).toString()}>{index + 1} {pluralize('person', index + 1)}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </Fragment>
+              }
             </Fragment>
           }
+          {
+            activePackage.price > 0 &&
+            <div className='grid grid-cols-2 gap-3'>
+              <Select
+                value={values.travelInfo.numberOfPeople.toString()}
+                onValueChange={(value) => handleChangeInNumberOfPeople(value)}>
+                <SelectTrigger title='Who is traveling with you?' className='w-full'>
+                  <SelectValue placeholder='Select an option' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='0'>I am coming alone</SelectItem>
+                  <SelectItem value='1'>I am coming with 1 person</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select
+                value={values.travelInfo.numberOfChildren.toString()}
+                onValueChange={(value) => handleChangeInNumberOfChildren(value)}>
+                <SelectTrigger title='Kids under 18?' className='w-full'>
+                  <SelectValue placeholder='Select an option' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='0'>No Kids</SelectItem>
+                  <SelectItem value='1'>1 Kid</SelectItem>
+                  <SelectItem value='2'>2 Kids</SelectItem>
+                  <SelectItem value='3'>3 Kids</SelectItem>
+                  <SelectItem value='4'>4 Kids</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          }
+          <Textarea title='Comments' rows={6} placeholder='Preferred room setup? Pets or other needs?' value={values.travelInfo.comments} onChange={(e) => setFieldValue('travelInfo.comments', e.target.value)} />
           {/* {
             (!values.travelInfo.areYouTravelingAlone && values.travelInfo.areYouTravelingAlone !== undefined) && (
               <div className="grid grid-cols-2 gap-3">

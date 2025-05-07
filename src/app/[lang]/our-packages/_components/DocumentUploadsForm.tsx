@@ -18,40 +18,41 @@ type DocumentUploadsFormProps = {
 export default function DocumentUploadsForm({ form, values, errors, setFieldValue, setFieldTouched }: DocumentUploadsFormProps) {
   const { documentUploadsSection } = form!;
 
+  const accept = 'image/png,image/jpeg,image/jpg,image/webp';
+
   return (
     <div className='flex flex-col gap-3'>
       <p className='font-medium'>{documentUploadsSection?.mainTravellerDocuments?.title || 'Main Traveller Documents'}</p>
       <div className='flex flex-col gap-2'>
-        <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='proofOfTravel' fileValue={values.documentUpload.main.proofOfTravel} title='Proof of Travel (with dates, times, flight number & airport)' onUpload={(value) => setFieldValue('documentUpload.main.proofOfTravel', value)} onBlur={() => setFieldTouched('documentUpload.main.proofOfTravel', true)} error={errors.proofOfTravel} />
+        <FileInput accept={accept} required name='proofOfTravel' fileValue={values.documentUpload.main.proofOfTravel} title='Proof of Travel (with dates, times, flight number & airport)' onUpload={(value) => setFieldValue('documentUpload.main.proofOfTravel', value)} onBlur={() => setFieldTouched('documentUpload.main.proofOfTravel', true)} error={errors.proofOfTravel} />
         <div className="grid lg:grid-cols-2 gap-2 items-end">
-          {!values.documentUpload.main.idFront && (
-            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='passport' fileValue={values.documentUpload.main.passport} title='Passport' onUpload={(value) => setFieldValue('documentUpload.main.passport', value)} onBlur={() => setFieldTouched('documentUpload.main.passport', true)} error={errors.passport} />
-          )}
+          {/* {!values.documentUpload.main.idFront && ( */}
+          <FileInput accept={accept} required={!values.documentUpload.main.idFront} name='passport' fileValue={values.documentUpload.main.passport} title='Passport' onUpload={(value) => setFieldValue('documentUpload.main.passport', value)} onBlur={() => setFieldTouched('documentUpload.main.passport', true)} error={errors.passport} />
+          {/* )} */}
           <div className={cn(values.documentUpload.main.idFront && 'col-span-2')}>
-            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='utilityBill' fileValue={values.documentUpload.main.utilityBill} title='Utility Bill' onUpload={(value) => setFieldValue('documentUpload.main.utilityBill', value)} onBlur={() => setFieldTouched('documentUpload.main.utilityBill', true)} error={errors.utilityBill} />
+            <FileInput accept={accept} required name='utilityBill' fileValue={values.documentUpload.main.utilityBill} title='Utility Bill' onUpload={(value) => setFieldValue('documentUpload.main.utilityBill', value)} onBlur={() => setFieldTouched('documentUpload.main.utilityBill', true)} error={errors.utilityBill} />
           </div>
         </div>
-        {!values.documentUpload.main.passport && (
-          <div className="grid lg:grid-cols-2 gap-2">
-            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='idFront' fileValue={values.documentUpload.main.idFront} title='ID (Front)' onUpload={(value) => setFieldValue('documentUpload.main.idFront', value)} onBlur={() => setFieldTouched('documentUpload.main.idFront', true)} error={errors.idFront} />
-            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='idBack' fileValue={values.documentUpload.main.idBack} title='ID (Back)' onUpload={(value) => setFieldValue('documentUpload.main.idBack', value)} onBlur={() => setFieldTouched('documentUpload.main.idBack', true)} error={errors.idBack} />
-          </div>
-        )}
+        {/* {!values.documentUpload.main.passport && ( */}
+        <div className="grid lg:grid-cols-2 gap-2">
+          <FileInput accept={accept} required={!values.documentUpload.main.passport} name='idFront' fileValue={values.documentUpload.main.idFront} title='ID (Front)' onUpload={(value) => setFieldValue('documentUpload.main.idFront', value)} onBlur={() => setFieldTouched('documentUpload.main.idFront', true)} error={errors.idFront} />
+          <FileInput accept={accept} required={!values.documentUpload.main.passport} name='idBack' fileValue={values.documentUpload.main.idBack} title='ID (Back)' onUpload={(value) => setFieldValue('documentUpload.main.idBack', value)} onBlur={() => setFieldTouched('documentUpload.main.idBack', true)} error={errors.idBack} />
+        </div>
+        {/* )} */}
       </div>
 
-      {values.travelInfo.numberOfPeople > 0 && (
+      {values.documentUpload.additional.length > 0 && (
         <Fragment>
           <p className='font-medium'>{documentUploadsSection?.additionalTravellerDocuments?.title || 'Additional Traveller Documents'}</p>
           <div className='flex flex-col gap-4'>
-            {Array.from({ length: values.travelInfo.numberOfPeople }).map((_, index) => (
+            {values.documentUpload.additional.map((item, index) => (
               <div key={index} className='flex flex-col gap-2 border rounded-md p-4'>
                 <div className="flex gap-4 justify-between">
-                  <p className='font-medium'>Traveller {index + 2} Passport</p>
-                  {/* <div className="flex items-center gap-2">
-                    <p className='text-sm'>{documentUploadsSection?.additionalTravellerDocuments?.additionalTravellerRadios?.title || 'Upload their'}</p>
+                  <p className='font-medium'>{item.child ? 'Child' : 'Adult'} {item.type == 'passport' ? 'Passport' : 'ID'}</p>
+                  <div className="flex items-center gap-2">
                     <RadioGroup
                       className='flex items-center gap-2'
-                      defaultValue={values.documentUpload.additional[index].type}
+                      defaultValue={item.type}
                       onValueChange={(value) => setFieldValue(`documentUpload.additional[${index}].type`, value)}>
                       <div className="flex items-center gap-2">
                         <RadioGroupItem value='passport' title='Passport' />
@@ -62,18 +63,17 @@ export default function DocumentUploadsForm({ form, values, errors, setFieldValu
                         <p className='text-sm'>{documentUploadsSection?.additionalTravellerDocuments?.additionalTravellerRadios?.id || 'ID'}</p>
                       </div>
                     </RadioGroup>
-                  </div> */}
-                </div>
-                {/* <FileInput required fileValue={values.documentUpload.additional[index].proofOfTravel} name={`proofOfTravel-${index}`} title={documentUploadsSection?.additionalTravellerDocuments?.proofOfTravel || 'Proof of Travel'} onUpload={(value) => setFieldValue(`documentUpload.additional[${index}].proofOfTravel`, value)} /> */}
-                {values.documentUpload.additional[index].type == 'passport' &&
-                  <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required fileValue={values.documentUpload.additional[index].passport} name={`passport-${index}`} title={documentUploadsSection?.additionalTravellerDocuments?.passport || 'Passport'} onUpload={(value) => setFieldValue(`documentUpload.additional[${index}].passport`, value)} />
-                }
-                {/* {values.documentUpload.additional[index].type == 'id' &&
-                  <div className="grid grid-cols-2 gap-2 items-end">
-                    <FileInput required fileValue={values.documentUpload.additional[index].idFront} name={`idFront-${index}`} title={documentUploadsSection?.additionalTravellerDocuments?.idFront || 'ID (Front)'} onUpload={(value) => setFieldValue(`documentUpload.additional[${index}].idFront`, value)} />
-                    <FileInput required fileValue={values.documentUpload.additional[index].idBack} name={`idBack-${index}`} title={documentUploadsSection?.additionalTravellerDocuments?.idBack || 'ID (Back)'} onUpload={(value) => setFieldValue(`documentUpload.additional[${index}].idBack`, value)} />
                   </div>
-                } */}
+                </div>
+                {item.type == 'passport' &&
+                  <FileInput accept={accept} required fileValue={item.passport} name={`passport-${index}`} title={documentUploadsSection?.additionalTravellerDocuments?.passport || 'Passport'} onUpload={(value) => setFieldValue(`documentUpload.additional[${index}].passport`, value)} />
+                }
+                {item.type == 'id' &&
+                  <div className="grid grid-cols-2 gap-2 items-end">
+                    <FileInput accept={accept} required fileValue={item.idFront} name={`idFront-${index}`} title={documentUploadsSection?.additionalTravellerDocuments?.idFront || 'ID (Front)'} onUpload={(value) => setFieldValue(`documentUpload.additional[${index}].idFront`, value)} />
+                    <FileInput accept={accept} required fileValue={item.idBack} name={`idBack-${index}`} title={documentUploadsSection?.additionalTravellerDocuments?.idBack || 'ID (Back)'} onUpload={(value) => setFieldValue(`documentUpload.additional[${index}].idBack`, value)} />
+                  </div>
+                }
               </div>
             ))}
           </div>

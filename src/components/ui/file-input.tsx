@@ -65,7 +65,7 @@ function FileInput({ className, title, error, required, fileValue, onUpload, ...
                   <p className="text-sm text-muted-foreground">Uploading...</p>
                 </Fragment>
               ) : (
-                <p onClick={openFileInput} className="text-sm text-muted-foreground hover:font-medium transition-all duration-300 cursor-pointer">Upload a {accepted.length > 1 ? joinWith(accepted, 'or') : 'file'}</p>
+                <p onClick={openFileInput} className="text-sm text-muted-foreground hover:font-medium transition-all duration-300 cursor-pointer">Upload {joinWith(accepted, 'or')}</p>
               )}
             </Fragment>
           )}

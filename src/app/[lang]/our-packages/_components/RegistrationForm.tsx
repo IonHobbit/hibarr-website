@@ -67,6 +67,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
       travelInfo: {
         areYouTravelingAlone: undefined,
         numberOfPeople: 0,
+        numberOfChildren: 0,
         arrivalDate: '',
         departureDate: '',
         rentalCar: 'Small',
@@ -236,7 +237,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     } else if (activeStep === 1) {
       return values.nextOfKin.fathersFirstName && values.nextOfKin.fathersLastName && values.nextOfKin.mothersFirstName && values.nextOfKin.mothersLastName && values.nextOfKin.motherMaidenName;
     } else if (activeStep === 2) {
-      return values.travelInfo.arrivalDate && values.travelInfo.departureDate && (values.bankAndLawyer.bankAppointment && Number(values.bankAndLawyer.openingBalance) >= activePackage.minimumDeposit);
+      return values.travelInfo.arrivalDate && values.travelInfo.departureDate && (values.bankAndLawyer.bankAppointment || Number(values.bankAndLawyer.openingBalance) >= activePackage.minimumDeposit);
     } else if (activeStep === 3) {
       return (values.documentUpload.main.passport || (values.documentUpload.main.idFront && values.documentUpload.main.idBack)) && values.documentUpload.main.utilityBill && values.documentUpload.main.proofOfTravel;
     }

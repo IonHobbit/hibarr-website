@@ -2,10 +2,10 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-function Input({ className, type, title, error, truncateTitle = false, ...props }: React.ComponentProps<"input"> & { error?: string, truncateTitle?: boolean }) {
+function Input({ className, type, title, titleClassName, error, truncateTitle = false, ...props }: React.ComponentProps<"input"> & { error?: string, truncateTitle?: boolean, titleClassName?: string }) {
   return (
     <div className={"relative flex flex-col items-start gap-1"}>
-      {title && <label htmlFor={props.id} className={cn("text-sm text-muted-foreground", truncateTitle && "truncate max-w-60")}>{title} {props.required && <span className="text-destructive text-xs">*</span>}</label>}
+      {title && <label htmlFor={props.id} className={cn("text-sm text-muted-foreground", truncateTitle && "truncate max-w-60", titleClassName)}>{title} {props.required && <span className="text-destructive text-xs">*</span>}</label>}
       <input
         type={type}
         data-slot="input"
