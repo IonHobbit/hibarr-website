@@ -14,11 +14,13 @@ type BankxLawyerFormProps = {
   form: BankPackagesPage['form']
   activePackage: BankPackage
   values: RegistrationFormType;
+  errors: Record<string, string>;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setFieldValue: (field: string, value: string | boolean | number | object) => void;
+  setFieldTouched: (field: string, value: boolean) => void;
 }
 
-export default function BankxLawyerForm({ form, activePackage, values, handleChange, setFieldValue }: BankxLawyerFormProps) {
+export default function BankxLawyerForm({ form, activePackage, values, errors, handleChange, setFieldValue, setFieldTouched }: BankxLawyerFormProps) {
   const { bankAndLawyerSection } = form!;
 
   const getMinimumDeposit = activePackage.minimumDeposit;
@@ -33,6 +35,15 @@ export default function BankxLawyerForm({ form, activePackage, values, handleCha
       idBack: null,
       type: 'passport',
     })));
+  }
+
+  const handleAreYouTravelingAlone = (value: boolean) => {
+    setFieldValue('travelInfo.areYouTravelingAlone', value);
+    if (!value) {
+      handleChangeInNumberOfPeople('1');
+    } else {
+      setFieldValue('travelInfo.numberOfPeople', 0);
+    }
   }
 
   return (
@@ -63,7 +74,10 @@ export default function BankxLawyerForm({ form, activePackage, values, handleCha
           </div>
         </div>
         {values.bankAndLawyer.bankAppointment && (
-          <Input type='number' title={bankAndLawyerSection?.initialDeposit || 'Initial Deposit (€)'} min={getMinimumDeposit} name='bankAndLawyer.openingBalance' value={values.bankAndLawyer.openingBalance || getMinimumDeposit} onChange={handleChange} />
+          <div className='flex flex-col gap-1'>
+            <Input type='number' title={bankAndLawyerSection?.initialDeposit || 'Initial Deposit (€)'} min={getMinimumDeposit} name='bankAndLawyer.openingBalance' value={values.bankAndLawyer.openingBalance || getMinimumDeposit} onChange={handleChange} onBlur={() => setFieldTouched('bankAndLawyer.openingBalance', true)} />
+            {errors.openingBalance && <p className='text-xs text-red-500'>Minimum deposit is €{getMinimumDeposit.toLocaleString()}</p>}
+          </div>
         )}
 
         <div className="flex items-center gap-4">
@@ -94,15 +108,15 @@ export default function BankxLawyerForm({ form, activePackage, values, handleCha
         <p className='font-medium'>{bankAndLawyerSection?.travelDetails?.title || 'Travel Details'}</p>
         <div className='flex flex-col gap-4'>
           <div className='grid grid-cols-2 gap-3'>
-            <Input required type="datetime-local" name='travelInfo.arrivalDate' title={bankAndLawyerSection?.travelDetails?.arrivalDate || 'Arrival Date + Time'} value={values.travelInfo.arrivalDate} onChange={handleChange} />
-            <Input required type="datetime-local" name='travelInfo.departureDate' title={bankAndLawyerSection?.travelDetails?.departureDate || 'Departure Date + Time'} value={values.travelInfo.departureDate} onChange={handleChange} />
+            <Input required type="datetime-local" name='travelInfo.arrivalDate' title={bankAndLawyerSection?.travelDetails?.arrivalDate || 'Arrival Date + Time'} value={values.travelInfo.arrivalDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.arrivalDate', true)} error={errors.arrivalDate} />
+            <Input required type="datetime-local" name='travelInfo.departureDate' title={bankAndLawyerSection?.travelDetails?.departureDate || 'Departure Date + Time'} value={values.travelInfo.departureDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.departureDate', true)} error={errors.departureDate} />
           </div>
           <div className="flex items-center gap-2">
             <p className='text-sm'>Are you traveling alone?</p>
             <RadioGroup
               className='flex items-center gap-2'
               value={values.travelInfo.areYouTravelingAlone !== undefined ? (values.travelInfo.areYouTravelingAlone ? 'yes' : 'no') : undefined}
-              onValueChange={(value) => setFieldValue(`travelInfo.areYouTravelingAlone`, value === 'yes')}>
+              onValueChange={(value) => handleAreYouTravelingAlone(value === 'yes')}>
               <div className="flex items-center gap-2">
                 <RadioGroupItem value='yes' title='Yes' />
                 <p className='text-sm'>Yes</p>

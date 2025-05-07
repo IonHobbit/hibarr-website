@@ -28,10 +28,12 @@ function SelectTrigger({
   size = "default",
   children,
   title,
+  error,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
   size?: "sm" | "default",
-  title?: string
+  title?: string,
+  error?: string
 }) {
   return (
     <div className="relative flex flex-col gap-1">
@@ -50,6 +52,7 @@ function SelectTrigger({
           <Icon icon="mdi:chevron-down" className="size-4 opacity-50" />
         </SelectPrimitive.Icon>
       </SelectPrimitive.Trigger>
+      {error && <p className="text-red-500 text-xs">{error}</p>}
     </div>
   )
 }

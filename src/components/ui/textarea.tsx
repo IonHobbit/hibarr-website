@@ -2,9 +2,9 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-function Textarea({ className, title, ...props }: React.ComponentProps<"textarea"> & { title?: string }) {
+function Textarea({ className, title, error, ...props }: React.ComponentProps<"textarea"> & { title?: string, error?: string }) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className={"relative flex flex-col items-start gap-1"}>
       {title && <label htmlFor={props.id} className={cn("text-sm text-muted-foreground")}>{title} {props.required && <span className="text-destructive text-xs">*</span>}</label>}
       <textarea
         data-slot="textarea"
@@ -14,6 +14,7 @@ function Textarea({ className, title, ...props }: React.ComponentProps<"textarea
         )}
         {...props}
       />
+      {error && <p className="text-red-500 text-xs">{error}</p>}
     </div>
   )
 }

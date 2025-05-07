@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import BankxLawyerForm from './BankxLawyerForm';
-import React, { useEffect, useMemo, useState, useCallback, Fragment } from 'react'
+import React, { useMemo, useState, Fragment } from 'react'
 import { RegistrationFormType } from '@/types/main';
 import { PopoverClose } from '@radix-ui/react-popover';
 import DocumentUploadsForm from './DocumentUploadsForm';
@@ -19,6 +19,7 @@ import { PACKAGE_TYPE } from '@/lib/mockdata';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import BankDetailsModal from './BankDetailsModal';
+import * as Yup from 'yup';
 
 type RegistrationFormProps = {
   packages: BankPackage[]
@@ -41,7 +42,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     [packages, activePackageSlug]
   );
 
-  const { values, handleChange, setFieldValue, handleSubmit } = useFormik<RegistrationFormType>({
+  const { values, errors, touched, handleChange, setFieldValue, setFieldTouched, handleSubmit } = useFormik<RegistrationFormType>({
     initialValues: {
       package: activePackageSlug,
       personalInformation: {
@@ -85,6 +86,45 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
       },
       paymentMethod: 'bankTransfer',
     },
+    validationSchema: Yup.object({
+      personalInformation: Yup.object({
+        firstName: Yup.string().required('First name is required'),
+        lastName: Yup.string().required('Last name is required'),
+        email: Yup.string().email('Invalid email address').required('Email is required'),
+        phoneNumber: Yup.string().required('Phone number is required'),
+      }),
+      nextOfKin: Yup.object({
+        fathersFirstName: Yup.string().required('Fathers first name is required'),
+        fathersLastName: Yup.string().required('Fathers last name is required'),
+        mothersFirstName: Yup.string().required('Mothers first name is required'),
+        mothersLastName: Yup.string().required('Mothers last name is required'),
+        motherMaidenName: Yup.string().required('Mothers maiden name is required'),
+      }),
+      bankAndLawyer: Yup.object({
+        openingBalance: Yup.number().when('bankAppointment', {
+          is: true,
+          then: (schema) => schema.min(activePackage.minimumDeposit, `Minimum initial deposit is €${activePackage.minimumDeposit.toLocaleString()}`).required('Opening balance is required'),
+          otherwise: (schema) => schema.optional(),
+        }),
+      }),
+      travelInfo: Yup.object({
+        arrivalDate: Yup.date().required('Arrival date is required'),
+        departureDate: Yup.date().required('Departure date is required'),
+      }),
+      documentUpload: Yup.object({
+        main: Yup.object({
+          proofOfTravel: Yup.string().required('Proof of travel is required'),
+          utilityBill: Yup.string().required('Utility bill is required'),
+          passport: Yup.string(),
+          idFront: Yup.string(),
+          idBack: Yup.string(),
+        }).test('identity-documents', 'Either passport or ID (front and back) is required', function (value) {
+          const hasPassport = !!value.passport;
+          const hasId = !!value.idFront && !!value.idBack;
+          return hasPassport || hasId;
+        }),
+      }),
+    }),
     onSubmit: async (values) => {
       setIsLoading(true);
       try {
@@ -132,22 +172,45 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     },
   })
 
+  const getSectionErrors = (key: keyof RegistrationFormType): Record<string, string> => {
+    const sectionTouched = touched[key];
+    const sectionErrors = errors[key];
+
+    if (!sectionTouched || !sectionErrors) return {};
+
+    if (typeof sectionTouched === 'boolean') {
+      return sectionErrors ? { [key]: sectionErrors as string } : {};
+    }
+
+    const result: Record<string, string> = {};
+    Object.keys(sectionTouched).forEach(fieldKey => {
+      const touchedValue = sectionTouched[fieldKey as keyof typeof sectionTouched];
+      const errorValue = sectionErrors[fieldKey as keyof typeof sectionErrors];
+
+      if (touchedValue && errorValue) {
+        result[fieldKey] = errorValue as string;
+      }
+    });
+
+    return result;
+  };
+
   const sections = [
     {
       title: form?.personalInformationSection?.title,
-      component: <PersonalInformationForm form={form} values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
+      component: <PersonalInformationForm form={form} values={values} errors={getSectionErrors('personalInformation')} handleChange={handleChange} setFieldValue={setFieldValue} setFieldTouched={setFieldTouched} />,
     },
     {
       title: form?.parentsInformationSection?.title,
-      component: <ParentInformationForm form={form} values={values} handleChange={handleChange} />,
+      component: <ParentInformationForm form={form} values={values} errors={getSectionErrors('nextOfKin')} handleChange={handleChange} setFieldTouched={setFieldTouched} />,
     },
     {
       title: form?.bankAndLawyerSection?.title,
-      component: <BankxLawyerForm form={form} activePackage={activePackage} values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
+      component: <BankxLawyerForm form={form} activePackage={activePackage} values={values} errors={{ ...getSectionErrors('bankAndLawyer'), ...getSectionErrors('travelInfo') }} handleChange={handleChange} setFieldValue={setFieldValue} setFieldTouched={setFieldTouched} />,
     },
     {
       title: form?.documentUploadsSection?.title,
-      component: <DocumentUploadsForm form={form} values={values} handleChange={handleChange} setFieldValue={setFieldValue} />,
+      component: <DocumentUploadsForm form={form} values={values} errors={getSectionErrors('documentUpload')} handleChange={handleChange} setFieldValue={setFieldValue} setFieldTouched={setFieldTouched} />,
     },
   ]
 
@@ -163,9 +226,9 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     setFieldValue('bankAndLawyer.openingBalance', selectedPackage?.minimumDeposit ? selectedPackage.minimumDeposit.toString() : '0');
   }
 
-  const updatePackageField = useCallback((slug: string) => {
-    setFieldValue('package', slug)
-  }, [setFieldValue])
+  // const updatePackageField = useCallback((slug: string) => {
+  //   setFieldValue('package', slug)
+  // }, [setFieldValue])
 
   const isFormValid = useMemo(() => {
     if (activeStep === 0) {
@@ -173,17 +236,17 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     } else if (activeStep === 1) {
       return values.nextOfKin.fathersFirstName && values.nextOfKin.fathersLastName && values.nextOfKin.mothersFirstName && values.nextOfKin.mothersLastName && values.nextOfKin.motherMaidenName;
     } else if (activeStep === 2) {
-      return values.travelInfo.arrivalDate && values.travelInfo.departureDate;
+      return values.travelInfo.arrivalDate && values.travelInfo.departureDate && (values.bankAndLawyer.bankAppointment && Number(values.bankAndLawyer.openingBalance) >= activePackage.minimumDeposit);
     } else if (activeStep === 3) {
       return (values.documentUpload.main.passport || (values.documentUpload.main.idFront && values.documentUpload.main.idBack)) && values.documentUpload.main.utilityBill && values.documentUpload.main.proofOfTravel;
     }
 
     return true;
-  }, [activeStep, values])
+  }, [activeStep, values, activePackage])
 
-  useEffect(() => {
-    updatePackageField(activePackageSlug)
-  }, [activePackageSlug, updatePackageField])
+  // useEffect(() => {
+  //   updatePackageField(activePackageSlug)
+  // }, [activePackageSlug, updatePackageField])
 
   return (
     <Card className='max-w-xl w-full mx-auto p-6'>

@@ -2,6 +2,7 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { RegistrationFormType } from '@/types/main';
 import { BankPackagesPage } from '@/types/sanity.types';
+
 const salutations = [
   {
     label: 'Mr',
@@ -20,11 +21,13 @@ const salutations = [
 type PersonalInformationFormProps = {
   form: BankPackagesPage['form']
   values: RegistrationFormType;
+  errors: Record<string, string>;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setFieldValue: (field: string, value: string) => void;
+  setFieldTouched: (field: string, value: boolean) => void;
 }
 
-export default function PersonalInformationForm({ form, values, handleChange, setFieldValue }: PersonalInformationFormProps) {
+export default function PersonalInformationForm({ form, values, errors, handleChange, setFieldValue, setFieldTouched }: PersonalInformationFormProps) {
   const { personalInformationSection } = form!;
 
   return (
@@ -32,7 +35,7 @@ export default function PersonalInformationForm({ form, values, handleChange, se
       <div className="grid lg:grid-cols-8 gap-2">
         <div className='lg:col-span-2 overflow-hidden'>
           <Select defaultValue={values.personalInformation.salutation} onValueChange={(value) => setFieldValue('personalInformation.salutation', value)}>
-            <SelectTrigger title={personalInformationSection?.salutation || 'Salutation'} className='w-full'>
+            <SelectTrigger error={errors?.salutation} title={personalInformationSection?.salutation || 'Salutation'} className='w-full'>
               <SelectValue placeholder=' Mr, Mrs, Ms, Dr' />
             </SelectTrigger>
             <SelectContent>
@@ -45,14 +48,14 @@ export default function PersonalInformationForm({ form, values, handleChange, se
           </Select>
         </div>
         <div className='lg:col-span-3'>
-          <Input required type='text' title={personalInformationSection?.firstName || 'First Name'} name='personalInformation.firstName' value={values.personalInformation.firstName} onChange={handleChange} placeholder='John' />
+          <Input required type='text' error={errors?.firstName} title={personalInformationSection?.firstName || 'First Name'} name='personalInformation.firstName' value={values.personalInformation.firstName} onChange={handleChange} placeholder='John' onBlur={() => setFieldTouched('personalInformation.firstName', true)} />
         </div>
         <div className='lg:col-span-3'>
-          <Input required type='text' title={personalInformationSection?.lastName || 'Last Name'} name='personalInformation.lastName' value={values.personalInformation.lastName} onChange={handleChange} placeholder='Doe' />
+          <Input required type='text' error={errors?.lastName} title={personalInformationSection?.lastName || 'Last Name'} name='personalInformation.lastName' value={values.personalInformation.lastName} onChange={handleChange} placeholder='Doe' onBlur={() => setFieldTouched('personalInformation.lastName', true)} />
         </div>
       </div>
-      <Input required type='email' title={personalInformationSection?.email || 'Email'} name='personalInformation.email' value={values.personalInformation.email} onChange={handleChange} placeholder='john.doe@example.com' />
-      <Input required type='tel' title={personalInformationSection?.phone || 'Phone Number'} name='personalInformation.phoneNumber' value={values.personalInformation.phoneNumber} onChange={handleChange} placeholder='+905555555555' />
+      <Input required type='email' error={errors?.email} title={personalInformationSection?.email || 'Email'} name='personalInformation.email' value={values.personalInformation.email} onChange={handleChange} placeholder='john.doe@example.com' onBlur={() => setFieldTouched('personalInformation.email', true)} />
+      <Input required type='tel' error={errors?.phoneNumber} title={personalInformationSection?.phone || 'Phone Number'} name='personalInformation.phoneNumber' value={values.personalInformation.phoneNumber} onChange={handleChange} placeholder='+905555555555' onBlur={() => setFieldTouched('personalInformation.phoneNumber', true)} />
     </div>
   )
 }

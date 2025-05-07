@@ -9,30 +9,32 @@ import { Fragment } from 'react';
 type DocumentUploadsFormProps = {
   form: BankPackagesPage['form']
   values: RegistrationFormType;
+  errors: Record<string, string>;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setFieldValue: (field: string, value: string | File | undefined) => void;
+  setFieldTouched: (field: string, value: boolean) => void;
 }
 
-export default function DocumentUploadsForm({ form, values, setFieldValue }: DocumentUploadsFormProps) {
+export default function DocumentUploadsForm({ form, values, errors, setFieldValue, setFieldTouched }: DocumentUploadsFormProps) {
   const { documentUploadsSection } = form!;
 
   return (
     <div className='flex flex-col gap-3'>
       <p className='font-medium'>{documentUploadsSection?.mainTravellerDocuments?.title || 'Main Traveller Documents'}</p>
       <div className='flex flex-col gap-2'>
-        <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='proofOfTravel' fileValue={values.documentUpload.main.proofOfTravel} title='Proof of Travel (with dates, times, flight number & airport)' onUpload={(value) => setFieldValue('documentUpload.main.proofOfTravel', value)} />
+        <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='proofOfTravel' fileValue={values.documentUpload.main.proofOfTravel} title='Proof of Travel (with dates, times, flight number & airport)' onUpload={(value) => setFieldValue('documentUpload.main.proofOfTravel', value)} onBlur={() => setFieldTouched('documentUpload.main.proofOfTravel', true)} error={errors.proofOfTravel} />
         <div className="grid lg:grid-cols-2 gap-2 items-end">
           {!values.documentUpload.main.idFront && (
-            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='passport' fileValue={values.documentUpload.main.passport} title='Passport' onUpload={(value) => setFieldValue('documentUpload.main.passport', value)} />
+            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='passport' fileValue={values.documentUpload.main.passport} title='Passport' onUpload={(value) => setFieldValue('documentUpload.main.passport', value)} onBlur={() => setFieldTouched('documentUpload.main.passport', true)} error={errors.passport} />
           )}
           <div className={cn(values.documentUpload.main.idFront && 'col-span-2')}>
-            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='utilityBill' fileValue={values.documentUpload.main.utilityBill} title='Utility Bill' onUpload={(value) => setFieldValue('documentUpload.main.utilityBill', value)} />
+            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='utilityBill' fileValue={values.documentUpload.main.utilityBill} title='Utility Bill' onUpload={(value) => setFieldValue('documentUpload.main.utilityBill', value)} onBlur={() => setFieldTouched('documentUpload.main.utilityBill', true)} error={errors.utilityBill} />
           </div>
         </div>
         {!values.documentUpload.main.passport && (
           <div className="grid lg:grid-cols-2 gap-2">
-            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='idFront' fileValue={values.documentUpload.main.idFront} title='ID (Front)' onUpload={(value) => setFieldValue('documentUpload.main.idFront', value)} />
-            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='idBack' fileValue={values.documentUpload.main.idBack} title='ID (Back)' onUpload={(value) => setFieldValue('documentUpload.main.idBack', value)} />
+            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='idFront' fileValue={values.documentUpload.main.idFront} title='ID (Front)' onUpload={(value) => setFieldValue('documentUpload.main.idFront', value)} onBlur={() => setFieldTouched('documentUpload.main.idFront', true)} error={errors.idFront} />
+            <FileInput accept='image/png,image/jpeg,image/jpg,image/webp,application/pdf' required name='idBack' fileValue={values.documentUpload.main.idBack} title='ID (Back)' onUpload={(value) => setFieldValue('documentUpload.main.idBack', value)} onBlur={() => setFieldTouched('documentUpload.main.idBack', true)} error={errors.idBack} />
           </div>
         )}
       </div>
