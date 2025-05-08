@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+  <body
+    style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #FFFFFF"
+  >
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td>
+          <table
+            align="center"
+            width="600"
+            style="border-collapse: collapse; border: 1px solid #ddd;"
+          >
+            <tr>
+              <td bgcolor="#f9f9f9" style="padding: 20px;">
+                <img
+                  src="https://hibarr.de/wp-content/uploads/2025/02/logo-blue.png"
+                  alt="Your Company Logo"
+                  width="150"
+                  style="display: block; margin: 0 auto;"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 20px;">
+                <h2 style="color: #333;">Thank you for your submission!</h2>
+                <p>
+                  Dear {{$('Extract Body').item.json.personalInformation.salutation + ' ' +
+                  $('Extract Body').item.json.personalInformation.firstName }},
+                </p>
+                <p>
+                  We have received your form submission and are processing it.
+                  {{ $('Extract Body').item.json.stripePriceId ? 'Please review the details below:' : '' }} 
+                </p>
+                {{ $('Extract Body').item.json.stripePriceId ? `
+                <table width="100%" style="margin-bottom: 20px;">
+                  <tr>
+                    <td style="padding: 5px;">
+                      <strong>Reference Number:</strong>
+                    </td>
+                    <td style="padding: 5px;">
+                      ` + $('Crypto').item.json.referenceID + `
+                    </td>
+                  </tr>
+                </table>
+                ` : '' }}
+
+                <!-- Conditional Content: Payment Link or Bank Details -->
+                <!-- This section would be dynamically generated based on your backend logic -->
+                <div id="paymentDetails">
+                  {{ $('Extract Body').item.json.stripePriceId && 
+                  $('Extract Body').item.json.paymentMethod == "payOnline" ? 
+                  `
+                  <p>
+                    If you have not already, please use the following link to
+                    make your payment:
+                  </p>
+                  <p>
+                    <a href="
+                  ` + $json.url + `"
+                      style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;"
+                      >Pay Now
+                    </a>
+                  </p>
+                  `: ''}}
+                  
+                  {{ $('Extract Body').item.json.stripePriceId && 
+                  $('Extract Body').item.json.paymentMethod == "bankTransfer" ? `
+                  <p>If you have not already, make a bank transfer to the following account:</p>
+                  <ul style="list-style-type: none; padding-left: 0;">
+                    <li><strong>Account Name:</strong> Rabih Bassam Hijazi</li>
+                    <li style="margin-top: 10px; margin-bottom: 6px;">
+                      TR050006400000268109097722
+                    </li>
+                    <li>ISBKTRISXXX</li>
+                    <li style="margin-top: 10px;">Is Bank</li>
+                    <li>Ecevit Cd 23</li>
+                    <li>Girne 99300</li>
+                    <li style="margin-top: 10px;">Land Turkei</li>
+                  </ul>
+                  <p>
+                    Please use your Reference Number (` +
+                    $('Crypto').item.json.referenceID + `) as the payment
+                    reference.
+                  </p>
+                  `: '' }}
+                </div>
+
+                <p>
+                  If you have any questions, please contact us at <a href="mailto:info@hibarr.de">info@hibarr.de</a> or <a href="tel:+905391360081">+905391360081</a>.
+                </p>
+
+                <p>Sincerely,</p>
+                <p>Hibarr Estates</p>
+              </td>
+            </tr>
+            <tr>
+              <td
+                bgcolor="#f2f2f2"
+                style="padding: 10px; text-align: center; font-size: 12px; color: #777;"
+              >
+                &copy; 2025 Hibarr. All rights reserved.
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

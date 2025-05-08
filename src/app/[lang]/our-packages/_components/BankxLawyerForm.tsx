@@ -226,16 +226,16 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
               </div>
             )
           } */}
-          <div className="flex items-start gap-2">
+          <div className="flex items-center gap-2">
             <Checkbox id="travelInfo.airportTransfer" required checked={values.travelInfo.airportTransfer} onClick={() => setFieldValue('travelInfo.airportTransfer', !values.travelInfo.airportTransfer)} />
-            <label htmlFor="travelInfo.airportTransfer" className="text-xs cursor-pointer">
+            <label htmlFor="travelInfo.airportTransfer" className="text-sm cursor-pointer">
               {bankAndLawyerSection?.additionalServices?.airportTransfer + ` (${PACKAGE_TYPE[values.package as keyof typeof PACKAGE_TYPE] === PACKAGE_TYPE['basic-package'] ? 'You will bear the cost' : 'Included in your package'})` ||
                 `Do you require Airport Transfer? (${PACKAGE_TYPE[values.package as keyof typeof PACKAGE_TYPE] === PACKAGE_TYPE['basic-package'] ? 'You will bear the cost' : 'Included in your package'})`}
             </label>
           </div>
-          <div className="flex items-start gap-2">
+          <div className="flex items-center gap-2">
             <Checkbox id="travelInfo.requireRentalCar" required checked={values.travelInfo.requireRentalCar} onClick={() => setFieldValue('travelInfo.requireRentalCar', !values.travelInfo.requireRentalCar)} />
-            <label htmlFor="travelInfo.requireRentalCar" className="text-xs cursor-pointer">{bankAndLawyerSection?.travelDetails?.requireRentalCar || 'Do you require a rental car? (Minimum rental period is 3 days)'}</label>
+            <label htmlFor="travelInfo.requireRentalCar" className="text-sm cursor-pointer">{bankAndLawyerSection?.travelDetails?.requireRentalCar || 'Do you require a rental car? (Min. rental period is 3 days)'}</label>
           </div>
           {values.travelInfo.requireRentalCar && (
             <Select value={values.travelInfo.rentalCar} onValueChange={(value) => setFieldValue('travelInfo.rentalCar', value)}>
