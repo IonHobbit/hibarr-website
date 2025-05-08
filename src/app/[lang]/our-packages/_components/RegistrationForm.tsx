@@ -142,8 +142,10 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
           },
           travelInfo: {
             ...values.travelInfo,
-            arrivalDate: values.travelInfo.arrivalDate ? new Date(values.travelInfo.arrivalDate).toLocaleString() : '',
-            departureDate: values.travelInfo.departureDate ? new Date(values.travelInfo.departureDate).toLocaleString() : '',
+            arrivalDate: values.travelInfo.arrivalDate ? new Date(values.travelInfo.arrivalDate).toLocaleDateString() : '',
+            departureDate: values.travelInfo.departureDate ? new Date(values.travelInfo.departureDate).toLocaleDateString() : '',
+            arrivalTime: values.travelInfo.arrivalDate ? new Date(values.travelInfo.arrivalDate).toLocaleTimeString() : '',
+            departureTime: values.travelInfo.departureDate ? new Date(values.travelInfo.departureDate).toLocaleTimeString() : '',
           },
           documentUpload: values.documentUpload,
           paymentMethod: values.paymentMethod,
