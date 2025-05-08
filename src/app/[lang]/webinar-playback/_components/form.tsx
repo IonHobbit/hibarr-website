@@ -1,6 +1,6 @@
 "use client";
 
-import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 import React, { Fragment } from 'react';
 
 export default function ReactFormWithTailwind({ lang }: { lang: string }) {
@@ -29,7 +29,8 @@ export default function ReactFormWithTailwind({ lang }: { lang: string }) {
         body: JSON.stringify(payload),
       });
       alert('Form submitted successfully');
-    } catch (err) {
+    } catch (error) {
+      console.log(error);
       alert('Failed to send data. Please try again later.');
     }
   };
@@ -58,9 +59,7 @@ export default function ReactFormWithTailwind({ lang }: { lang: string }) {
               <input name="subscribeToEmails" type="checkbox" className="mr-2" />
               <label className="text-lg text-gray-600">Subscribe to email notifications</label>
             </div>
-            <div className="text-center">
-              <button type="submit" className="w-full py-4 bg-[#053160] hover:bg-blue-700 rounded text-lg font-bold text-white transition duration-200">Submit</button>
-            </div>
+            <Button type="submit" className='w-full' size="lg">Submit</Button>
           </form>
         </div>
       </section>
