@@ -33,6 +33,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
   const [url, setUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [referenceID, setReferenceID] = useState<string | null>(null);
   const [showBankTransferModal, setShowBankTransferModal] = useState(false);
 
   const [activePackageSlug, setActivePackageSlug] = useState(searchParams.get('package') || packages[0].slug || PACKAGE_TYPE['basic-package']);
@@ -154,13 +155,16 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
         const data = await response.json()
         setIsLoading(false);
         setIsSuccess(true);
-        if (values.paymentMethod === 'payOnline' && data.url) {
-          router.push(data.url);
-          setTimeout(() => {
-            setUrl(data.url);
-          }, 1000);
-        } else if (values.paymentMethod === 'bankTransfer') {
-          setShowBankTransferModal(true);
+        if (activePackage.price > 0) {
+          if (values.paymentMethod === 'payOnline' && data.url) {
+            router.push(data.url);
+            setTimeout(() => {
+              setUrl(data.url);
+            }, 1000);
+          } else if (values.paymentMethod === 'bankTransfer') {
+            setReferenceID(data.reference);
+            setShowBankTransferModal(true);
+          }
         } else {
           setTimeout(() => {
             router.push('webinar')
@@ -224,12 +228,14 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     const selectedPackage = packages.find((pkg) => pkg.slug === slug) as BankPackage;
     setActivePackageSlug(slug);
     setFieldValue('package', slug);
+    if (selectedPackage.price === 0) {
+      setFieldValue('travelInfo.numberOfPeople', 1);
+    } else {
+      setFieldValue('travelInfo.numberOfPeople', 0);
+    }
     setFieldValue('bankAndLawyer.openingBalance', selectedPackage?.minimumDeposit ? selectedPackage.minimumDeposit.toString() : '0');
   }
 
-  // const updatePackageField = useCallback((slug: string) => {
-  //   setFieldValue('package', slug)
-  // }, [setFieldValue])
 
   const isFormValid = useMemo(() => {
     if (activeStep === 0) {
@@ -245,15 +251,11 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     return true;
   }, [activeStep, values, activePackage])
 
-  // useEffect(() => {
-  //   updatePackageField(activePackageSlug)
-  // }, [activePackageSlug, updatePackageField])
-
   return (
     <Card className='max-w-xl w-full mx-auto p-6'>
       {isSuccess ? (
         <Fragment>
-          <BankDetailsModal activePackage={activePackage} showBankTransferModal={showBankTransferModal} setShowBankTransferModal={setShowBankTransferModal} />
+          <BankDetailsModal referenceID={referenceID} activePackage={activePackage} showBankTransferModal={showBankTransferModal} setShowBankTransferModal={setShowBankTransferModal} />
           <div className='flex flex-col gap-4 items-center justify-center'>
             <Icon icon='mdi:check-circle' className='size-20 text-primary' />
             <p className='text-base text-center'>

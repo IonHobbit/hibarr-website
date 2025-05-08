@@ -51,7 +51,7 @@ function FileInput({ className, title, error, required, fileValue, onUpload, ...
       {title && <label htmlFor={props.id} className="text-sm text-muted-foreground">{title} {required && <span className="text-destructive text-xs">*</span>}</label>}
       <div className="relative border-input flex items-center justify-between gap-4 min-h-10 w-full min-w-0 border bg-transparent file:border-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive rounded px-3 py-1.5">
         <div className="flex items-center gap-3">
-          <Icon icon="mdi:file-document-outline" className="w-4 h-4" />
+          <Icon onClick={openFileInput} icon="mdi:file-document-outline" className="w-4 h-4 cursor-pointer" />
           {fileValue ? (
             <div className="flex flex-col gap-1">
               <p className="text-sm text-muted-foreground line-clamp-1">File uploaded</p>
