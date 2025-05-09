@@ -25,7 +25,7 @@ export default function VideoArchiveForm() {
         subscribeToEmails: values.subscribeToEmails ? true : false,
       };
 
-      await fetch('https://automations.hibarr.net/webhook/video-archive', {
+      await fetch('https://automations.hibarr.net/webhook/webinar-recording', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -47,7 +47,7 @@ export default function VideoArchiveForm() {
     <section className="flex items-center justify-center min-h-screen  overflow-x-hidden">
       <div className={cn("w-full p-6 bg-white rounded-lg shadow-md transition-all duration-300", isSuccess ? "max-w-6xl" : "max-w-2xl")}>
         <h3 className="text-3xl font-bold mb-6 text-center">
-          {isSuccess ? "Hibarr Webinar" : "Video Archive Access Form"}
+          {isSuccess ? "Hibarr Webinar" : "Hibarr Webinar Access Form"}
         </h3>
 
         {isSuccess ?
