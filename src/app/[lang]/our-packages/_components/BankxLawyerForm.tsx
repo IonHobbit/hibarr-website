@@ -126,8 +126,8 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
         <p className='font-medium text-lg'>{bankAndLawyerSection?.travelDetails?.title || 'Travel Details'}</p>
         <div className='flex flex-col gap-4'>
           <div className='grid grid-cols-2 gap-3'>
-            <DateTimeInput title='Arrival Date/Time' required value={values.travelInfo.arrivalDate} onChange={(date) => setFieldValue('travelInfo.arrivalDate', date)} />
-            <DateTimeInput title='Departure Date/Time' required value={values.travelInfo.departureDate} onChange={(date) => setFieldValue('travelInfo.departureDate', date)} />
+            <Input required type="datetime-local" titleClassName='font-semibold text-black' name='travelInfo.arrivalDate' title={'Arrival Date/Time'} value={values.travelInfo.arrivalDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.arrivalDate', true)} error={errors.arrivalDate} />
+            <Input required type="datetime-local" titleClassName='font-semibold text-black' name='travelInfo.departureDate' title={'Departure Date/Time'} value={values.travelInfo.departureDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.departureDate', true)} error={errors.departureDate} />
           </div>
           {activePackage.price == 0 &&
             <Fragment>
@@ -203,7 +203,8 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
           <div className="flex items-center gap-2">
             <Checkbox id="travelInfo.hotel" required checked={values.travelInfo.hotel} onClick={() => setFieldValue('travelInfo.hotel', !values.travelInfo.hotel)} />
             <label htmlFor="travelInfo.hotel" className="text-base cursor-pointer">
-              {bankAndLawyerSection?.travelDetails?.hotel || 'Hotel?'}
+              {bankAndLawyerSection?.travelDetails?.hotel + ` (${PACKAGE_TYPE[values.package as keyof typeof PACKAGE_TYPE] === PACKAGE_TYPE['basic-package'] ? 'You will bear the cost' : 'Included in your package'})`
+                || `Hotel? (${PACKAGE_TYPE[values.package as keyof typeof PACKAGE_TYPE] === PACKAGE_TYPE['basic-package'] ? 'You will bear the cost' : 'Included in your package'})`}
             </label>
           </div>
           <div className="flex items-center gap-2">
