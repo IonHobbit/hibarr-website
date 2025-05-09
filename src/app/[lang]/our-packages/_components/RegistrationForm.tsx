@@ -334,7 +334,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
               </Button>
             )}
             {activeStep === sections.length - 1 && (
-              <Button isLoading={isLoading} disabled={!isFormValid} className='w-full shrink' type='submit'>
+              <Button isLoading={isLoading} disabled={!isFormValid || isLoading} className='w-full shrink' type='submit'>
                 {form?.buttons?.submit}
               </Button>
             )}
