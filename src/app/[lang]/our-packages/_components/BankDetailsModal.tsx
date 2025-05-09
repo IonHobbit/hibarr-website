@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 import { BankPackage } from './PackageCard'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Locale } from '@/lib/i18n-config';
 
 type BankDetailsModalProps = {
@@ -20,6 +20,7 @@ type BankDetailsModalProps = {
 export default function BankDetailsModal({ referenceID, activePackage, showBankTransferModal, setShowBankTransferModal }: BankDetailsModalProps) {
 
   const params = usePathname();
+  const router = useRouter();
   const lang = params.split('/')[1] || 'en' as Locale;
 
   const phoneNumbers: Record<Locale, string> = {
@@ -40,6 +41,11 @@ export default function BankDetailsModal({ referenceID, activePackage, showBankT
         setIsCopied(false)
       }, 2000)
     }
+  }
+
+  const completePayment = () => {
+    setShowBankTransferModal(false)
+    router.push(`/webinar`)
   }
 
   return (
@@ -72,7 +78,7 @@ export default function BankDetailsModal({ referenceID, activePackage, showBankT
 
           <p>For any questions, please contact us at <Link className='text-primary font-medium hover:underline' href='mailto:info@hibarr.de'>info@hibarr.de</Link> or <Link className='text-primary font-medium hover:underline' href={`tel:${phoneNumber}`}>{phoneNumber}</Link></p>
         </div>
-        <Button className='w-full' type='button' onClick={() => setShowBankTransferModal(false)}>Done</Button>
+        <Button className='w-full' type='button' onClick={completePayment}>Done</Button>
       </DialogContent>
     </Dialog>
   )
