@@ -161,7 +161,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
           documentUpload: values.documentUpload,
           paymentMethod: values.paymentMethod,
         }
-        const response = await fetch('https://automations.hibarr.net/webhook/b420ae2d-1fa1-42a0-9955-a0228b381e0d', {
+        const response = await fetch('https://automations.hibarr.net/webhook-test/b420ae2d-1fa1-42a0-9955-a0228b381e0d', {
           method: 'POST',
           body: JSON.stringify(payload),
         })

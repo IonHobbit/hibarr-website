@@ -89,12 +89,12 @@ export default function DocumentUploadsForm({ form, values, errors, setFieldValu
               defaultValue={values.paymentMethod}
               onValueChange={(value) => setFieldValue('paymentMethod', value)}>
               <div className="flex items-center gap-2">
-                <RadioGroupItem value='bankTransfer' title='Bank Transfer' />
-                <p className='text-sm'>Bank Transfer</p>
+                <RadioGroupItem value='bankTransfer' id='bankTransfer' title='Bank Transfer' />
+                <label className='text-sm cursor-pointer' htmlFor='bankTransfer'>Bank Transfer</label>
               </div>
               <div className="flex items-center gap-2">
-                <RadioGroupItem value='payOnline' title='Pay Online' />
-                <p className='text-sm'>Pay Online</p>
+                <RadioGroupItem value='payOnline' id='payOnline' title='Pay Online' />
+                <label className='text-sm cursor-pointer' htmlFor='payOnline'>Pay Online</label>
               </div>
             </RadioGroup>
           </div>

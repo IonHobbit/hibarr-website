@@ -18,7 +18,7 @@
       <div class="flex flex-wrap gap-4">
         <div class="flex-1 min-w-[200px]">
           <div class="bg-gray-50 border border-gray-200 rounded-md py-4 px-3 text-2xl font-semibold">
-            <span class="text-gray-600 font-normal">Selected Package:</span> {{package}}
+            <span class="text-gray-600 font-normal">Selected Package:</span> <span class="uppercase">{{package}}</span>
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@
           <div class="text-sm font-bold text-gray-600 mb-1">Mother's Name</div>
           <div class="bg-gray-50 border border-gray-200 rounded-md py-2 px-3">
             {{nextOfKin.mothersFirstName}} {{nextOfKin.mothersLastName}} <br>
-            Maiden Name: {{nextOfKin.motherMaidenName}}
+            <span class="font-semibold text-base">Maiden Name:</span> {{nextOfKin.motherMaidenName}}
           </div>
         </div>
       </div>
