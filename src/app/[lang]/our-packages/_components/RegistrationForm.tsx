@@ -105,7 +105,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
       bankAndLawyer: Yup.object({
         openingBalance: Yup.number().when('bankAppointment', {
           is: true,
-          then: (schema) => schema.min(activePackage.minimumDeposit, `Minimum initial deposit is €${activePackage.minimumDeposit.toLocaleString()}`).required('Opening balance is required'),
+          then: (schema) => schema.min(activePackage.minimumDeposit || 0, `Minimum initial deposit is €${(activePackage.minimumDeposit || 0).toLocaleString()}`).required('Opening balance is required'),
           otherwise: (schema) => schema.optional(),
         }),
       }),
@@ -244,7 +244,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     } else if (activeStep === 1) {
       return values.nextOfKin.fathersFirstName && values.nextOfKin.fathersLastName && values.nextOfKin.mothersFirstName && values.nextOfKin.mothersLastName && values.nextOfKin.motherMaidenName;
     } else if (activeStep === 2) {
-      return values.travelInfo.arrivalDate && values.travelInfo.departureDate && (values.bankAndLawyer.bankAppointment || Number(values.bankAndLawyer.openingBalance) >= activePackage.minimumDeposit);
+      return values.travelInfo.arrivalDate && values.travelInfo.departureDate && (values.bankAndLawyer.bankAppointment || Number(values.bankAndLawyer.openingBalance) >= (activePackage.minimumDeposit || 0));
     } else if (activeStep === 3) {
       return (values.documentUpload.main.passport || (values.documentUpload.main.idFront && values.documentUpload.main.idBack)) && values.documentUpload.main.utilityBill && values.documentUpload.main.proofOfTravel;
     }
