@@ -7,6 +7,8 @@ import React, { useState } from 'react'
 import { BankPackage } from './PackageCard'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Locale } from '@/lib/i18n-config';
 
 type BankDetailsModalProps = {
   referenceID: string | null
@@ -16,6 +18,17 @@ type BankDetailsModalProps = {
 }
 
 export default function BankDetailsModal({ referenceID, activePackage, showBankTransferModal, setShowBankTransferModal }: BankDetailsModalProps) {
+
+  const params = usePathname();
+  const lang = params.split('/')[1] || 'en' as Locale;
+
+  const phoneNumbers: Record<Locale, string> = {
+    'en': '+905391097988', // Leyla
+    'de': '+905391138959', // Christoph
+    'tr': '+905391097988', // Leyla
+  };
+
+  const phoneNumber = phoneNumbers[lang as keyof typeof phoneNumbers];
 
   const [isCopied, setIsCopied] = useState(false)
 
@@ -37,9 +50,9 @@ export default function BankDetailsModal({ referenceID, activePackage, showBankT
         </DialogHeader>
         <div className='flex flex-col gap-4'>
           <p>
-            Please transfer the amount of €{activePackage?.price} to the following bank account using this <br /> Reference ID: <span className='font-medium cursor-pointer' onClick={() => copyToClipboard(referenceID || '')}>{referenceID}</span> as the payment reference.
+            Please transfer the amount of €{activePackage?.price} to the following bank account using this <br /> Reference ID: <span className='font-medium cursor-pointer' onClick={() => copyToClipboard(referenceID || '')}>{referenceID}</span> <br />as the payment reference.
           </p>
-          <p className='font-medium text-lg'>Account Name: Rabih Bassam Hijazi</p>
+          <p className='font-medium text-lg'>Account Name: Rabih B. Hijazi</p>
           <div className='flex flex-col gap-0.5'>
             <div className='flex items-center gap-2'>
               <p className='font-medium text-lg'>TR050006400000268109097722</p>
@@ -57,7 +70,7 @@ export default function BankDetailsModal({ referenceID, activePackage, showBankT
           </div>
           <p>Land Turkei</p>
 
-          <p>For any questions, please contact us at <Link className='text-primary font-medium hover:underline' href='mailto:info@hibarr.de'>info@hibarr.de</Link> or <Link className='text-primary font-medium hover:underline' href='tel:+905391360081'>+905391360081</Link></p>
+          <p>For any questions, please contact us at <Link className='text-primary font-medium hover:underline' href='mailto:info@hibarr.de'>info@hibarr.de</Link> or <Link className='text-primary font-medium hover:underline' href={`tel:${phoneNumber}`}>{phoneNumber}</Link></p>
         </div>
         <Button className='w-full' type='button' onClick={() => setShowBankTransferModal(false)}>Done</Button>
       </DialogContent>

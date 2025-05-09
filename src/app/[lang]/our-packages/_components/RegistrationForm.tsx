@@ -43,6 +43,16 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     [packages, activePackageSlug]
   );
 
+  const getTimeString = (date: Date) => {
+    return date.toLocaleTimeString('en-US',
+      { hour: '2-digit', minute: '2-digit', hour12: false, timeZoneName: 'shortOffset' })
+  }
+
+  const getDateString = (date: Date) => {
+    return date.toLocaleDateString('en-US',
+      { year: 'numeric', month: 'long', day: '2-digit', weekday: 'long' })
+  }
+
   const { values, errors, touched, handleChange, setFieldValue, setFieldTouched, handleSubmit } = useFormik<RegistrationFormType>({
     initialValues: {
       package: activePackageSlug,
@@ -62,15 +72,15 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
       },
       bankAndLawyer: {
         openingBalance: activePackage?.minimumDeposit ? activePackage.minimumDeposit.toString() : '0',
-        bankAppointment: false,
-        lawyerAppointment: false,
+        bankAppointment: undefined,
+        lawyerAppointment: undefined,
       },
       travelInfo: {
         areYouTravelingAlone: undefined,
         numberOfPeople: 0,
         numberOfChildren: 0,
-        arrivalDate: '',
-        departureDate: '',
+        arrivalDate: undefined,
+        departureDate: undefined,
         rentalCar: 'Small',
         requireRentalCar: false,
         airportTransfer: false,
@@ -142,10 +152,10 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
           },
           travelInfo: {
             ...values.travelInfo,
-            arrivalDate: values.travelInfo.arrivalDate ? new Date(values.travelInfo.arrivalDate).toLocaleDateString() : '',
-            departureDate: values.travelInfo.departureDate ? new Date(values.travelInfo.departureDate).toLocaleDateString() : '',
-            arrivalTime: values.travelInfo.arrivalDate ? new Date(values.travelInfo.arrivalDate).toLocaleTimeString() : '',
-            departureTime: values.travelInfo.departureDate ? new Date(values.travelInfo.departureDate).toLocaleTimeString() : '',
+            arrivalDate: values.travelInfo.arrivalDate ? getDateString(new Date(values.travelInfo.arrivalDate)) : '',
+            departureDate: values.travelInfo.departureDate ? getDateString(new Date(values.travelInfo.departureDate)) : '',
+            arrivalTime: values.travelInfo.arrivalDate ? getTimeString(new Date(values.travelInfo.arrivalDate)) : '',
+            departureTime: values.travelInfo.departureDate ? getTimeString(new Date(values.travelInfo.departureDate)) : '',
           },
           documentUpload: values.documentUpload,
           paymentMethod: values.paymentMethod,
@@ -244,7 +254,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     } else if (activeStep === 1) {
       return values.nextOfKin.fathersFirstName && values.nextOfKin.fathersLastName && values.nextOfKin.mothersFirstName && values.nextOfKin.mothersLastName && values.nextOfKin.motherMaidenName;
     } else if (activeStep === 2) {
-      return values.travelInfo.arrivalDate && values.travelInfo.departureDate && (values.bankAndLawyer.bankAppointment || Number(values.bankAndLawyer.openingBalance) >= (activePackage.minimumDeposit || 0));
+      return values.travelInfo.arrivalDate && values.travelInfo.departureDate && values.bankAndLawyer.bankAppointment !== undefined && values.bankAndLawyer.lawyerAppointment !== undefined && (values.bankAndLawyer.bankAppointment || Number(values.bankAndLawyer.openingBalance) >= (activePackage.minimumDeposit || 0));
     } else if (activeStep === 3) {
       return (values.documentUpload.main.passport || (values.documentUpload.main.idFront && values.documentUpload.main.idBack)) && values.documentUpload.main.utilityBill && values.documentUpload.main.proofOfTravel;
     }

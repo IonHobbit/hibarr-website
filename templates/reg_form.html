@@ -7,7 +7,7 @@
 </head>
 
 <body class="bg-gray-100 font-sans antialiased">
-  <div class="container space-y-4 mx-auto max-w-5xl py-8 px-4">
+  <div class="container space-y-4 mx-auto py-8">
     <img src="https://hibarr.de/wp-content/uploads/2025/02/logo-blue.png" alt="Logo" class="w-1/3 h-auto mx-auto">
     <h1 class="text-center text-2xl font-semibold text-gray-800 border-gray-800 pb-2 mb-4">
       Registration Form
@@ -29,15 +29,15 @@
       <h2 class="text-lg font-semibold text-gray-800 border-b border-gray-300 pb-2 mb-4">
         Personal Information
       </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="">
           <div class="text-sm font-bold text-gray-600 mb-1">Name</div>
           <div class="bg-gray-50 border border-gray-200 rounded-md py-2 px-3 text-lg">
             {{personalInformation.salutation}} <br> {{personalInformation.firstName}}
             {{personalInformation.lastName}}
           </div>
         </div>
-        <div>
+        <div class="">
           <div class="text-sm font-bold text-gray-600 mb-1">Contact</div>
           <div class="bg-gray-50 border border-gray-200 rounded-md py-2 px-3 text-lg">
             Email: {{personalInformation.email}} <br />
@@ -76,52 +76,58 @@
       </h2>
       <div class="flex flex-wrap gap-4">
         <div class="flex-1 flex flex-col gap-4 min-w-[200px]">
+          {% if bankAndLawyer.bankAppointment or bankAndLawyer.lawyerAppointment %}
           <div>
             <div class="text-sm font-bold text-gray-600 mb-1">Appointments</div>
             <div class="bg-gray-50 border border-gray-200 rounded-md py-2 px-3 text-lg">
+              {% if bankAndLawyer.bankAppointment %}
               <div>
-                Bank Appointment: {% if bankAndLawyer.bankAppointment %}<span
-                  class="text-green-600 font-bold">Yes</span>{% else
-                %}<span class="text-red-600 italic">No Bank Appointment</span>{% endif %} <br>
+                Bank Appointment: <span class="text-green-600 font-bold">Yes</span>
               </div>
+              {% endif %}
+              {% if bankAndLawyer.lawyerAppointment %}
               <div>
-                Legal Appointment: {% if bankAndLawyer.lawyerAppointment %}<span
-                  class="text-green-600 font-bold">Yes</span>{%
-                else %}<span class="text-red-600 italic">No Legal Appointment</span>{% endif %}
+                Legal Appointment: <span class="text-green-600 font-bold">Yes</span>
               </div>
+              {% endif %}
             </div>
           </div>
+          {% endif %}
+          {% if bankAndLawyer.bankAppointment %}
           <div>
             <div class="text-sm font-bold text-gray-600 mb-1">Balance</div>
             <div class="bg-gray-50 border border-gray-200 rounded-md py-2 px-3">
               Initial Balance: {{bankAndLawyer.openingBalance}}
             </div>
           </div>
+          {% endif %}
+          {% if travelInfo.airportTransfer or travelInfo.requireRentalCar %}
           <div>
-            <div class="text-sm font-bold text-gray-600 mb-1">Airport Transfer</div>
+            <div class="text-sm font-bold text-gray-600 mb-1">Airport Transfer & Rental Car</div>
             <div class="bg-gray-50 border border-gray-200 rounded-md py-2 px-3 text-lg">
-              <p>Airport Transfer: {% if travelInfo.airportTransfer %}<span
-                  class="text-green-600 font-bold">Yes</span>{%
-                else %}<span class="text-red-600 italic">No</span>{% endif %}</p>
+              {% if travelInfo.airportTransfer %}
+              <p>Airport Transfer: <span class="text-green-600 font-bold">Yes</span></p>
+              {% endif %}
+              {% if travelInfo.requireRentalCar %}
               <p>
-                Requires Rental Car: {% if travelInfo.requireRentalCar %}<span
-                  class="text-green-600 font-bold">Yes</span>
-                {% else %}<span class="text-red-600 italic">No</span>{% endif %}
+                Requires Rental Car: <span class="text-green-600 font-bold">Yes</span>
               </p>
-              {% if travelInfo.rentalCar %}
+              {% endif %}
+              {% if travelInfo.requireRentalCar %}
               <p>
                 Rental Car Size: {{travelInfo.rentalCar}}
               </p>
               {% endif %}
             </div>
           </div>
+          {% endif %}
         </div>
         <div class="flex-1 flex flex-col gap-4 min-w-[200px]">
           <div>
             <div class="text-sm font-bold text-gray-600 mb-1">Travel Dates</div>
-            <div class="bg-gray-50 border border-gray-200 rounded-md py-2 px-3 text-lg">
-              <p>Arrival: <br> {{travelInfo.arrivalDate}}</p>
-              <p>Departure: <br> {{travelInfo.departureDate}}</p>
+            <div class="bg-gray-50 border border-gray-200 rounded-md py-2 px-3 text-lg space-y-3">
+              <p>Arrival: <br> {{travelInfo.arrivalDate}} <br> by {{travelInfo.arrivalTime}}</p>
+              <p>Departure: <br> {{travelInfo.departureDate}}<br> by {{travelInfo.departureTime}}</p>
             </div>
           </div>
           <div>
@@ -131,7 +137,9 @@
               {% if travelInfo.numberOfChildren > 0 %}
               <p>Number of Children: {{travelInfo.numberOfChildren}}</p>
               {% endif %}
+              {% if travelInfo.comments %}
               <p>Additional Comments: {{travelInfo.comments}}</p>
+              {% endif %}
             </div>
           </div>
           {% if referenceID %}

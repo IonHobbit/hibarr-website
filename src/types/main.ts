@@ -45,8 +45,8 @@ type RegistrationFormType = {
     motherMaidenName: string;
   };
   bankAndLawyer: {
-    bankAppointment: boolean;
-    lawyerAppointment: boolean;
+    bankAppointment: boolean | undefined;
+    lawyerAppointment: boolean | undefined;
     openingBalance: string;
   };
   travelInfo: {
@@ -55,8 +55,8 @@ type RegistrationFormType = {
     requireRentalCar: boolean;
     numberOfPeople: number;
     numberOfChildren: number;
-    arrivalDate: string;
-    departureDate: string;
+    arrivalDate: Date | undefined;
+    departureDate: Date | undefined;
     airportTransfer: boolean;
     comments: string;
   };

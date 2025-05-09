@@ -55,7 +55,7 @@ export default function PersonalInformationForm({ form, values, errors, handleCh
         </div>
       </div>
       <Input required type='email' error={errors?.email} title={personalInformationSection?.email || 'Email'} name='personalInformation.email' value={values.personalInformation.email} onChange={handleChange} placeholder='john.doe@example.com' onBlur={() => setFieldTouched('personalInformation.email', true)} />
-      <Input required type='tel' error={errors?.phoneNumber} title={personalInformationSection?.phone || 'Phone Number'} name='personalInformation.phoneNumber' value={values.personalInformation.phoneNumber} onChange={handleChange} placeholder='+905555555555' onBlur={() => setFieldTouched('personalInformation.phoneNumber', true)} />
+      <Input required type='tel' error={errors?.phoneNumber} title={personalInformationSection?.phone || 'Mobiler'} name='personalInformation.phoneNumber' value={values.personalInformation.phoneNumber} onChange={handleChange} placeholder='+905555555555' onBlur={() => setFieldTouched('personalInformation.phoneNumber', true)} />
     </div>
   )
 }
