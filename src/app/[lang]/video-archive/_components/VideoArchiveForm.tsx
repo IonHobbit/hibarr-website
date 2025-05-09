@@ -26,7 +26,7 @@ export default function VideoArchiveForm() {
         subscribeToEmails: values.subscribeToEmails ? true : false,
       };
 
-      await fetch('https://automations.hibarr.net/webhook/c065f322-bd55-4609-818c-91d89cbeb8a5', {
+      await fetch('https://automations.hibarr.net/webhook/video-archive', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -41,8 +41,8 @@ export default function VideoArchiveForm() {
     mutate(values as unknown as VideoArchiveFormData);
   };
 
-  const videoUrl = 'https://vz-7d90b9e0-ff2.b-cdn.net/ca76a59a-26ac-4998-9200-7f534a0f4693/play_720p.mp4';
-  const posterUrl = 'https://vz-7d90b9e0-ff2.b-cdn.net/ca76a59a-26ac-4998-9200-7f534a0f4693/thumbnail_9c34e9b7.jpg';
+  const videoUrl = 'https://vz-7d90b9e0-ff2.b-cdn.net/1d02b11a-b7a9-41aa-b015-42a99cc3ddae/play_720p.mp4';
+  const posterUrl = 'https://vz-7d90b9e0-ff2.b-cdn.net/1d02b11a-b7a9-41aa-b015-42a99cc3ddae/thumbnail_c4dad539.jpg';
 
   return (
     <section className="flex items-center justify-center min-h-screen  overflow-x-hidden">
@@ -63,10 +63,9 @@ export default function VideoArchiveForm() {
             <Input title='Email' name="email" className="w-full p-4 text-lg bg-gray-50 outline-none rounded" type="email" placeholder="name@email.com" required />
             <Input title='Mobile' name="phone" className="w-full p-4 text-lg bg-gray-50 outline-none rounded" type="tel" placeholder="Enter your mobile number" required />
 
-            <div className="flex items-center gap-2 w-max cursor-pointer">
-              <Checkbox id="subscribeToEmails" name="subscribeToEmails" />
+            {/* <div className="flex items-center gap-2 w-max cursor-pointer">
               <label htmlFor="subscribeToEmails">Do you want to be the first to know when we have new real estate properties?</label>
-            </div>
+            </div> */}
             {isError && <p className='text-red-700 text-sm'>Failed to submit your request. Please try again later.</p>}
             <Button isLoading={isPending} type="submit" className='w-full' size="lg">Submit</Button>
           </form>
