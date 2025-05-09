@@ -199,6 +199,13 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
             </div>
           }
           <Textarea title='Comments' rows={6} placeholder='Preferred room setup? Pets or other needs?' value={values.travelInfo.comments} onChange={(e) => setFieldValue('travelInfo.comments', e.target.value)} />
+          <p className='text-base'>Do you need:</p>
+          <div className="flex items-center gap-2">
+            <Checkbox id="travelInfo.hotel" required checked={values.travelInfo.hotel} onClick={() => setFieldValue('travelInfo.hotel', !values.travelInfo.hotel)} />
+            <label htmlFor="travelInfo.hotel" className="text-base cursor-pointer">
+              {bankAndLawyerSection?.travelDetails?.hotel || 'Hotel?'}
+            </label>
+          </div>
           <div className="flex items-center gap-2">
             <Checkbox id="travelInfo.airportTransfer" required checked={values.travelInfo.airportTransfer} onClick={() => setFieldValue('travelInfo.airportTransfer', !values.travelInfo.airportTransfer)} />
             <label htmlFor="travelInfo.airportTransfer" className="text-base cursor-pointer">
@@ -208,7 +215,7 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
           </div>
           <div className="flex items-center gap-2">
             <Checkbox id="travelInfo.requireRentalCar" required checked={values.travelInfo.requireRentalCar} onClick={() => setFieldValue('travelInfo.requireRentalCar', !values.travelInfo.requireRentalCar)} />
-            <label htmlFor="travelInfo.requireRentalCar" className="text-base cursor-pointer">{bankAndLawyerSection?.travelDetails?.requireRentalCar || 'Rent a car? (Min. rental period is 3 days)'}</label>
+            <label htmlFor="travelInfo.requireRentalCar" className="text-base cursor-pointer">{bankAndLawyerSection?.travelDetails?.requireRentalCar || 'Rental car? (Min. rental period is 3 days)'}</label>
           </div>
           {values.travelInfo.requireRentalCar && (
             <Select value={values.travelInfo.rentalCar} onValueChange={(value) => setFieldValue('travelInfo.rentalCar', value)}>

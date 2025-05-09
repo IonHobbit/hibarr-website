@@ -51,6 +51,7 @@ type RegistrationFormType = {
   };
   travelInfo: {
     areYouTravelingAlone: boolean | undefined;
+    hotel: boolean;
     rentalCar: string;
     requireRentalCar: boolean;
     numberOfPeople: number;

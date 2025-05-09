@@ -528,6 +528,7 @@ export type BankPackagesPage = {
         numberOfPeople?: string
         arrivalDate?: string
         departureDate?: string
+        hotel?: string
         requireRentalCar?: string
         carSize?: string
       }

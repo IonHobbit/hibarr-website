@@ -45,7 +45,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
 
   const getTimeString = (date: Date) => {
     return date.toLocaleTimeString('en-US',
-      { hour: '2-digit', minute: '2-digit', hour12: false, timeZoneName: 'shortOffset' })
+      { hour: '2-digit', minute: '2-digit', hour12: false })
   }
 
   const getDateString = (date: Date) => {
@@ -77,6 +77,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
       },
       travelInfo: {
         areYouTravelingAlone: undefined,
+        hotel: false,
         numberOfPeople: 0,
         numberOfChildren: 0,
         arrivalDate: undefined,
