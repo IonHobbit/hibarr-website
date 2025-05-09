@@ -24,7 +24,7 @@ type BankxLawyerFormProps = {
 export default function BankxLawyerForm({ form, activePackage, values, errors, handleChange, setFieldValue, setFieldTouched }: BankxLawyerFormProps) {
   const { bankAndLawyerSection } = form!;
 
-  const getMinimumDeposit = activePackage.minimumDeposit;
+  const getMinimumDeposit = activePackage.minimumDeposit || 0;
 
   const handleChangeInNumberOfPeople = (value: string) => {
     const number = Number(value);

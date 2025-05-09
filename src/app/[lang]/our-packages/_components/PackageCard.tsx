@@ -12,7 +12,7 @@ export type BankPackage = {
   icon: string
   subtitle: string
   slug: string
-  minimumDeposit: number
+  minimumDeposit?: number
   stripePriceId: string
   description: string
   price: number

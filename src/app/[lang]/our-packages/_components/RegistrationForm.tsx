@@ -238,7 +238,6 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
     setFieldValue('bankAndLawyer.openingBalance', selectedPackage?.minimumDeposit ? selectedPackage.minimumDeposit.toString() : '0');
   }
 
-
   const isFormValid = useMemo(() => {
     if (activeStep === 0) {
       return values.personalInformation.firstName && values.personalInformation.lastName && values.personalInformation.email && values.personalInformation.phoneNumber;

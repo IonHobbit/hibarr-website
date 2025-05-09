@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #FFFFFF">
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td>
+        <table align="center" width="600" style="border-collapse: collapse; border: 1px solid #ddd;">
+          <tr>
+            <td bgcolor="#f9f9f9" style="padding: 20px;">
+              <img src="https://hibarr.de/wp-content/uploads/2025/02/logo-blue.png" alt="Your Company Logo" width="150"
+                style="display: block; margin: 0 auto;" />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 20px;">
+              <h2 style="color: #333;">Thank you for your interest in our webinars!</h2>
+              <p>
+                Dear {{$('Extract Body').item.json.personalInformation.salutation + ' ' +
+                $('Extract Body').item.json.personalInformation.firstName }},
+              </p>
+              <p>
+                Thank you for showing interest in Hibarr Estates webinars! We appreciate your enthusiasm and hope you
+                find them informative.
+              </p>
+
+              <!-- Webinar Image with Link -->
+              <a href="[Webinar Playlist Link Here]">
+                <img src="[URL of Webinar Series Image Here]" alt="Webinar Series" width="560"
+                  style="display: block; margin: 10px auto; border: none;" />
+              </a>
+
+              <p>
+                Click the image above to explore the playlist of our previous webinars. Feel free to explore these
+                recordings at your convenience.
+              </p>
+
+              <p>
+                If you have any questions or would like to learn more about our upcoming webinars, please contact us
+                at <a href="mailto:info@hibarr.de">info@hibarr.de</a> or <a href="tel:+905391360081">+905391360081</a>.
+              </p>
+
+              <p>Sincerely,<br />Hibarr Estates</p>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#f2f2f2" style="padding: 10px; text-align: center; font-size: 12px; color: #777;">
+              &copy; 2025 Hibarr. All rights reserved.
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>

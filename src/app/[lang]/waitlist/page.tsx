@@ -38,10 +38,11 @@ export default async function WaitlistPage(
       </div>
 
       <div className="max-w-6xl text-center flex flex-col gap-10 px-8 bg-secondary p-6 rounded-lg">
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col gap-2 max-w-xl mx-auto'>
           <h1 className="text-5xl md:text-5xl font-bold mb-4 text-primary">
             <span className='text-accent font-medium'>{pageData.title}</span> <br /> {pageData.subtitle}
           </h1>
+          <p>Gain access to a group of like minded people who are looking to make money in the real estate market.</p>
         </div>
         <WaitlistForm formData={waitlistPage?.waitlistForm} />
       </div>
