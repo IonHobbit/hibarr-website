@@ -10,7 +10,6 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { Textarea } from '@/components/ui/textarea';
 import { Fragment } from 'react';
 import pluralize from 'pluralize';
-import { DateTimeInput } from '@/components/ui/datetime-input';
 
 type BankxLawyerFormProps = {
   form: BankPackagesPage['form']
