@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { AlertCircle, FileText, User, File } from "lucide-react";
+import { AlertCircle, FileText, User, File, Download } from "lucide-react";
 import * as Papa from "papaparse";
 import { LineChart, XAxis, YAxis, Tooltip, CartesianGrid, Line, Legend, ResponsiveContainer } from "recharts";
+import { generatePDF } from "./_components/PDFReport";
 
 // Type Definitions
 type TimeEntry = {
@@ -432,13 +433,23 @@ export default function WorkReportGenerator() {
     return recommendations.length > 0 ? recommendations : ["Employee shows good work patterns overall. Continue monitoring for any developing trends."];
   };
 
-  // const downloadPDF = (employeeName) => {
-  //   setSelectedReport(employeeName);
-  //   // In a real implementation, this would generate and download a PDF
-  //   setTimeout(() => {
-  //     setSelectedReport(null);
-  //   }, 1500);
-  // };
+  const handleDownloadPDF = async () => {
+    if (!reportData) return;
+    
+    try {
+      const blob = await generatePDF(reportData);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${reportData.employeeName.replace(/\s+/g, '_')}_Work_Report.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen max-w-full">
@@ -449,7 +460,6 @@ export default function WorkReportGenerator() {
 
         {csvData && (
           <button
-            // onClick={() => downloadPDF(reportData.employeeName)}
             onClick={() => inputRef.current?.click()}
             className="flex items-center bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 cursor-pointer"
           >
@@ -475,10 +485,12 @@ export default function WorkReportGenerator() {
                 <li key={index}>
                   <button
                     onClick={() => generateReport(employee.name)}
-                    className={`flex items-center w-full p-2 rounded text-left cursor-pointer ${selectedEmployee === employee.name
-                      ? 'bg-blue-700 text-white'
-                      : 'hover:bg-gray-200'
-                      }`}>
+                    className={`flex items-center w-full p-2 rounded text-left cursor-pointer ${
+                      selectedEmployee === employee.name
+                        ? 'bg-blue-700 text-white'
+                        : 'hover:bg-gray-200'
+                    }`}
+                  >
                     <User className="w-4 h-4 mr-2 shrink-0" />
                     <span className="flex-1 truncate">{employee.name}</span>
                   </button>
@@ -501,14 +513,13 @@ export default function WorkReportGenerator() {
 
           {!isLoading && !isProcessed && (
             <div className="flex flex-col items-center gap-4 justify-center h-full text-gray-500">
-              <div className="flex flex-col items-center ">
+              <div className="flex flex-col items-center">
                 <AlertCircle className="w-16 h-16 mb-4" />
                 <h2 className="text-xl font-semibold mb-2">No Report Selected</h2>
                 <p>Please select an employee from the list to generate a report.</p>
               </div>
               {!csvData && (
                 <button
-                  // onClick={() => downloadPDF(reportData.employeeName)}
                   onClick={() => inputRef.current?.click()}
                   className="flex items-center bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 cursor-pointer"
                 >
@@ -524,6 +535,13 @@ export default function WorkReportGenerator() {
             <div className="max-w-4xl mx-auto">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold">{reportData.employeeName} - Work Report</h2>
+                <button
+                  onClick={handleDownloadPDF}
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-800"
+                >
+                  <Download className="w-4 h-4" />
+                  Download PDF
+                </button>
               </div>
 
               {/* Performance Summary */}
