@@ -1,12 +1,6 @@
 import { Document, Page, Text, View, StyleSheet, pdf } from '@react-pdf/renderer';
 
 // Type Definitions
-type TimeEntry = {
-  hours: number;
-  minutes: number;
-  clockIn?: string;
-  clockOut?: string;
-};
 
 type DayData = {
   date: string;
@@ -17,12 +11,6 @@ type DayData = {
   clockOut?: string;
   isLate: boolean;
   note: string;
-};
-
-type WeekData = {
-  week: number;
-  totalMinutes: number;
-  days: DayData[];
 };
 
 type WeeklySummary = {
