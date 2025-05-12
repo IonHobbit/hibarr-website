@@ -5,9 +5,10 @@ import { Icon } from '@iconify/react';
 import FAQAccordion from '../_components/FAQAccordion';
 // import CalendlyEmbed from '@/components/CalendlyEmbed';
 import { client } from '@/lib/sanity/client';
-import { ConsultationPage as ConsultationPageType } from '@/types/sanity.types';
+import { ConsultationPage as ConsultationPageType, HomePage } from '@/types/sanity.types';
 import ConsultationForm from './_components/ConsultationForm';
 import { generateSEOMetadata } from '@/lib/utils';
+import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -30,6 +31,7 @@ export default async function ConsultationPage(
 
 
   const data = await client.fetch<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const consultationProcessSection = await client.fetch<HomePage['consultationProcessSection']>(`*[_type == "homePage" && language == $lang][0].consultationProcessSection`, { lang }, { cache: 'no-store' });
 
   return (
     <Fragment>
@@ -69,6 +71,7 @@ export default async function ConsultationPage(
         </div>
         <div className='absolute inset-0 bg-gradient-to-b from-primary via-primary/70 to-transparent'></div>
       </section>
+      <ConsultationProcessSection data={consultationProcessSection} />
       <section className="section">
         <video src="https://hibarr.de/wp-content/uploads/2025/03/flyer.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover aspect-video rounded-lg overflow-hidden' />
       </section>
