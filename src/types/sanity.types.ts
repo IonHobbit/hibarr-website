@@ -525,7 +525,12 @@ export type BankPackagesPage = {
       lawyerAppointment?: string
       travelDetails?: {
         title?: string
+        areYouTravellingAlone?: string
         numberOfPeople?: string
+        whoIsTravellingWithYou?: string
+        numberOfChildren?: string
+        comments?: string
+        doYouNeed?: string
         arrivalDate?: string
         departureDate?: string
         hotel?: string

@@ -10,6 +10,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { Textarea } from '@/components/ui/textarea';
 import { Fragment } from 'react';
 import pluralize from 'pluralize';
+import { cn } from '@/lib/utils';
 
 type BankxLawyerFormProps = {
   form: BankPackagesPage['form']
@@ -79,7 +80,7 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
         <div className="flex items-center gap-4">
           <Icon icon='noto:bank' className='text-primary size-8' />
           <div className="flex flex-col items-start gap-2">
-            <p className='text-base'><span className='font-semibold'>{'Bank Appointment?'}</span> (Min. deposit is €{getMinimumDeposit.toLocaleString()}) <span className="text-destructive text-xs">*</span></p>
+            <p className='text-base'><span className='font-semibold'>{bankAndLawyerSection?.bankAppointment?.split('?')[0] + '?' || 'Bank Appointment?'}</span> {bankAndLawyerSection?.bankAppointment?.split('?')[1] && `${bankAndLawyerSection?.bankAppointment?.split('?')[1].replace('{amount}', getMinimumDeposit.toLocaleString())}` || `(Min.deposit is €${getMinimumDeposit.toLocaleString()})`}  <span className="text-destructive text-xs">*</span></p>
             <RadioGroup
               className='flex items-center gap-2'
               value={values.bankAndLawyer.bankAppointment !== undefined ? (values.bankAndLawyer.bankAppointment ? 'yes' : 'no') : undefined}
@@ -104,7 +105,7 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
         <div className="flex items-center gap-4">
           <Icon icon='fluent-emoji:balance-scale' className='text-primary size-8' />
           <div className="flex flex-col items-start gap-2">
-            <p className='text-base'><span className='font-semibold'>{'Legal Appointment?'}</span> <span className="text-destructive text-xs">*</span></p>
+            <p className='text-base'><span className='font-semibold'>{bankAndLawyerSection?.lawyerAppointment || 'Legal Appointment?'}</span> <span className="text-destructive text-xs">*</span></p>
             <RadioGroup
               className='flex items-center gap-2'
               value={values.bankAndLawyer.lawyerAppointment !== undefined ? (values.bankAndLawyer.lawyerAppointment ? 'yes' : 'no') : undefined}
@@ -125,13 +126,13 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
         <p className='font-medium text-lg'>{bankAndLawyerSection?.travelDetails?.title || 'Travel Details'}</p>
         <div className='flex flex-col gap-4'>
           <div className='grid grid-cols-2 gap-3'>
-            <Input required type="datetime-local" titleClassName='font-semibold text-black' name='travelInfo.arrivalDate' title={'Arrival Date/Time'} value={values.travelInfo.arrivalDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.arrivalDate', true)} error={errors.arrivalDate} />
-            <Input required type="datetime-local" titleClassName='font-semibold text-black' name='travelInfo.departureDate' title={'Departure Date/Time'} value={values.travelInfo.departureDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.departureDate', true)} error={errors.departureDate} />
+            <Input required type="datetime-local" titleClassName='font-semibold text-black' name='travelInfo.arrivalDate' title={bankAndLawyerSection?.travelDetails?.arrivalDate || 'Arrival Date/Time'} value={values.travelInfo.arrivalDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.arrivalDate', true)} error={errors.arrivalDate} />
+            <Input required type="datetime-local" titleClassName='font-semibold text-black' name='travelInfo.departureDate' title={bankAndLawyerSection?.travelDetails?.departureDate || 'Departure Date/Time'} value={values.travelInfo.departureDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.departureDate', true)} error={errors.departureDate} />
           </div>
           {activePackage.price == 0 &&
             <Fragment>
               <div className="flex items-center gap-2">
-                <p className='text-base'>Are you traveling alone? <span className="text-destructive text-xs">*</span></p>
+                <p className='text-base'>{bankAndLawyerSection?.travelDetails?.areYouTravellingAlone || 'Are you traveling alone?'} <span className="text-destructive text-xs">*</span></p>
                 <RadioGroup
                   className='flex items-center gap-2'
                   value={values.travelInfo.areYouTravelingAlone !== undefined ? (values.travelInfo.areYouTravelingAlone ? 'yes' : 'no') : undefined}
@@ -153,7 +154,7 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
                     <Select
                       value={values.travelInfo.numberOfPeople.toString()}
                       onValueChange={(value) => handleChangeInNumberOfPeople(value)}>
-                      <SelectTrigger title='How many in your group?' className='w-full'>
+                      <SelectTrigger title={cn(bankAndLawyerSection?.travelDetails?.numberOfPeople || 'How many in your group?')} className='w-full'>
                         <SelectValue placeholder='Select an option' />
                       </SelectTrigger>
                       <SelectContent>
@@ -173,7 +174,7 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
               <Select
                 value={values.travelInfo.numberOfPeople.toString()}
                 onValueChange={(value) => handleChangeInNumberOfPeople(value)}>
-                <SelectTrigger title='Who is traveling with you?' className='w-full'>
+                <SelectTrigger title={bankAndLawyerSection?.travelDetails?.whoIsTravellingWithYou || 'Who is traveling with you?'} className='w-full'>
                   <SelectValue placeholder='Select an option' />
                 </SelectTrigger>
                 <SelectContent>
@@ -184,7 +185,7 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
               <Select
                 value={values.travelInfo.numberOfChildren.toString()}
                 onValueChange={(value) => handleChangeInNumberOfChildren(value)}>
-                <SelectTrigger title='Kids under 18?' className='w-full'>
+                <SelectTrigger title={bankAndLawyerSection?.travelDetails?.numberOfChildren || 'Kids under 18?'} className='w-full'>
                   <SelectValue placeholder='Select an option' />
                 </SelectTrigger>
                 <SelectContent>
@@ -197,8 +198,8 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
               </Select>
             </div>
           }
-          <Textarea title='Comments' rows={6} placeholder='Preferred room setup? Pets or other needs?' value={values.travelInfo.comments} onChange={(e) => setFieldValue('travelInfo.comments', e.target.value)} />
-          <p className='text-base'>Do you need:</p>
+          <Textarea title={bankAndLawyerSection?.travelDetails?.comments || 'Comments'} rows={6} placeholder='Preferred room setup? Pets or other needs?' value={values.travelInfo.comments} onChange={(e) => setFieldValue('travelInfo.comments', e.target.value)} />
+          <p className='text-base'>{bankAndLawyerSection?.travelDetails?.doYouNeed || 'Do you need:'}</p>
           <div className="flex items-center gap-2">
             <Checkbox id="travelInfo.hotel" required checked={values.travelInfo.hotel} onClick={() => setFieldValue('travelInfo.hotel', !values.travelInfo.hotel)} />
             <label htmlFor="travelInfo.hotel" className="text-base cursor-pointer">
