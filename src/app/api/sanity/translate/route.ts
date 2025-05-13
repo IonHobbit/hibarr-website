@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { compareRevisions, sanityHeaders } from "../webhook/route";
+import { compareRevisions } from "../webhook/service";
+import { sanityHeaders } from "../webhook/service";
 
 const fetchDocumentType = async (id: string) => {
   const response = await fetch(
