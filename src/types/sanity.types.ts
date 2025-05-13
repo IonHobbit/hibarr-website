@@ -438,6 +438,7 @@ export type Faq = {
   _rev: string
   question?: string
   answer?: string
+  language?: string
 }
 
 export type WaitlistPage = {
@@ -460,6 +461,7 @@ export type WaitlistPage = {
     }
   }
   publishedAt?: string
+  language?: string
 }
 
 export type BankPackagesPage = {
@@ -572,6 +574,7 @@ export type BankPackagesPage = {
     }
   }
   publishedAt?: string
+  language?: string
 }
 
 export type ConsultationPage = {
@@ -596,6 +599,7 @@ export type ConsultationPage = {
     subtitle?: string
   }
   publishedAt?: string
+  language?: string
 }
 
 export type Navigation = {
@@ -623,6 +627,7 @@ export type Navigation = {
     href?: string
     hidden?: boolean
   }
+  language?: string
 }
 
 export type WebinarPage = {
@@ -683,6 +688,7 @@ export type WebinarPage = {
     }>
   }
   publishedAt?: string
+  language?: string
 }
 
 export type TestimonialsPage = {
@@ -700,6 +706,7 @@ export type TestimonialsPage = {
     url?: string
   }
   publishedAt?: string
+  language?: string
 }
 
 export type AboutPage = {
@@ -755,6 +762,7 @@ export type AboutPage = {
     }
   }
   publishedAt?: string
+  language?: string
 }
 
 export type HomePage = {
@@ -887,6 +895,7 @@ export type HomePage = {
     }
   }
   publishedAt?: string
+  language?: string
 }
 
 export type InternationalizedArrayReference = Array<

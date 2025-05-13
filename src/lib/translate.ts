@@ -52,4 +52,13 @@ export async function translateObject<T extends Record<string, T>>(
   }
 
   return translatedObj as T;
-} 
+}
+
+export async function handleTranslate(text: string, targetLang: SupportedLanguage): Promise<string> {
+  const result = await fetch('/api/translate/deepl', {
+    method: 'POST',
+    body: JSON.stringify({ text, source: 'en', target: targetLang }),
+  });
+  const data = await result.json();
+  return data.text;
+}
