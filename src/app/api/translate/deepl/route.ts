@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   return Response.json(result)
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const result = await translate.getUsage();
   return Response.json(result)
 }

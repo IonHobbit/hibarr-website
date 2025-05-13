@@ -24,7 +24,7 @@ const fetchDocumentTransactionIDs = async (id: string): Promise<string[]> => {
   return transactions;
 }
 
-const fetchDocumentHistory = async (documentId: string, revisionId: string): Promise<any> => {
+const fetchDocumentHistory = async (documentId: string, revisionId: string): Promise<object> => {
   const response = await fetch(`https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.apicdn.sanity.io/v2025-04-10/data/history/production/documents/${documentId}?revision=${revisionId}`, {
     headers: sanityHeaders,
   });
@@ -42,7 +42,7 @@ const fetchLanguageVersionsOfType = async (type: string): Promise<{ _id: string,
   return data.result
 }
 
-const updateDocument = async (documentId: string, changes: Record<string, any>) => {
+const updateDocument = async (documentId: string, changes: Record<string, unknown>) => {
   const payload = {
     mutations: [
       {
@@ -62,10 +62,10 @@ const updateDocument = async (documentId: string, changes: Record<string, any>) 
   return response.json();
 }
 
-const translateChanges = async (changes: Record<string, any>, targetLanguage: TargetLanguageCode) => {
+const translateChanges = async (changes: Record<string, unknown>, targetLanguage: TargetLanguageCode) => {
   // Create an array of translation promises
   const translationPromises = Object.entries(changes).map(async ([key, value]) => {
-    const translatedValue = await translateText(value, targetLanguage);
+    const translatedValue = await translateText(value as string, targetLanguage);
     return [key, translatedValue];
   });
 
@@ -104,16 +104,16 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-function isObject(value: any): value is object {
+function isObject(value: unknown): value is object {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
-function isArray(value: any): value is any[] {
+function isArray(value: unknown): value is unknown[] {
   return Array.isArray(value);
 }
 
-function compareArrays(current: any[], previous: any[], path: string[]): Record<string, any> {
-  const changes: Record<string, any> = {};
+function compareArrays(current: unknown[], previous: unknown[], path: string[]): Record<string, unknown> {
+  const changes: Record<string, unknown> = {};
 
   // Compare array lengths
   if (current.length !== previous.length) {
@@ -143,10 +143,10 @@ export function compareRevisions<T extends object>(
   current: T,
   previous: T | null | undefined,
   path: string[] = []
-): Record<string, any> {
+): Record<string, unknown> {
   if (!previous) {
     // If no previous revision, return all non-internal fields of current
-    const changes: Record<string, any> = {};
+    const changes: Record<string, unknown> = {};
     (Object.keys(current) as (keyof T)[]).forEach((key) => {
       if (!(key as string).startsWith('_')) {
         const currentValue = current[key];
@@ -164,7 +164,7 @@ export function compareRevisions<T extends object>(
     return changes;
   }
 
-  const changes: Record<string, any> = {};
+  const changes: Record<string, unknown> = {};
 
   // Check for changed or added fields
   (Object.keys(current) as (keyof T)[]).forEach((key) => {

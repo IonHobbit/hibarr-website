@@ -40,7 +40,7 @@ export const GET = async (req: NextRequest) => {
 
   const documents = await fetchDocuments(documentType);
 
-  const nonEnglishDocuments = documents.filter((document: any) => document.language !== 'en');
+  const nonEnglishDocuments = documents.filter((document: unknown) => (document as { language: string }).language !== 'en');
 
   return NextResponse.json({ cleanedDoc, documentType, documents, nonEnglishDocuments })
 }
