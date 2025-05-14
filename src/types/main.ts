@@ -89,6 +89,7 @@ type ZapierSignupPayload = ZapierPayload & {
 
 type ZapierConsultationPayload = Omit<ZapierPayload, 'phoneNumber'> & {
   type: 'consultation'
+  clickID: string
   consultationInfo: {
     country: string
     interestedIn: string[]

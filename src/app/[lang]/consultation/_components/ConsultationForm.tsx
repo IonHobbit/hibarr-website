@@ -11,6 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import * as Yup from 'yup'
 import useRegistrationCheck from '@/hooks/useRegistrationCheck'
 import CalendlyEmbed from '@/components/CalendlyEmbed'
+import { callZapierWebhook } from '@/lib/zapier'
+import { ZapierConsultationPayload } from '@/types/main'
 
 type FormValues = {
   firstName: string
@@ -22,7 +24,7 @@ type FormValues = {
   language: string
   budget: string
   period: string
-  fbTraceID: string
+  clickID: string
 }
 
 export default function ConsultationForm() {
@@ -55,7 +57,7 @@ export default function ConsultationForm() {
   };
 
   const makeConversion = async () => {
-    if (values.fbTraceID) return;
+    if (values.clickID) return;
     try {
       const response = await fetch('/api/meta/conversions', {
         method: 'POST',
@@ -69,9 +71,9 @@ export default function ConsultationForm() {
         throw new Error('Failed to make conversion');
       }
       const data = await response.json();
-      const fbTraceID = data.data._fbtrace_id;
-      setFieldValue('fbTraceID', fbTraceID);
-      setLocalStorage('fbTraceID', fbTraceID);
+      const clickID = data.data.clickID;
+      setFieldValue('clickID', clickID);
+      setLocalStorage('clickID', clickID);
     } catch (error) {
       console.error('Error making conversion:', error);
       // Continue with the form submission even if conversion fails
@@ -89,7 +91,7 @@ export default function ConsultationForm() {
       period: '',
       message: '',
       language: '',
-      fbTraceID: getLocalStorage('fbTraceID') || '',
+      clickID: getLocalStorage('clickID') || '',
     },
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required('First name is required'),
@@ -99,7 +101,26 @@ export default function ConsultationForm() {
     onSubmit: () => {
       const link = generateCalendlyPrefilledUrl()
       setCalendlyUrl(link);
-      removeLocalStorage('fbTraceID')
+      try {
+        const payload: ZapierConsultationPayload = {
+          email: values.email,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          clickID: values.clickID,
+          type: 'consultation',
+          consultationInfo: {
+            country: values.country,
+            interestedIn: values.interestedIn,
+            budget: values.budget,
+            period: values.period,
+            language: values.language,
+          }
+        }
+        callZapierWebhook(payload)
+        removeLocalStorage('clickID')
+      } catch (error) {
+        console.error('Error calling Zapier webhook:', error);
+      }
     }
   })
 
@@ -129,10 +150,10 @@ export default function ConsultationForm() {
   }
 
   const goToNextStep = () => {
-    setStep(step + 1)
     if (step === 0) {
       makeConversion()
     }
+    setStep(step + 1)
   }
 
   const interestedInOptions = [

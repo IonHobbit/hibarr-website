@@ -1,12 +1,9 @@
-import { EventRequest, ServerEvent, UserData } from "facebook-nodejs-business-sdk";
+import { CustomData, EventRequest, ServerEvent, UserData } from "facebook-nodejs-business-sdk";
 import { NextResponse } from "next/server";
 import { createHash } from "crypto";
-import { cookies } from "next/headers";
 
 const accessToken = process.env.META_ACCESS_TOKEN;
 const accountId = process.env.META_ACCOUNT_ID;
-
-// const facebookAdsAPI = FacebookAdsApi.init(accessToken!);
 
 const hash = (value: string) => {
   if (!value) return '';
@@ -15,29 +12,30 @@ const hash = (value: string) => {
 
 export async function POST(req: Request): Promise<NextResponse> {
   const currentTime = Math.floor(Date.now() / 1000);
-  const cookieStore = await cookies();
-  const { email, firstName, lastName, phone } = await req.json();
-
-  const clickID = cookieStore.get('_fbc')?.value || '';
-  const browserID = cookieStore.get('_fbp')?.value || '';
+  const { searchParams } = new URL(req.url);
+  const email = searchParams.get('email') || '';
+  const phone = searchParams.get('phone') || '';
+  const facebookClickID = searchParams.get('facebookClickID') || '';
+  const facebookLeadID = searchParams.get('facebookLeadID') || '';
 
   const userData = new UserData()
     .setEmails([hash(email)])
     .setPhones([hash(phone)])
-    .setFirstNames([hash(firstName)])
-    .setLastNames([hash(lastName)])
-    .setFbc(clickID)
-    .setFbp(browserID)
-    .setClientIpAddress(req.headers.get('x-forwarded-for') || '')
-    .setClientUserAgent(req.headers.get('user-agent') || '')
+
+  facebookLeadID && userData.setLeadId(facebookLeadID);
+  facebookClickID && userData.setFbc(facebookClickID);
+
+  const customData = new CustomData().setCustomProperties({
+    'lead_event_source': 'Bitrix24',
+    'event_source': 'crm'
+  })
 
   const serverEvent = new ServerEvent()
     .setUserData(userData)
-    .setEventName("Consultation")
+    .setCustomData(customData)
+    .setEventName("Lead")
     .setEventTime(currentTime)
-    .setActionSource("website")
-    .setEventSourceUrl(req.url)
-    .setActionSource("website")
+    .setActionSource("system_generated")
 
   const eventsData = [serverEvent];
 
@@ -48,6 +46,6 @@ export async function POST(req: Request): Promise<NextResponse> {
   return NextResponse.json({
     success: true,
     message: "Event sent successfully",
-    data: { ...response, clickID },
+    data: response,
   });
 }
