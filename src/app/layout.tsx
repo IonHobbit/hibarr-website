@@ -4,6 +4,7 @@ import { Locale } from "@/lib/i18n-config";
 import "./globals.css";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { PostHogProvider } from "@/providers/PostHogProvider";
+import MetaPixel from "@/components/MetaPixel";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair-display",
@@ -39,6 +40,9 @@ export default async function RootLayout(
 
   return (
     <html lang={lang} className="scroll-smooth">
+      <head>
+        <MetaPixel />
+      </head>
       <body
         className={`${playfairDisplay.variable} ${inter.variable} ${workSans.variable} antialiased relative w-screen`}
       >

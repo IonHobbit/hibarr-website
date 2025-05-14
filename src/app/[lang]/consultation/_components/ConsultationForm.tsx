@@ -22,6 +22,7 @@ type FormValues = {
   language: string
   budget: string
   period: string
+  fbTraceID: string
 }
 
 export default function ConsultationForm() {
@@ -34,6 +35,49 @@ export default function ConsultationForm() {
 
   const [step, setStep] = useState(0);
 
+  const getLocalStorage = (key: string) => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem(key);
+    }
+    return null;
+  };
+
+  const setLocalStorage = (key: string, value: string) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(key, value);
+    }
+  };
+
+  const removeLocalStorage = (key: string) => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(key);
+    }
+  };
+
+  const makeConversion = async () => {
+    if (values.fbTraceID) return;
+    try {
+      const response = await fetch('/api/meta/conversions', {
+        method: 'POST',
+        body: JSON.stringify({
+          email: values.email,
+          firstName: values.firstName,
+          lastName: values.lastName,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to make conversion');
+      }
+      const data = await response.json();
+      const fbTraceID = data.data._fbtrace_id;
+      setFieldValue('fbTraceID', fbTraceID);
+      setLocalStorage('fbTraceID', fbTraceID);
+    } catch (error) {
+      console.error('Error making conversion:', error);
+      // Continue with the form submission even if conversion fails
+    }
+  }
+
   const { values, errors, setFieldValue, handleChange, handleSubmit } = useFormik<FormValues>({
     initialValues: {
       firstName: '',
@@ -45,6 +89,7 @@ export default function ConsultationForm() {
       period: '',
       message: '',
       language: '',
+      fbTraceID: getLocalStorage('fbTraceID') || '',
     },
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required('First name is required'),
@@ -54,6 +99,7 @@ export default function ConsultationForm() {
     onSubmit: () => {
       const link = generateCalendlyPrefilledUrl()
       setCalendlyUrl(link);
+      removeLocalStorage('fbTraceID')
     }
   })
 
@@ -79,6 +125,13 @@ export default function ConsultationForm() {
       setFieldValue('interestedIn', values.interestedIn.filter(o => o !== option))
     } else {
       setFieldValue('interestedIn', [...values.interestedIn, option])
+    }
+  }
+
+  const goToNextStep = () => {
+    setStep(step + 1)
+    if (step === 0) {
+      makeConversion()
     }
   }
 
@@ -237,7 +290,7 @@ export default function ConsultationForm() {
           <Button type='button' variant='outline' className='w-full shrink text-gray-500' onClick={() => setStep(step - 1)}>Back</Button>
         )}
         {step < steps.length - 1 && (
-          <Button type='button' className='w-full shrink' onClick={() => setStep(step + 1)} disabled={isDisabled(step)}>Next</Button>
+          <Button type='button' className='w-full shrink' onClick={goToNextStep} disabled={isDisabled(step)}>Next</Button>
         )}
         {step === steps.length - 1 && (
           <Button type='submit' onClick={() => handleSubmit()} disabled={isDisabled(step)} className='w-full shrink'>Submit</Button>
