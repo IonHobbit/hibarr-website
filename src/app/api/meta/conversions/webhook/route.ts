@@ -22,8 +22,8 @@ export async function POST(req: Request): Promise<NextResponse> {
     .setEmails([hash(email)])
     .setPhones([hash(phone)])
 
-  facebookLeadID && userData.setLeadId(facebookLeadID);
-  facebookClickID && userData.setFbc(facebookClickID);
+  if (facebookLeadID) userData.setLeadId(facebookLeadID);
+  if (facebookClickID) userData.setFbc(facebookClickID);
 
   const customData = new CustomData().setCustomProperties({
     'lead_event_source': 'Bitrix24',
