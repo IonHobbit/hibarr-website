@@ -36,7 +36,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
   const [referenceID, setReferenceID] = useState<string | null>(null);
   const [showBankTransferModal, setShowBankTransferModal] = useState(false);
 
-  const [activePackageSlug, setActivePackageSlug] = useState(searchParams.get('package') || packages[0].slug || PACKAGE_TYPE['basic-package']);
+  const [activePackageSlug, setActivePackageSlug] = useState(searchParams.get('package') || packages[0].slug || 'basic-package');
 
   const activePackage = useMemo(() =>
     packages.find((pkg) => pkg.slug === activePackageSlug) as BankPackage,

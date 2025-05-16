@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { Icon } from '@iconify/react'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { useState } from 'react'
 
 export type BankPackage = {
@@ -30,14 +31,12 @@ type PackageCardProps = {
 }
 
 export default function PackageCard({ pkg }: PackageCardProps) {
-  const router = useRouter()
+  const { lang } = useParams();
+
   const [isOpen, setIsOpen] = useState(false)
 
   const { title, subtitle, icon, slug, description, price, buttonText, moreText, features } = pkg;
 
-  const handleSelect = () => {
-    router.push(`/our-packages?package=${slug}#register`)
-  }
 
   return (
     <Card className='flex flex-col gap-3 h-max transition-all duration-300'>
@@ -51,7 +50,9 @@ export default function PackageCard({ pkg }: PackageCardProps) {
       </CardHeader>
       <CardContent className='flex flex-col'>
         <p className='text-4xl font-semibold text-center'>€ {price?.toLocaleString()}</p>
-        <Button onClick={() => handleSelect()} className='mt-3'>{buttonText}</Button>
+        <Button className='mt-3' asChild>
+          <Link href={`/${lang || 'en'}/our-packages?package=${slug}#register`}>{buttonText}</Link>
+        </Button>
         <div onClick={() => setIsOpen(!isOpen)} className="flex items-center gap-2 cursor-pointer mt-3">
           <p className='text-sm text-muted-foreground'>{moreText || 'More information'}</p>
           <Icon icon='mdi:chevron-down' className={`text-muted-foreground transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
