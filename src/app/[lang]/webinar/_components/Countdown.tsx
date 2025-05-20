@@ -51,7 +51,7 @@ export default function Countdown({ date, timezone }: CountdownProps) {
     return (
       <div className="flex flex-col items-center gap-1 w-max">
         <p className="text-6xl font-semibold text-center text-primary">{value}</p>
-        <p className="text-sm text-center uppercase text-primary font-medium">{label}</p>
+        <p className="text-xs text-center uppercase text-primary font-medium">{label}</p>
       </div>
     )
   }

@@ -67,8 +67,8 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
             <Countdown date={data.webinarInformationSection?.date ?? ''} timezone={data.webinarInformationSection?.timezone ?? ''} />
             <div className="grid grid-cols-2 gap-3">
               {data.registrationSection?.webinarFeatures?.map((feature) => (
-                <div key={feature.title} className="flex items-center bg-secondary gap-4 rounded-lg p-4">
-                  <Icon icon={feature.icon ?? ''} className="size-10 shrink-0 text-primary" />
+                <div key={feature.title} className="flex items-center bg-secondary text-primary backdrop-blur-lg gap-4 border rounded-md p-4 h-24">
+                  <Icon icon={feature.icon ?? ''} className="size-10 shrink-0" />
                   <p className="text-sm">{feature.title}</p>
                 </div>
               ))}
