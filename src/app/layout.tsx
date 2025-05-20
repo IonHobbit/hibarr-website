@@ -23,8 +23,8 @@ const workSans = Work_Sans({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - Hibarr Estates",
-    default: "Hibarr Estates",
+    template: "%s - HIBARR Estates",
+    default: "HIBARR Estates",
   },
   description: "Unlock the potential of real estate in North Cyprus and see why it is the preferred choice for international investors.",
 };
