@@ -13,12 +13,16 @@ import useRegistrationCheck from '@/hooks/useRegistrationCheck'
 import CalendlyEmbed from '@/components/CalendlyEmbed'
 import { callZapierWebhook } from '@/lib/zapier'
 import { ZapierConsultationPayload } from '@/types/main'
-
+import { CountryDropdown, Country } from '@/components/ui/country-dropdonw'
+import { countries } from 'country-data-list'
+import { useParams } from 'next/navigation'
+import { interestedInOptions, budgetOptions, periodOptions, languageOptions } from '@/lib/options'
 type FormValues = {
   firstName: string
   lastName: string
   email: string
-  country: string
+  phoneNumber: string
+  country: Country | null
   interestedIn: string[]
   message: string
   language: string
@@ -31,6 +35,7 @@ export default function ConsultationForm() {
 
   const baseCalendlyUrl = 'https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319'
 
+  const { lang } = useParams()
   const [calendlyUrl, setCalendlyUrl] = useState('')
 
   const { isRegistered } = useRegistrationCheck();
@@ -80,23 +85,29 @@ export default function ConsultationForm() {
     }
   }
 
+  const alpha2 = lang !== 'en' ? lang : 'de'
+  const initialCountry = countries.all.find(country => country.alpha2.toLowerCase() === alpha2)
+  const initialLanguage = languageOptions.find(option => option.value.toLowerCase() === lang)
+
   const { values, errors, setFieldValue, handleChange, handleSubmit } = useFormik<FormValues>({
     initialValues: {
       firstName: '',
       lastName: '',
       email: '',
-      country: '',
+      phoneNumber: '',
+      country: initialCountry || null,
       interestedIn: [],
       budget: '',
       period: '',
       message: '',
-      language: '',
+      language: initialLanguage?.value || 'en',
       clickID: getLocalStorage('clickID') || '',
     },
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required('First name is required'),
       lastName: Yup.string().required('Last name is required'),
       email: Yup.string().email('Invalid email address').required('Email is required'),
+      phoneNumber: Yup.string(),
     }),
     onSubmit: () => {
       const link = generateCalendlyPrefilledUrl()
@@ -106,14 +117,15 @@ export default function ConsultationForm() {
           email: values.email,
           firstName: values.firstName,
           lastName: values.lastName,
+          phoneNumber: values.phoneNumber,
           clickID: values.clickID,
           type: 'consultation',
           consultationInfo: {
-            country: values.country,
+            country: values.country?.name || '',
             interestedIn: values.interestedIn,
             budget: values.budget,
             period: values.period,
-            language: values.language,
+            language: languageOptions.find(option => option.value === values.language)?.label || 'English',
           }
         }
         callZapierWebhook(payload)
@@ -156,42 +168,6 @@ export default function ConsultationForm() {
     setStep(step + 1)
   }
 
-  const interestedInOptions = [
-    'Investment property',
-    'Vacation / Second home',
-    'Relocation or retirement',
-    'I\'m just browsing'
-  ]
-
-  const budgetOptions = [
-    '<€60,000',
-    '€60,000–€100,000',
-    '€100,000–€150,000',
-    '€150,000–€250,000',
-    '€250,000–€400,000',
-    '€400,000–€600,000',
-    '€600,000–€750,000',
-    '€750,000–€1,000,000',
-    '€1,000,000+',
-    // 'Not sure',
-    // "I'd rather not say"
-  ]
-
-  const periodOptions = [
-    'As soon as possible',
-    'In the next 1–3 months',
-    '3–6 months',
-    '6 - 12 months',
-    'More than 12 months',
-    'Just exploring for now',
-  ]
-
-  const languageOptions = [
-    'English',
-    'German',
-    'Turkish',
-  ]
-
   const steps = [
     {
       label: 'Let\'s get to know you',
@@ -201,11 +177,17 @@ export default function ConsultationForm() {
           <Input name='lastName' title='Last name' required value={values.lastName} onChange={handleChange} placeholder='Doe' />
         </div>
         <Input name='email' title='Email Address' required value={values.email} onChange={handleChange} placeholder='john.doe@example.com' />
+        <Input name='phoneNumber' title='Phone Number' value={values.phoneNumber} onChange={handleChange} placeholder='+905555555555' />
       </div>
     },
     {
       label: 'What country are you currently living in?',
-      component: <Input name='country' required value={values.country} onChange={handleChange} placeholder='Germany, Turkey, etc.' />
+      component: (
+        <CountryDropdown
+          defaultValue={values.country?.alpha3}
+          onChange={(value) => setFieldValue('country', value)}
+        />
+      )
     },
     {
       label: 'What are you interested in?',
@@ -258,7 +240,7 @@ export default function ConsultationForm() {
         </SelectTrigger>
         <SelectContent>
           {languageOptions.map((option, index) => (
-            <SelectItem key={index} value={option}>{option}</SelectItem>
+            <SelectItem key={index} value={option.value}>{option.label}</SelectItem>
           ))}
         </SelectContent>
       </Select>

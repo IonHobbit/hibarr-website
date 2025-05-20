@@ -87,7 +87,7 @@ type ZapierSignupPayload = ZapierPayload & {
   alphaCashReferral?: string
 }
 
-type ZapierConsultationPayload = Omit<ZapierPayload, 'phoneNumber'> & {
+type ZapierConsultationPayload = ZapierPayload & {
   type: 'consultation'
   clickID: string
   consultationInfo: {
