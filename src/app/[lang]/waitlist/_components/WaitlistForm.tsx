@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { WaitlistPage } from "@/types/sanity.types";
+import storage, { StorageKey } from "@/lib/storage.util";
 
 type WaitlistFormProps = {
   formData: WaitlistPage['waitlistForm']
@@ -21,8 +22,8 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
       phoneNumber: '',
     },
     onSubmit: (values) => {
-      console.log(values)
-      localStorage.setItem('waitlist-form-data', JSON.stringify(values))
+      storage.set(StorageKey.REGISTERED_WAITLIST, true, { expiration: 1000 * 60 * 60 * 24 * 30 });
+      // localStorage.setItem('waitlist-form-data', JSON.stringify(values))
       router.push('/waitlist/thank-you')
     }
   })

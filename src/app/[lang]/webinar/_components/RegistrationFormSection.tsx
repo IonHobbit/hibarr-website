@@ -11,6 +11,7 @@ import { ZapierWebinarPayload } from "@/types/main";
 import { callZapierWebhook } from "@/lib/zapier";
 import { useMutation } from "@tanstack/react-query";
 import * as Yup from 'yup';
+import storage, { StorageKey } from "@/lib/storage.util";
 
 type RegistrationFormSectionProps = {
   data: WebinarPage;
@@ -29,6 +30,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
         type: 'webinar',
       }
       await callZapierWebhook(payload);
+      storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 30 });
       register('/webinar', '#register');
     },
   });

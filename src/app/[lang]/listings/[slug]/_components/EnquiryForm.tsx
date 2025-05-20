@@ -7,6 +7,7 @@ import { callZapierWebhook } from '@/lib/zapier'
 import { ZapierPropertyEnquiryPayload } from '@/types/main'
 import { useMutation } from '@tanstack/react-query'
 import { useFormik } from 'formik'
+import Link from 'next/link'
 import { Fragment } from 'react'
 import * as Yup from 'yup'
 
@@ -56,11 +57,17 @@ export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
   }
 
   return (
-    <form onSubmit={submitForm} className="sticky top-20 bg-secondary rounded-lg p-8 flex flex-col gap-4">
+    <form onSubmit={submitForm} className="sticky top-20 bg-secondary rounded-lg p-6 flex flex-col gap-4">
       {isSuccess ? (
         <div className='flex flex-col gap-2'>
-          <p className='text-base font-medium'>Enquiry sent successfully</p>
+          <h4 className='text-xl font-medium'>Thank you for reaching out!</h4>
           <p className='text-sm text-muted-foreground'>We will get back to you as soon as possible</p>
+          <p className='text-sm text-muted-foreground'>In the meantime, join our Facebook waitlist to stay updated on the smartest ways to buy property</p>
+          <Button asChild className='mt-4'>
+            <Link href="/waitlist">
+              Join our Facebook waitlist
+            </Link>
+          </Button>
         </div>
       ) : (
         <Fragment>
@@ -98,7 +105,7 @@ export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
             />
           </div>
           <Button type='submit' isLoading={isPending} className='w-full' variant='accent'>
-            Enquire Now
+            Make Enquiry
           </Button>
         </Fragment>
       )}

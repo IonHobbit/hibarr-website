@@ -17,6 +17,8 @@ import { CountryDropdown, Country } from '@/components/ui/country-dropdonw'
 import { countries } from 'country-data-list'
 import { useParams } from 'next/navigation'
 import { interestedInOptions, budgetOptions, periodOptions, languageOptions } from '@/lib/options'
+import { StorageKey } from '@/lib/storage.util'
+import storage from '@/lib/storage.util'
 type FormValues = {
   firstName: string
   lastName: string
@@ -129,6 +131,7 @@ export default function ConsultationForm() {
           }
         }
         callZapierWebhook(payload)
+        storage.set(StorageKey.BOOKED_CONSULTATION, true, { expiration: 1000 * 60 * 60 * 24 * 30 })
         removeLocalStorage('clickID')
       } catch (error) {
         console.error('Error calling Zapier webhook:', error);
