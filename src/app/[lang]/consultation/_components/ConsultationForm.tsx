@@ -19,6 +19,8 @@ import { useParams } from 'next/navigation'
 import { interestedInOptions, budgetOptions, periodOptions, languageOptions } from '@/lib/options'
 import { StorageKey } from '@/lib/storage.util'
 import storage from '@/lib/storage.util'
+import { useMutation } from '@tanstack/react-query'
+import router from 'next/router'
 type FormValues = {
   firstName: string
   lastName: string
@@ -44,25 +46,6 @@ export default function ConsultationForm() {
 
   const [step, setStep] = useState(0);
 
-  const getLocalStorage = (key: string) => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem(key);
-    }
-    return null;
-  };
-
-  const setLocalStorage = (key: string, value: string) => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(key, value);
-    }
-  };
-
-  const removeLocalStorage = (key: string) => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem(key);
-    }
-  };
-
   const makeConversion = async () => {
     if (values.clickID) return;
     try {
@@ -80,7 +63,7 @@ export default function ConsultationForm() {
       const data = await response.json();
       const clickID = data.data.clickID;
       setFieldValue('clickID', clickID);
-      setLocalStorage('clickID', clickID);
+      storage.set(StorageKey.CLICK_ID, clickID, { expiration: 1000 * 60 * 60 * 24 * 30 })
     } catch (error) {
       console.error('Error making conversion:', error);
       // Continue with the form submission even if conversion fails
@@ -91,29 +74,8 @@ export default function ConsultationForm() {
   const initialCountry = countries.all.find(country => country.alpha2.toLowerCase() === alpha2)
   const initialLanguage = languageOptions.find(option => option.value.toLowerCase() === lang)
 
-  const { values, errors, setFieldValue, handleChange, handleSubmit } = useFormik<FormValues>({
-    initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      country: initialCountry || null,
-      interestedIn: [],
-      budget: '',
-      period: '',
-      message: '',
-      language: initialLanguage?.value || 'en',
-      clickID: getLocalStorage('clickID') || '',
-    },
-    validationSchema: Yup.object().shape({
-      firstName: Yup.string().required('First name is required'),
-      lastName: Yup.string().required('Last name is required'),
-      email: Yup.string().email('Invalid email address').required('Email is required'),
-      phoneNumber: Yup.string(),
-    }),
-    onSubmit: () => {
-      const link = generateCalendlyPrefilledUrl()
-      setCalendlyUrl(link);
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
       try {
         const payload: ZapierConsultationPayload = {
           email: values.email,
@@ -130,12 +92,42 @@ export default function ConsultationForm() {
             language: languageOptions.find(option => option.value === values.language)?.label || 'English',
           }
         }
-        callZapierWebhook(payload)
-        storage.set(StorageKey.BOOKED_CONSULTATION, true, { expiration: 1000 * 60 * 60 * 24 * 30 })
-        removeLocalStorage('clickID')
+        await callZapierWebhook(payload)
       } catch (error) {
         console.error('Error calling Zapier webhook:', error);
       }
+    },
+    onSuccess: () => {
+      storage.set(StorageKey.BOOKED_CONSULTATION, true, { expiration: 1000 * 60 * 60 * 24 * 30 })
+      storage.remove(StorageKey.CLICK_ID)
+      router.push('/consultation/thank-you');
+    }
+  })
+
+  const { values, errors, setFieldValue, handleChange, handleSubmit } = useFormik<FormValues>({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      country: initialCountry || null,
+      interestedIn: [],
+      budget: '',
+      period: '',
+      message: '',
+      language: initialLanguage?.value || 'en',
+      clickID: storage.get(StorageKey.CLICK_ID) || '',
+    },
+    validationSchema: Yup.object().shape({
+      firstName: Yup.string().required('First name is required'),
+      lastName: Yup.string().required('Last name is required'),
+      email: Yup.string().email('Invalid email address').required('Email is required'),
+      phoneNumber: Yup.string(),
+    }),
+    onSubmit: () => {
+      const link = generateCalendlyPrefilledUrl()
+      setCalendlyUrl(link);
+      mutate()
     }
   })
 
@@ -299,7 +291,7 @@ export default function ConsultationForm() {
           <Button type='button' className='w-full shrink' onClick={goToNextStep} disabled={isDisabled(step)}>Next</Button>
         )}
         {step === steps.length - 1 && (
-          <Button type='submit' onClick={() => handleSubmit()} disabled={isDisabled(step)} className='w-full shrink'>Submit</Button>
+          <Button type='submit' isLoading={isPending} onClick={() => handleSubmit()} disabled={isDisabled(step) || isPending} className='w-full shrink'>Submit</Button>
         )}
       </div>
     </form>

@@ -12,27 +12,35 @@ import { callZapierWebhook } from "@/lib/zapier";
 import { useMutation } from "@tanstack/react-query";
 import * as Yup from 'yup';
 import storage, { StorageKey } from "@/lib/storage.util";
+import { useRouter } from "next/navigation";
 
 type RegistrationFormSectionProps = {
   data: WebinarPage;
 };
 
 export default function RegistrationFormSection({ data }: RegistrationFormSectionProps) {
-  const { isRegistered, register } = useRegistrationCheck();
+  const router = useRouter();
+  const { isRegistered } = useRegistrationCheck();
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      const payload: ZapierWebinarPayload = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phoneNumber: values.phone,
-        type: 'webinar',
+      try {
+        const payload: ZapierWebinarPayload = {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          phoneNumber: values.phone,
+          type: 'webinar',
+        }
+        await callZapierWebhook(payload);
+      } catch (error) {
+        console.error('Error calling Zapier webhook:', error);
       }
-      await callZapierWebhook(payload);
-      storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 30 });
-      register('/webinar', '#register');
     },
+    onSuccess: () => {
+      storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 30 })
+      router.push('/webinar/thank-you');
+    }
   });
 
   const { values, handleChange, handleSubmit, isValid, errors, touched, setFieldTouched } = useFormik({
@@ -112,7 +120,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
                 onBlur={() => setFieldTouched('phone', true)}
                 error={errors.phone && touched.phone ? errors.phone : undefined}
               />
-              <Button type="submit" disabled={!isValid}>{data.registrationSection?.form?.submitButton ?? 'Register'}</Button>
+              <Button type="submit" isLoading={isPending} disabled={isPending || !isValid}>{data.registrationSection?.form?.submitButton ?? 'Register'}</Button>
             </form>
           }
         </div>

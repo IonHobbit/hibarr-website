@@ -6,6 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { WaitlistPage } from "@/types/sanity.types";
 import storage, { StorageKey } from "@/lib/storage.util";
+import { callZapierWebhook } from "@/lib/zapier";
+import { useMutation } from "@tanstack/react-query";
+import { ZapierWaitlistPayload } from "@/types/main";
 
 type WaitlistFormProps = {
   formData: WaitlistPage['waitlistForm']
@@ -14,6 +17,28 @@ type WaitlistFormProps = {
 export default function WaitlistForm({ formData }: WaitlistFormProps) {
   const router = useRouter();
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
+      try {
+        const payload: ZapierWaitlistPayload = {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          phoneNumber: values.phoneNumber,
+          type: 'waitlist',
+        }
+        await callZapierWebhook(payload);
+        storage.set(StorageKey.REGISTERED_WAITLIST, true, { expiration: 1000 * 60 * 60 * 24 * 30 });
+      } catch (error) {
+        console.error('Error calling Zapier webhook:', error);
+      }
+    },
+    onSuccess: () => {
+      router.push('/waitlist/thank-you');
+    }
+  });
+
+
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
       firstName: '',
@@ -21,11 +46,7 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
       email: '',
       phoneNumber: '',
     },
-    onSubmit: (values) => {
-      storage.set(StorageKey.REGISTERED_WAITLIST, true, { expiration: 1000 * 60 * 60 * 24 * 30 });
-      // localStorage.setItem('waitlist-form-data', JSON.stringify(values))
-      router.push('/waitlist/thank-you')
-    }
+    onSubmit: () => mutate()
   })
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -73,7 +94,7 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
         value={values.phoneNumber}
         onChange={handleChange}
       />
-      <Button variant='accent' className='!mt-4 uppercase font-semibold' type='submit'>
+      <Button isLoading={isPending} disabled={isPending} variant='accent' className='!mt-4 uppercase font-semibold' type='submit'>
         {formData?.form?.submitButton || 'Join the Waitlist'}
       </Button>
     </form>

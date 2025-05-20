@@ -1,6 +1,6 @@
-import { ZapierConsultationPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierPropertyEnquiryPayload, ZapierSignupPayload } from "@/types/main"
+import { ZapierConsultationPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierPropertyEnquiryPayload, ZapierSignupPayload, ZapierWaitlistPayload } from "@/types/main"
 
-type ZapierPayload = ZapierUglaPayload | ZapierConsultationPayload | ZapierWebinarPayload | ZapierPropertyEnquiryPayload | ZapierSignupPayload
+type ZapierPayload = ZapierUglaPayload | ZapierConsultationPayload | ZapierWebinarPayload | ZapierPropertyEnquiryPayload | ZapierSignupPayload | ZapierWaitlistPayload
 
 const callZapierWebhook = async (payload: ZapierPayload) => {
   try {

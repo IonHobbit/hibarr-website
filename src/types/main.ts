@@ -15,7 +15,7 @@ type PropertyType = {
   link: string;
 }
 
-type ZapierWebhookType = 'ugla' | 'webinar' | 'consultation' | 'property-enquiry' | 'signup';
+type ZapierWebhookType = 'ugla' | 'webinar' | 'consultation' | 'property-enquiry' | 'signup' | 'waitlist';
 
 type ContactInfo = {
   firstName: string;
@@ -80,6 +80,10 @@ type ZapierWebinarPayload = ZapierPayload & {
   type: 'webinar'
 }
 
+type ZapierWaitlistPayload = ZapierPayload & {
+  type: 'waitlist'
+}
+
 type ZapierSignupPayload = ZapierPayload & {
   isAlphaCashMember: boolean,
   type: 'signup',
@@ -136,6 +140,6 @@ type PropertyListing = {
 
 export type {
   PropertyType, RegistrationFormType,
-  ZapierPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierConsultationPayload, ZapierPropertyEnquiryPayload, ZapierSignupPayload,
+  ZapierPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierWaitlistPayload, ZapierConsultationPayload, ZapierPropertyEnquiryPayload, ZapierSignupPayload,
   PropertyListing
 }
