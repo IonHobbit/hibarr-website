@@ -15,7 +15,7 @@ export default async function BlogPage({ params }: { params: Promise<{ lang: str
     "slug": slug.current,
   }`)
 
-  const { title, subtitle, featuredPosts } = await client.fetch<{
+  const postPage = await client.fetch<{
     title: string;
     subtitle: string;
     featuredPosts: BlogPostCardType[];
@@ -41,6 +41,11 @@ export default async function BlogPage({ params }: { params: Promise<{ lang: str
     }
   }`, { lang })
 
+
+  const title = postPage?.title || 'Blog'
+  const subtitle = postPage?.subtitle || 'Here we share our thoughts and insights on the real estate market.'
+  const featuredPosts = postPage?.featuredPosts || []
+
   const featured: BlogPostCardType[] = featuredPosts?.map((post) => ({
     ...post,
     publishedAt: new Date(post.publishedAt).toLocaleDateString('en-US', {
@@ -49,6 +54,7 @@ export default async function BlogPage({ params }: { params: Promise<{ lang: str
       year: 'numeric'
     }),
   })) || []
+
 
   return (
     <div>
