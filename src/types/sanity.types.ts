@@ -98,30 +98,6 @@ export type Footer = {
   }
 }
 
-export type Team = {
-  _id: string
-  _type: 'team'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  order?: number
-  name?: string
-  image?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-  role?: string
-  leadership?: boolean
-}
-
 export type Testimonial = {
   _id: string
   _type: 'testimonial'
@@ -323,10 +299,146 @@ export type PropertyAgent = {
   }
 }
 
+export type BlogPostTag = {
+  _id: string
+  _type: 'blogPostTag'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug?: Slug
+}
+
+export type BlogPostCategory = {
+  _id: string
+  _type: 'blogPostCategory'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug?: Slug
+}
+
+export type BlogPost = {
+  _id: string
+  _type: 'blogPost'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug?: Slug
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  description?: string
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  readTime?: number
+  author?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'team'
+  }
+  categories?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'blogPostCategory'
+  }>
+  tags?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'blogPostTag'
+  }>
+  faqs?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'faq'
+  }>
+  published?: boolean
+  publishedAt?: string
+  seo?: SeoMetaFields
+  language?: string
+}
+
+export type Team = {
+  _id: string
+  _type: 'team'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  order?: number
+  name?: string
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  role?: string
+  leadership?: boolean
+}
+
 export type Slug = {
   _type: 'slug'
   current?: string
   source?: string
+}
+
+export type BlogPage = {
+  _id: string
+  _type: 'blogPage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  subtitle?: string
+  featuredPosts?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'blogPost'
+  }>
+  seo?: SeoMetaFields
+  language?: string
 }
 
 export type TranslationMetadata = {
@@ -1051,13 +1163,17 @@ export type AllSanitySchemaTypes =
   | SanityFileAsset
   | Geopoint
   | Footer
-  | Team
   | Testimonial
   | PropertyFeature
   | PropertyKind
   | Property
   | PropertyAgent
+  | BlogPostTag
+  | BlogPostCategory
+  | BlogPost
+  | Team
   | Slug
+  | BlogPage
   | TranslationMetadata
   | InternationalizedArrayReferenceValue
   | CaseStudy
