@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { AboutPage } from "@/types/sanity.types";
 import Video from "@/components/Video";
 
