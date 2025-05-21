@@ -1,6 +1,5 @@
 import { generateSEOMetadata } from "@/lib/utils";
 import { BlogPostCardType } from "@/types/blog";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
 import Link from "next/link";

@@ -2,7 +2,6 @@
 
 import React from 'react'
 import BlogPostCard from './BlogPostCard';
-import { client } from '@/lib/sanity/client';
 import { BlogPostCardType } from '@/types/blog';
 import { useQuery } from '@tanstack/react-query';
 import useURL from '@/hooks/useURL';

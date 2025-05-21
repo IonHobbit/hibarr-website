@@ -4,10 +4,6 @@ import { client } from "@/lib/sanity/client";
 import { BlogPostCardType, BlogPostCategoryType } from "@/types/blog";
 import { cn } from "@/lib/utils";
 import BlogCategories, { ALL_CATEGORY } from "./_components/BlogCategories";
-import Image from "next/image";
-import pluralize from "pluralize";
-import Link from "next/link";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import FeaturedBlogPosts from "./_components/FeaturedBlogPosts";
 
 export default async function BlogPage({ params }: { params: Promise<{ lang: string }> }) {
