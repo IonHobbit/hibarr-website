@@ -45,8 +45,9 @@ export default function BlogPosts() {
 
   if (!isPending && blogPosts?.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
-        <h1 className="text-2xl font-bold">No posts found</h1>
+      <div className="flex flex-col gap-2 items-center justify-center h-80">
+        <h1 className="text-2xl font-bold">We have no posts {selectedCategory === ALL_CATEGORY.slug ? '' : `in this category`} right now</h1>
+        <p className="text-sm text-gray-500">Please check back later</p>
       </div>
     )
   }

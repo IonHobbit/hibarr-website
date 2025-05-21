@@ -8,10 +8,20 @@ import pluralize from "pluralize";
 import { Locale } from "@/lib/i18n-config";
 import { fetchBlogPost, fetchRelatedBlogPosts } from "@/lib/services/blog.service";
 import BlogPostCard from "../_components/BlogPostCard";
+import ShareLinks from "./_components/ShareLinks";
+import SharePost from "./_components/SharePost";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string, lang: Locale }> }) {
-  const { slug, lang } = await params
-  const { seo } = await fetchBlogPost(slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const post = await fetchBlogPost(slug)
+  const seo = post?.seo
+
+  if (!seo) {
+    return {
+      title: 'Blog Post Not Found',
+      description: 'The blog post you are looking for does not exist.',
+    }
+  }
 
   return generateSEOMetadata(seo);
 }
@@ -19,10 +29,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string, lang: Locale }> }) {
   const { slug, lang } = await params
 
-  const post = await fetchBlogPost(slug)
-  const relatedPosts = await fetchRelatedBlogPosts(lang as Locale, post)
+  const post = await fetchBlogPost(slug);
 
-  // const shareableUrl = `${window.location.origin}/blog/${post.slug}`
+  if (!post) {
+    return (
+      <div className="section mt-20 flex flex-col items-center justify-center gap-4 h-[80vh]">
+        <h1 className="text-4xl font-bold text-center">Post not found</h1>
+        <Link href="/blog" className="text-primary underline underline-offset-4">Back to blog</Link>
+      </div>
+    )
+  }
+
+  const relatedPosts = await fetchRelatedBlogPosts(lang as Locale, post)
 
   return (
     <div className="section mt-20 flex flex-col items-center gap-10">
@@ -37,18 +55,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       </div>
       <div className="flex flex-col gap-4 w-full">
         <div className="flex justify-between items-center">
-          <p className="text-sm text-gray-500">Share this article</p>
+          <SharePost post={post} />
           <div className="flex items-center gap-2">
             <span className="text-xs">Share on: </span>
-            <Link href={`https://www.facebook.com/sharer/sharer.php?u=${post.slug}`} target="_blank" className="text-gray-500 flex items-center gap-1 hover:text-gray-700">
-              <Icon icon="mdi:facebook" className="size-5" />
-            </Link>
-            <Link href={`https://www.linkedin.com/shareArticle?mini=true&url=${post.slug}`} target="_blank" className="text-gray-500 flex items-center gap-1 hover:text-gray-700">
-              <Icon icon="mdi:linkedin" className="size-5" />
-            </Link>
-            <Link href={`https://twitter.com/intent/tweet?url=${post.slug}`} target="_blank" className="text-gray-500 flex items-center gap-1 hover:text-gray-700">
-              <Icon icon="mdi:twitter" className="size-5" />
-            </Link>
+            <ShareLinks post={post} />
           </div>
         </div>
         <div className="flex flex-col gap-2 w-full relative h-96">
@@ -104,8 +114,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <div className="flex flex-col gap-4">
           <p className="text-base">Tags</p>
           <div className="flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <div className={"px-3 py-1.5 rounded bg-primary/70 transition-all duration-300"}>
+            {post.tags.map((tag, index) => (
+              <div key={index} className={"px-3 py-1.5 rounded bg-primary/70 transition-all duration-300"}>
                 <p className="text-xs font-medium text-white">{tag.title}</p>
               </div>
             ))}
@@ -114,15 +124,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <div className="flex flex-col items-center gap-3">
           <p className="text-sm font-medium">Share this article</p>
           <div className="flex items-center gap-2">
-            <Link href={`https://www.facebook.com/sharer/sharer.php?u=${post.slug}`} target="_blank" className="text-gray-500 flex items-center gap-1 hover:text-primary">
-              <Icon icon="mdi:facebook" className="size-5" />
-            </Link>
-            <Link href={`https://www.linkedin.com/shareArticle?mini=true&url=${post.slug}`} target="_blank" className="text-gray-500 flex items-center gap-1 hover:text-primary">
-              <Icon icon="mdi:linkedin" className="size-5" />
-            </Link>
-            <Link href={`https://twitter.com/intent/tweet?url=${post.slug}`} target="_blank" className="text-gray-500 flex items-center gap-1 hover:text-primary">
-              <Icon icon="mdi:twitter" className="size-5" />
-            </Link>
+            <ShareLinks post={post} />
           </div>
         </div>
         {relatedPosts.length > 0 && (
