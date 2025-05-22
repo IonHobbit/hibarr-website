@@ -14,7 +14,7 @@ type BlogCategoriesProps = {
   categories: BlogPostCategoryType[]
 }
 
-export const BlogCategory = ({ category, selectedCategory }: { category: BlogPostCategoryType, selectedCategory?: string }) => {
+const BlogCategory = ({ category, selectedCategory }: { category: BlogPostCategoryType, selectedCategory?: string }) => {
   return (
     <Link href={category.slug === ALL_CATEGORY.slug ? `/blog#posts` : `/blog?category=${category.slug}#posts`} key={category.slug}>
       <div className={cn("px-4 py-2 rounded hover:bg-gray-200 transition-all duration-300", selectedCategory === category.slug && "bg-gray-100")}>
@@ -23,6 +23,7 @@ export const BlogCategory = ({ category, selectedCategory }: { category: BlogPos
     </Link>
   )
 }
+
 export default function BlogCategories({ categories }: BlogCategoriesProps) {
   const { searchParams } = useURL()
   const selectedCategory = searchParams.get('category') || ALL_CATEGORY.slug;

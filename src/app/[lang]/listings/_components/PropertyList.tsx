@@ -27,7 +27,7 @@ export default function PropertyList() {
   const maxPrice = parseInt(searchParams.get('maxPrice') || '0');
   const listingType = filters.listingType || '';
 
-  const { data: listings, isPending, error, refetch, paginationInfo } = useListings(
+  const { listings, isPending, error, refetch, paginationInfo } = useListings(
     {
       location,
       propertyType,
@@ -58,18 +58,19 @@ export default function PropertyList() {
 
   return (
     <section className="section h-full grow">
-      {listings?.length === 0 && (
-        <div className="flex flex-col gap-1 items-center justify-center h-[40vh] grow max-w-screen-sm mx-auto">
-          <h1 className="text-2xl font-bold">No {joinWith(propertyTypeList, 'or')} listings found</h1>
-          <p className="text-sm text-muted-foreground text-center">
-            {location.length > 0 ? `in ${joinWith(location, 'or')}` : ''}
-            {bedrooms ? ` with ${bedrooms} bedrooms` : ''}
-            {bathrooms ? ` with ${bathrooms} bathrooms` : ''}
-            {featureList.length > 0 ? ` with ${featureList.join(', ')}` : ''}
-            {maxPrice ? ` for less than €${maxPrice.toLocaleString()}` : ''}</p>
-        </div>
-      )}
       <div className="min-h-[80vh]">
+        {listings?.length === 0 && (
+          <div className="flex flex-col gap-1 items-center justify-center h-[40vh] grow max-w-screen-sm mx-auto">
+            <h1 className="text-2xl font-bold">No {joinWith(propertyTypeList, 'or')} listings found</h1>
+            <p className="text-sm text-muted-foreground text-center">
+              {location.filter(Boolean).length > 0 ? `in ${joinWith(location, 'or')}` : ''}
+              {bedrooms ? ` with ${bedrooms} ${pluralize('bedroom', parseInt(bedrooms))}` : ''}
+              {bathrooms ? `${bedrooms ? ' and' : ' with'} ${bathrooms} ${pluralize('bathroom', parseInt(bathrooms))}` : ''}
+              {featureList.length > 0 ? ` featuring ${featureList.join(', ')}` : ''}
+              {maxPrice ? ` under €${maxPrice.toLocaleString()}` : ''}
+            </p>
+          </div>
+        )}
         {error && (
           <div className="flex flex-col gap-2 items-center justify-center h-[80vh]">
             <h3 className="text-3xl font-bold max-w-md text-center">Looks like something went wrong loading the listings</h3>

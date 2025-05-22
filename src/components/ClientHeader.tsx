@@ -28,10 +28,10 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
     <header className={cn("absolute top-0 z-20 w-full h-[75px] flex items-center", isExcludedPath ? "bg-transparent mt-2 px-4" : "bg-gradient-to-b from-primary/90 to-transparent")}>
       <nav className={cn("section py-6 px-4 sm:px-6 lg:px-8", isExcludedPath ? "bg-primary rounded-lg py-3" : "")}>
         <div className="flex justify-between gap-2 items-center">
-          <Link href={`/${lang}`}>
+          <Link href={`/${lang}`} className='shrink-0'>
             <Image src="/logos/logo.png" alt="Hibarr Estates Logo" className="object-contain h-auto" width={140} height={20} />
           </Link>
-          <div className="hidden md:flex space-x-8 items-center w-full justify-center">
+          <div className="hidden md:flex space-x-8 items-center w-full justify-center overflow-x-auto">
             {navigationData?.items?.map((item, index) => (
               <HeaderItem key={index} item={item} lang={lang} />
             ))}
