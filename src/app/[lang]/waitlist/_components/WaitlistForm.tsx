@@ -49,10 +49,10 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
 
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
+      firstName: userInfo?.firstName || '',
+      lastName: userInfo?.lastName || '',
+      email: userInfo?.email || '',
+      phoneNumber: userInfo?.phoneNumber || '',
     },
     onSubmit: () => mutate()
   })

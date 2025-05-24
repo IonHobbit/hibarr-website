@@ -20,7 +20,7 @@ type FreebieSignupSectionProps = {
 
 export default function FreebieSignupSection({ data }: FreebieSignupSectionProps) {
   const userInfo = getUserInfo();
-  const { isRegistered, register } = useRegistrationCheck();
+  const { isRegistered } = useRegistrationCheck();
 
   const { values, isValid, setFieldValue, handleChange, handleSubmit } = useFormik({
     initialValues: {
