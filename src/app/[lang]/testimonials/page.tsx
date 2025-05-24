@@ -38,7 +38,7 @@ export default async function TestimonialsPage(
                 {data?.name}
               </p>
             </div>
-            <h1 className="text-7xl font-bold mb-4 text-primary-foreground">
+            <h1 className="text-5xl md:text-7xl font-bold mb-4 text-primary-foreground">
               {data?.title}
             </h1>
             <p className="text-md md:text-2xl text-primary-foreground">

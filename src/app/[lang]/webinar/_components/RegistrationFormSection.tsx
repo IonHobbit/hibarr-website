@@ -72,7 +72,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center h-full grow overflow-hidden">
           <div className="relative w-full flex flex-col items-center gap-6">
             <Countdown date={data.webinarInformationSection?.date ?? ''} timezone={data.webinarInformationSection?.timezone ?? ''} />
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {data.registrationSection?.webinarFeatures?.map((feature) => (
                 <div key={feature.title} className="flex items-center bg-secondary text-primary backdrop-blur-lg gap-4 border rounded-md p-4 h-24">
                   <Icon icon={feature.icon ?? ''} className="size-10 shrink-0" />
