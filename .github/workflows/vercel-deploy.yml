@@ -7,6 +7,7 @@ on:
       - staging
       - develop
   pull_request:
+    types: [closed]
     branches:
       - main
       - staging
@@ -18,10 +19,10 @@ jobs:
     steps:
       - name: Trigger Vercel Deployment
         run: |
-          if [ "$GITHUB_REF" = "main" ]; then
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/z61OeZa3ik"
-          elif [ "$GITHUB_REF" = "staging" ]; then
+          elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
             curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/yDwsWYVDS1"
-          elif [ "$GITHUB_REF" = "develop" ]; then
+          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
             curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/lGNF3CXN45"
           fi
