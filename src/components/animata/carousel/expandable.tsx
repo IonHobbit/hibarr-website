@@ -6,18 +6,20 @@ import { HTMLAttributes, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import WaveReveal from "../text/wave-reveal";
 
+export type ExpandableItem = { image: string; title: string; slug: string };
+
 interface ImageProps extends HTMLAttributes<HTMLDivElement> {
-  item: { image: string; title: string };
+  item: ExpandableItem;
   index: number;
   activeItem: number;
-  onItemClick?: (item: { image: string; title: string }) => void;
+  onItemClick?: (item: ExpandableItem) => void;
 }
 
 interface ExpandableProps {
-  list?: { image: string; title: string }[];
+  list?: ExpandableItem[];
   autoPlay?: boolean;
   className?: string;
-  onItemClick?: (item: { image: string; title: string }) => void;
+  onItemClick?: (item: ExpandableItem) => void;
 }
 
 const List = ({ item, className, index, activeItem, onItemClick, ...props }: ImageProps) => {
@@ -56,25 +58,8 @@ const List = ({ item, className, index, activeItem, onItemClick, ...props }: Ima
   );
 };
 
-const items = [
-  {
-    image:
-      "https://images.unsplash.com/photo-1541753236788-b0ac1fc5009d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3",
-    title: "Mountains",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1718027808460-7069cf0ca9ae?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3",
-    title: "Great Wall of China",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1584968173934-bc0b588eb806?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3",
-    title: "Texture & Patterns",
-  },
-];
 
-export default function Expandable({ list = items, autoPlay = true, className, onItemClick }: ExpandableProps) {
+export default function Expandable({ list, autoPlay = true, className, onItemClick }: ExpandableProps) {
   const [activeItem, setActiveItem] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
 
@@ -85,16 +70,16 @@ export default function Expandable({ list = items, autoPlay = true, className, o
 
     const interval = setInterval(() => {
       if (!isHovering) {
-        setActiveItem((prev) => (prev + 1) % list.length);
+        setActiveItem((prev) => (prev + 1) % (list?.length || 0));
       }
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [autoPlay, list.length, isHovering]);
+  }, [autoPlay, list?.length, isHovering]);
 
   return (
     <div className={cn("flex h-96 w-full gap-1", className)}>
-      {list.map((item, index) => (
+      {list?.map((item, index) => (
         <List
           key={item.title}
           item={item}

@@ -28,25 +28,21 @@ export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemPr
     return null;
   }
 
-  // if (item.children && !mobile) {
-  //   return (
-  //     <NavigationMenuItem>
-  //       <NavigationMenuTrigger>
-  //         <NavigationMenuLink>{item.name}</NavigationMenuLink>
-  //       </NavigationMenuTrigger>
-  //       <NavigationMenuContent popoverTarget={item.href ?? ''}>
-  //         {item.children.filter((child) => !child.hidden).map((child: Child, index: number) => (
-  //           <NavigationMenuLink key={index} href={`/${lang}${child.href}`}>{child.name}</NavigationMenuLink>
-  //         ))}
-  //       </NavigationMenuContent>
-  //     </NavigationMenuItem>
-  //   )
-  // }
+  const handleMouseEnter = () => {
+    setOpen(true);
+    console.log('mouse enter', new Date().toISOString());
+  }
+
+  const handleMouseLeave = () => {
+    setTimeout(() => {
+      setOpen(false);
+    }, 100);
+  }
 
   if (item.children && !mobile) {
     return (
       <DropdownMenu open={open} onOpenChange={setOpen}>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger asChild onMouseEnter={handleMouseEnter}>
           <button className="flex items-center gap-2 text-primary-foreground hover:text-primary-foreground/80 whitespace-nowrap cursor-pointer focus:outline-none focus:text-primary-foreground/80">
             <span>
               {item.name}
@@ -54,7 +50,7 @@ export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemPr
             <Icon icon={open ? "mdi:chevron-up" : "mdi:chevron-down"} className="w-4 h-4" />
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" sideOffset={5}>
+        <DropdownMenuContent align="start" sideOffset={5} onMouseLeave={handleMouseLeave}>
           {item.children.filter((child) => !child.hidden).map((child: Child, index: number) => (
             <DropdownMenuItem key={index} asChild>
               <Link href={`/${lang}${child.href}`}>

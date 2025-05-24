@@ -21,6 +21,7 @@ import { StorageKey } from '@/lib/storage.util'
 import storage from '@/lib/storage.util'
 import { useMutation } from '@tanstack/react-query'
 import router from 'next/router'
+import { getUserInfo, persistUserInfo } from '@/lib/services/user.service'
 type FormValues = {
   firstName: string
   lastName: string
@@ -40,7 +41,8 @@ export default function ConsultationForm() {
   const baseCalendlyUrl = 'https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319'
 
   const { lang } = useParams()
-  const [calendlyUrl, setCalendlyUrl] = useState('')
+  const userInfo = getUserInfo();
+  const [calendlyUrl, setCalendlyUrl] = useState('');
 
   const { isRegistered } = useRegistrationCheck();
 
@@ -106,10 +108,10 @@ export default function ConsultationForm() {
 
   const { values, errors, setFieldValue, handleChange, handleSubmit } = useFormik<FormValues>({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
+      firstName: userInfo?.firstName || '',
+      lastName: userInfo?.lastName || '',
+      email: userInfo?.email || '',
+      phoneNumber: userInfo?.phoneNumber || '',
       country: initialCountry || null,
       interestedIn: [],
       budget: '',
@@ -125,7 +127,13 @@ export default function ConsultationForm() {
       phoneNumber: Yup.string(),
     }),
     onSubmit: () => {
-      const link = generateCalendlyPrefilledUrl()
+      const link = generateCalendlyPrefilledUrl();
+      persistUserInfo({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+      });
       setCalendlyUrl(link);
       mutate()
     }

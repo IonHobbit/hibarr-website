@@ -20,7 +20,7 @@ import WebinarSection from './_components/WebinarSection';
 import SignupSection from './_components/SignupSection';
 import { Metadata } from 'next';
 import { generateSEOMetadata } from '@/lib/utils';
-// import FindrSection from './_components/FindrSection';
+import FindrSection from './_components/FindrSection';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -49,7 +49,7 @@ export default async function Home(
         </div>
       </div>
       <AboutSection data={data} />
-      {/* <FindrSection /> */}
+      <FindrSection />
       <TestimonialsSection lang={lang} />
       <PartnersSection lang={lang} />
       <ConsultationProcessSection data={data.consultationProcessSection} />

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import useRegistrationCheck from '@/hooks/useRegistrationCheck';
+import { getUserInfo, persistUserInfo } from '@/lib/services/user.service';
 import { callZapierWebhook } from '@/lib/zapier';
 import { ZapierUglaPayload } from '@/types/main';
 import { HomePage } from '@/types/sanity.types';
@@ -15,20 +16,30 @@ type FreebieFormProps = {
 }
 
 export default function FreebieForm({ data, postSubmissionPath }: FreebieFormProps) {
+  const userInfo = getUserInfo();
   const { register } = useRegistrationCheck();
 
   const { values, isValid, setFieldValue, handleChange, handleSubmit } = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
+      firstName: userInfo?.firstName || '',
+      lastName: userInfo?.lastName || '',
+      email: userInfo?.email || '',
+      phoneNumber: userInfo?.phoneNumber || '',
       consent: false,
     },
     onSubmit: async (values) => {
-      const payload: ZapierUglaPayload = { firstName: values.firstName, lastName: values.lastName, email: values.email, type: 'ugla' };
+      const contactInfo = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+      }
+      const payload: ZapierUglaPayload = { ...contactInfo, type: 'ugla' };
 
       try {
         await callZapierWebhook(payload);
+        // persist user info to storage
+        persistUserInfo(contactInfo);
         register(postSubmissionPath || '/', '#freebie');
       } catch (error) {
         console.error(error);

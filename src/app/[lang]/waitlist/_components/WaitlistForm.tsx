@@ -9,6 +9,7 @@ import storage, { StorageKey } from "@/lib/storage.util";
 import { callZapierWebhook } from "@/lib/zapier";
 import { useMutation } from "@tanstack/react-query";
 import { ZapierWaitlistPayload } from "@/types/main";
+import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
 
 type WaitlistFormProps = {
   formData: WaitlistPage['waitlistForm']
@@ -16,18 +17,25 @@ type WaitlistFormProps = {
 
 export default function WaitlistForm({ formData }: WaitlistFormProps) {
   const router = useRouter();
+  const userInfo = getUserInfo();
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
+      const contactInfo = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+      }
+
       try {
         const payload: ZapierWaitlistPayload = {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          phoneNumber: values.phoneNumber,
+          ...contactInfo,
           type: 'waitlist',
         }
         await callZapierWebhook(payload);
+        // persist user info to storage
+        persistUserInfo(contactInfo);
         storage.set(StorageKey.REGISTERED_WAITLIST, true, { expiration: 1000 * 60 * 60 * 24 * 30 });
       } catch (error) {
         console.error('Error calling Zapier webhook:', error);

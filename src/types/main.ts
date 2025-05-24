@@ -17,7 +17,7 @@ type PropertyType = {
 
 type ZapierWebhookType = 'ugla' | 'webinar' | 'consultation' | 'property-enquiry' | 'signup' | 'waitlist';
 
-type ContactInfo = {
+export type ContactInfo = {
   firstName: string;
   lastName: string;
   email: string;

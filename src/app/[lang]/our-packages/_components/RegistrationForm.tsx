@@ -20,6 +20,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import BankDetailsModal from './BankDetailsModal';
 import * as Yup from 'yup';
+import { getUserInfo, persistUserInfo } from '@/lib/services/user.service';
 
 type RegistrationFormProps = {
   packages: BankPackage[]
@@ -27,8 +28,10 @@ type RegistrationFormProps = {
 }
 
 export default function RegistrationForm({ packages, form }: RegistrationFormProps) {
-  const { searchParams } = useURL();
   const router = useRouter();
+  const userInfo = getUserInfo();
+  const { searchParams } = useURL();
+
   const [activeStep, setActiveStep] = useState(0);
   const [url, setUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -58,10 +61,10 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
       package: activePackageSlug,
       personalInformation: {
         salutation: 'Mr.',
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
+        firstName: userInfo?.firstName || '',
+        lastName: userInfo?.lastName || '',
+        email: userInfo?.email || '',
+        phoneNumber: userInfo?.phoneNumber || '',
       },
       nextOfKin: {
         fathersFirstName: '',
@@ -168,6 +171,14 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
         const data = await response.json()
         setIsLoading(false);
         setIsSuccess(true);
+
+        // persist user info to storage
+        persistUserInfo({
+          firstName: values.personalInformation.firstName,
+          lastName: values.personalInformation.lastName,
+          email: values.personalInformation.email,
+          phoneNumber: values.personalInformation.phoneNumber,
+        });
         if (activePackage.price > 0) {
           if (values.paymentMethod === 'payOnline' && data.url) {
             router.push(data.url);
