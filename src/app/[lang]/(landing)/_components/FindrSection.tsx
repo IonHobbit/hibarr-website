@@ -54,6 +54,8 @@ export default function FindrSection() {
     router.push(`/findr/${item.slug}`);
   };
 
+  return null;
+
   return (
     <section className='section gap-6'>
       <div className='container mx-auto flex flex-col gap-2'>

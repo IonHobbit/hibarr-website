@@ -4,6 +4,7 @@ export enum StorageKey {
   REGISTERED_ENQUIRY = 'registered::enquiry',
   BOOKED_CONSULTATION = 'booked::consultation',
   CLICK_ID = 'click::id',
+  USER_INFO = 'user::info',
 }
 
 interface StorageOptions {

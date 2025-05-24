@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { getUserInfo, persistUserInfo } from '@/lib/services/user.service'
 import { callZapierWebhook } from '@/lib/zapier'
 import { ZapierPropertyEnquiryPayload } from '@/types/main'
 import { useMutation } from '@tanstack/react-query'
@@ -16,27 +17,36 @@ type EnquiryFormProps = {
 }
 
 export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
+  const userInfo = getUserInfo();
+
   const { mutate, isSuccess, isPending } = useMutation({
     mutationFn: async () => {
-      const payload: ZapierPropertyEnquiryPayload = {
+      const contactInfo = {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
         phoneNumber: values.phoneNumber,
+      }
+      const payload: ZapierPropertyEnquiryPayload = {
+        ...contactInfo,
         comment: values.comment,
         type: 'property-enquiry',
         propertyId,
       }
+
+      // persist user info to storage
+      persistUserInfo(contactInfo);
+
       await callZapierWebhook(payload)
     }
   })
 
   const { values, errors, touched, setFieldTouched, handleChange, handleSubmit } = useFormik<ZapierPropertyEnquiryPayload>({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
+      firstName: userInfo?.firstName || '',
+      lastName: userInfo?.lastName || '',
+      email: userInfo?.email || '',
+      phoneNumber: userInfo?.phoneNumber || '',
       comment: '',
       type: 'property-enquiry',
       propertyId,

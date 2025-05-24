@@ -12,6 +12,7 @@ import { HomePage } from "@/types/sanity.types";
 import * as Yup from 'yup';
 import { useFormik } from "formik";
 import Image from "next/image";
+import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
 
 type SignupSectionProps = {
   data: HomePage['freebieSignupSection'];
@@ -19,13 +20,14 @@ type SignupSectionProps = {
 
 export default function SignupSection({ data }: SignupSectionProps) {
   const { isRegistered, register } = useRegistrationCheck();
+  const userInfo = getUserInfo();
 
   const { values, isValid, errors, touched, setFieldTouched, setFieldValue, handleChange, handleSubmit } = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
+      firstName: userInfo?.firstName || '',
+      lastName: userInfo?.lastName || '',
+      email: userInfo?.email || '',
+      phoneNumber: userInfo?.phoneNumber || '',
       consent: false,
       package: 'vip',
       alphaCashReferral: '',
@@ -47,16 +49,22 @@ export default function SignupSection({ data }: SignupSectionProps) {
         }),
     }),
     onSubmit: async (values) => {
-      const payload: ZapierSignupPayload = {
+      const userInfo = {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
         phoneNumber: values.phoneNumber,
+      }
+      const payload: ZapierSignupPayload = {
+        ...userInfo,
         type: 'signup',
         package: values.package as 'vip' | 'bank',
         isAlphaCashMember: values.isAlphaCashMember,
         alphaCashReferral: values.alphaCashReferral.replace('https://member.alphacashclub.com/shared/register?sponsor=', '')
       };
+
+      // persist user info to storage
+      persistUserInfo(userInfo);
 
       try {
         await callZapierWebhook(payload);

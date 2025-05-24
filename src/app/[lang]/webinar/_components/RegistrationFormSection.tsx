@@ -13,6 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import * as Yup from 'yup';
 import storage, { StorageKey } from "@/lib/storage.util";
 import { useRouter } from "next/navigation";
+import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
 
 type RegistrationFormSectionProps = {
   data: WebinarPage;
@@ -20,19 +21,25 @@ type RegistrationFormSectionProps = {
 
 export default function RegistrationFormSection({ data }: RegistrationFormSectionProps) {
   const router = useRouter();
+  const userInfo = getUserInfo();
   const { isRegistered } = useRegistrationCheck();
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
+      const contactInfo = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phoneNumber: values.phone,
+      }
       try {
         const payload: ZapierWebinarPayload = {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          phoneNumber: values.phone,
+          ...contactInfo,
           type: 'webinar',
         }
         await callZapierWebhook(payload);
+        // persist user info to storage
+        persistUserInfo(contactInfo);
       } catch (error) {
         console.error('Error calling Zapier webhook:', error);
       }
@@ -45,10 +52,10 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
 
   const { values, handleChange, handleSubmit, isValid, errors, touched, setFieldTouched } = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
+      firstName: userInfo?.firstName || '',
+      lastName: userInfo?.lastName || '',
+      email: userInfo?.email || '',
+      phone: userInfo?.phoneNumber || '',
     },
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required('First name is required'),

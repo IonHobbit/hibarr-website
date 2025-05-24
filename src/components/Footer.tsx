@@ -64,7 +64,7 @@ export default async function Footer(
             <Link href={`/${lang}`}>
               <Image src="/logos/logo-blue.png" alt="Hibarr Estates Logo" className="object-contain w-auto h-auto" width={140} height={20} />
             </Link>
-            <p className="text-xs md:text-sm text-foreground font-light">© Copyright {currentYear} <span className="font-semibold">Hibarr Estates</span> all rights reserved</p>
+            <p className="text-xs md:text-sm text-foreground font-light">© Copyright {currentYear} <span className="font-semibold">XEGARA Trading Ltd.</span> all rights reserved</p>
             <div className="flex items-center gap-4">
               {socialLinks.map((link) => (
                 <Link key={link.href} href={link.href}>
