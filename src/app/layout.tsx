@@ -5,6 +5,7 @@ import "./globals.css";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { PostHogProvider } from "@/providers/PostHogProvider";
 import MetaPixel from "@/components/MetaPixel";
+import ThemeProvider from "@/providers/ThemeProvider";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair-display",
@@ -46,11 +47,13 @@ export default async function RootLayout(
       <body
         className={`${playfairDisplay.variable} ${inter.variable} ${workSans.variable} antialiased relative w-screen`}
       >
-        <PostHogProvider>
-          <ReactQueryProvider>
-            {children}
-          </ReactQueryProvider>
-        </PostHogProvider>
+        <ThemeProvider>
+          <PostHogProvider>
+            <ReactQueryProvider>
+              {children}
+            </ReactQueryProvider>
+          </PostHogProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
