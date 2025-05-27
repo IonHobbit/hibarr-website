@@ -8,7 +8,7 @@ type AnimatedLandingSectionProps = {
   data: HomePage;
 }
 
-export default function AnimatedLandingSection({ data }: AnimatedLandingSectionProps) {
+export default function AnimatedLandingSection({ }: AnimatedLandingSectionProps) {
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center">
       {/* <div className="h-screen w-screen relative overflow-hidden">
@@ -22,7 +22,7 @@ export default function AnimatedLandingSection({ data }: AnimatedLandingSectionP
           className='absolute bottom-0 right-24 animate-landing-couple'
         />
       </div> */}
-      <div className='absolute inset-0 bg-primary/20'/>
+      <div className='absolute inset-0 bg-primary/20' />
       <div className='h-screen w-screen'>
         <video src="https://vz-da4cd036-d13.b-cdn.net/50e75c2c-6c87-432d-bd6c-e7078c3e580f/play_720p.mp4" autoPlay muted controls={false} className='w-full h-full object-cover object-bottom' />
       </div>
