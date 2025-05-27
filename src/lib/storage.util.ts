@@ -5,6 +5,7 @@ export enum StorageKey {
   BOOKED_CONSULTATION = 'booked::consultation',
   CLICK_ID = 'click::id',
   USER_INFO = 'user::info',
+  USER_DISTINCT_ID = 'user::distinct_id',
 }
 
 interface StorageOptions {
