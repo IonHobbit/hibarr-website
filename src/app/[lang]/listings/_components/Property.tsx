@@ -5,12 +5,16 @@ import { generateImageUrl } from '@/lib/utils'
 import { PropertyListResponse } from '@/types/property'
 import { areaUnit } from '@/lib/property'
 import { formatCurrency } from '@/lib/currency'
+import useSource from '@/hooks/useSource'
 
 interface PropertyProps {
   property: PropertyListResponse
 }
 
 export default function Property({ property }: PropertyProps) {
+
+  const source = useSource();
+
   const coverImage = property.image
   const title = property.title || '';
   const price = property.price;
@@ -19,8 +23,15 @@ export default function Property({ property }: PropertyProps) {
   const size = property.area.size || 0;
   const type = property.type || [];
 
+  const generateLink = () => {
+    if (source === 'alpha-cash') {
+      return `/external/alpha-cash/listings/${property.slug}`
+    }
+    return `/listings/${property.slug}`
+  }
+
   return (
-    <Link href={`/listings/${property.slug}`} className='border group cursor-pointer overflow-hidden'>
+    <Link href={generateLink()} className='border group cursor-pointer overflow-hidden'>
       <div className='relative w-full h-60 overflow-hidden'>
         <Image
           src={coverImage ? generateImageUrl(coverImage.image).url() : "/images/listings/stock.jpg"}
