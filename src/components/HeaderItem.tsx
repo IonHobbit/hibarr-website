@@ -30,7 +30,6 @@ export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemPr
 
   const handleMouseEnter = () => {
     setOpen(true);
-    console.log('mouse enter', new Date().toISOString());
   }
 
   const handleMouseLeave = () => {
