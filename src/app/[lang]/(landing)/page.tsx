@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 import type { Locale } from '@/lib/i18n-config';
-import LandingSection from './_components/LandingSection';
 import AboutSection from './_components/AboutSection';
 import PartnersSection from '../_components/PartnersSection';
 import WhyCyprus from './_components/WhyCyprus';
@@ -21,7 +20,9 @@ import SignupSection from './_components/SignupSection';
 import { Metadata } from 'next';
 import { generateSEOMetadata } from '@/lib/utils';
 import FindrSection from './_components/FindrSection';
+import PostHogClient from '@/lib/posthog';
 
+import LandingWrapper from './_components/LandingWrapper';
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
@@ -37,11 +38,14 @@ export default async function Home(
 ) {
   const { lang } = await props.params;
 
+  const posthog = PostHogClient();
+
+  const isAnimatedSectionActive = await posthog.isFeatureEnabled('animated-landing-section', process.env.NEXT_PUBLIC_POSTHOG_ANONYMOUS_DISTINCT_ID!)
   const data = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return (
     <Fragment>
-      <LandingSection data={data} />
+      <LandingWrapper data={data} isAnimatedSectionActive={isAnimatedSectionActive || false} />
       <FeaturedSection />
       <div className='section'>
         <div className='bg-primary rounded-lg p-4 py-8 md:py-4 md:px-2 max-w-screen-sm xl:max-w-screen-xl mx-auto'>
