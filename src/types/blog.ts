@@ -1,4 +1,4 @@
-import { BlogPost } from "./sanity.types";
+import { BlogPost, Faq } from "./sanity.types";
 
 export type BlogPostCardType = {
   _id: string;
@@ -24,6 +24,7 @@ export type BlogPostCategoryType = {
 }
 
 export type BlogPostType = {
+  faqs: Faq[];
   tags: {
     _id: string;
     title: string;

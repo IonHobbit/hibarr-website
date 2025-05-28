@@ -41,6 +41,10 @@ export const fetchBlogPost = async (slug: string): Promise<BlogPostType> => {
       title,
       "slug": slug.current,
     },
+    "faqs": faqs[]->{
+      question,
+      answer,
+    },
   }`, { slug })
   return post
 }

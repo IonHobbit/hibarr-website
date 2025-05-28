@@ -9,6 +9,8 @@ import { fetchBlogPost, fetchRelatedBlogPosts } from "@/lib/services/blog.servic
 import BlogPostCard from "../_components/BlogPostCard";
 import ShareLinks from "./_components/ShareLinks";
 import SharePost from "./_components/SharePost";
+import FAQAccordion from "../../_components/FAQAccordion";
+import FAQs from "@/components/FAQs";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -111,7 +113,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           />
         </div>
         <div className="flex flex-col gap-4">
-          <p className="text-base">Tags</p>
+          <p className="text-lg font-semibold">Tags</p>
           <div className="flex flex-wrap gap-2">
             {post.tags.map((tag, index) => (
               <div key={index} className={"px-3 py-1.5 rounded bg-primary/70 transition-all duration-300"}>
@@ -119,6 +121,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </div>
             ))}
           </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <p className="text-lg font-semibold">FAQs</p>
+          <FAQs faqs={post.faqs} />
         </div>
         <div className="flex flex-col items-center gap-3">
           <p className="text-sm font-medium">Share this article</p>
