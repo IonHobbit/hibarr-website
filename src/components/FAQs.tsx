@@ -11,10 +11,10 @@ export default async function FAQs({ faqs }: FAQsProps) {
       {faqs?.map((faq, index) => (
         <AccordionItem key={index} value={faq.question ?? ''}>
           <AccordionTrigger>
-            <p className=' text-lg md:text-xl !font-sans font-medium'>{faq.question}</p>
+            <p className=' text-base md:text-lg !font-sans font-medium'>{faq.question}</p>
           </AccordionTrigger>
           <AccordionContent>
-            <p className='text-sm md:text-lg '>{faq.answer}</p>
+            <p className='text-sm md:text-base '>{faq.answer}</p>
           </AccordionContent>
         </AccordionItem>
       ))}
