@@ -9,7 +9,6 @@ import { fetchBlogPost, fetchRelatedBlogPosts } from "@/lib/services/blog.servic
 import BlogPostCard from "../_components/BlogPostCard";
 import ShareLinks from "./_components/ShareLinks";
 import SharePost from "./_components/SharePost";
-import FAQAccordion from "../../_components/FAQAccordion";
 import FAQs from "@/components/FAQs";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
