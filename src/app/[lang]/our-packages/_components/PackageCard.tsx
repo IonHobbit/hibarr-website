@@ -41,10 +41,12 @@ export default function PackageCard({ pkg }: PackageCardProps) {
   return (
     <Card className='flex flex-col gap-3 h-max transition-all duration-300'>
       <CardHeader>
-        <div className="grid place-items-center size-8 bg-accent rounded-sm mb-4">
-          <Icon icon={icon as string} className='text-primary-foreground' />
+        <div className="flex flex-col lg:flex-row items-start gap-4">
+          <div className="grid place-items-center size-8 bg-accent rounded-sm mb-4">
+            <Icon icon={icon as string} className='text-primary-foreground' />
+          </div>
+          <CardTitle className='text-3xl font-semibold flex flex-col gap-0.5'>{title} {subtitle && <span className='text-xs text-muted-foreground'>{subtitle}</span>}</CardTitle>
         </div>
-        <CardTitle className='text-xl font-medium flex flex-wrap gap-1'>{title} {subtitle && <span className='text-xs text-muted-foreground'>{subtitle}</span>}</CardTitle>
 
         <p className='text-sm text-muted-foreground'>{description}</p>
       </CardHeader>

@@ -70,7 +70,7 @@ export default function FeaturedBlogPosts({ featuredPosts }: FeaturedBlogPostsPr
             src={currentPost.image}
             alt={currentPost.title}
             fill
-            className="object-cover transition-opacity duration-500 ease-in-out"
+            className="object-cover object-top transition-opacity duration-500 ease-in-out"
             key={currentPost._id}
           />
         </div>

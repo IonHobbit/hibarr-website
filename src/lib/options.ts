@@ -1,8 +1,8 @@
 export const interestedInOptions = [
   'Investment property',
   'Vacation / Second home',
-  'Relocation or retirement',
-  'I\'m just browsing'
+  'Relocation, Retirement, Exit Plan',
+  'I\'m just browsing',
 ]
 
 export const budgetOptions = [

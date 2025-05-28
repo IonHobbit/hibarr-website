@@ -55,7 +55,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <div className="flex flex-wrap gap-2">
           <p className="text-base font-medium">Tags: </p>
           {post.tags.map((tag, index) => (
-            <div key={index} className={"px-3 py-1.5 rounded bg-primary/70 transition-all duration-300"}>
+            <div key={index} className={"px-3 py-1.5 rounded bg-primary/80 transition-all duration-300"}>
               <p className="text-xs font-medium text-white">{tag.title}</p>
             </div>
           ))}
@@ -69,11 +69,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <ShareLinks post={post} />
           </div>
         </div>
-        <div className="flex flex-col gap-2 w-full relative h-96">
+        <div className="flex flex-col gap-2 w-full relative h-96 lg:h-[600px]">
           {post.image && (
             <Image src={post.image} alt={post.title || 'Blog Post Image'} fill
               priority={false}
-              className="w-full h-full object-cover" />
+              className="w-full h-full object-cover object-top aspect-[4/3]" />
           )}
         </div>
         <div className="max-w-2xl mx-auto my-4">
