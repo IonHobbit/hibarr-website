@@ -7,7 +7,7 @@ import React, { Fragment } from 'react'
 
 export default function ShareLinks({ post }: { post: BlogPostType }) {
 
-  const fullURL = `${window.location.origin}/blog/${post.slug}`;
+  const fullURL = typeof window !== 'undefined' ? `${window.location.origin}/blog/${post.slug}` : '';
 
   return (
     <Fragment>

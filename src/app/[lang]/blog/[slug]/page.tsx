@@ -62,9 +62,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
         </div>
         <div className="flex flex-col gap-2 w-full relative h-96">
-          <Image src={post.image} alt={post.title || 'Blog Post Image'} fill
-            priority={false}
-            className="w-full h-full object-cover" />
+          {post.image && (
+            <Image src={post.image} alt={post.title || 'Blog Post Image'} fill
+              priority={false}
+              className="w-full h-full object-cover" />
+          )}
         </div>
         <div className="max-w-2xl mx-auto my-4">
           <PortableText value={post.content || []}
