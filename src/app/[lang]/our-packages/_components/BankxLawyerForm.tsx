@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Fragment } from 'react';
 import pluralize from 'pluralize';
 import { cn } from '@/lib/utils';
+import { roomTypeOptions } from '@/lib/options';
 
 type BankxLawyerFormProps = {
   form: BankPackagesPage['form']
@@ -65,14 +66,14 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
     setFieldValue('documentUpload.additional', newAdditional);
   }
 
-  const handleAreYouTravelingAlone = (value: boolean) => {
-    setFieldValue('travelInfo.areYouTravelingAlone', value);
-    if (!value) {
-      handleChangeInNumberOfPeople('1');
-    } else {
-      setFieldValue('travelInfo.numberOfPeople', 0);
-    }
-  }
+  // const handleAreYouTravelingAlone = (value: boolean) => {
+  //   setFieldValue('travelInfo.areYouTravelingAlone', value);
+  //   if (!value) {
+  //     handleChangeInNumberOfPeople('1');
+  //   } else {
+  //     setFieldValue('travelInfo.numberOfPeople', 0);
+  //   }
+  // }
 
   return (
     <div className='flex flex-col gap-6'>
@@ -129,7 +130,7 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
             <Input required type="datetime-local" titleClassName='font-semibold text-black' name='travelInfo.arrivalDate' title={bankAndLawyerSection?.travelDetails?.arrivalDate || 'Arrival Date/Time'} value={values.travelInfo.arrivalDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.arrivalDate', true)} error={errors.arrivalDate} />
             <Input required type="datetime-local" titleClassName='font-semibold text-black' name='travelInfo.departureDate' title={bankAndLawyerSection?.travelDetails?.departureDate || 'Departure Date/Time'} value={values.travelInfo.departureDate} onChange={handleChange} onBlur={() => setFieldTouched('travelInfo.departureDate', true)} error={errors.departureDate} />
           </div>
-          {activePackage.price == 0 &&
+          {/* {activePackage.price == 0 &&
             <Fragment>
               <div className="flex items-center gap-2">
                 <p className='text-base'>{bankAndLawyerSection?.travelDetails?.areYouTravellingAlone || 'Are you traveling alone?'} <span className="text-destructive text-xs">*</span></p>
@@ -167,37 +168,46 @@ export default function BankxLawyerForm({ form, activePackage, values, errors, h
                 </Fragment>
               }
             </Fragment>
-          }
-          {
-            activePackage.price > 0 &&
-            <div className='grid grid-cols-2 gap-3'>
-              <Select
-                value={values.travelInfo.numberOfPeople.toString()}
-                onValueChange={(value) => handleChangeInNumberOfPeople(value)}>
-                <SelectTrigger title={bankAndLawyerSection?.travelDetails?.whoIsTravellingWithYou || 'Who is traveling with you?'} className='w-full'>
-                  <SelectValue placeholder='Select an option' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value='0'>I am coming alone</SelectItem>
-                  <SelectItem value='1'>I am coming with 1 person</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select
-                value={values.travelInfo.numberOfChildren.toString()}
-                onValueChange={(value) => handleChangeInNumberOfChildren(value)}>
-                <SelectTrigger title={bankAndLawyerSection?.travelDetails?.numberOfChildren || 'Kids under 18?'} className='w-full'>
-                  <SelectValue placeholder='Select an option' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value='0'>No Kids</SelectItem>
-                  <SelectItem value='1'>1 Kid</SelectItem>
-                  <SelectItem value='2'>2 Kids</SelectItem>
-                  <SelectItem value='3'>3 Kids</SelectItem>
-                  <SelectItem value='4'>4 Kids</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          }
+          } */}
+          <div className='grid grid-cols-2 gap-3'>
+            <Select
+              value={values.travelInfo.numberOfPeople.toString()}
+              onValueChange={(value) => handleChangeInNumberOfPeople(value)}>
+              <SelectTrigger title={bankAndLawyerSection?.travelDetails?.whoIsTravellingWithYou || 'Who is traveling with you?'} className='w-full'>
+                <SelectValue placeholder='Select an option' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='0'>I am coming alone</SelectItem>
+                <SelectItem value='1'>I am coming with 1 person</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select
+              value={values.travelInfo.numberOfChildren.toString()}
+              onValueChange={(value) => handleChangeInNumberOfChildren(value)}>
+              <SelectTrigger title={bankAndLawyerSection?.travelDetails?.numberOfChildren || 'Kids under 18?'} className='w-full'>
+                <SelectValue placeholder='Select an option' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='0'>No Kids</SelectItem>
+                <SelectItem value='1'>1 Kid</SelectItem>
+                <SelectItem value='2'>2 Kids</SelectItem>
+                <SelectItem value='3'>3 Kids</SelectItem>
+                <SelectItem value='4'>4 Kids</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <Select
+            value={values.travelInfo.roomType}
+            onValueChange={(value) => setFieldValue('travelInfo.roomType', value)}>
+            <SelectTrigger title={'How many rooms?'} className='w-full'>
+              <SelectValue placeholder='Select an option' />
+            </SelectTrigger>
+            <SelectContent>
+              {roomTypeOptions.map((option) => (
+                <SelectItem key={option} value={option}>{option}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <Textarea title={bankAndLawyerSection?.travelDetails?.comments || 'Comments'} rows={6} placeholder='Preferred room setup? Pets or other needs?' value={values.travelInfo.comments} onChange={(e) => setFieldValue('travelInfo.comments', e.target.value)} />
           <p className='text-base'>{bankAndLawyerSection?.travelDetails?.doYouNeed || 'Do you need:'}</p>
           <div className="flex items-center gap-2">

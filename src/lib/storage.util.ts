@@ -6,6 +6,7 @@ export enum StorageKey {
   CLICK_ID = 'click::id',
   USER_INFO = 'user::info',
   USER_DISTINCT_ID = 'user::distinct_id',
+  ACTIVE_PACKAGE = 'active::package',
 }
 
 interface StorageOptions {

@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import storage, { StorageKey } from '@/lib/storage.util'
 import { cn } from '@/lib/utils'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
@@ -28,15 +29,15 @@ export type BankPackage = {
 
 type PackageCardProps = {
   pkg: BankPackage
+  selectPackage: (slug: string) => void
 }
 
-export default function PackageCard({ pkg }: PackageCardProps) {
+export default function PackageCard({ pkg, selectPackage }: PackageCardProps) {
   const { lang } = useParams();
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
 
   const { title, subtitle, icon, slug, description, price, buttonText, moreText, features } = pkg;
-
 
   return (
     <Card className='flex flex-col gap-3 h-max transition-all duration-300'>
@@ -45,20 +46,22 @@ export default function PackageCard({ pkg }: PackageCardProps) {
           <div className="grid place-items-center size-8 bg-accent rounded-sm mb-4">
             <Icon icon={icon as string} className='text-primary-foreground' />
           </div>
-          <CardTitle className='text-3xl font-semibold flex flex-col gap-0.5'>{title} {subtitle && <span className='text-xs text-muted-foreground'>{subtitle}</span>}</CardTitle>
+          <CardTitle className='text-3xl font-semibold flex flex-col gap-0'>{title} {subtitle && <span className='text-sm text-muted-foreground font-bold'>{subtitle}</span>}</CardTitle>
         </div>
 
         <p className='text-sm text-muted-foreground'>{description}</p>
       </CardHeader>
       <CardContent className='flex flex-col'>
         <p className='text-4xl font-semibold text-center'>€ {price?.toLocaleString()}</p>
-        <Button className='mt-3' asChild>
-          <Link href={`/${lang || 'en'}/our-packages?package=${slug}#register`}>{buttonText}</Link>
-        </Button>
-        <div onClick={() => setIsOpen(!isOpen)} className="flex items-center gap-2 cursor-pointer mt-3">
-          <p className='text-sm text-muted-foreground'>{moreText || 'More information'}</p>
+        <Link href={`#register`} className='w-full'>
+          <Button className='mt-3 w-full' onClick={() => selectPackage(slug)}>
+            {buttonText}
+          </Button>
+        </Link>
+        {/* <div className="flex items-center gap-2 cursor-pointer mt-3">
+          <p className='text-base font-semibold text-muted-foreground'>{moreText || 'More information'}</p>
           <Icon icon='mdi:chevron-down' className={`text-muted-foreground transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
-        </div>
+        </div> */}
         <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-[900px] mt-3' : 'max-h-0'}`}>
           <ul className='flex flex-col gap-2'>
             {features?.map((feature, index) => (
