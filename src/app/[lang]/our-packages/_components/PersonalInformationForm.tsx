@@ -1,7 +1,9 @@
 import { Input } from '@/components/ui/input'
+import { PhoneInput } from '@/components/ui/phone-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { RegistrationFormType } from '@/types/main';
 import { BankPackagesPage } from '@/types/sanity.types';
+import { CountryCode } from 'libphonenumber-js/min';
 
 const salutations = [
   {
@@ -55,7 +57,7 @@ export default function PersonalInformationForm({ form, values, errors, handleCh
         </div>
       </div>
       <Input required type='email' error={errors?.email} title={personalInformationSection?.email || 'Email'} name='personalInformation.email' value={values.personalInformation.email} onChange={handleChange} placeholder='john.doe@example.com' onBlur={() => setFieldTouched('personalInformation.email', true)} />
-      <Input required type='tel' error={errors?.phoneNumber} title={personalInformationSection?.phone || 'Mobile'} name='personalInformation.phoneNumber' value={values.personalInformation.phoneNumber} onChange={handleChange} placeholder='+905555555555' onBlur={() => setFieldTouched('personalInformation.phoneNumber', true)} />
+      <PhoneInput name='personalInformation.phoneNumber' required title={personalInformationSection?.phone || 'Mobile'} value={values.personalInformation.phoneNumber} onChange={(value) => setFieldValue('personalInformation.phoneNumber', value)} placeholder='Enter your phone number' onBlur={() => setFieldTouched('personalInformation.phoneNumber', true)} />
     </div>
   )
 }

@@ -14,6 +14,7 @@ import * as Yup from 'yup';
 import storage, { StorageKey } from "@/lib/storage.util";
 import { useRouter } from "next/navigation";
 import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
+import { PhoneInput } from "@/components/ui/phone-input";
 
 type RegistrationFormSectionProps = {
   data: WebinarPage;
@@ -50,7 +51,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
     }
   });
 
-  const { values, handleChange, handleSubmit, isValid, errors, touched, setFieldTouched } = useFormik({
+  const { values, handleChange, handleSubmit, isValid, errors, touched, setFieldTouched, setFieldValue } = useFormik({
     initialValues: {
       firstName: userInfo?.firstName || '',
       lastName: userInfo?.lastName || '',
@@ -118,12 +119,11 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
                 onBlur={() => setFieldTouched('email', true)}
                 error={errors.email && touched.email ? errors.email : undefined}
               />
-              <Input type="tel" title={data.registrationSection?.form?.phone ?? 'Phone'}
-                placeholder="+49 123 456 7890"
+              <PhoneInput title={data.registrationSection?.form?.phone ?? 'Phone'}
                 name="phone"
                 required
                 value={values.phone}
-                onChange={handleChange}
+                onChange={(value) => setFieldValue('phone', value)}
                 onBlur={() => setFieldTouched('phone', true)}
                 error={errors.phone && touched.phone ? errors.phone : undefined}
               />

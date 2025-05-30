@@ -13,6 +13,7 @@ import * as Yup from 'yup';
 import { useFormik } from "formik";
 import Image from "next/image";
 import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
+import { PhoneInput } from "@/components/ui/phone-input";
 
 type SignupSectionProps = {
   data: HomePage['freebieSignupSection'];
@@ -144,13 +145,11 @@ export default function SignupSection({ data }: SignupSectionProps) {
                   error={errors.email && touched.email ? errors.email : undefined}
                   onBlur={() => setFieldTouched('email', true)}
                 />
-                <Input
-                  type="tel"
+                <PhoneInput
                   name="phoneNumber"
                   value={values.phoneNumber}
-                  onChange={handleChange}
+                  onChange={(value) => setFieldValue('phoneNumber', value)}
                   title="Phone Number"
-                  placeholder="Phone Number"
                   error={errors.phoneNumber && touched.phoneNumber ? errors.phoneNumber : undefined}
                   onBlur={() => setFieldTouched('phoneNumber', true)}
                 />

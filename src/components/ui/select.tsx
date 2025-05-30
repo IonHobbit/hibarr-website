@@ -5,6 +5,7 @@ import * as SelectPrimitive from "@radix-ui/react-select"
 
 import { cn } from "@/lib/utils"
 import { Icon } from "@iconify/react"
+import InputTitle from "../InputTitle"
 function Select({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Root>) {
@@ -37,7 +38,7 @@ function SelectTrigger({
 }) {
   return (
     <div className="relative flex flex-col gap-1">
-      {title && <label htmlFor={props.id} className="text-sm text-muted-foreground">{title}</label>}
+      <InputTitle id={props.id} title={title} />
       <SelectPrimitive.Trigger
         data-slot="select-trigger"
         data-size={size}
