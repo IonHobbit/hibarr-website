@@ -81,7 +81,7 @@ export default function BitrixForm() {
       <div className="w-full h-full min-h-[50vh] md:min-h-[45vh] p-8 flex flex-col items-center justify-center text-center">
         <h3 className="text-xl font-medium mb-4">Form Loading Error</h3>
         <p className="text-muted-foreground mb-4">
-          We're having trouble loading the form. This might be due to your browser's privacy settings or an ad blocker.
+          We&apos;re having trouble loading the form. This might be due to your browser&apos;s privacy settings or an ad blocker.
         </p>
         <p className="text-sm text-muted-foreground">
           Please try disabling your ad blocker or contact us directly at{' '}
