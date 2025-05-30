@@ -1,6 +1,5 @@
 import { BankPackagesPage } from '@/types/sanity.types'
-import PackageCard, { BankPackage } from './_components/PackageCard'
-import RegistrationForm from './_components/RegistrationForm'
+import { BankPackage } from './_components/PackageCard'
 import { Fragment } from 'react'
 import { client } from '@/lib/sanity/client'
 import { Locale } from '@/lib/i18n-config'

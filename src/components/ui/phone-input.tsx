@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from "react";
 import { CheckIcon, ChevronsUpDown } from "lucide-react";
 import * as RPNInput from "react-phone-number-input";
@@ -124,7 +126,7 @@ const CountrySelect = ({
           />
           <ChevronsUpDown
             className={cn(
-              "-mr-1 size-4 opacity-50 text-primary",
+              "-mr-1 size-4 opacity-50 text-gray-500",
               disabled ? "hidden" : "opacity-100",
             )}
           />

@@ -11,7 +11,6 @@ import { PopoverClose } from '@radix-ui/react-popover';
 import DocumentUploadsForm from './DocumentUploadsForm';
 import PersonalInformationForm from './PersonalInformationForm';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import useURL from '@/hooks/useURL';
 import { BankPackage } from './PackageCard';
 import { BankPackagesPage } from '@/types/sanity.types';
 import ParentInformationForm from './ParentInformationForm';
@@ -21,7 +20,6 @@ import Link from 'next/link';
 import BankDetailsModal from './BankDetailsModal';
 import * as Yup from 'yup';
 import { getUserInfo, persistUserInfo } from '@/lib/services/user.service';
-import storage, { StorageKey } from '@/lib/storage.util';
 import { roomTypeOptions } from '@/lib/options';
 
 type RegistrationFormProps = {

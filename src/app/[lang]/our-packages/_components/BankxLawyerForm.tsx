@@ -8,9 +8,6 @@ import { PACKAGE_TYPE } from '@/lib/mockdata';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { Textarea } from '@/components/ui/textarea';
-import { Fragment } from 'react';
-import pluralize from 'pluralize';
-import { cn } from '@/lib/utils';
 import { roomTypeOptions } from '@/lib/options';
 
 type BankxLawyerFormProps = {

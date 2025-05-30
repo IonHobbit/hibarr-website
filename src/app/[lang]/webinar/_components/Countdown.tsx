@@ -8,7 +8,7 @@ type CountdownProps = {
 
 export default function Countdown({ date, timezone }: CountdownProps) {
   const webinarDate = new Date(`${date}`)
-    .toLocaleString('en-US', {
+    .toLocaleString('de-DE', {
       timeZone: timezone,
       year: 'numeric',
       month: 'long',

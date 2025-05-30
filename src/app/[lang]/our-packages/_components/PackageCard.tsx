@@ -2,12 +2,9 @@
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import storage, { StorageKey } from '@/lib/storage.util'
 import { cn } from '@/lib/utils'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
-import { useState } from 'react'
 
 export type BankPackage = {
   title: string
@@ -33,11 +30,10 @@ type PackageCardProps = {
 }
 
 export default function PackageCard({ pkg, selectPackage }: PackageCardProps) {
-  const { lang } = useParams();
+  // const [isOpen, setIsOpen] = useState(true)
+  const isOpen = true;
 
-  const [isOpen, setIsOpen] = useState(true)
-
-  const { title, subtitle, icon, slug, description, price, buttonText, moreText, features } = pkg;
+  const { title, subtitle, icon, slug, description, price, buttonText, features } = pkg;
 
   return (
     <Card className='flex flex-col gap-3 h-max transition-all duration-300'>

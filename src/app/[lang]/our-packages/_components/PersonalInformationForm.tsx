@@ -3,7 +3,6 @@ import { PhoneInput } from '@/components/ui/phone-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { RegistrationFormType } from '@/types/main';
 import { BankPackagesPage } from '@/types/sanity.types';
-import { CountryCode } from 'libphonenumber-js/min';
 
 const salutations = [
   {

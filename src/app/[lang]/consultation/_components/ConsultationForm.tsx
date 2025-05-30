@@ -108,7 +108,7 @@ export default function ConsultationForm() {
     }
   })
 
-  const { values, errors, setFieldValue, handleChange, handleSubmit } = useFormik<FormValues>({
+  const { values, setFieldValue, handleChange, handleSubmit } = useFormik<FormValues>({
     initialValues: {
       firstName: userInfo?.firstName || '',
       lastName: userInfo?.lastName || '',
