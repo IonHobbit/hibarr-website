@@ -3,5 +3,4 @@ export const sendNtfyNotification = async (message: string) => {
     method: 'POST',
     body: message,
   });
-
 };
