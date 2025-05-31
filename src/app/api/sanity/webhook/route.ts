@@ -22,11 +22,13 @@ export const POST = async (req: NextRequest) => {
     const documentLanguageVersions = await fetchLanguageVersionsOfType(_type);
     const nonEnglishDocumentLanguageVersions = documentLanguageVersions.filter(({ language }) => language !== 'en');
 
-    nonEnglishDocumentLanguageVersions.forEach(async ({ _id, language }) => {
-      const translatedChanges = await translateChanges(changes, language as TargetLanguageCode);
-      await updateDocument(_id, translatedChanges);
-      await sendNtfyNotification(`Translated changes for ${_type} document with language ${language}: ${JSON.stringify(translatedChanges)}`);
-    });
+    await Promise.all(
+      nonEnglishDocumentLanguageVersions.map(async ({ _id, language }) => {
+        const translatedChanges = await translateChanges(changes, language as TargetLanguageCode);
+        await updateDocument(_id, translatedChanges);
+        await sendNtfyNotification(`Translated changes for ${_type} document with language ${language}: ${JSON.stringify(translatedChanges)}`);
+      })
+    );
 
     return NextResponse.json({ message: "Webhook received" });
   } catch (error) {
