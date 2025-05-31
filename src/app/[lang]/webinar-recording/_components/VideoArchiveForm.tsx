@@ -75,10 +75,6 @@ export default function VideoArchiveForm() {
             </div>
             <Input title='Email' name="email" value={values.email} onChange={handleChange} className="w-full p-4 text-lg bg-gray-50 outline-none rounded" type="email" placeholder="name@email.com" required />
             <PhoneInput title='Mobile' name="phoneNumber" value={values.phoneNumber} onChange={(value) => setFieldValue('phoneNumber', value)} className="w-full p-4 text-lg bg-gray-50 outline-none rounded" required />
-
-            {/* <div className="flex items-center gap-2 w-max cursor-pointer">
-              <label htmlFor="subscribeToEmails">Do you want to be the first to know when we have new real estate properties?</label>
-            </div> */}
             {isError && <p className='text-red-700 text-sm'>Failed to submit your request. Please try again later.</p>}
             <Button isLoading={isPending} type="submit" className='w-full' size="lg">Submit</Button>
           </form>

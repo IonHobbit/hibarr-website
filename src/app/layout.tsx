@@ -24,10 +24,10 @@ const workSans = Work_Sans({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - HIBARR Estates",
-    default: "HIBARR Estates",
+    template: "%s - HIBARR Trading",
+    default: "HIBARR Trading",
   },
-  description: "Unlock the potential of real estate in North Cyprus and see why it is the preferred choice for international investors.",
+  description: "Unlock the potential of North Cyprus and see why it is the preferred choice for international investors.",
 };
 
 export default async function RootLayout(
