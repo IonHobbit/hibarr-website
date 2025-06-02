@@ -16,7 +16,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
   const { seo } = await client.fetch<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return generateSEOMetadata(seo, {
-    title: 'Schedule a Free Kick Off hdshhs Meeting',
+    title: 'Schedule a Free Kick Off Meeting',
     description: 'We are the only company in North Cyprus that can offer 10 year payment plans, 0% interest, and no credit checks.',
   })
 }
@@ -73,7 +73,7 @@ export default async function ConsultationPage(
       </section>
       <ConsultationProcessSection data={consultationProcessSection} />
       <section className="section">
-        <video src="https://hibarr.de/wp-content/uploads/2025/03/flyer.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover aspect-video rounded-lg overflow-hidden' />
+        <video src="https://vz-da4cd036-d13.b-cdn.net/50e75c2c-6c87-432d-bd6c-e7078c3e580f/play_720p.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover aspect-video rounded-lg overflow-hidden' />
       </section>
       <section id="faqs" className="section">
         <div className="bg-primary rounded-lg py-6 px-10 flex flex-col gap-6">

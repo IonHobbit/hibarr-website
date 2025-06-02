@@ -115,7 +115,7 @@ export default async function OscarGroup(
           <p className='text-primary-foreground text-xl md:text-2xl text-center'>Elevated Experiences</p>
         </div>
         <div className="section py-0">
-          <Video src="https://hibarr.de/wp-content/uploads/2025/02/Oscar-group-promo-1.mp4" />
+          <Video src="https://vz-da4cd036-d13.b-cdn.net/15e01ed4-1b90-4168-9498-932b6c0be50c/play_720p.mp4" />
         </div>
         <div className='section py-0'>
           <h3 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h3>
