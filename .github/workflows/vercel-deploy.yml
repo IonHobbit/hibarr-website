@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - main
+      - staging
+      - develop
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+      - staging
+      - develop
 
 jobs:
   deploy:
@@ -11,4 +19,10 @@ jobs:
     steps:
       - name: Trigger Vercel Deployment
         run: |
-          curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/z61OeZa3ik"
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/z61OeZa3ik"
+          elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
+            curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/yDwsWYVDS1"
+          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/lGNF3CXN45"
+          fi

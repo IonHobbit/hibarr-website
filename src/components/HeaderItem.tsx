@@ -3,10 +3,10 @@
 import { Locale } from "@/lib/i18n-config";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 import { Navigation } from "@/types/sanity.types";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 
 type Item = NonNullable<Navigation['items']>[number]
 type Child = NonNullable<Item['children']>[number]
@@ -28,42 +28,27 @@ export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemPr
     return null;
   }
 
-  // if (item.children && !mobile) {
-  //   return (
-  //     <NavigationMenuItem>
-  //       <NavigationMenuTrigger>
-  //         <NavigationMenuLink>{item.name}</NavigationMenuLink>
-  //       </NavigationMenuTrigger>
-  //       <NavigationMenuContent popoverTarget={item.href ?? ''}>
-  //         {item.children.filter((child) => !child.hidden).map((child: Child, index: number) => (
-  //           <NavigationMenuLink key={index} href={`/${lang}${child.href}`}>{child.name}</NavigationMenuLink>
-  //         ))}
-  //       </NavigationMenuContent>
-  //     </NavigationMenuItem>
-  //   )
-  // }
-
   if (item.children && !mobile) {
     return (
-      <DropdownMenu open={open} onOpenChange={setOpen}>
-        <DropdownMenuTrigger asChild>
+      <HoverCard openDelay={200} closeDelay={300} open={open} onOpenChange={setOpen}>
+        <HoverCardTrigger asChild>
           <button className="flex items-center gap-2 text-primary-foreground hover:text-primary-foreground/80 whitespace-nowrap cursor-pointer focus:outline-none focus:text-primary-foreground/80">
             <span>
               {item.name}
             </span>
             <Icon icon={open ? "mdi:chevron-up" : "mdi:chevron-down"} className="w-4 h-4" />
           </button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" sideOffset={5}>
+        </HoverCardTrigger>
+        <HoverCardContent align="start" sideOffset={10} className="bg-primary border-none p-1.5 rounded-md w-max min-w-32">
           {item.children.filter((child) => !child.hidden).map((child: Child, index: number) => (
-            <DropdownMenuItem key={index} asChild>
+            <div key={index} className="w-full hover:bg-accent p-2 rounded text-white">
               <Link href={`/${lang}${child.href}`}>
                 {child.name}
               </Link>
-            </DropdownMenuItem>
+            </div>
           ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
+        </HoverCardContent>
+      </HoverCard>
     )
   }
 

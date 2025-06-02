@@ -17,7 +17,7 @@ type PropertyType = {
 
 type ZapierWebhookType = 'ugla' | 'webinar' | 'consultation' | 'property-enquiry' | 'signup' | 'waitlist';
 
-type ContactInfo = {
+export type ContactInfo = {
   firstName: string;
   lastName: string;
   email: string;
@@ -56,6 +56,7 @@ type RegistrationFormType = {
     requireRentalCar: boolean;
     numberOfPeople: number;
     numberOfChildren: number;
+    roomType: string;
     arrivalDate: string | undefined;
     departureDate: string | undefined;
     airportTransfer: boolean;

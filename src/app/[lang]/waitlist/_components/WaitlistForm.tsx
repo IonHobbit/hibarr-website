@@ -9,6 +9,8 @@ import storage, { StorageKey } from "@/lib/storage.util";
 import { callZapierWebhook } from "@/lib/zapier";
 import { useMutation } from "@tanstack/react-query";
 import { ZapierWaitlistPayload } from "@/types/main";
+import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
+import { PhoneInput } from "@/components/ui/phone-input";
 
 type WaitlistFormProps = {
   formData: WaitlistPage['waitlistForm']
@@ -16,18 +18,25 @@ type WaitlistFormProps = {
 
 export default function WaitlistForm({ formData }: WaitlistFormProps) {
   const router = useRouter();
+  const userInfo = getUserInfo();
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
+      const contactInfo = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+      }
+
       try {
         const payload: ZapierWaitlistPayload = {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          phoneNumber: values.phoneNumber,
+          ...contactInfo,
           type: 'waitlist',
         }
         await callZapierWebhook(payload);
+        // persist user info to storage
+        persistUserInfo(contactInfo);
         storage.set(StorageKey.REGISTERED_WAITLIST, true, { expiration: 1000 * 60 * 60 * 24 * 30 });
       } catch (error) {
         console.error('Error calling Zapier webhook:', error);
@@ -39,12 +48,12 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
   });
 
 
-  const { values, handleChange, handleSubmit } = useFormik({
+  const { values, handleChange, setFieldValue, handleSubmit } = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
+      firstName: userInfo?.firstName || '',
+      lastName: userInfo?.lastName || '',
+      email: userInfo?.email || '',
+      phoneNumber: userInfo?.phoneNumber || '',
     },
     onSubmit: () => mutate()
   })
@@ -85,14 +94,12 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
         value={values.email}
         onChange={handleChange}
       />
-      <Input
-        type="tel"
+      <PhoneInput
         required
         title={formData?.form?.phone || 'Phone Number'}
         name="phoneNumber"
-        placeholder="+1234567890"
         value={values.phoneNumber}
-        onChange={handleChange}
+        onChange={(value) => setFieldValue('phoneNumber', value)}
       />
       <Button isLoading={isPending} disabled={isPending} variant='accent' className='!mt-4 uppercase font-semibold' type='submit'>
         {formData?.form?.submitButton || 'Join the Waitlist'}

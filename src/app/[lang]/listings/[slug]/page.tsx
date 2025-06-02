@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { formatCurrency } from '@/lib/currency';
+import useSource from '@/hooks/useSource';
 
 export default function PropertyPage(
   props: {
@@ -20,6 +21,7 @@ export default function PropertyPage(
   }
 ) {
   const { slug } = use(props.params);
+  const source = useSource();
 
   const decodedSlug = decodeURIComponent(slug);
 
@@ -63,6 +65,13 @@ export default function PropertyPage(
       {details?.yearBuilt} <span className='text-xs text-gray-500'>({new Date().getFullYear() - yearBuilt} years old)</span>
     </Fragment> : undefined;
 
+  const generateLink = (link: string) => {
+    if (source === 'alpha-cash') {
+      return `/external/alpha-cash/${link}`
+    }
+    return `/${link}`
+  }
+
   return (
     <Fragment>
       <section className='section header-offset gap-6'>
@@ -73,12 +82,12 @@ export default function PropertyPage(
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href='/listings'>Listings</BreadcrumbLink>
+              <BreadcrumbLink href={generateLink('listings')}>Listings</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             {property.basicInfo.slug &&
               <BreadcrumbItem>
-                <BreadcrumbLink href={`/listings/${property.basicInfo?.slug}`}>{property.basicInfo?.title}</BreadcrumbLink>
+                <BreadcrumbLink href={generateLink(`listings/${property.basicInfo?.slug}`)}>{property.basicInfo?.title}</BreadcrumbLink>
               </BreadcrumbItem>
             }
             {(!property && !isLoading) &&

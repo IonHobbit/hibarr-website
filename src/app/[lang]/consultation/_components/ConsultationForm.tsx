@@ -16,11 +16,13 @@ import { ZapierConsultationPayload } from '@/types/main'
 import { CountryDropdown, Country } from '@/components/ui/country-dropdonw'
 import { countries } from 'country-data-list'
 import { useParams } from 'next/navigation'
-import { interestedInOptions, budgetOptions, periodOptions, languageOptions } from '@/lib/options'
+import { interestedInOptions, budgetOptions, periodOptions, languageOptions, messageOptions } from '@/lib/options'
 import { StorageKey } from '@/lib/storage.util'
 import storage from '@/lib/storage.util'
 import { useMutation } from '@tanstack/react-query'
 import router from 'next/router'
+import { getUserInfo, persistUserInfo } from '@/lib/services/user.service'
+
 type FormValues = {
   firstName: string
   lastName: string
@@ -33,6 +35,7 @@ type FormValues = {
   budget: string
   period: string
   clickID: string
+  showMessage: string
 }
 
 export default function ConsultationForm() {
@@ -40,7 +43,8 @@ export default function ConsultationForm() {
   const baseCalendlyUrl = 'https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319'
 
   const { lang } = useParams()
-  const [calendlyUrl, setCalendlyUrl] = useState('')
+  const userInfo = getUserInfo();
+  const [calendlyUrl, setCalendlyUrl] = useState('');
 
   const { isRegistered } = useRegistrationCheck();
 
@@ -104,17 +108,18 @@ export default function ConsultationForm() {
     }
   })
 
-  const { values, errors, setFieldValue, handleChange, handleSubmit } = useFormik<FormValues>({
+  const { values, setFieldValue, handleChange, handleSubmit } = useFormik<FormValues>({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
+      firstName: userInfo?.firstName || '',
+      lastName: userInfo?.lastName || '',
+      email: userInfo?.email || '',
+      phoneNumber: userInfo?.phoneNumber || '',
       country: initialCountry || null,
       interestedIn: [],
       budget: '',
       period: '',
       message: '',
+      showMessage: 'No',
       language: initialLanguage?.value || 'en',
       clickID: storage.get(StorageKey.CLICK_ID) || '',
     },
@@ -125,7 +130,13 @@ export default function ConsultationForm() {
       phoneNumber: Yup.string(),
     }),
     onSubmit: () => {
-      const link = generateCalendlyPrefilledUrl()
+      const link = generateCalendlyPrefilledUrl();
+      persistUserInfo({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+      });
       setCalendlyUrl(link);
       mutate()
     }
@@ -165,7 +176,56 @@ export default function ConsultationForm() {
 
   const steps = [
     {
-      label: 'Let\'s get to know you',
+      label: 'My preferred language is ...',
+      component: (
+        <div className='flex flex-col gap-10'>
+          <Select name='language' value={values.language} onValueChange={(value) => setFieldValue('language', value)}>
+            <SelectTrigger className='w-full'>
+              <SelectValue placeholder='Select language' />
+            </SelectTrigger>
+            <SelectContent>
+              {languageOptions.map((option, index) => (
+                <SelectItem key={index} value={option.value}>{option.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <div className='flex flex-col gap-2'>
+            <p className='text-lg font-medium'>I am currently living in ...</p>
+            <CountryDropdown
+              defaultValue={values.country?.alpha3}
+              onChange={(value) => setFieldValue('country', value)}
+            />
+          </div>
+        </div>
+      )
+    },
+    {
+      label: 'I am interested in ...',
+      component: <div className='flex flex-col gap-2 mt-2'>
+        {interestedInOptions.map((option, index) => (
+          <div className='flex items-center gap-2' key={index}>
+            <Checkbox id={option} checked={values.interestedIn.includes(option)} onClick={() => handleInterestedInChange(option)} />
+            <label className='text-lg cursor-pointer' htmlFor={option}>{option}</label>
+          </div>
+        ))}
+      </div>
+    },
+    {
+      label: 'I am planning to buy ...',
+      component:
+        <RadioGroup name='period' value={values.period} className='mt-3'>
+          <div className='grid grid-cols-2 grid-rows-4 gap-3'>
+            {periodOptions.map((option, index) => (
+              <div className='flex items-center gap-2' key={index}>
+                <RadioGroupItem id={option} value={option} checked={values.period === option} onClick={() => setFieldValue('period', option)} />
+                <label className='text-lg cursor-pointer' htmlFor={option}>{option}</label>
+              </div>
+            ))}
+          </div>
+        </RadioGroup>
+    },
+    {
+      // label: 'My name is ...',
       component: <div className='flex flex-col gap-4'>
         <div className='grid grid-cols-2 gap-4'>
           <Input name='firstName' title='First name' required value={values.firstName} onChange={handleChange} placeholder='John' />
@@ -176,76 +236,40 @@ export default function ConsultationForm() {
       </div>
     },
     {
-      label: 'What country are you currently living in?',
-      component: (
-        <CountryDropdown
-          defaultValue={values.country?.alpha3}
-          onChange={(value) => setFieldValue('country', value)}
-        />
-      )
-    },
-    {
-      label: 'What are you interested in?',
-      component: <div className='flex flex-col gap-2'>
-        {interestedInOptions.map((option, index) => (
-          <div className='flex items-center gap-2' key={index}>
-            <Checkbox id={option} checked={values.interestedIn.includes(option)} onClick={() => handleInterestedInChange(option)} />
-            <label className='text-sm cursor-pointer' htmlFor={option}>{option}</label>
-          </div>
-        ))}
-      </div>
-    },
-    {
-      label: 'What is your ideal budget range?',
+      label: 'My ideal budget range is ...',
       component:
         <RadioGroup name='budget' value={values.budget}>
           <div className='grid grid-cols-2 grid-rows-4 gap-2'>
             {budgetOptions.map((option, index) => (
               <div className='flex items-center gap-2' key={index}>
                 <RadioGroupItem id={option} value={option} checked={values.budget === option} onClick={() => setFieldValue('budget', option)} />
-                <label className='text-sm cursor-pointer' htmlFor={option}>{option}</label>
+                <label className='text-lg cursor-pointer' htmlFor={option}>{option}</label>
               </div>
             ))}
           </div>
         </RadioGroup>
     },
     {
-      label: 'When are you planning to buy?',
-      component:
-        <RadioGroup name='period' value={values.period}>
-          <div className='grid grid-cols-2 grid-rows-4 gap-2'>
-            {periodOptions.map((option, index) => (
+      label: 'Is there anything else you would like us to know before our meeting?',
+      component: <div className='flex flex-col gap-2'>
+        <RadioGroup name='showMessage' value={values.showMessage}>
+          <div className='grid grid-cols-2 gap-2'>
+            {messageOptions.map((option, index) => (
               <div className='flex items-center gap-2' key={index}>
-                <RadioGroupItem id={option} value={option} checked={values.period === option} onClick={() => setFieldValue('period', option)} />
-                <label className='text-sm cursor-pointer' htmlFor={option}>{option}</label>
+                <RadioGroupItem id={option} value={option} checked={values.showMessage === option} onClick={() => setFieldValue('showMessage', option)} />
+                <label className='text-lg cursor-pointer' htmlFor={option}>{option}</label>
               </div>
             ))}
           </div>
         </RadioGroup>
+        {values.showMessage === 'Yes' && <Textarea name='message' rows={6} value={values.message} onChange={handleChange} placeholder='For example: I am looking for a property in Istanbul, I am a first time buyer, etc.' />}
+      </div>
     },
-    {
-      label: 'Is there anything else you would like us to know before we contact you?',
-      component: <Textarea name='message' value={values.message} onChange={handleChange} placeholder='I am looking for a property in Istanbul, I am a first time buyer, etc.' />
-    },
-    {
-      label: 'What is your preferred language?',
-      component: <Select name='language' value={values.language} onValueChange={(value) => setFieldValue('language', value)}>
-        <SelectTrigger className='w-full'>
-          <SelectValue placeholder='Select language' />
-        </SelectTrigger>
-        <SelectContent>
-          {languageOptions.map((option, index) => (
-            <SelectItem key={index} value={option.value}>{option.label}</SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    }
   ]
 
   const isDisabled = (step: number) => {
     const validations = {
-      0: !values.firstName || !values.lastName || !!errors.email,
-
+      // 0: !values.firstName || !values.lastName || !!errors.email,
       // 1: !values.country,
       // 2: values.interestedIn.length === 0,
       // 3: !values.budget,
@@ -269,17 +293,15 @@ export default function ConsultationForm() {
 
   return (
     <form className='flex flex-col gap-4 justify-between min-h-[50vh] md:min-h-[45vh] overflow-y-auto w-full p-8 transition-all duration-300'>
-      <div className="flex flex-col gap-10">
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-2">
-            {steps.map((_, index) => (
-              <div key={index} className={`w-full h-1 rounded-full ${step === index ? 'bg-primary' : 'bg-muted'}`} />
-            ))}
-          </div>
-          <h4 className='text-2xl font-medium'>Before you get started, please answer these questions.</h4>
+      <div className="flex flex-col gap-6">
+        <div className="flex items-center gap-2">
+          {steps.map((_, index) => (
+            <div key={index} className={`w-full h-1 rounded-full ${step === index ? 'bg-primary' : 'bg-muted'}`} />
+          ))}
         </div>
-        <div className="flex flex-col gap-4">
-          <p className='text-xl font-medium'>{steps[step].label}</p>
+        {/* <h4 className='text-2xl font-medium'>Before you get started, please answer these questions.</h4> */}
+        <div className="flex flex-col gap-6">
+          {steps[step].label && <h4 className='text-3xl font-medium'>{steps[step].label}</h4>}
           {steps[step].component}
         </div>
       </div>

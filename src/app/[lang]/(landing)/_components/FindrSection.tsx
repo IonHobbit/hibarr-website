@@ -1,6 +1,10 @@
 'use client'
 
-import Expandable from "@/components/animata/carousel/expandable";
+import Expandable, { ExpandableItem } from "@/components/animata/carousel/expandable";
+import { client } from "@/lib/sanity/client";
+import { PropertyKind } from "@/types/sanity.types";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export default function FindrSection() {
   const items = [
@@ -8,11 +12,6 @@ export default function FindrSection() {
       image:
         "https://images.unsplash.com/photo-1551361415-69c87624334f?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3",
       title: "Apartments",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=3348&auto=format&fit=crop&ixlib=rb-4.0.3",
-      title: "Villas",
     },
     {
       image:
@@ -32,19 +31,40 @@ export default function FindrSection() {
 
   ];
 
-  const handleItemClick = (item: { image: string; title: string }) => {
-    console.log(item);
+  const router = useRouter();
+
+  const { data: propertyKinds } = useQuery({
+    queryKey: ['findr-items'],
+    queryFn: () => {
+      return client.fetch<PropertyKind[]>(`*[_type == "propertyKind" && main == true]{
+        ...,
+        "images": images[].asset->url,
+        "slug": slug.current
+        }`)
+    }
+  })
+
+  const list = [...(propertyKinds?.filter(item => item.images?.[0]).map(item => ({
+    image: item.images?.[0] || '',
+    title: item.name,
+    slug: item.slug
+  })) || []), ...items] as ExpandableItem[]
+
+  const handleItemClick = (item: ExpandableItem) => {
+    router.push(`/findr/${item.slug}`);
   };
+
+  return null;
 
   return (
     <section className='section gap-6'>
-      <div className='container flex flex-col gap-2'>
+      <div className='container mx-auto flex flex-col gap-2'>
         <h2 className='text-4xl font-bold text-center'>
-          Hibarr Property findr
+          HIBARR Property findr
         </h2>
         <p className='text-center text-muted-foreground'>Discover the possibilities with Hibarr</p>
       </div>
-      <Expandable list={items} onItemClick={handleItemClick} />
+      <Expandable list={list} onItemClick={handleItemClick} />
     </section>
   )
 }

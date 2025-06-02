@@ -1,12 +1,13 @@
 'use client'
 
 import Image from 'next/image'
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 export default function ErrorPage() {
-  const router = useRouter();
+  const refresh = () => {
+    window.location.reload();
+  }
 
   return (
     <div className='relative overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center gap-8 h-screen bg-gradient-to-b from-primary via-primary/80 to-transparent'>
@@ -17,7 +18,7 @@ export default function ErrorPage() {
       <div className="flex flex-col items-center gap-3">
         <h1 className='text-4xl text-primary-foreground'>Looks like something went wrong</h1>
         <p className='text-primary-foreground'>Please try refreshing the page or <Link href='mailto:it@hibarr.de' className='text-accent hover:underline'>contact support.</Link></p>
-        <Button variant='accent' className='text-primary-foreground' onClick={() => router.refresh()}>Refresh page</Button>
+        <Button variant='accent' className='text-primary-foreground' onClick={refresh}>Refresh page</Button>
       </div>
     </div>
   )

@@ -13,6 +13,8 @@ import { useMutation } from "@tanstack/react-query";
 import * as Yup from 'yup';
 import storage, { StorageKey } from "@/lib/storage.util";
 import { useRouter } from "next/navigation";
+import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
+import { PhoneInput } from "@/components/ui/phone-input";
 
 type RegistrationFormSectionProps = {
   data: WebinarPage;
@@ -20,19 +22,25 @@ type RegistrationFormSectionProps = {
 
 export default function RegistrationFormSection({ data }: RegistrationFormSectionProps) {
   const router = useRouter();
+  const userInfo = getUserInfo();
   const { isRegistered } = useRegistrationCheck();
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
+      const contactInfo = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phoneNumber: values.phone,
+      }
       try {
         const payload: ZapierWebinarPayload = {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          phoneNumber: values.phone,
+          ...contactInfo,
           type: 'webinar',
         }
         await callZapierWebhook(payload);
+        // persist user info to storage
+        persistUserInfo(contactInfo);
       } catch (error) {
         console.error('Error calling Zapier webhook:', error);
       }
@@ -43,12 +51,12 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
     }
   });
 
-  const { values, handleChange, handleSubmit, isValid, errors, touched, setFieldTouched } = useFormik({
+  const { values, handleChange, handleSubmit, isValid, errors, touched, setFieldTouched, setFieldValue } = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
+      firstName: userInfo?.firstName || '',
+      lastName: userInfo?.lastName || '',
+      email: userInfo?.email || '',
+      phone: userInfo?.phoneNumber || '',
     },
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required('First name is required'),
@@ -65,7 +73,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center h-full grow overflow-hidden">
           <div className="relative w-full flex flex-col items-center gap-6">
             <Countdown date={data.webinarInformationSection?.date ?? ''} timezone={data.webinarInformationSection?.timezone ?? ''} />
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {data.registrationSection?.webinarFeatures?.map((feature) => (
                 <div key={feature.title} className="flex items-center bg-secondary text-primary backdrop-blur-lg gap-4 border rounded-md p-4 h-24">
                   <Icon icon={feature.icon ?? ''} className="size-10 shrink-0" />
@@ -111,12 +119,11 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
                 onBlur={() => setFieldTouched('email', true)}
                 error={errors.email && touched.email ? errors.email : undefined}
               />
-              <Input type="tel" title={data.registrationSection?.form?.phone ?? 'Phone'}
-                placeholder="+49 123 456 7890"
+              <PhoneInput title={data.registrationSection?.form?.phone ?? 'Phone'}
                 name="phone"
                 required
                 value={values.phone}
-                onChange={handleChange}
+                onChange={(value) => setFieldValue('phone', value)}
                 onBlur={() => setFieldTouched('phone', true)}
                 error={errors.phone && touched.phone ? errors.phone : undefined}
               />

@@ -75,19 +75,19 @@ export default function ThreeDBook() {
           width: 100%;
           height: 100%;
           transform: translateZ(17px);
-          background: url(https://hibarr.de/wp-content/uploads/2025/03/Ultimate-Cyprus-Real-Estate-Investment-Guide-front-1.webp) center center/cover no-repeat;
+          background: url(https://res.cloudinary.com/hibarr/image/upload/v1748844872/Ultimate-Cyprus-Real-Estate-Investment-Guide-front-1_zakdkj.webp) center center/cover no-repeat;
         }
         .back-cover {
           width: 100%;
           height: 100%;
           transform: translateZ(-17px) rotateY(180deg);
-          background: url(https://hibarr.de/wp-content/uploads/2025/03/back-1.webp) center center/cover no-repeat;
+          background: url(https://res.cloudinary.com/hibarr/image/upload/v1748844871/back-1_zwo4ds.webp) center center/cover no-repeat;
         }
         .spine {
           width: 34px;
           height: 300px;
           transform: rotateY(90deg) translateZ(-17px) rotateX(180deg);
-          background: url(https://hibarr.de/wp-content/uploads/2025/03/Ultimate-Cyprus-Real-Estate-Investment-Guide-spine-3-1.webp) center center/cover no-repeat;
+          background: url(https://res.cloudinary.com/hibarr/image/upload/v1748844872/Ultimate-Cyprus-Real-Estate-Investment-Guide-spine-3-1_ajz4ow.webp) center center/cover no-repeat;
         }
         .top-edge, .bottom-edge {
           width: 100%;

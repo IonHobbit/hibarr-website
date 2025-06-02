@@ -85,10 +85,10 @@ export default function SearchBar() {
   return (
     <div className="flex flex-col items-center gap-4 px-4 z-10">
       <Tabs defaultValue={values.listingType} onValueChange={(value) => setListingType(value)}>
-        <TabsList>
-          <TabsTrigger value=''>All</TabsTrigger>
-          <TabsTrigger value='sale'>For Sale</TabsTrigger>
-          <TabsTrigger value='rent'>For Rent</TabsTrigger>
+        <TabsList className="flex-col sm:flex-row">
+          <TabsTrigger value='' className='w-full sm:w-auto text-sm'>All</TabsTrigger>
+          <TabsTrigger value='sale' className='w-full sm:w-auto text-sm'>For Sale</TabsTrigger>
+          <TabsTrigger value='rent' className='w-full sm:w-auto text-sm'>For Rent</TabsTrigger>
         </TabsList>
       </Tabs>
       <div className={cn('bg-secondary w-full rounded-md p-4 flex flex-col items-center gap-4 transition-all duration-300 overflow-hidden')}>

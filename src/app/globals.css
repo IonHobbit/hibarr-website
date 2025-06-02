@@ -143,6 +143,14 @@ h6 {
   }
 }
 
+@media (prefers-color-scheme: alpha-cash) {
+  :root {
+    --primary: oklch(0.2998 0.0282 152.73);
+    --accent: oklch(0.7531 0.1293 90.57);
+    --primary-foreground: oklch(1 0 0);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -158,4 +166,16 @@ h6 {
   .header-offset {
     @apply mt-[76px];
   }
+}
+
+.animate-landing-couple {
+  animation: landing-couple-animation 1s ease-in-out forwards;
+}
+
+.animate-landing-background {
+  animation: landing-background-animation 8s ease-in-out forwards;
+}
+
+.animate-landing-cover {
+  animation: landing-cover-animation 3s ease-in-out forwards;
 }

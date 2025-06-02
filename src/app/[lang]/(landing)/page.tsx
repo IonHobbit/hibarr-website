@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 import type { Locale } from '@/lib/i18n-config';
-import LandingSection from './_components/LandingSection';
 import AboutSection from './_components/AboutSection';
 import PartnersSection from '../_components/PartnersSection';
 import WhyCyprus from './_components/WhyCyprus';
@@ -20,8 +19,9 @@ import WebinarSection from './_components/WebinarSection';
 import SignupSection from './_components/SignupSection';
 import { Metadata } from 'next';
 import { generateSEOMetadata } from '@/lib/utils';
-// import FindrSection from './_components/FindrSection';
+import FindrSection from './_components/FindrSection';
 
+import LandingWrapper from './_components/LandingWrapper';
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
@@ -41,7 +41,7 @@ export default async function Home(
 
   return (
     <Fragment>
-      <LandingSection data={data} />
+      <LandingWrapper data={data} />
       <FeaturedSection />
       <div className='section'>
         <div className='bg-primary rounded-lg p-4 py-8 md:py-4 md:px-2 max-w-screen-sm xl:max-w-screen-xl mx-auto'>
@@ -49,7 +49,7 @@ export default async function Home(
         </div>
       </div>
       <AboutSection data={data} />
-      {/* <FindrSection /> */}
+      <FindrSection />
       <TestimonialsSection lang={lang} />
       <PartnersSection lang={lang} />
       <ConsultationProcessSection data={data.consultationProcessSection} />

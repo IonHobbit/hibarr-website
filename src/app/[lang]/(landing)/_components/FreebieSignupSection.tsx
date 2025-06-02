@@ -4,7 +4,9 @@ import ThreeDBook from "@/components/ThreeDBook";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import useRegistrationCheck from "@/hooks/useRegistrationCheck";
+import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
 import { cn } from "@/lib/utils";
 import { callZapierWebhook } from "@/lib/zapier";
 import { ZapierUglaPayload } from "@/types/main";
@@ -18,22 +20,33 @@ type FreebieSignupSectionProps = {
 }
 
 export default function FreebieSignupSection({ data }: FreebieSignupSectionProps) {
-
-  const { isRegistered, register } = useRegistrationCheck();
+  const userInfo = getUserInfo();
+  const { isRegistered } = useRegistrationCheck();
 
   const { values, isValid, setFieldValue, handleChange, handleSubmit } = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
+      firstName: userInfo?.firstName || '',
+      lastName: userInfo?.lastName || '',
+      email: userInfo?.email || '',
+      phoneNumber: userInfo?.phoneNumber || '',
       consent: false,
     },
     onSubmit: async (values) => {
-      const payload: ZapierUglaPayload = { firstName: values.firstName, lastName: values.lastName, email: values.email, type: 'ugla' };
+      const userInfo = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+      }
+      const payload: ZapierUglaPayload = {
+        ...userInfo,
+        type: 'ugla'
+      };
 
       try {
         await callZapierWebhook(payload);
-        register('/', '#freebie');
+        persistUserInfo(userInfo);
+        // register('/', '#freebie');
       } catch (error) {
         console.error(error);
       }
@@ -90,6 +103,13 @@ export default function FreebieSignupSection({ data }: FreebieSignupSectionProps
                   onChange={handleChange}
                   title={data?.form?.email}
                   placeholder={data?.form?.email}
+                />
+                <PhoneInput
+                  required
+                  name="phoneNumber"
+                  title={'Phone Number'}
+                  value={values.phoneNumber}
+                  onChange={(value) => setFieldValue('phoneNumber', value)}
                 />
                 <Button type="submit" disabled={!isValid}>{data?.form?.submit}</Button>
                 <div className="flex items-start gap-2">

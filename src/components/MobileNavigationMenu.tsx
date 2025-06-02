@@ -30,7 +30,7 @@ export default function MobileNavigationMenu({ navigation, lang }: MobileNavigat
       <SheetContent className="bg-primary p-6 border-none w-[80vw]" side="left">
         <SheetTitle className="hidden"></SheetTitle>
         <SheetDescription className="hidden"></SheetDescription>
-        <div className="flex flex-col gap-3">
+        <div className="flex items-center justify-between gap-3">
           <Link href={`/${lang}`}>
             <Image src="/logos/logo.png" alt="Hibarr Estates Logo" className="object-contain" width={140} height={20} />
           </Link>

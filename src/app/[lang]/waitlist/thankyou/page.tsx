@@ -34,7 +34,7 @@ export default function WaitlistThankYouPage() {
           <h3 className="text-3xl font-semibold text-primary">
             You will receive an email shortly to join the waitlist
           </h3>
-          <p className='text-primary'>in the mean time, check out our Ultimate Cyprus Real Estate Investment Guide</p>
+          <p className='text-primary'>in the mean time, check out our Ultimate Cyprus Investment Guide</p>
         </div>
 
         <div className="relative w-full h-[450px] flex items-center justify-center p-2">
