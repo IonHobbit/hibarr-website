@@ -1,11 +1,12 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import InputTitle from "../InputTitle"
 
-function Input({ className, type, title, titleClassName, error, truncateTitle = false, ...props }: React.ComponentProps<"input"> & { error?: string, truncateTitle?: boolean, titleClassName?: string }) {
+function Input({ className, type, title, titleClassName, error, truncateTitle = false, hideTitle = false, ...props }: React.ComponentProps<"input"> & { error?: string, truncateTitle?: boolean, titleClassName?: string, hideTitle?: boolean }) {
   return (
-    <div className={"relative flex flex-col items-start gap-1"}>
-      {title && <label htmlFor={props.id} className={cn("text-sm text-muted-foreground", truncateTitle && "truncate max-w-60", titleClassName)}>{title} {props.required && <span className="text-destructive text-xs">*</span>}</label>}
+    <div className={"relative flex flex-col items-start gap-1 w-full"}>
+      <InputTitle id={props.id} title={title} truncateTitle={truncateTitle} titleClassName={titleClassName} required={props.required} hideTitle={hideTitle} />
       <input
         type={type}
         data-slot="input"

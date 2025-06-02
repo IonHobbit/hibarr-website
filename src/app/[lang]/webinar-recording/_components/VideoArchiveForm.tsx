@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { PhoneInput } from '@/components/ui/phone-input';
 import Video from '@/components/Video';
 import { getUserInfo } from '@/lib/services/user.service';
 import { cn } from '@/lib/utils';
@@ -19,7 +20,7 @@ type VideoArchiveFormData = {
 export default function VideoArchiveForm() {
   const userInfo = getUserInfo();
 
-  const { values, handleChange, handleSubmit } = useFormik({
+  const { values, handleChange, setFieldValue, handleSubmit } = useFormik({
     initialValues: {
       firstName: userInfo?.firstName || '',
       lastName: userInfo?.lastName || '',
@@ -73,11 +74,7 @@ export default function VideoArchiveForm() {
               <Input title='Last Name' name="lastName" value={values.lastName} onChange={handleChange} className="w-full p-4 text-lg bg-gray-50 outline-none rounded" type="text" placeholder="Last Name" required />
             </div>
             <Input title='Email' name="email" value={values.email} onChange={handleChange} className="w-full p-4 text-lg bg-gray-50 outline-none rounded" type="email" placeholder="name@email.com" required />
-            <Input title='Mobile' name="phoneNumber" value={values.phoneNumber} onChange={handleChange} className="w-full p-4 text-lg bg-gray-50 outline-none rounded" type="tel" placeholder="Enter your mobile number" required />
-
-            {/* <div className="flex items-center gap-2 w-max cursor-pointer">
-              <label htmlFor="subscribeToEmails">Do you want to be the first to know when we have new real estate properties?</label>
-            </div> */}
+            <PhoneInput title='Mobile' name="phoneNumber" value={values.phoneNumber} onChange={(value) => setFieldValue('phoneNumber', value)} className="w-full p-4 text-lg bg-gray-50 outline-none rounded" required />
             {isError && <p className='text-red-700 text-sm'>Failed to submit your request. Please try again later.</p>}
             <Button isLoading={isPending} type="submit" className='w-full' size="lg">Submit</Button>
           </form>

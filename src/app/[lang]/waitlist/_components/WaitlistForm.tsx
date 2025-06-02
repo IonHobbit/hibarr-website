@@ -10,6 +10,7 @@ import { callZapierWebhook } from "@/lib/zapier";
 import { useMutation } from "@tanstack/react-query";
 import { ZapierWaitlistPayload } from "@/types/main";
 import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
+import { PhoneInput } from "@/components/ui/phone-input";
 
 type WaitlistFormProps = {
   formData: WaitlistPage['waitlistForm']
@@ -47,7 +48,7 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
   });
 
 
-  const { values, handleChange, handleSubmit } = useFormik({
+  const { values, handleChange, setFieldValue, handleSubmit } = useFormik({
     initialValues: {
       firstName: userInfo?.firstName || '',
       lastName: userInfo?.lastName || '',
@@ -93,14 +94,12 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
         value={values.email}
         onChange={handleChange}
       />
-      <Input
-        type="tel"
+      <PhoneInput
         required
         title={formData?.form?.phone || 'Phone Number'}
         name="phoneNumber"
-        placeholder="+1234567890"
         value={values.phoneNumber}
-        onChange={handleChange}
+        onChange={(value) => setFieldValue('phoneNumber', value)}
       />
       <Button isLoading={isPending} disabled={isPending} variant='accent' className='!mt-4 uppercase font-semibold' type='submit'>
         {formData?.form?.submitButton || 'Join the Waitlist'}

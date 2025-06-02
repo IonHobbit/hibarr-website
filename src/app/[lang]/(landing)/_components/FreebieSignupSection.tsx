@@ -4,6 +4,7 @@ import ThreeDBook from "@/components/ThreeDBook";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import useRegistrationCheck from "@/hooks/useRegistrationCheck";
 import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
 import { cn } from "@/lib/utils";
@@ -103,12 +104,12 @@ export default function FreebieSignupSection({ data }: FreebieSignupSectionProps
                   title={data?.form?.email}
                   placeholder={data?.form?.email}
                 />
-                <Input
+                <PhoneInput
                   required
-                  type="tel"
                   name="phoneNumber"
+                  title={'Phone Number'}
                   value={values.phoneNumber}
-                  onChange={handleChange}
+                  onChange={(value) => setFieldValue('phoneNumber', value)}
                 />
                 <Button type="submit" disabled={!isValid}>{data?.form?.submit}</Button>
                 <div className="flex items-start gap-2">

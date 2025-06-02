@@ -7,14 +7,17 @@ export const localeInfo = {
   en: {
     flag: '🇬🇧',
     name: 'English',
+    countryCode: 'GB',
   },
   de: {
     flag: '🇩🇪',
     name: 'Deutsch',
+    countryCode: 'DE',
   },
   tr: {
     flag: '🇹🇷',
     name: 'Türkçe',
+    countryCode: 'TR',
   },
 } as const;
 

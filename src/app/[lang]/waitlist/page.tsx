@@ -42,7 +42,7 @@ export default async function WaitlistPage(
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
             <span className='text-accent font-medium'>{pageData.title}</span> <br /> {pageData.subtitle}
           </h1>
-          <p>Gain access to a group of like minded people who are looking to make money in the real estate market.</p>
+          <p>Gain access to a group of like minded people who are looking to make money in the markets.</p>
         </div>
         <WaitlistForm formData={waitlistPage?.waitlistForm} />
       </div>

@@ -6,7 +6,7 @@ import FAQAccordion from '../_components/FAQAccordion';
 // import CalendlyEmbed from '@/components/CalendlyEmbed';
 import { client } from '@/lib/sanity/client';
 import { ConsultationPage as ConsultationPageType, HomePage } from '@/types/sanity.types';
-import ConsultationForm from './_components/ConsultationForm';
+import BitrixForm from './_components/BitrixForm';
 import { generateSEOMetadata } from '@/lib/utils';
 import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
 
@@ -16,7 +16,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
   const { seo } = await client.fetch<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return generateSEOMetadata(seo, {
-    title: 'Schedule a Free Kick Off Meeting',
+    title: 'Schedule a Free Kick Off hdshhs Meeting',
     description: 'We are the only company in North Cyprus that can offer 10 year payment plans, 0% interest, and no credit checks.',
   })
 }
@@ -36,7 +36,7 @@ export default async function ConsultationPage(
   return (
     <Fragment>
       <section id='root' className="relative grid place-items-center place-content-center min-h-screen bg-[url('/images/gallery/2.jpg')] bg-cover bg-center bg-no-repeat">
-        <div className="section grid grid-cols-1 md:grid-cols-2 place-items-center gap-10 z-10 mt-16 md:mt-0">
+        <div className="section grid grid-cols-1 md:grid-cols-2 place-items-center gap-10 z-10">
           <div className='flex flex-col gap-6'>
             <h1 className="text-5xl md:text-6xl text-primary-foreground">
               {data?.title}
@@ -65,7 +65,7 @@ export default async function ConsultationPage(
             </div>
           </div>
           <div className='relative w-full rounded-lg overflow-hidden bg-secondary grid place-items-center'>
-            <ConsultationForm />
+            <BitrixForm />
             {/* <CalendlyEmbed url="https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319" /> */}
           </div>
         </div>

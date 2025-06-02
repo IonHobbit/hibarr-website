@@ -27,7 +27,7 @@ export default function BlogPostCard({ blogPost }: BlogPostCardProps) {
             <Image src={blogPost.image} alt={blogPost.category.title} fill
               sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
               priority={false}
-              className="absolute w-full h-full object-cover" />
+              className="absolute w-full h-full object-cover object-top" />
           </div>
           <div className="flex items-center gap-2">
             <p className="text-xs text-gray-600">{formattedPublishedAt}</p>

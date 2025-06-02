@@ -56,6 +56,7 @@ type RegistrationFormType = {
     requireRentalCar: boolean;
     numberOfPeople: number;
     numberOfChildren: number;
+    roomType: string;
     arrivalDate: string | undefined;
     departureDate: string | undefined;
     airportTransfer: boolean;

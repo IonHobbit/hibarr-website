@@ -8,7 +8,7 @@ import Video from '@/components/Video'
 
 export const metadata: Metadata = {
   title: 'Oscar Group',
-  description: 'Real Estate Excellence Starts with the Right Partner – Oscar Group.',
+  description: 'Excellence Starts with the Right Partner – Oscar Group.',
 }
 
 export default async function OscarGroup(
@@ -64,7 +64,7 @@ export default async function OscarGroup(
             <Image src="/images/partners/oscar-group/oscar-group-logo.png" alt="Oscar Group Logo" width={400} height={400} />
 
             <p className="text-md md:text-2xl text-background">
-              Real Estate Excellence Starts with the Right Partner – <span className='font-bold'>Oscar Group.</span>
+              Excellence Starts with the Right Partner – <span className='font-bold'>Oscar Group.</span>
             </p>
           </div>
         </div>
@@ -112,10 +112,10 @@ export default async function OscarGroup(
             <Icon icon="mdi:close" className='text-background text-6xl shrink-0' />
             <Image src="/logos/logo-full-white.svg" alt="Hibarr Logo" width={400} height={400} />
           </div>
-          <p className='text-primary-foreground text-xl md:text-2xl text-center'>Global Real Estate, Elevated Experiences</p>
+          <p className='text-primary-foreground text-xl md:text-2xl text-center'>Elevated Experiences</p>
         </div>
         <div className="section py-0">
-          <Video src="https://hibarr.de/wp-content/uploads/2025/02/Oscar-group-promo-1.mp4" />
+          <Video src="https://vz-da4cd036-d13.b-cdn.net/15e01ed4-1b90-4168-9498-932b6c0be50c/play_720p.mp4" />
         </div>
         <div className='section py-0'>
           <h3 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h3>

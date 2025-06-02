@@ -10,3 +10,17 @@ export const persistUserInfo = (userInfo: ContactInfo) => {
 export const getUserInfo = (): ContactInfo | null => {
   return storage.get<ContactInfo>(StorageKey.USER_INFO) || null;
 }
+
+export const getUserDistinctId = () => {
+  const distinctId = storage.get<string>(StorageKey.USER_DISTINCT_ID) || null;
+
+  if (!distinctId) {
+    const newDistinctId = crypto.randomUUID();
+    storage.set(StorageKey.USER_DISTINCT_ID, newDistinctId, {
+      expiration: 1000 * 60 * 60 * 24 * 30, // 2 days
+    });
+    return newDistinctId;
+  }
+
+  return distinctId;
+}

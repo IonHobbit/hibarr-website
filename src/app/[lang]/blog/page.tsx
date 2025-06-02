@@ -43,7 +43,7 @@ export default async function BlogPage({ params }: { params: Promise<{ lang: str
 
 
   const title = postPage?.title || 'Blog'
-  const subtitle = postPage?.subtitle || 'Here we share our thoughts and insights on the real estate market.'
+  const subtitle = postPage?.subtitle || 'Here we share our thoughts and insights on the markets.'
   const featuredPosts = postPage?.featuredPosts || []
 
   const featured: BlogPostCardType[] = featuredPosts?.map((post) => ({
@@ -66,7 +66,7 @@ export default async function BlogPage({ params }: { params: Promise<{ lang: str
       <div id="posts" className={cn("section mt-20", featured.length > 0 && "mt-0")}>
         <div className="flex flex-col gap-1.5">
           <h1 className="text-4xl font-bold">{title || 'Blog'}</h1>
-          <p>{subtitle || 'Here we share our thoughts and insights on the real estate market.'}</p>
+          <p>{subtitle || 'Here we share our thoughts and insights on the markets.'}</p>
         </div>
         <BlogCategories categories={[ALL_CATEGORY, ...categories]} />
         <BlogPosts />

@@ -5,13 +5,12 @@ import { Icon } from '@iconify/react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import BankxLawyerForm from './BankxLawyerForm';
-import React, { useMemo, useState, Fragment } from 'react'
+import React, { useMemo, useState, Fragment, useEffect } from 'react'
 import { RegistrationFormType } from '@/types/main';
 import { PopoverClose } from '@radix-ui/react-popover';
 import DocumentUploadsForm from './DocumentUploadsForm';
 import PersonalInformationForm from './PersonalInformationForm';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import useURL from '@/hooks/useURL';
 import { BankPackage } from './PackageCard';
 import { BankPackagesPage } from '@/types/sanity.types';
 import ParentInformationForm from './ParentInformationForm';
@@ -21,16 +20,18 @@ import Link from 'next/link';
 import BankDetailsModal from './BankDetailsModal';
 import * as Yup from 'yup';
 import { getUserInfo, persistUserInfo } from '@/lib/services/user.service';
+import { roomTypeOptions } from '@/lib/options';
 
 type RegistrationFormProps = {
   packages: BankPackage[]
+  activePackage: BankPackage
   form: BankPackagesPage['form']
+  selectPackage: (slug: string) => void
 }
 
-export default function RegistrationForm({ packages, form }: RegistrationFormProps) {
+export default function RegistrationForm({ packages, activePackage, form, selectPackage }: RegistrationFormProps) {
   const router = useRouter();
   const userInfo = getUserInfo();
-  const { searchParams } = useURL();
 
   const [activeStep, setActiveStep] = useState(0);
   const [url, setUrl] = useState<string | null>(null);
@@ -38,13 +39,6 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
   const [isSuccess, setIsSuccess] = useState(false);
   const [referenceID, setReferenceID] = useState<string | null>(null);
   const [showBankTransferModal, setShowBankTransferModal] = useState(false);
-
-  const [activePackageSlug, setActivePackageSlug] = useState(searchParams.get('package') || packages[0].slug || 'basic-package');
-
-  const activePackage = useMemo(() =>
-    packages.find((pkg) => pkg.slug === activePackageSlug) as BankPackage,
-    [packages, activePackageSlug]
-  );
 
   const getTimeString = (date: Date) => {
     return date.toLocaleTimeString('en-US',
@@ -58,7 +52,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
 
   const { values, errors, touched, handleChange, setFieldValue, setFieldTouched, handleSubmit } = useFormik<RegistrationFormType>({
     initialValues: {
-      package: activePackageSlug,
+      package: activePackage.slug,
       personalInformation: {
         salutation: 'Mr.',
         firstName: userInfo?.firstName || '',
@@ -83,6 +77,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
         hotel: false,
         numberOfPeople: 0,
         numberOfChildren: 0,
+        roomType: roomTypeOptions[0],
         arrivalDate: undefined,
         departureDate: undefined,
         rentalCar: 'Small',
@@ -249,15 +244,7 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
   }
 
   const updatePackage = (slug: string) => {
-    const selectedPackage = packages.find((pkg) => pkg.slug === slug) as BankPackage;
-    setActivePackageSlug(slug);
-    setFieldValue('package', slug);
-    if (selectedPackage.price === 0) {
-      setFieldValue('travelInfo.numberOfPeople', 1);
-    } else {
-      setFieldValue('travelInfo.numberOfPeople', 0);
-    }
-    setFieldValue('bankAndLawyer.openingBalance', selectedPackage?.minimumDeposit ? selectedPackage.minimumDeposit.toString() : '0');
+    selectPackage(slug);
   }
 
   const isFormValid = useMemo(() => {
@@ -273,6 +260,11 @@ export default function RegistrationForm({ packages, form }: RegistrationFormPro
 
     return true;
   }, [activeStep, values, activePackage])
+
+  useEffect(() => {
+    setFieldValue('package', activePackage.slug);
+    setFieldValue('bankAndLawyer.openingBalance', activePackage?.minimumDeposit ? activePackage.minimumDeposit.toString() : '0');
+  }, [activePackage])
 
   return (
     <Card className='max-w-xl w-full mx-auto p-6'>
