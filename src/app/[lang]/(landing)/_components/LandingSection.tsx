@@ -21,7 +21,7 @@ export default function LandingSection({ data }: LandingSectionProps) {
           <h1 className="text-5xl md:text-7xl xl:text-8xl font-bold mb-4 text-background">
             {data.title}
           </h1>
-          <p className="text-sm md:text-2xl text-background">
+          <p className="text-base md:text-2xl text-background">
             {data.subtitle}
           </p>
         </div>
@@ -35,7 +35,7 @@ export default function LandingSection({ data }: LandingSectionProps) {
           ))}
         </div>
       </div>
-      <Link href="#about" className='absolute bottom-6 md:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1 text-primary-foreground cursor-pointer'>
+      <Link href="#about" className='absolute bottom-12 md:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1 text-primary-foreground cursor-pointer'>
         <p className='text-md uppercase tracking-tight'>Scroll</p>
         <div className='flex flex-col items-center gap-1'>
           <Icon icon="iconamoon:mouse-thin" className='size-7' />
