@@ -35,7 +35,7 @@ export default async function ConsultationPage(
 
   return (
     <Fragment>
-      <section id='root' className="relative grid place-items-center place-content-center min-h-screen bg-[url('/images/hibarr-oscar.jpg')] bg-cover bg-center bg-no-repeat">
+      <section id='root' className="relative grid place-items-center place-content-center min-h-screen bg-[url('/images/gallery/2.jpg')] bg-cover bg-center bg-no-repeat">
         <div className="section grid grid-cols-1 md:grid-cols-2 place-items-center gap-10 z-10">
           <div className='flex flex-col gap-6'>
             <h1 className="text-5xl md:text-6xl text-primary-foreground">
