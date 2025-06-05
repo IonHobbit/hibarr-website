@@ -21,7 +21,6 @@ export default function LanguageSwitcher() {
       <div className="flex gap-4">
         <HoverCard openDelay={200} closeDelay={300} open={open} onOpenChange={setOpen}>
           <HoverCardTrigger className='hidden md:flex'>
-            {/* <p className='text-2xl cursor-pointer'>{localeInfo[lang].flag}</p> */}
             <span className={cn('text-xl cursor-pointer', `fi fi-${localeInfo[lang].countryCode.toLowerCase()}`)}></span>
           </HoverCardTrigger>
           <HoverCardContent align='end' className='hidden md:flex w-40 bg-primary flex-col gap-2 border-none mt-2 shadow-none rounded-md'>
@@ -32,7 +31,7 @@ export default function LanguageSwitcher() {
                 className={`text-primary-foreground flex gap-2 items-center hover:text-primary-foreground/80 ${locale === lang ? 'font-bold' : ''
                   }`}
               >
-                <span>{localeInfo[locale].flag}</span>
+                <span className={cn('text-xl cursor-pointer', `fi fi-${localeInfo[locale].countryCode.toLowerCase()}`)}></span>
                 <span>{localeInfo[locale].name}</span>
               </Link>
             ))}
@@ -40,7 +39,7 @@ export default function LanguageSwitcher() {
         </HoverCard>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger className='md:hidden'>
-            <p className='text-2xl cursor-pointer'>{localeInfo[lang].flag}</p>
+            <span className={cn('text-xl cursor-pointer', `fi fi-${localeInfo[lang].countryCode.toLowerCase()}`)}></span>
           </PopoverTrigger>
           <PopoverContent align='end' className='w-40 bg-primary flex md:hidden flex-col gap-2 border-none mt-2 shadow-none rounded-md'>
             {i18n.locales.map((locale) => (
@@ -50,7 +49,7 @@ export default function LanguageSwitcher() {
                 className={`text-primary-foreground flex gap-2 items-center hover:text-primary-foreground/80 ${locale === lang ? 'font-bold' : ''
                   }`}
               >
-                <span>{localeInfo[locale].flag}</span>
+                <span className={cn('text-xl cursor-pointer', `fi fi-${localeInfo[locale].countryCode.toLowerCase()}`)}></span>
                 <span>{localeInfo[locale].name}</span>
               </Link>
             ))}
