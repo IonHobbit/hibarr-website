@@ -2,10 +2,14 @@ import { Metadata } from "next";
 import { Playfair_Display, Inter, Work_Sans } from "next/font/google";
 import { Locale } from "@/lib/i18n-config";
 import "./globals.css";
+import "flag-icons/css/flag-icons.min.css";
+
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { PostHogProvider } from "@/providers/PostHogProvider";
-import MetaPixel from "@/components/MetaPixel";
+import MetaPixel from "@/components/analytics/MetaPixel";
 import ThemeProvider from "@/providers/ThemeProvider";
+import GA4 from "@/components/analytics/GTMHead";
+import GTMBody from "@/components/analytics/GTMBody";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair-display",
@@ -42,11 +46,13 @@ export default async function RootLayout(
   return (
     <html lang={lang} className="scroll-smooth">
       <head>
+        <GA4 />
         <MetaPixel />
       </head>
       <body
         className={`${playfairDisplay.variable} ${inter.variable} ${workSans.variable} antialiased relative w-screen`}
       >
+        <GTMBody />
         <ThemeProvider>
           <PostHogProvider>
             <ReactQueryProvider>
