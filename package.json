@@ -35,6 +35,7 @@
     "deepl-node": "^1.18.0",
     "embla-carousel-react": "^8.6.0",
     "facebook-nodejs-business-sdk": "^22.0.3",
+    "flag-icons": "^7.5.0",
     "formik": "^2.4.6",
     "framer-motion": "^11.18.2",
     "gsap": "^3.12.7",
