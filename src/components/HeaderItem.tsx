@@ -41,11 +41,11 @@ export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemPr
         </HoverCardTrigger>
         <HoverCardContent align="start" sideOffset={10} className="bg-primary border-none p-1.5 rounded-md w-max min-w-32">
           {item.children.filter((child) => !child.hidden).map((child: Child, index: number) => (
-            <div key={index} className="w-full hover:bg-accent p-2 rounded text-white">
-              <Link href={`/${lang}${child.href}`}>
+            <Link key={index} href={`/${lang}${child.href}`}>
+              <div className="w-full hover:bg-accent p-2 rounded text-white">
                 {child.name}
-              </Link>
-            </div>
+              </div>
+            </Link>
           ))}
         </HoverCardContent>
       </HoverCard>
