@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button'
 import { HomePage } from '@/types/sanity.types'
-import Image from 'next/image'
 import Link from 'next/link'
 
 type InvestorCommunitySectionProps = {
