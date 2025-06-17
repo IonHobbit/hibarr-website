@@ -435,7 +435,7 @@ export default function WorkReportGenerator() {
 
   const handleDownloadPDF = async () => {
     if (!reportData) return;
-    
+
     try {
       const blob = await generatePDF(reportData);
       const url = URL.createObjectURL(blob);
@@ -485,11 +485,10 @@ export default function WorkReportGenerator() {
                 <li key={index}>
                   <button
                     onClick={() => generateReport(employee.name)}
-                    className={`flex items-center w-full p-2 rounded text-left cursor-pointer ${
-                      selectedEmployee === employee.name
-                        ? 'bg-blue-700 text-white'
-                        : 'hover:bg-gray-200'
-                    }`}
+                    className={`flex items-center w-full p-2 rounded text-left cursor-pointer ${selectedEmployee === employee.name
+                      ? 'bg-blue-700 text-white'
+                      : 'hover:bg-gray-200'
+                      }`}
                   >
                     <User className="w-4 h-4 mr-2 shrink-0" />
                     <span className="flex-1 truncate">{employee.name}</span>
@@ -627,7 +626,7 @@ export default function WorkReportGenerator() {
                         <th className="py-2 px-4 border-b text-left">Week</th>
                         <th className="py-2 px-4 border-b text-left">Hours Worked</th>
                         <th className="py-2 px-4 border-b text-left">Expected Hours</th>
-                        <th className="py-2 px-4 border-b text-left">Difference</th>
+                        {/* <th className="py-2 px-4 border-b text-left">Difference</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -636,18 +635,18 @@ export default function WorkReportGenerator() {
                           <td className="py-2 px-4 border-b">Week {week.week}</td>
                           <td className="py-2 px-4 border-b">{week.hoursWorked}</td>
                           <td className="py-2 px-4 border-b">{week.expectedHours}</td>
-                          <td className={`py-2 px-4 border-b ${week.totalMinutesDifference >= 0 ? 'text-green-600' : 'text-red-600'
-                            }`}>{week.difference}</td>
+                          {/* <td className={`py-2 px-4 border-b ${week.totalMinutesDifference >= 0 ? 'text-green-600' : 'text-red-600'
+                            }`}>{week.difference}</td> */}
                         </tr>
                       ))}
                       <tr className="bg-gray-100 font-bold">
                         <td className="py-2 px-4 border-b">Total</td>
                         <td className="py-2 px-4 border-b">{reportData.weeklyTotals.hoursWorked}</td>
                         <td className="py-2 px-4 border-b">{reportData.weeklyTotals.expectedHours}</td>
-                        <td className={`py-2 px-4 border-b ${parseFloat(reportData.weeklyTotals.difference) >= 0
+                        {/* <td className={`py-2 px-4 border-b ${parseFloat(reportData.weeklyTotals.difference) >= 0
                           ? 'text-green-600'
                           : 'text-red-600'
-                          }`}>{reportData.weeklyTotals.difference}</td>
+                          }`}>{reportData.weeklyTotals.difference}</td> */}
                       </tr>
                     </tbody>
                   </table>
