@@ -13,7 +13,7 @@ import TestimonialsSection from '@/app/[lang]/_components/TestimonialsSection';
 import { client } from "@/lib/sanity/client";
 import { HomePage } from '@/types/sanity.types';
 import ConsultationProcessSection from './_components/ConsultationProcessSection';
-import SearchBar from '../listings/_components/SearchBar';
+// import SearchBar from '../listings/_components/SearchBar';
 import InvestorCommunitySection from './_components/InvestorCommunitySection';
 import WebinarSection from './_components/WebinarSection';
 import SignupSection from './_components/SignupSection';
@@ -43,11 +43,11 @@ export default async function Home(
     <Fragment>
       <LandingWrapper data={data} />
       <FeaturedSection />
-      <div className='section'>
+      {/* <div className='section'>
         <div className='bg-primary rounded-lg p-4 py-8 md:py-4 md:px-2 max-w-screen-sm xl:max-w-screen-xl mx-auto'>
           <SearchBar />
         </div>
-      </div>
+      </div> */}
       <AboutSection data={data} />
       <FindrSection />
       <TestimonialsSection lang={lang} />
