@@ -46,6 +46,19 @@ export type Geopoint = {
   alt?: number
 }
 
+export type Translations = {
+  _id: string
+  _type: 'translations'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  token?: string
+  translation?: string
+  originalText?: string
+  originalLanguage?: string
+  targetLanguage?: string
+}
+
 export type Footer = {
   _id: string
   _type: 'footer'
@@ -563,6 +576,28 @@ export type CaseStudy = {
     crop?: SanityImageCrop
     _type: 'image'
   }
+  jobTitle?: string
+  tagLine?: string
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  isFeatured?: boolean
+  language?: string
 }
 
 export type Faq = {
@@ -737,7 +772,6 @@ export type ConsultationPage = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  seo?: SeoMetaFields
   title?: string
   subtitle?: string
   offerInformation?: {
@@ -752,8 +786,13 @@ export type ConsultationPage = {
     title?: string
     subtitle?: string
   }
+  form?: {
+    title?: string
+    subtitle?: string
+  }
   publishedAt?: string
   language?: string
+  seo?: SeoMetaFields
 }
 
 export type Navigation = {
@@ -1203,6 +1242,7 @@ export type AllSanitySchemaTypes =
   | SanityImagePalette
   | SanityImageDimensions
   | Geopoint
+  | Translations
   | Footer
   | Testimonial
   | PropertyFeature
