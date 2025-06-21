@@ -7,7 +7,6 @@ type CountdownProps = {
 }
 
 export default function Countdown({ date, timezone }: CountdownProps) {
-  if (!date || !timezone) return null;
 
   const webinarDate = new Date(`${date}`)
     .toLocaleString('en-US', {
@@ -57,6 +56,8 @@ export default function Countdown({ date, timezone }: CountdownProps) {
       </div>
     )
   }
+
+  if (!date || !timezone) return null;
 
   if (days === '' && hours === '' && minutes === '' && seconds === '') return null;
 
