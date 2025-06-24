@@ -6,7 +6,6 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import ScrollToTop from '@/app/[lang]/_components/ScrollToTop';
 import Script from 'next/script';
-import { translate } from '@/lib/translation';
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
