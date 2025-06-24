@@ -22,6 +22,7 @@ import storage from '@/lib/storage.util'
 import { useMutation } from '@tanstack/react-query'
 import router from 'next/router'
 import { getUserInfo, persistUserInfo } from '@/lib/services/user.service'
+import useTranslations from '@/hooks/useTranslations'
 
 type FormValues = {
   firstName: string
@@ -45,6 +46,8 @@ export default function ConsultationForm() {
   const { lang } = useParams()
   const userInfo = getUserInfo();
   const [calendlyUrl, setCalendlyUrl] = useState('');
+
+  const t = useTranslations();
 
   const { isRegistered } = useRegistrationCheck();
 
@@ -301,7 +304,7 @@ export default function ConsultationForm() {
         </div>
         {/* <h4 className='text-2xl font-medium'>Before you get started, please answer these questions.</h4> */}
         <div className="flex flex-col gap-6">
-          {steps[step].label && <h4 className='text-3xl font-medium'>{steps[step].label}</h4>}
+          {steps[step].label && <h4 className='text-3xl font-medium'>{t(steps[step].label)}</h4>}
           {steps[step].component}
         </div>
       </div>
