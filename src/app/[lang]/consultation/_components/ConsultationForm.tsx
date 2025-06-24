@@ -16,12 +16,13 @@ import { ZapierConsultationPayload } from '@/types/main'
 import { CountryDropdown, Country } from '@/components/ui/country-dropdonw'
 import { countries } from 'country-data-list'
 import { useParams } from 'next/navigation'
-import { interestedInOptions, budgetOptions, periodOptions, languageOptions, messageOptions } from '@/lib/options'
+import { budgetOptions, languageOptions } from '@/lib/options'
 import { StorageKey } from '@/lib/storage.util'
 import storage from '@/lib/storage.util'
 import { useMutation } from '@tanstack/react-query'
 import router from 'next/router'
 import { getUserInfo, persistUserInfo } from '@/lib/services/user.service'
+import { PhoneInput } from '@/components/ui/phone-input'
 
 type FormValues = {
   firstName: string
@@ -38,11 +39,49 @@ type FormValues = {
   showMessage: string
 }
 
-export default function ConsultationForm() {
+type ConsultationFormProps = {
+  translations: {
+    registered: {
+      title: string
+      description: string
+    }
+    form: {
+      firstName: string
+      lastName: string
+      email: string
+      phoneNumber: string
+    }
+    headers: {
+      myPreferredLanguage: string
+      currentlyLivingIn: string
+      interestedIn: string
+      planningToBuy: string
+      budget: string
+      isThereAnyQuestions: string
+    }
+    buttons: {
+      nextButton: string
+      backButton: string
+      submitButton: string
+    }
+    options: {
+      interestedIn: string[]
+      period: string[]
+      message: string[]
+    }
+    placeholders: {
+      selectLanguage: string
+      question: string
+    }
+  }
+  showMessage: string
+}
+
+export default function ConsultationForm({ translations, showMessage }: ConsultationFormProps) {
 
   const baseCalendlyUrl = 'https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319'
 
-  const { lang } = useParams()
+  const { lang } = useParams();
   const userInfo = getUserInfo();
   const [calendlyUrl, setCalendlyUrl] = useState('');
 
@@ -176,12 +215,12 @@ export default function ConsultationForm() {
 
   const steps = [
     {
-      label: 'My preferred language is ...',
+      label: translations.headers.myPreferredLanguage,
       component: (
         <div className='flex flex-col gap-10'>
           <Select name='language' value={values.language} onValueChange={(value) => setFieldValue('language', value)}>
             <SelectTrigger className='w-full'>
-              <SelectValue placeholder='Select language' />
+              <SelectValue placeholder={translations.placeholders.selectLanguage} />
             </SelectTrigger>
             <SelectContent>
               {languageOptions.map((option, index) => (
@@ -190,7 +229,7 @@ export default function ConsultationForm() {
             </SelectContent>
           </Select>
           <div className='flex flex-col gap-2'>
-            <p className='text-lg font-medium'>I am currently living in ...</p>
+            <p className='text-lg font-medium'>{translations.headers.currentlyLivingIn}</p>
             <CountryDropdown
               defaultValue={values.country?.alpha3}
               onChange={(value) => setFieldValue('country', value)}
@@ -200,9 +239,9 @@ export default function ConsultationForm() {
       )
     },
     {
-      label: 'I am interested in ...',
+      label: translations.headers.interestedIn,
       component: <div className='flex flex-col gap-2 mt-2'>
-        {interestedInOptions.map((option, index) => (
+        {translations.options.interestedIn.map((option, index) => (
           <div className='flex items-center gap-2' key={index}>
             <Checkbox id={option} checked={values.interestedIn.includes(option)} onClick={() => handleInterestedInChange(option)} />
             <label className='text-lg cursor-pointer' htmlFor={option}>{option}</label>
@@ -211,11 +250,11 @@ export default function ConsultationForm() {
       </div>
     },
     {
-      label: 'I am planning to buy ...',
+      label: translations.headers.planningToBuy,
       component:
         <RadioGroup name='period' value={values.period} className='mt-3'>
           <div className='grid grid-cols-2 grid-rows-4 gap-3'>
-            {periodOptions.map((option, index) => (
+            {translations.options.period.map((option, index) => (
               <div className='flex items-center gap-2' key={index}>
                 <RadioGroupItem id={option} value={option} checked={values.period === option} onClick={() => setFieldValue('period', option)} />
                 <label className='text-lg cursor-pointer' htmlFor={option}>{option}</label>
@@ -228,15 +267,15 @@ export default function ConsultationForm() {
       // label: 'My name is ...',
       component: <div className='flex flex-col gap-4'>
         <div className='grid grid-cols-2 gap-4'>
-          <Input name='firstName' title='First name' required value={values.firstName} onChange={handleChange} placeholder='John' />
-          <Input name='lastName' title='Last name' required value={values.lastName} onChange={handleChange} placeholder='Doe' />
+          <Input name='firstName' title={translations.form.firstName} required value={values.firstName} onChange={handleChange} placeholder='John' />
+          <Input name='lastName' title={translations.form.lastName} required value={values.lastName} onChange={handleChange} placeholder='Doe' />
         </div>
-        <Input name='email' title='Email Address' required value={values.email} onChange={handleChange} placeholder='john.doe@example.com' />
-        <Input name='phoneNumber' title='Phone Number' value={values.phoneNumber} onChange={handleChange} placeholder='+905555555555' />
+        <Input name='email' title={translations.form.email} required value={values.email} onChange={handleChange} placeholder='john.doe@example.com' />
+        <PhoneInput name='phoneNumber' title={translations.form.phoneNumber} value={values.phoneNumber} onChange={handleChange} placeholder='+905555555555' />
       </div>
     },
     {
-      label: 'My ideal budget range is ...',
+      label: translations.headers.budget,
       component:
         <RadioGroup name='budget' value={values.budget}>
           <div className='grid grid-cols-2 grid-rows-4 gap-2'>
@@ -250,11 +289,11 @@ export default function ConsultationForm() {
         </RadioGroup>
     },
     {
-      label: 'Is there anything else you would like us to know before our meeting?',
+      label: translations.headers.isThereAnyQuestions,
       component: <div className='flex flex-col gap-2'>
         <RadioGroup name='showMessage' value={values.showMessage}>
           <div className='grid grid-cols-2 gap-2'>
-            {messageOptions.map((option, index) => (
+            {translations.options.message.map((option, index) => (
               <div className='flex items-center gap-2' key={index}>
                 <RadioGroupItem id={option} value={option} checked={values.showMessage === option} onClick={() => setFieldValue('showMessage', option)} />
                 <label className='text-lg cursor-pointer' htmlFor={option}>{option}</label>
@@ -262,7 +301,7 @@ export default function ConsultationForm() {
             ))}
           </div>
         </RadioGroup>
-        {values.showMessage === 'Yes' && <Textarea name='message' rows={6} value={values.message} onChange={handleChange} placeholder='For example: I am looking for a property in Istanbul, I am a first time buyer, etc.' />}
+        {values.showMessage === showMessage && <Textarea name='message' rows={6} value={values.message} onChange={handleChange} placeholder={translations.placeholders.question} />}
       </div>
     },
   ]
@@ -282,8 +321,8 @@ export default function ConsultationForm() {
 
   if (isRegistered) {
     return <div className='flex flex-col gap-4 justify-center items-center min-h-[20vh] w-full p-8 transition-all duration-300'>
-      <h4 className='text-2xl font-medium text-center'>Thank you for your interest in our services!</h4>
-      <p className='text-lg text-center'>We will schedule a consultation with you soon.</p>
+      <h4 className='text-2xl font-medium text-center'>{translations.registered.title}</h4>
+      <p className='text-lg text-center'>{translations.registered.description}</p>
     </div>
   }
 
@@ -307,13 +346,13 @@ export default function ConsultationForm() {
       </div>
       <div className="flex gap-4 justify-between overflow-hidden">
         {step > 0 && (
-          <Button type='button' variant='outline' className='w-full shrink text-gray-500' onClick={() => setStep(step - 1)}>Back</Button>
+          <Button type='button' variant='outline' className='w-full shrink text-gray-500' onClick={() => setStep(step - 1)}>{translations.buttons.backButton}</Button>
         )}
         {step < steps.length - 1 && (
-          <Button type='button' className='w-full shrink' onClick={goToNextStep} disabled={isDisabled(step)}>Next</Button>
+          <Button type='button' className='w-full shrink' onClick={goToNextStep} disabled={isDisabled(step)}>{translations.buttons.nextButton}</Button>
         )}
         {step === steps.length - 1 && (
-          <Button type='submit' isLoading={isPending} onClick={() => handleSubmit()} disabled={isDisabled(step) || isPending} className='w-full shrink'>Submit</Button>
+          <Button type='button' isLoading={isPending} onClick={() => handleSubmit()} disabled={isDisabled(step) || isPending} className='w-full shrink'>{translations.buttons.submitButton}</Button>
         )}
       </div>
     </form>
