@@ -5,6 +5,7 @@ import type { WaitlistPage } from '@/types/sanity.types'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import WaitlistForm from './_components/WaitlistForm'
+import { translate } from '@/lib/translation'
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -31,6 +32,8 @@ export default async function WaitlistPage(
     subtitle: waitlistPage?.subtitle || 'Facebook Group',
   }
 
+  const subtext = await translate('Gain access to a group of like minded people who are looking to make money in the markets.')
+
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center min-h-screen bg-gradient-to-b from-primary via-primary/80 to-transparent">
       <div className='absolute inset-0 w-full h-full -z-10'>
@@ -42,7 +45,7 @@ export default async function WaitlistPage(
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
             <span className='text-accent font-medium'>{pageData.title}</span> <br /> {pageData.subtitle}
           </h1>
-          <p>Gain access to a group of like minded people who are looking to make money in the markets.</p>
+          <p data-token={subtext.token}>{subtext.text}</p>
         </div>
         <WaitlistForm formData={waitlistPage?.waitlistForm} />
       </div>
