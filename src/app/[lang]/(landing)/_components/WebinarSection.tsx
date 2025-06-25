@@ -37,7 +37,7 @@ export default async function WebinarSection() {
             </Button>
           </div>
           <div className="relative w-full h-80 md:h-full">
-            <Image src="/images/freebie-image.webp" alt="Webinar" fill sizes="100%" className="object-cover" />
+            <Image src="https://res.cloudinary.com/hibarr/image/upload/v1750849279/zoom_picture_for_website_go4mwh.png" alt="Webinar" fill sizes="100%" className="object-cover" />
           </div>
         </div>
       </div>
