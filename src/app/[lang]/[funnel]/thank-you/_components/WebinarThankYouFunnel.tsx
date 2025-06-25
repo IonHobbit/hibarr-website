@@ -59,7 +59,7 @@ export default function WebinarThankYouFunnel() {
           {!isRegisteredForWaitlist && (
             <Button variant='accent' className='w-full' asChild>
               <Link href={`/waitlist`}>
-                Join the waitlist
+                Join the facebook group
               </Link>
             </Button>
           )}

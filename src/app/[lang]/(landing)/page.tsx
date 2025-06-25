@@ -22,6 +22,7 @@ import { generateSEOMetadata } from '@/lib/utils';
 import FindrSection from './_components/FindrSection';
 
 import LandingWrapper from './_components/LandingWrapper';
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 

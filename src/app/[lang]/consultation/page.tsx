@@ -9,6 +9,8 @@ import { ConsultationPage as ConsultationPageType, HomePage } from '@/types/sani
 import ConsultationForm from './_components/ConsultationForm';
 import { generateSEOMetadata } from '@/lib/utils';
 import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
+import { translate, translateBatch } from '@/lib/translation';
+import { interestedInOptions, messageOptions, periodOptions } from '@/lib/options';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -28,10 +30,68 @@ export default async function ConsultationPage(
 ) {
   const { lang } = await props.params;
 
-
-
   const data = await client.fetch<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
   const consultationProcessSection = await client.fetch<HomePage['consultationProcessSection']>(`*[_type == "homePage" && language == $lang][0].consultationProcessSection`, { lang }, { cache: 'no-store' });
+
+  const frequentlyAskedQuestions = await translate('Frequently Asked Questions');
+  const [registedTitle, registedDescription] = await translateBatch(['Thank you for your interest in our services!', 'We will schedule a consultation with you soon.']);
+  const [myPreferredLanguage, currentlyLivingIn] = await translateBatch(['My preferred language is ...', 'I am currently living in ...']);
+  const [nextButton, backButton, submitButton] = await translateBatch(['Next', 'Back', 'Submit']);
+  const [interestedIn, planningToBuy, budget, isThereAnyQuestions] = await translateBatch(['I am interested in ...', 'I am planning to buy ...', 'My ideal budget range is ...', 'Is there anything else you would like us to know before our meeting?']);
+  const translatedInterestedInOptions = await translateBatch(interestedInOptions);
+  const translatedPeriodOptions = await translateBatch(periodOptions);
+  const translatedMessageOptions = await translateBatch(messageOptions);
+  const [firstName, lastName, email, phoneNumber] = await translateBatch(['First Name', 'Last Name', 'Email Address', 'Phone Number']);
+  const [selectLanguagePlaceholder, questionPlaceholder] = await translateBatch(['Select language', 'For example: I am looking for a property in Istanbul, I am a first time buyer, etc.']);
+
+  const showMessage = await translate('Yes');
+
+  const form = {
+    firstName: firstName.text,
+    lastName: lastName.text,
+    email: email.text,
+    phoneNumber: phoneNumber.text,
+  }
+
+  const headers = {
+    myPreferredLanguage: myPreferredLanguage.text,
+    currentlyLivingIn: currentlyLivingIn.text,
+    interestedIn: interestedIn.text,
+    planningToBuy: planningToBuy.text,
+    budget: budget.text,
+    isThereAnyQuestions: isThereAnyQuestions.text,
+  }
+
+  const buttons = {
+    nextButton: nextButton.text,
+    backButton: backButton.text,
+    submitButton: submitButton.text,
+  }
+
+  const options = {
+    interestedIn: translatedInterestedInOptions.map(option => option.text),
+    period: translatedPeriodOptions.map(option => option.text),
+    message: translatedMessageOptions.map(option => option.text),
+  }
+
+  const placeholders = {
+    selectLanguage: selectLanguagePlaceholder.text,
+    question: questionPlaceholder.text,
+  }
+
+  const registered = {
+    title: registedTitle.text,
+    description: registedDescription.text,
+  }
+
+  const translations = {
+    form,
+    headers,
+    buttons,
+    options,
+    placeholders,
+    registered,
+  }
 
   return (
     <Fragment>
@@ -65,7 +125,7 @@ export default async function ConsultationPage(
             </div>
           </div>
           <div className='relative w-full rounded-lg overflow-hidden bg-secondary grid place-items-center'>
-            <ConsultationForm />
+            <ConsultationForm translations={translations} showMessage={showMessage.text} />
             {/* <CalendlyEmbed url="https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319" /> */}
           </div>
         </div>
@@ -77,7 +137,7 @@ export default async function ConsultationPage(
       </section>
       <section id="faqs" className="section">
         <div className="bg-primary rounded-lg py-6 px-10 flex flex-col gap-6">
-          <h2 className="text-2xl md:text-4xl text-primary-foreground">Frequently Asked Questions</h2>
+          <h2 className="text-2xl md:text-4xl text-primary-foreground" data-token={frequentlyAskedQuestions.token}>{frequentlyAskedQuestions.text}</h2>
           <FAQAccordion lang={lang} />
         </div>
       </section>

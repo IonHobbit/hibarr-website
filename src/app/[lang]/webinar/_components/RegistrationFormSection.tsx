@@ -67,8 +67,6 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
     onSubmit: () => mutate(),
   });
 
-  console.log(data.webinarInformationSection)
-
   return (
     <section id='register' className='bg-primary bg-[url("/images/webinar-registration-background.webp")] bg-cover bg-center flex flex-col bg-blend-soft-light'>
       <div className="section h-full grow py-40">
