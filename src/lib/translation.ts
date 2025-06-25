@@ -1,5 +1,6 @@
-import { HashedTranslationResponse } from "@/types/translation.type";
 import { headers } from "next/headers"
+import { HashedTranslationResponse } from "@/types/translation.type";
+import { runTranslation } from "./services/translation.service";
 
 export const translate = async (text?: string): Promise<HashedTranslationResponse> => {
   const headersList = await headers();
@@ -9,17 +10,7 @@ export const translate = async (text?: string): Promise<HashedTranslationRespons
 
   if (!text) return { token: '', text: '' };
 
-  const translation = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/translation`, {
-    method: 'POST',
-    body: JSON.stringify({ text, targetLang: locale }),
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': process.env.NEXT_PUBLIC_API_KEY || ''
-    }
-  });
-
-  const response = await translation.json();
-  return response.data || { token: '', text: '' };
+  return runTranslation(text, locale);
 }
 
 export const translateBatch = async (texts: string[]): Promise<HashedTranslationResponse[]> => {

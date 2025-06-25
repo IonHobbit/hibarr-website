@@ -27,6 +27,7 @@ import { localeInfo } from "@/lib/i18n-config";
 import { CountryCode } from "libphonenumber-js/min";
 import { useParams } from "next/navigation";
 import { Locale } from "@/lib/i18n-config";
+import useTranslation from "@/hooks/useTranslation";
 
 type PhoneInputProps = Omit<
   React.ComponentProps<"input">,
@@ -81,15 +82,19 @@ PhoneInput.displayName = "PhoneInput";
 const InputComponent = React.forwardRef<
   HTMLInputElement,
   React.ComponentProps<"input">
->(({ className, ...props }, ref) => (
-  <Input
-    className={cn("rounded-s-none w-full", className)}
-    {...props}
-    hideTitle
-    placeholder="Enter your phone number"
-    ref={ref}
-  />
-));
+>(({ className, ...props }, ref) => {
+  const { data: placeholder } = useTranslation('Enter your phone number');
+
+  return (
+    <Input
+      className={cn("rounded-s-none w-full", className)}
+      {...props}
+      hideTitle
+      placeholder={placeholder?.text || 'Enter your phone number'}
+      ref={ref}
+    />
+  )
+});
 InputComponent.displayName = "InputComponent";
 
 type CountryEntry = { label: string; value: RPNInput.Country | undefined };
