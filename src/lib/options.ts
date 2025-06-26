@@ -27,8 +27,8 @@ export const messageOptions = [
 export const periodOptions = [
   'Immediately',
   'Within 3 months',
-  'Within 3–6 months',
-  'Within 6–12 months',
+  'Within 3-6 months',
+  'Within 6-12 months',
   'In 12 months or later',
   'Just researching',
 ]
