@@ -27,10 +27,9 @@ export default function LandingSection({ data }: LandingSectionProps) {
         </div>
         <div className='flex flex-wrap items-center justify-center gap-4'>
           {data.buttons?.map((button, index) => (
-            <Button key={index} variant={index === 0 ? 'accent' : 'outline'} size="lg" asChild>
-              <Link href={button.url ?? ''} className='uppercase font-semibold'>
-                {button.label}
-              </Link>
+            <Button key={index} href={button.url ?? ''} addLocaleToHref
+              variant={index === 0 ? 'accent' : 'outline'} size="lg">
+              {button.label}
             </Button>
           ))}
         </div>

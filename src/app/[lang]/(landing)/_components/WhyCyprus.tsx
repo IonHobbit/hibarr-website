@@ -1,14 +1,12 @@
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { HomePage } from "@/types/sanity.types";
 import Video from "@/components/Video";
 
 type WhyCyprusProps = {
   data: HomePage['whyCyprusSection'];
-  link?: string;
 }
 
-export default function WhyCyprus({ data, link }: WhyCyprusProps) {
+export default function WhyCyprus({ data }: WhyCyprusProps) {
   return (
     <section id='why-cyprus' className='section'>
       <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-10">
@@ -27,8 +25,8 @@ export default function WhyCyprus({ data, link }: WhyCyprusProps) {
               </div>
             ))}
           </div>
-          <Button className="w-max" variant="accent" size="lg" asChild>
-            <Link href={link ?? data?.CTA?.url ?? ''}>{data?.CTA?.label}</Link>
+          <Button className="w-max" variant="accent" size="lg" href={data?.CTA?.url ?? ''} addLocaleToHref>
+            {data?.CTA?.label}
           </Button>
         </div>
       </div>

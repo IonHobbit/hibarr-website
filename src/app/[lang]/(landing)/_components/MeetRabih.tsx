@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { HomePage } from "@/types/sanity.types";
 import Video from "@/components/Video";
@@ -18,10 +17,8 @@ export default function MeetRabih({ data }: MeetRabihProps) {
           </div>
           <p className="text-muted-foreground md:text-lg">{data?.paragraph1}</p>
           <p className="text-muted-foreground md:text-lg">{data?.paragraph2}</p>
-          <Button variant="accent" size="lg" className='w-max' asChild>
-            <Link href={data?.CTA?.url ?? ''}>
-              {data?.CTA?.label}
-            </Link>
+          <Button href={data?.CTA?.url ?? ''} addLocaleToHref variant="accent" size="lg" className='w-max'>
+            {data?.CTA?.label}
           </Button>
         </div>
         <Video src="https://vz-da4cd036-d13.b-cdn.net/56b164f5-3dcc-4a0b-8640-7310d9110a4f/play_720p.mp4" poster="/images/about-rabih-thumbnail.png" />

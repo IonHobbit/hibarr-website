@@ -47,5 +47,17 @@ export default function useURL() {
     replace(pathname, options);
   }
 
-  return { searchParams, updateParams, replaceParams, clearParams }
+  const wrapWithLocale = (path: string) => {
+    // Check if the pathname starts with a locale (e.g., /en, /de, /fr, etc.)
+    // Assuming locale is always two lowercase letters at the start of the path
+    const localeMatch = pathname.match(/^\/([a-z]{2})(\/|$)/);
+    if (localeMatch) {
+      // If locale is present, insert the path after the locale
+      return `/${localeMatch[1]}/${path.replace(/^\/+/, '')}`;
+    }
+    // If no locale, just append the path
+    return `/${path.replace(/^\/+/, '')}`;
+  }
+
+  return { searchParams, updateParams, replaceParams, clearParams, wrapWithLocale }
 }

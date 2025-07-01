@@ -22,6 +22,7 @@ export type ContactInfo = {
   lastName: string;
   email: string;
   phoneNumber: string;
+  language: string;
 }
 
 type DocumentUpload = {

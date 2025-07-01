@@ -2,8 +2,11 @@
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { PhoneInput } from '@/components/ui/phone-input'
 import { Textarea } from '@/components/ui/textarea'
-import { getUserInfo, persistUserInfo } from '@/lib/services/user.service'
+import useTranslation from '@/hooks/useTranslation'
+import useUserInfo from '@/hooks/useUserInfo'
+import { persistUserInfo } from '@/lib/services/user.service'
 import { callZapierWebhook } from '@/lib/zapier'
 import { ZapierPropertyEnquiryPayload } from '@/types/main'
 import { useMutation } from '@tanstack/react-query'
@@ -17,16 +20,19 @@ type EnquiryFormProps = {
 }
 
 export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
-  const userInfo = getUserInfo();
+  const userInfo = useUserInfo();
+
+  const { data: interestedInThisPropertyTranslation } = useTranslation('Interested in this property?');
+  const { data: fillOutTheFormBelowToGetMoreInformationTranslation } = useTranslation('Fill out the form below to get more information');
+  const { data: joinFacebookGroupTranslation } = useTranslation('Join our Facebook Group');
+  const { data: thankYouTranslation } = useTranslation('Thank you for reaching out!');
+  const { data: weWillGetBackToYouTranslation } = useTranslation('We will get back to you as soon as possible');
+  const { data: inTheMeantimeTranslation } = useTranslation('In the meantime, join our Facebook Group to stay updated on the smartest ways to buy property');
+  const { data: makeEnquiryTranslation } = useTranslation('Make Enquiry');
 
   const { mutate, isSuccess, isPending } = useMutation({
     mutationFn: async () => {
-      const contactInfo = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phoneNumber: values.phoneNumber,
-      }
+      const contactInfo = values;
       const payload: ZapierPropertyEnquiryPayload = {
         ...contactInfo,
         comment: values.comment,
@@ -43,10 +49,7 @@ export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
 
   const { values, errors, touched, setFieldTouched, handleChange, handleSubmit } = useFormik<ZapierPropertyEnquiryPayload>({
     initialValues: {
-      firstName: userInfo?.firstName || '',
-      lastName: userInfo?.lastName || '',
-      email: userInfo?.email || '',
-      phoneNumber: userInfo?.phoneNumber || '',
+      ...userInfo,
       comment: '',
       type: 'property-enquiry',
       propertyId,
@@ -70,19 +73,19 @@ export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
     <form onSubmit={submitForm} className="sticky top-20 bg-secondary rounded-lg p-6 flex flex-col gap-4">
       {isSuccess ? (
         <div className='flex flex-col gap-2'>
-          <h4 className='text-xl font-medium'>Thank you for reaching out!</h4>
-          <p className='text-sm text-muted-foreground'>We will get back to you as soon as possible</p>
-          <p className='text-sm text-muted-foreground'>In the meantime, join our Facebook waitlist to stay updated on the smartest ways to buy property</p>
+          <h4 className='text-xl font-medium'>{thankYouTranslation?.text || 'Thank you for reaching out!'}</h4>
+          <p className='text-sm text-muted-foreground'>{weWillGetBackToYouTranslation?.text || 'We will get back to you as soon as possible'}</p>
+          <p className='text-sm text-muted-foreground'>{inTheMeantimeTranslation?.text || 'In the meantime, join our Facebook waitlist to stay updated on the smartest ways to buy property'}</p>
           <Button asChild className='mt-4'>
             <Link href="/waitlist">
-              Join our Facebook waitlist
+              {joinFacebookGroupTranslation?.text || 'Join our Facebook Group'}
             </Link>
           </Button>
         </div>
       ) : (
         <Fragment>
-          <p className='text-xl font-medium'>Interested in this property?</p>
-          <p className='text-sm text-muted-foreground'>Fill out the form below to get more information</p>
+          <p className='text-xl font-medium'>{interestedInThisPropertyTranslation?.text || 'Interested in this property?'}</p>
+          <p className='text-sm text-muted-foreground'>{fillOutTheFormBelowToGetMoreInformationTranslation?.text || 'Fill out the form below to get more information'}</p>
           <div className="flex flex-col gap-2">
             <Input type='text' required placeholder='First Name' name='firstName'
               error={errors.firstName && touched.firstName ? errors.firstName : undefined}
@@ -102,7 +105,7 @@ export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
               onChange={handleChange}
               onBlur={() => setFieldTouched('email', true)}
             />
-            <Input type='tel' placeholder='Phone' name='phoneNumber'
+            <PhoneInput name='phoneNumber'
               error={errors.phoneNumber && touched.phoneNumber ? errors.phoneNumber : undefined}
               value={values.phoneNumber}
               onChange={handleChange}
@@ -115,7 +118,7 @@ export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
             />
           </div>
           <Button type='submit' isLoading={isPending} className='w-full' variant='accent'>
-            Make Enquiry
+            {makeEnquiryTranslation?.text || 'Make Enquiry'}
           </Button>
         </Fragment>
       )}

@@ -3,8 +3,6 @@
 import React from 'react'
 import * as Yup from 'yup';
 import { Input } from '@/components/ui/input';
-import useRegistrationCheck from '@/hooks/useRegistrationCheck';
-import { getUserInfo } from '@/lib/services/user.service';
 import { useFormik } from 'formik';
 import { ZapierSignupPayload } from '@/types/main';
 import { persistUserInfo } from '@/lib/services/user.service';
@@ -15,6 +13,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import Image from 'next/image';
 import { HomePage } from '@/types/sanity.types';
 import { Button } from '@/components/ui/button';
+import useUserInfo from '@/hooks/useUserInfo';
 
 type SignupFormProps = {
   data: HomePage['freebieSignupSection'];
@@ -43,16 +42,11 @@ type SignupFormProps = {
 }
 
 export default function SignupForm({ data, text }: SignupFormProps) {
+  const userInfo = useUserInfo();
 
-  const userInfo = getUserInfo();
-  const { isRegistered, register } = useRegistrationCheck();
-
-  const { values, isValid, errors, touched, setFieldTouched, setFieldValue, handleChange, handleSubmit } = useFormik({
+  const { values, isValid, errors, touched, isSubmitting, submitCount, setFieldTouched, setFieldValue, handleChange, handleSubmit } = useFormik({
     initialValues: {
-      firstName: userInfo?.firstName || '',
-      lastName: userInfo?.lastName || '',
-      email: userInfo?.email || '',
-      phoneNumber: userInfo?.phoneNumber || '',
+      ...userInfo,
       consent: false,
       package: 'vip',
       alphaCashReferral: '',
@@ -74,12 +68,7 @@ export default function SignupForm({ data, text }: SignupFormProps) {
         }),
     }),
     onSubmit: async (values) => {
-      const userInfo = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phoneNumber: values.phoneNumber,
-      }
+      const userInfo = values;
       const payload: ZapierSignupPayload = {
         ...userInfo,
         type: 'signup',
@@ -93,7 +82,6 @@ export default function SignupForm({ data, text }: SignupFormProps) {
 
       try {
         await callZapierWebhook(payload);
-        register('/', 'signup');
       } catch (error) {
         console.error(error);
       }
@@ -118,7 +106,7 @@ export default function SignupForm({ data, text }: SignupFormProps) {
     handleSubmit();
   }
 
-  if (isRegistered) return (
+  if (submitCount > 0 && isValid) return (
     <div className="flex flex-col gap-6 p-8 bg-background max-w-2xl h-full m-auto rounded-lg overflow-hidden">
       <h3 className="text-3xl md:text-4xl md:text-center">{text.registeredTitle}</h3>
       <p className="text-sm md:text-base text-center">{text.registeredDescription}</p>
@@ -208,7 +196,7 @@ export default function SignupForm({ data, text }: SignupFormProps) {
             />
           )}
 
-          <Button type="submit" disabled={!isValid}>{data?.form?.submit}</Button>
+          <Button type="submit" disabled={!isValid} isLoading={isSubmitting}>{data?.form?.submit}</Button>
           <div className="flex items-start gap-2">
             <Checkbox id="consent" required checked={values.consent} onClick={() => setFieldValue('consent', !values.consent)} />
             <label htmlFor="consent" className="text-xs cursor-pointer">{data?.consent}</label>

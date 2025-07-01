@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { translate } from '@/lib/translation'
 import { HomePage } from '@/types/sanity.types'
-import Link from 'next/link'
 
 type InvestorCommunitySectionProps = {
   data: HomePage['investorCommunitySection']
@@ -17,10 +16,8 @@ export default async function InvestorCommunitySection({ data }: InvestorCommuni
         {/* <Image src="/images/smart-investor.png" alt="Smart Investor" width={1000} height={1000} className='w-full h-auto' /> */}
         <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-10">
           <h3 className='text-3xl md:text-5xl text-center md:text-left text-primary-foreground' data-token={title.token}>{title.text}</h3>
-          <Button size="lg" variant="accent" className='w-full md:w-auto font-semibold' asChild>
-            <Link href={data?.CTA?.url ?? ''} target='_blank' data-token={buttonText.token}>
-              {data?.CTA?.label ?? buttonText.text}
-            </Link>
+          <Button size="lg" variant="accent" className='w-full md:w-auto font-semibold' href={data?.CTA?.url ?? ''} target='_blank' addLocaleToHref>
+            {data?.CTA?.label ?? buttonText.text}
           </Button>
         </div>
       </div>

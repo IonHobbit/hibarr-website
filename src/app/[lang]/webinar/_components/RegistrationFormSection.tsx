@@ -13,8 +13,9 @@ import { useMutation } from "@tanstack/react-query";
 import * as Yup from 'yup';
 import storage, { StorageKey } from "@/lib/storage.util";
 import { useRouter } from "next/navigation";
-import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
+import { persistUserInfo } from "@/lib/services/user.service";
 import { PhoneInput } from "@/components/ui/phone-input";
+import useUserInfo from "@/hooks/useUserInfo";
 
 type RegistrationFormSectionProps = {
   data: WebinarPage;
@@ -22,17 +23,12 @@ type RegistrationFormSectionProps = {
 
 export default function RegistrationFormSection({ data }: RegistrationFormSectionProps) {
   const router = useRouter();
-  const userInfo = getUserInfo();
+  const userInfo = useUserInfo();
   const { isRegistered } = useRegistrationCheck();
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      const contactInfo = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phoneNumber: values.phone,
-      }
+      const contactInfo = values;
       try {
         const payload: ZapierWebinarPayload = {
           ...contactInfo,
@@ -52,12 +48,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
   });
 
   const { values, handleChange, handleSubmit, isValid, errors, touched, setFieldTouched, setFieldValue } = useFormik({
-    initialValues: {
-      firstName: userInfo?.firstName || '',
-      lastName: userInfo?.lastName || '',
-      email: userInfo?.email || '',
-      phone: userInfo?.phoneNumber || '',
-    },
+    initialValues: userInfo,
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required('First name is required'),
       lastName: Yup.string().required('Last name is required'),
@@ -127,10 +118,10 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
                 <PhoneInput title={data.registrationSection?.form?.phone ?? 'Phone'}
                   name="phone"
                   required
-                  value={values.phone}
-                  onChange={(value) => setFieldValue('phone', value)}
-                  onBlur={() => setFieldTouched('phone', true)}
-                  error={errors.phone && touched.phone ? errors.phone : undefined}
+                  value={values.phoneNumber}
+                  onChange={(value) => setFieldValue('phoneNumber', value)}
+                  onBlur={() => setFieldTouched('phoneNumber', true)}
+                  error={errors.phoneNumber && touched.phoneNumber ? errors.phoneNumber : undefined}
                 />
                 <Button type="submit" isLoading={isPending} disabled={isPending || !isValid}>{data.registrationSection?.form?.submitButton ?? 'Register'}</Button>
               </form>

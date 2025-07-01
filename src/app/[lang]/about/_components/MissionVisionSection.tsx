@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
-import Link from 'next/link'
 import { AboutPage } from '@/types/sanity.types';
 
 type MissionVisionSectionProps = {
@@ -21,10 +20,8 @@ export default function MissionVisionSection({ data }: MissionVisionSectionProps
           <p className="md:text-lg">
             {data?.vision?.content}
           </p>
-          <Button variant="accent" size="lg" className='w-max' asChild>
-            <Link href={data?.CTA?.url ?? ''}>
-              {data?.CTA?.label}
-            </Link>
+          <Button href={data?.CTA?.url ?? ''} addLocaleToHref variant="accent" size="lg" className='w-max'>
+            {data?.CTA?.label}
           </Button>
         </div>
         <div className="flex flex-col gap-4 order-1 md:order-2">
