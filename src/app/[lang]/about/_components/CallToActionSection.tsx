@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 import React from 'react'
 import { AboutPage } from '@/types/sanity.types';
 
@@ -20,10 +19,8 @@ export default function CallToActionSection({ data }: CallToActionSectionProps) 
           </p>
         </div>
         <div className="flex items-center justify-end w-full">
-          <Button variant="accent" size="lg" className='w-max' asChild>
-            <Link href={data?.CTA?.url ?? ''}>
-              {data?.CTA?.label}
-            </Link>
+          <Button href={data?.CTA?.url || ''} addLocaleToHref variant="accent" size="lg" className='w-max'>
+            {data?.CTA?.label}
           </Button>
         </div>
       </div>

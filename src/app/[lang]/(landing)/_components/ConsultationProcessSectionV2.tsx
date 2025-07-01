@@ -19,7 +19,7 @@ export default function ConsultationProcessSection({ data }: ConsultationProcess
               key={index}
               className="group overflow-hidden cursor-default flex flex-col gap-4 rounded-xl p-4 py-5 basis-full bg-white md:basis-[31.5%] md:nth-last-[-n+2]:basis-[48%] transition-all duration-300">
               <div className="flex flex-wrap items-center gap-2">
-                <Icon icon={step.icon ?? ''} className="text-primary shrink-0 text-3xl group-hover:scale-110 transition-all duration-300" />
+                <Icon icon={step.icon || ''} className="text-primary shrink-0 text-3xl group-hover:scale-110 transition-all duration-300" />
                 <div className="flex flex-col gap-1">
                   <h4 className="text-xl md:text-2xl text-primary truncate">{step.title}</h4>
                 </div>

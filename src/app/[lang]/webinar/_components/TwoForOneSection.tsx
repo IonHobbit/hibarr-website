@@ -16,7 +16,7 @@ export default async function TwoForOneSection({ data }: TwoForOneSectionProps) 
       <div className="section grid place-items-center place-content-center gap-10 py-20 max-w-screen-md mx-auto">
         <h3 className='text-4xl md:text-5xl text-primary-foreground text-center' data-token={title.token}>{title.text}</h3>
         <Button className="w-max" variant="accent" size="lg" asChild>
-          <Link href={data?.CTA?.url ?? ''}>{data?.CTA?.label}</Link>
+          <Link href={data?.CTA?.url || ''}>{data?.CTA?.label}</Link>
         </Button>
       </div>
     </section>

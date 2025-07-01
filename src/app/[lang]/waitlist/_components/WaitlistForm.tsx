@@ -9,8 +9,9 @@ import storage, { StorageKey } from "@/lib/storage.util";
 import { callZapierWebhook } from "@/lib/zapier";
 import { useMutation } from "@tanstack/react-query";
 import { ZapierWaitlistPayload } from "@/types/main";
-import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
+import { persistUserInfo } from "@/lib/services/user.service";
 import { PhoneInput } from "@/components/ui/phone-input";
+import useUserInfo from "@/hooks/useUserInfo";
 
 type WaitlistFormProps = {
   formData: WaitlistPage['waitlistForm']
@@ -18,16 +19,11 @@ type WaitlistFormProps = {
 
 export default function WaitlistForm({ formData }: WaitlistFormProps) {
   const router = useRouter();
-  const userInfo = getUserInfo();
+  const userInfo = useUserInfo();
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      const contactInfo = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phoneNumber: values.phoneNumber,
-      }
+      const contactInfo = values;
 
       try {
         const payload: ZapierWaitlistPayload = {
@@ -49,12 +45,7 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
 
 
   const { values, handleChange, setFieldValue, handleSubmit } = useFormik({
-    initialValues: {
-      firstName: userInfo?.firstName || '',
-      lastName: userInfo?.lastName || '',
-      email: userInfo?.email || '',
-      phoneNumber: userInfo?.phoneNumber || '',
-    },
+    initialValues: userInfo,
     onSubmit: () => mutate()
   })
 

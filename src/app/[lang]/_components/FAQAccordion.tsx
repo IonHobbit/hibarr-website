@@ -13,7 +13,7 @@ export default async function FAQAccordion({ lang }: FAQAccordionProps) {
   return (
     <Accordion type='single' collapsible>
       {data?.map((faq, index) => (
-        <AccordionItem key={index} value={faq.question ?? ''}>
+        <AccordionItem key={index} value={faq.question || ''}>
           <AccordionTrigger>
             <p className='text-primary-foreground text-lg md:text-xl !font-sans font-medium'>{faq.question}</p>
           </AccordionTrigger>

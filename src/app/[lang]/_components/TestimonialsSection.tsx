@@ -1,9 +1,7 @@
 import { CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel'
 import { Carousel } from '@/components/ui/carousel'
 import { Icon } from '@iconify/react'
-import React from 'react'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 import { HomePage, Testimonial } from '@/types/sanity.types'
 import { client } from '@/lib/sanity/client'
 import { Locale } from '@/lib/i18n-config';
@@ -24,7 +22,7 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
 
   return (
     <section id='testimonials' className='section pt-20'>
-      <div className="flex flex-col justify-center gap-4 min-h-[40vh] w-full overflow-hidden md:overflow-visible max-w-screen-sm md:max-w-screen-md mx-auto">
+      <div className="flex flex-col items-center justify-center gap-4 min-h-[40vh] w-full overflow-hidden md:overflow-visible max-w-screen-sm md:max-w-screen-md mx-auto">
         <div className="relative w-full mx-auto">
           <div className="flex items-end justify-center w-full gap-2">
             <h3 className="text-3xl md:text-4xl text-center">{data?.testimonialsSection?.title}</h3>
@@ -39,7 +37,7 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
                 <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'flex-col items-center', 'flex gap-4 p-4 relative')}>
                   {showImage && testimonial.clientImage && (
                     <div className='w-32 h-32 rounded overflow-hidden relative shrink-0'>
-                      <Image src={generateImageUrl(testimonial.clientImage).url()} alt={testimonial.clientName ?? ''} className='w-full h-full object-cover' fill />
+                      <Image src={generateImageUrl(testimonial.clientImage).url()} alt={testimonial.clientName || ''} className='w-full h-full object-cover' fill />
                     </div>
                   )}
                   <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'items-center', 'flex flex-col gap-2')}>
@@ -58,10 +56,8 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
           <CarouselPrevious className='border-none translate-x-16 md:translate-x-0 translate-y-[450%] md:translate-y-0 bg-primary hover:bg-primary/80 cursor-pointer disabled:opacity-0' />
           <CarouselNext className='border-none -translate-x-16 md:translate-x-0 translate-y-[450%] md:translate-y-0 bg-primary hover:bg-primary/80 cursor-pointer disabled:opacity-0' />
         </Carousel>
-        <Button variant="link" size="lg" className='w-max mx-auto text-accent' asChild>
-          <Link href={data?.testimonialsSection?.CTA?.url ?? ''}>
-            {data?.testimonialsSection?.CTA?.label}
-          </Link>
+        <Button variant="link" href={data?.testimonialsSection?.CTA?.url || ''} addLocaleToHref size="lg" className='w-max mx-auto text-accent'>
+          {data?.testimonialsSection?.CTA?.label}
         </Button>
       </div>
     </section>

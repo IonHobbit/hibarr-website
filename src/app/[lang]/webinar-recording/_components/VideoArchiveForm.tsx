@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PhoneInput } from '@/components/ui/phone-input';
 import Video from '@/components/Video';
-import { getUserInfo } from '@/lib/services/user.service';
+import useUserInfo from '@/hooks/useUserInfo';
 import { cn } from '@/lib/utils';
 import { useMutation } from '@tanstack/react-query';
 import { useFormik } from 'formik';
@@ -18,7 +18,7 @@ type VideoArchiveFormData = {
 }
 
 export default function VideoArchiveForm() {
-  const userInfo = getUserInfo();
+  const userInfo = useUserInfo();
 
   const { values, handleChange, setFieldValue, handleSubmit } = useFormik({
     initialValues: {

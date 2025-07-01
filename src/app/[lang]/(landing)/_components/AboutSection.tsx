@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import { HomePage } from '@/types/sanity.types';
 import BounceCards from '@/components/bits/BounceCards/BounceCards';
 
@@ -41,10 +40,8 @@ export default function AboutSection({ data }: AboutSectionProps) {
           {data.aboutSection?.paragraphs?.map((paragraph, index) => (
             <p key={index} className='text-base'>{paragraph}</p>
           ))}
-          <Button variant="accent" size="lg" className='w-fit' asChild>
-            <Link href={data.aboutSection?.CTA?.url ?? ''}>
-              {data.aboutSection?.CTA?.label}
-            </Link>
+          <Button variant="accent" size="lg" className='w-fit' href={data.aboutSection?.CTA?.url || ''} addLocaleToHref>
+            {data.aboutSection?.CTA?.label}
           </Button>
         </div>
         <div>

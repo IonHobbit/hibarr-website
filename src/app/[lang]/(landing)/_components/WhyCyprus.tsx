@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { HomePage } from "@/types/sanity.types";
 import Video from "@/components/Video";
 
@@ -27,8 +26,8 @@ export default function WhyCyprus({ data, link }: WhyCyprusProps) {
               </div>
             ))}
           </div>
-          <Button className="w-max" variant="accent" size="lg" asChild>
-            <Link href={link ?? data?.CTA?.url ?? ''}>{data?.CTA?.label}</Link>
+          <Button className="w-max" variant="accent" size="lg" href={link || data?.CTA?.url || ''} addLocaleToHref>
+            {data?.CTA?.label}
           </Button>
         </div>
       </div>
