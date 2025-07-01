@@ -53,7 +53,6 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
       firstName: Yup.string().required('First name is required'),
       lastName: Yup.string().required('Last name is required'),
       email: Yup.string().email('Invalid email address, please enter a valid email address').required('Email is required'),
-      phone: Yup.string().required('Phone is required').matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number, please use international format (+49 123 456 7890)'),
     }),
     onSubmit: () => mutate(),
   });
