@@ -193,7 +193,7 @@ export default function WaveReveal({
     direction,
     mode,
     duration: duration ?? 60,
-    delay: delay ?? 0,
+    delay: delay || 0,
     blur,
     className: letterClassName,
   });

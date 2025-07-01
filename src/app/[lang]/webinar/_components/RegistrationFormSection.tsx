@@ -13,8 +13,9 @@ import { useMutation } from "@tanstack/react-query";
 import * as Yup from 'yup';
 import storage, { StorageKey } from "@/lib/storage.util";
 import { useRouter } from "next/navigation";
-import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
+import { persistUserInfo } from "@/lib/services/user.service";
 import { PhoneInput } from "@/components/ui/phone-input";
+import useUserInfo from "@/hooks/useUserInfo";
 
 type RegistrationFormSectionProps = {
   data: WebinarPage;
@@ -22,17 +23,12 @@ type RegistrationFormSectionProps = {
 
 export default function RegistrationFormSection({ data }: RegistrationFormSectionProps) {
   const router = useRouter();
-  const userInfo = getUserInfo();
+  const userInfo = useUserInfo();
   const { isRegistered } = useRegistrationCheck();
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      const contactInfo = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phoneNumber: values.phone,
-      }
+      const contactInfo = values;
       try {
         const payload: ZapierWebinarPayload = {
           ...contactInfo,
@@ -52,12 +48,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
   });
 
   const { values, handleChange, handleSubmit, isValid, errors, touched, setFieldTouched, setFieldValue } = useFormik({
-    initialValues: {
-      firstName: userInfo?.firstName || '',
-      lastName: userInfo?.lastName || '',
-      email: userInfo?.email || '',
-      phone: userInfo?.phoneNumber || '',
-    },
+    initialValues: userInfo,
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required('First name is required'),
       lastName: Yup.string().required('Last name is required'),
@@ -71,17 +62,17 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
     <section id='register' className='bg-primary bg-[url("/images/webinar-registration-background.webp")] bg-cover bg-center flex flex-col bg-blend-soft-light'>
       <div className="section h-full grow py-40">
         <div className="max-w-screen-md mx-auto flex md:hidden flex-col gap-4">
-          <Countdown date={data.webinarInformationSection?.date ?? ''} timezone={data.webinarInformationSection?.timezone ?? ''} />
+          <Countdown date={data.webinarInformationSection?.date || ''} timezone={data.webinarInformationSection?.timezone || ''} />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center h-full grow overflow-hidden">
           <div className="relative w-full flex flex-col items-center gap-6 order-2 md:order-1">
             <div className="max-w-screen-md mx-auto hidden md:flex flex-col gap-4">
-              <Countdown date={data.webinarInformationSection?.date ?? ''} timezone={data.webinarInformationSection?.timezone ?? ''} />
+              <Countdown date={data.webinarInformationSection?.date || ''} timezone={data.webinarInformationSection?.timezone || ''} />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-3">
               {data.registrationSection?.webinarFeatures?.map((feature) => (
                 <div key={feature.title} className="flex items-center bg-secondary text-primary backdrop-blur-lg gap-4 border rounded-md p-4 h-24">
-                  <Icon icon={feature.icon ?? ''} className="size-10 shrink-0" />
+                  <Icon icon={feature.icon || ''} className="size-10 shrink-0" />
                   <p className="text-sm">{feature.title}</p>
                 </div>
               ))}
@@ -96,8 +87,8 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
               </div>
               :
               <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-6 bg-background rounded-lg justify-between h-full md:max-w-lg mx-auto w-full">
-                <h3 className="text-xl md:text-2xl text-center">{data.registrationSection?.form?.title ?? 'Register for the webinar'}</h3>
-                <Input type="text" title={data.registrationSection?.form?.firstName ?? 'First Name'}
+                <h3 className="text-xl md:text-2xl text-center">{data.registrationSection?.form?.title || 'Register for the webinar'}</h3>
+                <Input type="text" title={data.registrationSection?.form?.firstName || 'First Name'}
                   placeholder="John"
                   name="firstName"
                   required
@@ -106,7 +97,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
                   onBlur={() => setFieldTouched('firstName', true)}
                   error={errors.firstName && touched.firstName ? errors.firstName : undefined}
                 />
-                <Input type="text" title={data.registrationSection?.form?.lastName ?? 'Last Name'}
+                <Input type="text" title={data.registrationSection?.form?.lastName || 'Last Name'}
                   placeholder="Doe"
                   name="lastName"
                   required
@@ -115,7 +106,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
                   onBlur={() => setFieldTouched('lastName', true)}
                   error={errors.lastName && touched.lastName ? errors.lastName : undefined}
                 />
-                <Input type="email" title={data.registrationSection?.form?.email ?? 'Email'}
+                <Input type="email" title={data.registrationSection?.form?.email || 'Email'}
                   placeholder="john.doe@example.com"
                   name="email"
                   required
@@ -124,15 +115,15 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
                   onBlur={() => setFieldTouched('email', true)}
                   error={errors.email && touched.email ? errors.email : undefined}
                 />
-                <PhoneInput title={data.registrationSection?.form?.phone ?? 'Phone'}
+                <PhoneInput title={data.registrationSection?.form?.phone || 'Phone'}
                   name="phone"
                   required
-                  value={values.phone}
-                  onChange={(value) => setFieldValue('phone', value)}
-                  onBlur={() => setFieldTouched('phone', true)}
-                  error={errors.phone && touched.phone ? errors.phone : undefined}
+                  value={values.phoneNumber}
+                  onChange={(value) => setFieldValue('phoneNumber', value)}
+                  onBlur={() => setFieldTouched('phoneNumber', true)}
+                  error={errors.phoneNumber && touched.phoneNumber ? errors.phoneNumber : undefined}
                 />
-                <Button type="submit" isLoading={isPending} disabled={isPending || !isValid}>{data.registrationSection?.form?.submitButton ?? 'Register'}</Button>
+                <Button type="submit" isLoading={isPending} disabled={isPending || !isValid}>{data.registrationSection?.form?.submitButton || 'Register'}</Button>
               </form>
             }
           </div>

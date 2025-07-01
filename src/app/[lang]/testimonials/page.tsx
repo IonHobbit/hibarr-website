@@ -46,7 +46,7 @@ export default async function TestimonialsPage(
             </p>
           </div>
           <Button variant="accent" size="lg" className='w-max mx-auto' asChild>
-            <Link href={data?.CTA?.url ?? ''} className='uppercase font-semibold'>
+            <Link href={data?.CTA?.url || ''} className='uppercase font-semibold'>
               {data?.CTA?.label}
             </Link>
           </Button>

@@ -28,7 +28,7 @@ export default function useURL() {
         params.delete(key)
       }
     }
-    replace(`${path ?? pathname}?${params.toString()}`, options);
+    replace(`${path || pathname}?${params.toString()}`, options);
   }
 
   const replaceParams = (payload: ParamPayload | ParamPayload[], path?: string, options?: NavigateOptions) => {
@@ -40,12 +40,24 @@ export default function useURL() {
     } else {
       params.set(payload.key, payload.value.toString())
     }
-    replace(`${path ?? pathname}?${params.toString()}`, options);
+    replace(`${path || pathname}?${params.toString()}`, options);
   }
 
   const clearParams = (options?: NavigateOptions) => {
     replace(pathname, options);
   }
 
-  return { searchParams, updateParams, replaceParams, clearParams }
+  const wrapWithLocale = (path: string) => {
+    // Check if the pathname starts with a locale (e.g., /en, /de, /fr, etc.)
+    // Assuming locale is always two lowercase letters at the start of the path
+    const localeMatch = pathname.match(/^\/([a-z]{2})(\/|$)/);
+    if (localeMatch) {
+      // If locale is present, insert the path after the locale
+      return `/${localeMatch[1]}/${path.replace(/^\/+/, '')}`;
+    }
+    // If no locale, just append the path
+    return `/${path.replace(/^\/+/, '')}`;
+  }
+
+  return { searchParams, updateParams, replaceParams, clearParams, wrapWithLocale }
 }

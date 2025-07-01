@@ -6,7 +6,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import useRegistrationCheck from "@/hooks/useRegistrationCheck";
-import { getUserInfo, persistUserInfo } from "@/lib/services/user.service";
+import useUserInfo from "@/hooks/useUserInfo";
+import { persistUserInfo } from "@/lib/services/user.service";
 import { cn } from "@/lib/utils";
 import { callZapierWebhook } from "@/lib/zapier";
 import { ZapierUglaPayload } from "@/types/main";
@@ -20,7 +21,7 @@ type FreebieSignupSectionProps = {
 }
 
 export default function FreebieSignupSection({ data }: FreebieSignupSectionProps) {
-  const userInfo = getUserInfo();
+  const userInfo = useUserInfo();
   const { isRegistered } = useRegistrationCheck();
 
   const { values, isValid, setFieldValue, handleChange, handleSubmit } = useFormik({
@@ -32,20 +33,21 @@ export default function FreebieSignupSection({ data }: FreebieSignupSectionProps
       consent: false,
     },
     onSubmit: async (values) => {
-      const userInfo = {
+      const contactInfo = {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
         phoneNumber: values.phoneNumber,
+        language: userInfo.language,
       }
       const payload: ZapierUglaPayload = {
-        ...userInfo,
+        ...contactInfo,
         type: 'ugla'
       };
 
       try {
         await callZapierWebhook(payload);
-        persistUserInfo(userInfo);
+        persistUserInfo(contactInfo);
         // register('/', '#freebie');
       } catch (error) {
         console.error(error);

@@ -21,8 +21,9 @@ import { StorageKey } from '@/lib/storage.util'
 import storage from '@/lib/storage.util'
 import { useMutation } from '@tanstack/react-query'
 import router from 'next/router'
-import { getUserInfo, persistUserInfo } from '@/lib/services/user.service'
+import { persistUserInfo } from '@/lib/services/user.service'
 import { PhoneInput } from '@/components/ui/phone-input'
+import useUserInfo from '@/hooks/useUserInfo'
 
 type FormValues = {
   firstName: string
@@ -82,7 +83,7 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
   const baseCalendlyUrl = 'https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319'
 
   const { lang } = useParams();
-  const userInfo = getUserInfo();
+  const userInfo = useUserInfo();
   const [calendlyUrl, setCalendlyUrl] = useState('');
 
   const { isRegistered } = useRegistrationCheck();
@@ -121,10 +122,7 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
     mutationFn: async () => {
       try {
         const payload: ZapierConsultationPayload = {
-          email: values.email,
-          firstName: values.firstName,
-          lastName: values.lastName,
-          phoneNumber: values.phoneNumber,
+          ...values,
           clickID: values.clickID,
           type: 'consultation',
           consultationInfo: {
@@ -149,10 +147,7 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
 
   const { values, setFieldValue, handleChange, handleSubmit } = useFormik<FormValues>({
     initialValues: {
-      firstName: userInfo?.firstName || '',
-      lastName: userInfo?.lastName || '',
-      email: userInfo?.email || '',
-      phoneNumber: userInfo?.phoneNumber || '',
+      ...userInfo,
       country: initialCountry || null,
       interestedIn: [],
       budget: '',
@@ -175,6 +170,7 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
         lastName: values.lastName,
         email: values.email,
         phoneNumber: values.phoneNumber,
+        language: userInfo.language,
       });
       setCalendlyUrl(link);
       mutate()
@@ -316,7 +312,7 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
       // 5: !values.language
     };
 
-    return validations[step as keyof typeof validations] ?? false;
+    return validations[step as keyof typeof validations] || false;
   }
 
   if (isRegistered) {

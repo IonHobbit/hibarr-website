@@ -19,8 +19,9 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import BankDetailsModal from './BankDetailsModal';
 import * as Yup from 'yup';
-import { getUserInfo, persistUserInfo } from '@/lib/services/user.service';
+import { persistUserInfo } from '@/lib/services/user.service';
 import { roomTypeOptions } from '@/lib/options';
+import useUserInfo from '@/hooks/useUserInfo';
 
 type RegistrationFormProps = {
   packages: BankPackage[]
@@ -31,7 +32,7 @@ type RegistrationFormProps = {
 
 export default function RegistrationForm({ packages, activePackage, form, selectPackage }: RegistrationFormProps) {
   const router = useRouter();
-  const userInfo = getUserInfo();
+  const userInfo = useUserInfo();
 
   const [activeStep, setActiveStep] = useState(0);
   const [url, setUrl] = useState<string | null>(null);
@@ -59,6 +60,7 @@ export default function RegistrationForm({ packages, activePackage, form, select
         lastName: userInfo?.lastName || '',
         email: userInfo?.email || '',
         phoneNumber: userInfo?.phoneNumber || '',
+        language: userInfo?.language,
       },
       nextOfKin: {
         fathersFirstName: '',
@@ -173,6 +175,7 @@ export default function RegistrationForm({ packages, activePackage, form, select
           lastName: values.personalInformation.lastName,
           email: values.personalInformation.email,
           phoneNumber: values.personalInformation.phoneNumber,
+          language: userInfo.language,
         });
         if (activePackage.price > 0) {
           if (values.paymentMethod === 'payOnline' && data.url) {
