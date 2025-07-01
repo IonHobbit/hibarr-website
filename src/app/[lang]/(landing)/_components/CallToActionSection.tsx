@@ -16,7 +16,7 @@ export default function CallToActionSection({ data }: CallToActionSectionProps) 
             <h3 className='text-4xl text-center text-primary-foreground'>{data?.title}</h3>
             <p className="text-primary-foreground text-center max-w-screen-md mx-auto md:text-lg">{data?.description}</p>
           </div>
-          <Button href={data?.CTA?.url ?? ''} addLocaleToHref className="w-fit mx-auto" variant="accent" size="lg">
+          <Button href={data?.CTA?.url || ''} addLocaleToHref className="w-fit mx-auto" variant="accent" size="lg">
             {data?.CTA?.label}
           </Button>
         </div>

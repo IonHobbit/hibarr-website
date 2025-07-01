@@ -40,7 +40,7 @@ export default function AboutSection({ data }: AboutSectionProps) {
           {data.aboutSection?.paragraphs?.map((paragraph, index) => (
             <p key={index} className='text-base'>{paragraph}</p>
           ))}
-          <Button variant="accent" size="lg" className='w-fit' href={data.aboutSection?.CTA?.url ?? ''} addLocaleToHref>
+          <Button variant="accent" size="lg" className='w-fit' href={data.aboutSection?.CTA?.url || ''} addLocaleToHref>
             {data.aboutSection?.CTA?.label}
           </Button>
         </div>

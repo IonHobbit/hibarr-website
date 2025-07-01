@@ -28,7 +28,7 @@ export default function useURL() {
         params.delete(key)
       }
     }
-    replace(`${path ?? pathname}?${params.toString()}`, options);
+    replace(`${path || pathname}?${params.toString()}`, options);
   }
 
   const replaceParams = (payload: ParamPayload | ParamPayload[], path?: string, options?: NavigateOptions) => {
@@ -40,7 +40,7 @@ export default function useURL() {
     } else {
       params.set(payload.key, payload.value.toString())
     }
-    replace(`${path ?? pathname}?${params.toString()}`, options);
+    replace(`${path || pathname}?${params.toString()}`, options);
   }
 
   const clearParams = (options?: NavigateOptions) => {

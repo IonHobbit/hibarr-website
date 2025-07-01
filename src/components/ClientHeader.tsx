@@ -38,7 +38,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
           </div>
           <div className="hidden md:flex items-center justify-end gap-4">
             <Button variant="accent" className='rounded uppercase' asChild>
-              <Link href={navigationData?.bookCall?.href ?? ''}>
+              <Link href={navigationData?.bookCall?.href || ''}>
                 {navigationData?.bookCall?.title}
               </Link>
             </Button>

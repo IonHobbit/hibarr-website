@@ -55,7 +55,7 @@ export default async function ZoomRegistrationPage(
           </div>
           <div className='flex flex-wrap items-center justify-center gap-4'>
             <Button variant='accent' size="lg" asChild>
-              <Link href={webinarPage.CTA?.url ?? ''} className='uppercase font-semibold'>
+              <Link href={webinarPage.CTA?.url || ''} className='uppercase font-semibold'>
                 {webinarPage.CTA?.label}
               </Link>
             </Button>

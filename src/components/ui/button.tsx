@@ -66,7 +66,7 @@ function Button({
   const Comp = asChild ? Slot : "button"
   const { wrapWithLocale } = useURL();
 
-  const url = addLocaleToHref ? wrapWithLocale(href ?? '') : href;
+  const url = addLocaleToHref ? wrapWithLocale(href || '') : href;
 
   if (url) {
     return (

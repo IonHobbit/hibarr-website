@@ -20,7 +20,7 @@ export default function MissionVisionSection({ data }: MissionVisionSectionProps
           <p className="md:text-lg">
             {data?.vision?.content}
           </p>
-          <Button href={data?.CTA?.url ?? ''} addLocaleToHref variant="accent" size="lg" className='w-max'>
+          <Button href={data?.CTA?.url || ''} addLocaleToHref variant="accent" size="lg" className='w-max'>
             {data?.CTA?.label}
           </Button>
         </div>

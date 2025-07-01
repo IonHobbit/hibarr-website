@@ -20,7 +20,7 @@ export default function AboutRabih({ data }: AboutRabihProps) {
           </div>
           <p className="text-muted-foreground md:text-lg">{data?.paragraph1}</p>
           <p className="text-muted-foreground md:text-lg">{data?.paragraph2}</p>
-          <Button href={data?.cta?.url ?? ''} addLocaleToHref variant="accent" size="lg" className='w-max'>
+          <Button href={data?.cta?.url || ''} addLocaleToHref variant="accent" size="lg" className='w-max'>
             {data?.cta?.label}
           </Button>
         </div>

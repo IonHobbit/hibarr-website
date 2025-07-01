@@ -37,7 +37,7 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
                 <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'flex-col items-center', 'flex gap-4 p-4 relative')}>
                   {showImage && testimonial.clientImage && (
                     <div className='w-32 h-32 rounded overflow-hidden relative shrink-0'>
-                      <Image src={generateImageUrl(testimonial.clientImage).url()} alt={testimonial.clientName ?? ''} className='w-full h-full object-cover' fill />
+                      <Image src={generateImageUrl(testimonial.clientImage).url()} alt={testimonial.clientName || ''} className='w-full h-full object-cover' fill />
                     </div>
                   )}
                   <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'items-center', 'flex flex-col gap-2')}>
@@ -56,7 +56,7 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
           <CarouselPrevious className='border-none translate-x-16 md:translate-x-0 translate-y-[450%] md:translate-y-0 bg-primary hover:bg-primary/80 cursor-pointer disabled:opacity-0' />
           <CarouselNext className='border-none -translate-x-16 md:translate-x-0 translate-y-[450%] md:translate-y-0 bg-primary hover:bg-primary/80 cursor-pointer disabled:opacity-0' />
         </Carousel>
-        <Button variant="link" href={data?.testimonialsSection?.CTA?.url ?? ''} addLocaleToHref size="lg" className='w-max mx-auto text-accent'>
+        <Button variant="link" href={data?.testimonialsSection?.CTA?.url || ''} addLocaleToHref size="lg" className='w-max mx-auto text-accent'>
           {data?.testimonialsSection?.CTA?.label}
         </Button>
       </div>

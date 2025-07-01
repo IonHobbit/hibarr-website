@@ -17,7 +17,7 @@ export default function MeetRabih({ data }: MeetRabihProps) {
           </div>
           <p className="text-muted-foreground md:text-lg">{data?.paragraph1}</p>
           <p className="text-muted-foreground md:text-lg">{data?.paragraph2}</p>
-          <Button href={data?.CTA?.url ?? ''} addLocaleToHref variant="accent" size="lg" className='w-max'>
+          <Button href={data?.CTA?.url || ''} addLocaleToHref variant="accent" size="lg" className='w-max'>
             {data?.CTA?.label}
           </Button>
         </div>

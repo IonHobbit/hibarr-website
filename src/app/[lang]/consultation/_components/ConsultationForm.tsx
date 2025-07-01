@@ -306,7 +306,7 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
       // 5: !values.language
     };
 
-    return validations[step as keyof typeof validations] ?? false;
+    return validations[step as keyof typeof validations] || false;
   }
 
   if (isRegistered) {
