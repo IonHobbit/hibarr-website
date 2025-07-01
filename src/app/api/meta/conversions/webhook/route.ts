@@ -17,6 +17,7 @@ export async function POST(req: Request): Promise<NextResponse> {
   const phone = searchParams.get('phone') || '';
   const facebookClickID = searchParams.get('facebookClickID') || '';
   const facebookLeadID = searchParams.get('facebookLeadID') || '';
+  const eventName = searchParams.get('eventName') || 'Lead';
 
   const userData = new UserData()
     .setEmails([hash(email)])
@@ -33,7 +34,7 @@ export async function POST(req: Request): Promise<NextResponse> {
   const serverEvent = new ServerEvent()
     .setUserData(userData)
     .setCustomData(customData)
-    .setEventName("Lead")
+    .setEventName(eventName)
     .setEventTime(currentTime)
     .setActionSource("system_generated")
 

@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
-import Link from 'next/link'
 import { translate } from '@/lib/translation'
 
 export default async function WebinarSection() {
@@ -32,8 +31,8 @@ export default async function WebinarSection() {
               <h3 className='text-2xl md:text-3xl' data-token={subTitle2.token}>{subTitle2.text}</h3>
               <p className='text-sm md:text-base' data-token={content2.token}>{content2.text}</p>
             </div>
-            <Button size="lg" variant="accent" className='w-full md:w-max font-semibold' asChild>
-              <Link href="/webinar" data-token={buttonText.token}>{buttonText.text}</Link>
+            <Button href="/webinar" addLocaleToHref size="lg" variant="accent" className='w-full md:w-max font-semibold'>
+              {buttonText.text}
             </Button>
           </div>
           <div className="relative w-full h-80 md:h-full">

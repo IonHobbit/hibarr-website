@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import useRegistrationCheck from '@/hooks/useRegistrationCheck';
-import { getUserInfo, persistUserInfo } from '@/lib/services/user.service';
+import useUserInfo from '@/hooks/useUserInfo';
+import { persistUserInfo } from '@/lib/services/user.service';
 import { callZapierWebhook } from '@/lib/zapier';
 import { ZapierUglaPayload } from '@/types/main';
 import { HomePage } from '@/types/sanity.types';
@@ -16,7 +17,7 @@ type FreebieFormProps = {
 }
 
 export default function FreebieForm({ data, postSubmissionPath }: FreebieFormProps) {
-  const userInfo = getUserInfo();
+  const userInfo = useUserInfo();
   const { register } = useRegistrationCheck();
 
   const { values, isValid, setFieldValue, handleChange, handleSubmit } = useFormik({
@@ -33,6 +34,7 @@ export default function FreebieForm({ data, postSubmissionPath }: FreebieFormPro
         lastName: values.lastName,
         email: values.email,
         phoneNumber: values.phoneNumber,
+        language: userInfo.language
       }
       const payload: ZapierUglaPayload = { ...contactInfo, type: 'ugla' };
 

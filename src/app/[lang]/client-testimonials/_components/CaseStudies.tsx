@@ -32,7 +32,7 @@ export default function CaseStudies({ caseStudies }: CaseStudiesProps) {
                   <p className="text-base text-muted-foreground">{caseStudy.jobTitle}</p>
                 </div>
                 <h3 className='text-lg'>{caseStudy.tagLine}</h3>
-                <PortableText value={caseStudy.description ?? []} components={{
+                <PortableText value={caseStudy.description || []} components={{
                   block: {
                     paragraph: ({ children }) => <p className='text-lg'>{children}</p>
                   }
@@ -41,7 +41,7 @@ export default function CaseStudies({ caseStudies }: CaseStudiesProps) {
               <div className='xl:col-span-5 flex flex-col gap-2'>
                 <Video
                   ref={(el) => { videoRefs.current[index] = el as VideoRef }}
-                  src={caseStudy.videoUrl ?? ''}
+                  src={caseStudy.videoUrl || ''}
                   poster={generateImageUrl(caseStudy.thumbnail as SanityImageSource).url()}
                 />
               </div>

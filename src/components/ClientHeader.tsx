@@ -20,7 +20,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
 
   const pathname = usePathname()
 
-  const excludedPaths = ['/our-packages', '/listings/', 'webinar-recording', '/thank-you', '/blog', '/findr']
+  const excludedPaths = ['/our-packages', '/listings/', 'webinar-recording', '/thank-you', '/blog', '/findr', '/partners/news-central-corp']
 
   const isExcludedPath = excludedPaths.some(path => pathname.includes(path))
 
@@ -38,7 +38,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
           </div>
           <div className="hidden md:flex items-center justify-end gap-4">
             <Button variant="accent" className='rounded uppercase' asChild>
-              <Link href={navigationData?.bookCall?.href ?? ''}>
+              <Link href={navigationData?.bookCall?.href || ''}>
                 {navigationData?.bookCall?.title}
               </Link>
             </Button>

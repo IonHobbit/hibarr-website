@@ -30,7 +30,7 @@ export default function BenefitsSection({ data }: BenefitsSectionProps) {
             ))}
           </div>
           <Button className="w-max" size="lg" variant="accent" asChild>
-            <Link href={data?.CTA?.url ?? ''}>{data?.CTA?.label}</Link>
+            <Link href={data?.CTA?.url || ''}>{data?.CTA?.label}</Link>
           </Button>
         </div>
       </div>

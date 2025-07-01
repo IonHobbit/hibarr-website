@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { AboutPage } from "@/types/sanity.types";
@@ -21,10 +20,8 @@ export default function AboutRabih({ data }: AboutRabihProps) {
           </div>
           <p className="text-muted-foreground md:text-lg">{data?.paragraph1}</p>
           <p className="text-muted-foreground md:text-lg">{data?.paragraph2}</p>
-          <Button variant="accent" size="lg" className='w-max' asChild>
-            <Link href={data?.cta?.url ?? ''}>
-              {data?.cta?.label}
-            </Link>
+          <Button href={data?.cta?.url || ''} addLocaleToHref variant="accent" size="lg" className='w-max'>
+            {data?.cta?.label}
           </Button>
         </div>
       </div>

@@ -75,7 +75,7 @@ function BreadcrumbSeparator({
       className={cn("[&>svg]:size-3.5", className)}
       {...props}
     >
-      {children ?? <Icon icon="mdi:chevron-right" className="size-4" />}
+      {children || <Icon icon="mdi:chevron-right" className="size-4" />}
     </li>
   )
 }
