@@ -145,7 +145,7 @@ export default function AnimatedPartnershipSection({
         >
           {benefits.map((benefit, index) => (
             <motion.div
-              key={index}
+              key={`${benefit.title}-${index}`}
               className='bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/20 cursor-pointer'
               variants={cardVariants}
               whileHover="hover"

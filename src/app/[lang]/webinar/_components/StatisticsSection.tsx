@@ -19,7 +19,7 @@ export default async function StatisticsSection({ data }: StatisticsSectionProps
             <div key={index} className="flex flex-col items-center gap-2">
               <p className="text-6xl font-semibold text-primary-foreground">
                 {statistic.prefix && <span>{statistic.prefix}</span>}
-                <CountUp from={0} to={statistic.number || 0} />
+                <CountUp from={0} to={statistic.number ?? 0} />
                 {statistic.postfix && <span>{statistic.postfix}</span>}
               </p>
               <p className="text-sm md:text-lg text-primary-foreground">{statistic.description}</p>

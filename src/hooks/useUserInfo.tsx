@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 export default function useUserInfo() {
   const params = useParams();
   const lang = (params.lang as string) || 'en';
-  const language = localeInfo[lang as keyof typeof localeInfo].name || localeInfo.en.name;
+  const language = localeInfo[lang as keyof typeof localeInfo]?.name || localeInfo.en.name;
 
   const userInfo = getUserInfo();
 
