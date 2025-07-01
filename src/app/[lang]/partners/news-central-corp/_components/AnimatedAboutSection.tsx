@@ -113,7 +113,7 @@ export default function AnimatedAboutSection({ title, description, coreServices,
           >
             {coreServices.map((service, index) => (
               <motion.div 
-                key={index} 
+                key={`${service.name}-${index}`} 
                 className='flex gap-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer'
                 variants={cardVariants}
                 whileHover="hover"

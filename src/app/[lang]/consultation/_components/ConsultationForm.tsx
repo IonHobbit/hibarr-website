@@ -165,7 +165,13 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
     }),
     onSubmit: () => {
       const link = generateCalendlyPrefilledUrl();
-      persistUserInfo(values);
+      persistUserInfo({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+        language: userInfo.language,
+      });
       setCalendlyUrl(link);
       mutate()
     }

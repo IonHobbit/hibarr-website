@@ -85,7 +85,7 @@ export default function AnimatedWhySection({ title, subtitle, cards, primaryColo
         >
           {cards.map((card, index) => (
             <motion.div 
-              key={index}
+              key={`${card.title}-${index}`}
               className='bg-white p-8 rounded-lg shadow-sm cursor-pointer'
               variants={cardVariants}
               whileHover="hover"
@@ -95,7 +95,7 @@ export default function AnimatedWhySection({ title, subtitle, cards, primaryColo
               <p className='text-gray-600 mb-4'>{card.content}</p>
               <ul className='space-y-2 text-sm text-gray-600'>
                 {card.items.map((item, itemIndex) => (
-                  <li key={itemIndex}>• {item}</li>
+                  <li key={`${item.substring(0, 10)}-${itemIndex}`}>• {item}</li>
                 ))}
               </ul>
             </motion.div>
