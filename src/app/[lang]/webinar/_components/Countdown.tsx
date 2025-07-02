@@ -1,3 +1,4 @@
+import useTranslation from '@/hooks/useTranslation';
 import pluralize from 'pluralize';
 import React, { Fragment, useState, useEffect } from 'react'
 
@@ -57,6 +58,13 @@ export default function Countdown({ date, timezone }: CountdownProps) {
     )
   }
 
+  const { data: dayString } = useTranslation('Day');
+  const { data: hourString } = useTranslation('Hour');
+  const { data: minuteString } = useTranslation('Minute');
+  const { data: secondString } = useTranslation('Second');
+
+  const { data: translatedWebinarDate } = useTranslation(webinarDate)
+
   if (!date || !timezone) return null;
 
   if (days === '' && hours === '' && minutes === '' && seconds === '') return null;
@@ -74,12 +82,12 @@ export default function Countdown({ date, timezone }: CountdownProps) {
 
   return (
     <Fragment>
-      <p className="text-2xl font-semibold text-center text-primary-foreground">{webinarDate}</p>
+      <p className="text-2xl font-semibold text-center text-primary-foreground">{translatedWebinarDate?.text || webinarDate}</p>
       <div className="grid grid-cols-4 gap-2 place-items-center place-content-center bg-secondary w-full rounded-lg p-4">
-        <Counter label={pluralize("Day", parseInt(days))} value={days} />
-        <Counter label={pluralize("Hour", parseInt(hours))} value={hours} />
-        <Counter label={pluralize("Minute", parseInt(minutes))} value={minutes} />
-        <Counter label={pluralize("Second", parseInt(seconds))} value={seconds} />
+        <Counter label={pluralize(dayString?.text || '', parseInt(days))} value={days} />
+        <Counter label={pluralize(hourString?.text || '', parseInt(hours))} value={hours} />
+        <Counter label={pluralize(minuteString?.text || '', parseInt(minutes))} value={minutes} />
+        <Counter label={pluralize(secondString?.text || '', parseInt(seconds))} value={seconds} />
       </div>
     </Fragment>
   )
