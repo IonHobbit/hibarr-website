@@ -12,7 +12,7 @@ import * as Yup from 'yup'
 import useRegistrationCheck from '@/hooks/useRegistrationCheck'
 import CalendlyEmbed from '@/components/CalendlyEmbed'
 import { callZapierWebhook } from '@/lib/zapier'
-import { ZapierConsultationPayload } from '@/types/main'
+import { ContactInfo, ZapierConsultationPayload } from '@/types/main'
 import { CountryDropdown, Country } from '@/components/ui/country-dropdonw'
 import { countries } from 'country-data-list'
 import { useParams } from 'next/navigation'
@@ -25,11 +25,7 @@ import { persistUserInfo } from '@/lib/services/user.service'
 import { PhoneInput } from '@/components/ui/phone-input'
 import useUserInfo from '@/hooks/useUserInfo'
 
-type FormValues = {
-  firstName: string
-  lastName: string
-  email: string
-  phoneNumber: string
+type FormValues = ContactInfo & {
   country: Country | null
   interestedIn: string[]
   message: string
@@ -171,6 +167,7 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
         email: values.email,
         phoneNumber: values.phoneNumber,
         language: userInfo.language,
+        utm: userInfo.utm,
       });
       setCalendlyUrl(link);
       mutate()

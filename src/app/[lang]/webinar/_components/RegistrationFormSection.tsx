@@ -6,7 +6,6 @@ import { WebinarPage } from "@/types/sanity.types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useFormik } from "formik";
 import Countdown from "./Countdown";
-import useRegistrationCheck from "@/hooks/useRegistrationCheck";
 import { ZapierWebinarPayload } from "@/types/main";
 import { callZapierWebhook } from "@/lib/zapier";
 import { useMutation } from "@tanstack/react-query";
@@ -16,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { persistUserInfo } from "@/lib/services/user.service";
 import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
+import useTranslation from "@/hooks/useTranslation";
 
 type RegistrationFormSectionProps = {
   data: WebinarPage;
@@ -24,7 +24,11 @@ type RegistrationFormSectionProps = {
 export default function RegistrationFormSection({ data }: RegistrationFormSectionProps) {
   const router = useRouter();
   const userInfo = useUserInfo();
-  const { isRegistered } = useRegistrationCheck();
+
+  const { data: registeredTitle } = useTranslation('Thank you for registering!')
+  const { data: registeredDescription } = useTranslation('See you at the webinar')
+
+  const isRegistered = storage.get(StorageKey.REGISTERED_WEBINAR) ?? false;
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
@@ -42,8 +46,8 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
       }
     },
     onSuccess: () => {
-      storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 30 })
       router.push('/webinar/thank-you');
+      storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 5 })
     }
   });
 
@@ -80,9 +84,8 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
           <div className="w-full order-1 md:order-2">
             {isRegistered ?
               <div className="flex flex-col gap-4 p-6 bg-background rounded-lg justify-between h-max md:max-w-md mx-auto w-full">
-                <h3 className="text-xl md:text-3xl text-center">Registration successful</h3>
-                <p className="text-sm text-center">Thank you for registering for the webinar. We will send you a confirmation email shortly.</p>
-                <p className="text-sm text-center">We look forward to seeing you at the webinar.</p>
+                <h3 className="text-xl md:text-3xl text-center">{registeredTitle?.text}</h3>
+                <p className="text-sm text-center">{registeredDescription?.text}</p>
               </div>
               :
               <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-6 bg-background rounded-lg justify-between h-full md:max-w-lg mx-auto w-full">

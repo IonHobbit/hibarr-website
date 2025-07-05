@@ -23,6 +23,14 @@ export type ContactInfo = {
   email: string;
   phoneNumber: string;
   language: string;
+  utm: {
+    source: string;
+    medium: string;
+    campaign: string;
+    content: string;
+    term: string;
+    audience: string;
+  }
 }
 
 type DocumentUpload = {
