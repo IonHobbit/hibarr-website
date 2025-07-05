@@ -39,6 +39,7 @@ export default function FreebieSignupSection({ data }: FreebieSignupSectionProps
         email: values.email,
         phoneNumber: values.phoneNumber,
         language: userInfo.language,
+        utm: userInfo.utm,
       }
       const payload: ZapierUglaPayload = {
         ...contactInfo,

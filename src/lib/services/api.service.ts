@@ -4,13 +4,15 @@ export type APIResponse<T> = {
   status: 'success' | 'error';
 }
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
+
 export const makeAPIRequest = async <T>(url: string, options: RequestInit): Promise<APIResponse<T>> => {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     'x-api-key': process.env.NEXT_PUBLIC_API_KEY || '',
   };
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
+  const response = await fetch(`${API_BASE_URL}${url}`, {
     ...options,
     headers,
   });

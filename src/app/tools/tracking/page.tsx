@@ -1,6 +1,7 @@
 import { generateSEOMetadata } from '@/lib/utils'
 import { Metadata } from 'next'
 import Image from 'next/image'
+import { Suspense } from 'react'
 import TrackingForm from './_components/TrackingForm'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -27,7 +28,14 @@ export default function TrackingPage() {
           </p>
         </div>
 
-        <TrackingForm />
+        <Suspense fallback={
+          <div className="bg-white/20 backdrop-blur-sm rounded-lg p-8 text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-foreground mx-auto mb-4"></div>
+            <p className="text-primary-foreground">Loading tracking form...</p>
+          </div>
+        }>
+          <TrackingForm />
+        </Suspense>
       </div>
     </section>
   )

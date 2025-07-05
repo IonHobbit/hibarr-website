@@ -1,5 +1,5 @@
 export enum StorageKey {
-  REGISTERED_WEBINAR = 'registered::webinar',
+  REGISTERED_WEBINAR = 'webinar::registered',
   REGISTERED_WAITLIST = 'registered::waitlist',
   REGISTERED_ENQUIRY = 'registered::enquiry',
   BOOKED_CONSULTATION = 'booked::consultation',
