@@ -34,7 +34,8 @@ export default function FreebieForm({ data, postSubmissionPath }: FreebieFormPro
         lastName: values.lastName,
         email: values.email,
         phoneNumber: values.phoneNumber,
-        language: userInfo.language
+        language: userInfo.language,
+        utm: userInfo.utm,
       }
       const payload: ZapierUglaPayload = { ...contactInfo, type: 'ugla' };
 
