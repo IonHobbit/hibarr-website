@@ -39,12 +39,12 @@ export default async function ZoomRegistrationPage(
 
   return (
     <Fragment>
-      <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center h-screen bg-gradient-to-b from-primary via-primary/80 to-transparent">
+      <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid grid-cols-1 place-items-center place-content-center min-h-screen bg-gradient-to-b from-primary via-primary/80 to-transparent">
         <div className='absolute inset-0 w-full h-full -z-10'>
           <video src="https://vz-da4cd036-d13.b-cdn.net/31c737df-ff40-48a5-a2ab-e8fc0a829df5/play_720p.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover' />
         </div>
 
-        <div className="max-w-5xl text-center flex flex-col gap-10 px-4">
+        <div className="max-w-5xl text-center flex flex-col gap-10 px-4 mt-20 md:mt-0">
           <div className='flex flex-col gap-2'>
             <h1 className="text-5xl md:text-7xl font-bold mb-4 text-background">
               {webinarPage?.title}

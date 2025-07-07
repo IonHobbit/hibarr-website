@@ -46,8 +46,10 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
       }
     },
     onSuccess: () => {
+      setTimeout(() => {
+        storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 5 })
+      }, 1000)
       router.push('/webinar/thank-you');
-      storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 5 })
     }
   });
 
