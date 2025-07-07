@@ -4,12 +4,9 @@ on:
   push:
     branches:
       - main
-      - staging
       - develop
   pull_request:
     branches:
-      - main
-      - staging
       - develop
     types: [opened, synchronize, reopened, closed]
 
@@ -19,26 +16,17 @@ jobs:
     steps:
       - name: Trigger Vercel Deployment
         run: |
-          # Handle PR events
+          # Handle PR events (only for develop)
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             if [[ "${{ github.event.pull_request.merged }}" == "true" ]]; then
-              # Merged PR - deploy to target branch
-              if [[ "${{ github.base_ref }}" == "main" ]]; then
-                echo "Deploying merged PR to main"
-                curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/z61OeZa3ik"
-              elif [[ "${{ github.base_ref }}" == "staging" ]]; then
-                echo "Deploying merged PR to staging"
-                curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/yDwsWYVDS1"
-              elif [[ "${{ github.base_ref }}" == "develop" ]]; then
+              # Merged PR to develop
+              if [[ "${{ github.base_ref }}" == "develop" ]]; then
                 echo "Deploying merged PR to develop"
                 curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/lGNF3CXN45"
               fi
             else
-              # PR raised/updated - deploy preview (only for staging and develop)
-              if [[ "${{ github.base_ref }}" == "staging" ]]; then
-                echo "Deploying PR preview for staging"
-                curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/yDwsWYVDS1"
-              elif [[ "${{ github.base_ref }}" == "develop" ]]; then
+              # PR raised/updated for develop
+              if [[ "${{ github.base_ref }}" == "develop" ]]; then
                 echo "Deploying PR preview for develop"
                 curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/lGNF3CXN45"
               fi
@@ -48,9 +36,6 @@ jobs:
             if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
               echo "Deploying push to main"
               curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/z61OeZa3ik"
-            elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
-              echo "Deploying push to staging"
-              curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/yDwsWYVDS1"
             elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
               echo "Deploying push to develop"
               curl -X GET "https://api.vercel.com/v1/integrations/deploy/prj_7x09eDIg4m690jtJ3kMHQviwRnxk/lGNF3CXN45"
