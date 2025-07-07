@@ -150,7 +150,7 @@ export default function TrackingForm() {
               onValueChange={(value) => handleInputChange('platform', value)}
               required
             >
-              <SelectTrigger className="bg-white/20 border-white/20 text-primary-foreground w-full">
+              <SelectTrigger className="bg-white/20 border-white/20 data-[placeholder]:text-primary-foreground/80 text-primary-foreground w-full">
                 <SelectValue placeholder="Select platform" />
               </SelectTrigger>
               <SelectContent>
@@ -175,7 +175,7 @@ export default function TrackingForm() {
                   onValueChange={(value) => handleInputChange('platformPage', value)}
                   required
                 >
-                  <SelectTrigger className="bg-white/20 border-white/20 text-primary-foreground w-full">
+                  <SelectTrigger className="bg-white/20 border-white/20 data-[placeholder]:text-primary-foreground/80 text-primary-foreground w-full">
                     <SelectValue placeholder="Select page" />
                   </SelectTrigger>
                   <SelectContent>
@@ -200,7 +200,7 @@ export default function TrackingForm() {
               onValueChange={(value) => handleInputChange('audience', value)}
               required
             >
-              <SelectTrigger className="bg-white/20 border-white/20 text-primary-foreground w-full">
+              <SelectTrigger className="bg-white/20 border-white/20 data-[placeholder]:text-primary-foreground/80 text-primary-foreground w-full">
                 <SelectValue placeholder="Select audience" />
               </SelectTrigger>
               <SelectContent>
@@ -271,7 +271,7 @@ export default function TrackingForm() {
               onValueChange={(value) => handleInputChange('websitePageUrl', value)}
               required
             >
-              <SelectTrigger className="bg-white/20 border-white/20 text-primary-foreground w-full">
+              <SelectTrigger className="bg-white/20 border-white/20 data-[placeholder]:text-primary-foreground/80 text-primary-foreground w-full">
                 <SelectValue placeholder="Select destination page" />
               </SelectTrigger>
               <SelectContent>
