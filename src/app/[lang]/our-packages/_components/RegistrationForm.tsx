@@ -61,6 +61,7 @@ export default function RegistrationForm({ packages, activePackage, form, select
         email: userInfo?.email || '',
         phoneNumber: userInfo?.phoneNumber || '',
         language: userInfo?.language,
+        utm: userInfo.utm,
       },
       nextOfKin: {
         fathersFirstName: '',
@@ -176,6 +177,7 @@ export default function RegistrationForm({ packages, activePackage, form, select
           email: values.personalInformation.email,
           phoneNumber: values.personalInformation.phoneNumber,
           language: userInfo.language,
+          utm: userInfo.utm,
         });
         if (activePackage.price > 0) {
           if (values.paymentMethod === 'payOnline' && data.url) {

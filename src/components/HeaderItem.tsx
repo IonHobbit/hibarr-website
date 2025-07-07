@@ -24,7 +24,7 @@ export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemPr
 
   if (item.hidden) return null;
 
-  if (item.hideOnHomePage && pathname === `/${lang}`) {
+  if (item.hideOnHomePage && (pathname === `/${lang}` || pathname === `/${lang}/`)) {
     return null;
   }
 
