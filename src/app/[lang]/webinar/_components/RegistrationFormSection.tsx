@@ -30,7 +30,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
 
   const isRegistered = storage.get(StorageKey.REGISTERED_WEBINAR) ?? false;
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: async () => {
       const contactInfo = values;
       try {
@@ -46,8 +46,10 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
       }
     },
     onSuccess: () => {
+      // Set storage immediately to prevent race condition
+      storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 5 });
+      // Navigate after storage is set
       router.push('/webinar/thank-you');
-      storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 5 })
     }
   });
 
@@ -82,7 +84,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
             </div>
           </div>
           <div className="w-full order-1 md:order-2">
-            {isRegistered ?
+            {(isRegistered && !isSuccess) ?
               <div className="flex flex-col gap-4 p-6 bg-background rounded-lg justify-between h-max md:max-w-md mx-auto w-full">
                 <h3 className="text-xl md:text-3xl text-center">{registeredTitle?.text}</h3>
                 <p className="text-sm text-center">{registeredDescription?.text}</p>

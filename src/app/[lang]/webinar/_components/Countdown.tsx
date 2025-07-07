@@ -83,7 +83,7 @@ export default function Countdown({ date, timezone }: CountdownProps) {
   return (
     <Fragment>
       <p className="text-2xl font-semibold text-center text-primary-foreground">{translatedWebinarDate?.text || webinarDate}</p>
-      <div className="grid grid-cols-4 gap-2 place-items-center place-content-center bg-secondary w-full rounded-lg p-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 place-items-center place-content-center bg-secondary w-full rounded-lg p-4">
         <Counter label={pluralize(dayString?.text || '', parseInt(days))} value={days} />
         <Counter label={pluralize(hourString?.text || '', parseInt(hours))} value={hours} />
         <Counter label={pluralize(minuteString?.text || '', parseInt(minutes))} value={minutes} />
