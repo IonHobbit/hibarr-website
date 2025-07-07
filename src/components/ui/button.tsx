@@ -77,7 +77,7 @@ function Button({
           {...props}
         >
           <div className="flex items-center justify-center gap-2 min-w-0">
-            <span className="truncate flex itemce">{props.children}</span>
+            <span className="truncate flex items-center gap-1">{props.children}</span>
           </div>
         </Comp>
       </Link>
