@@ -1,12 +1,12 @@
-import { translate } from "@/lib/translation"
+import { translate, translateBatch } from "@/lib/translation"
 
 export default async function WhyJoinSectionText() {
   const title = await translate('Why Join?')
   const subtitle = await translate('Discover the exclusive benefits that make our community the #1 choice for North Cyprus real estate')
 
   const benefits = [
-    "The Ultimate Guide to North Cyprus Real Estate - Normally €4.99 — yours free, instantly after joining.",
-    "Exclusive Property Deals - Off-market listings & offers — sent to you 3 days before public release.",
+    "The Ultimate Guide to North Cyprus Real Estate - Normally 4.99 euros. Yours for free, instantly after joining.",
+    "Exclusive Property Deals - Off market listings and offers sent to you three days before public release.",
     "Expert Trainings - Learn about relocation, tax strategies, legal residency & profitable investments.",
     "Insider Market Updates - Get notified of important legal changes and market shifts.",
     "Private Insights - Tips and advice we don't publish anywhere else.",
@@ -14,7 +14,7 @@ export default async function WhyJoinSectionText() {
     "Real Stories & Investor Tips - Hear directly from members who've successfully relocated or invested."
   ]
 
-  // const translated = await translateBatch(benefits);
+  const translated = await translateBatch(benefits);
 
   return (
     <section className="py-8 bg-white/10 backdrop-blur-sm rounded-2xl my-8 w-full">
@@ -29,13 +29,13 @@ export default async function WhyJoinSectionText() {
         </div>
 
         <div className="space-y-4">
-          {benefits.map((benefit, index) => (
+          {translated.map((benefit, index) => (
             <div
               key={index}
               className="bg-white/20 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/30 transition-all duration-300"
             >
               <p className="text-primary-foreground text-lg leading-relaxed">
-                {benefit}
+                {benefit.text}
               </p>
             </div>
           ))}

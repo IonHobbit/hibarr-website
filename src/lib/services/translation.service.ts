@@ -8,26 +8,31 @@ const generateCacheKey = (text: string, targetLang: string): string => {
 
 // The actual translation API call function
 export const fetchTranslation = async (text: string, targetLang: string): Promise<HashedTranslationResponse> => {
-  const cacheKey = generateCacheKey(text, targetLang);
+  try {
+    const cacheKey = generateCacheKey(text, targetLang);
 
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    'x-api-key': process.env.NEXT_PUBLIC_API_KEY || '',
-    // Enhanced cache headers for better caching
-    'Cache-Control': 'max-age=3600, public, immutable',
-    'ETag': `"${cacheKey}"`
-  };
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'x-api-key': process.env.NEXT_PUBLIC_API_KEY || '',
+      // Enhanced cache headers for better caching
+      'Cache-Control': 'max-age=3600, public, immutable',
+      'ETag': `"${cacheKey}"`
+    };
 
-  const _translation = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/translation`, {
-    method: 'POST',
-    body: JSON.stringify({ text, targetLang }),
-    headers
-  });
+    const _translation = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/translation`, {
+      method: 'POST',
+      body: JSON.stringify({ text, targetLang }),
+      headers
+    });
 
-  const translation = await _translation.json();
-  const result = translation.data || { token: '', text: '' };
+    const translation = await _translation.json();
+    const result = translation.data || { token: '', text: '' };
 
-  return result;
+    return result;
+  } catch (error) {
+    console.error('Error fetching translation', text, targetLang, error);
+    return { token: '', text: text || '' };
+  }
 };
 
 // Cached version using Next.js unstable_cache
