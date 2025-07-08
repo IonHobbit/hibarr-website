@@ -19,7 +19,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
   })
 }
 
-export default async function WaitlistPage(
+export default async function FacebookGroupPage(
   props: {
     params: Promise<{ lang: Locale }>;
   }
@@ -56,7 +56,7 @@ export default async function WaitlistPage(
             <p className='text-primary-foreground text-xl text-center'>{subtext2.text}</p>
           </div>
         </div>
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col gap-4 w-full max-w-2xl mx-auto">
           {/* <WhyJoinSection /> */}
 
           <WhyJoinSectionText />

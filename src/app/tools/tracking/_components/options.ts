@@ -6,7 +6,7 @@ export const audiences = [
 ]
 
 export const websitePages = [
-  { value: '/waitlist', label: 'Waitlist' },
+  { value: '/facebook-group', label: 'Facebook Group' },
   { value: '/webinar', label: 'Webinar' },
   { value: '/consultation', label: 'Consultation' },
   { value: 'custom', label: 'Custom URL' }

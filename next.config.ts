@@ -18,6 +18,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/waitlist/:path*',
+        destination: '/facebook-group/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:lang/waitlist/:path*',
+        destination: '/:lang/facebook-group/:path*',
+        permanent: true,
+      }
+    ];
+  },
   async rewrites() {
     return [
       {
