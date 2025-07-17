@@ -49,6 +49,7 @@ type ConsultationFormProps = {
       phoneNumber: string
     }
     headers: {
+      nameTitle: string
       myPreferredLanguage: string
       currentlyLivingIn: string
       interestedIn: string
@@ -213,12 +214,8 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
       (values.budget ? budgetOptions.find(o => o.value === values.budget)?.score || 0 : 0) +
       (values.period ? periodOptions.find(o => o.value === values.period)?.score || 0 : 0) +
       (values.showMessage === showMessage ? 1 : 0)
-
-    const weightedScore = (score / 20) * 5;
-    return weightedScore
+    return score;
   }
-
-  console.log(calculateScore())
 
   const goToNextStep = () => {
     if (step === 0) {
@@ -229,7 +226,7 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
 
   const steps = [
     {
-      label: 'My name is ...',
+      label: translations.headers.nameTitle,
       component: <div className='flex flex-col gap-4'>
         <div className='grid grid-cols-2 gap-4'>
           <Input name='firstName' title={translations.form.firstName} required value={values.firstName} onChange={handleChange} placeholder='John' />

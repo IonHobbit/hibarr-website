@@ -34,7 +34,8 @@ export default async function ConsultationPage(
   const consultationProcessSection = await client.fetch<HomePage['consultationProcessSection']>(`*[_type == "homePage" && language == $lang][0].consultationProcessSection`, { lang }, { cache: 'no-store' });
 
   const frequentlyAskedQuestions = await translate('Frequently Asked Questions');
-  const [registedTitle, registedDescription] = await translateBatch(['Thank you for your interest in our services!', 'We will schedule a consultation with you soon.']);
+
+  const [nameTitle, registedTitle, registedDescription] = await translateBatch(['My name is ...', 'Thank you for your interest in our services!', 'We will schedule a consultation with you soon.']);
   const [myPreferredLanguage, currentlyLivingIn] = await translateBatch(['My preferred language is ...', 'I am currently living in ...']);
   const [nextButton, backButton, submitButton] = await translateBatch(['Next', 'Back', 'Submit']);
   const [interestedIn, planningToBuy, budget, isThereAnyQuestions] = await translateBatch(['I am interested in ...', 'I am planning to buy ...', 'My ideal budget range is ...', 'Is there anything else you would like us to know before our meeting?']);
@@ -54,6 +55,7 @@ export default async function ConsultationPage(
   }
 
   const headers = {
+    nameTitle: nameTitle.text,
     myPreferredLanguage: myPreferredLanguage.text,
     currentlyLivingIn: currentlyLivingIn.text,
     interestedIn: interestedIn.text,
@@ -73,8 +75,6 @@ export default async function ConsultationPage(
     period: translatedPeriodOptions,
     message: translatedMessageOptions.map(option => option.text),
   }
-
-  console.log(options)
 
   const placeholders = {
     selectLanguage: selectLanguagePlaceholder.text,
