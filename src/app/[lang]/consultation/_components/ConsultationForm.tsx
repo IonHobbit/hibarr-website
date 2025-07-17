@@ -177,8 +177,6 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
     }
   })
 
-  console.log(values)
-
   const generateCalendlyPrefilledUrl = () => {
     const url = new URL(baseCalendlyUrl)
     url.searchParams.set('first_name', values.firstName)
