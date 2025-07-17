@@ -177,6 +177,8 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
     }
   })
 
+  console.log(values)
+
   const generateCalendlyPrefilledUrl = () => {
     const url = new URL(baseCalendlyUrl)
     url.searchParams.set('first_name', values.firstName)
@@ -233,7 +235,7 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
           <Input name='lastName' title={translations.form.lastName} required value={values.lastName} onChange={handleChange} placeholder='Doe' />
         </div>
         <Input name='email' title={translations.form.email} required value={values.email} onChange={handleChange} placeholder='john.doe@example.com' />
-        <PhoneInput name='phoneNumber' title={translations.form.phoneNumber} value={values.phoneNumber} onChange={handleChange} placeholder='+905555555555' />
+        <PhoneInput name='phoneNumber' title={translations.form.phoneNumber} value={values.phoneNumber} onChange={(value) => setFieldValue('phoneNumber', value)} placeholder='+905555555555' />
       </div>
     },
     {
