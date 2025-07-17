@@ -16,7 +16,7 @@ import { ContactInfo, ZapierConsultationPayload } from '@/types/main'
 import { CountryDropdown, Country } from '@/components/ui/country-dropdonw'
 import { countries } from 'country-data-list'
 import { useParams } from 'next/navigation'
-import { budgetOptions, languageOptions } from '@/lib/options'
+import { budgetOptions, interestedInOptions, languageOptions, periodOptions } from '@/lib/options'
 import { StorageKey } from '@/lib/storage.util'
 import storage from '@/lib/storage.util'
 import { useMutation } from '@tanstack/react-query'
@@ -49,6 +49,7 @@ type ConsultationFormProps = {
       phoneNumber: string
     }
     headers: {
+      nameTitle: string
       myPreferredLanguage: string
       currentlyLivingIn: string
       interestedIn: string
@@ -62,8 +63,8 @@ type ConsultationFormProps = {
       submitButton: string
     }
     options: {
-      interestedIn: string[]
-      period: string[]
+      interestedIn: { label: string, value: string, score: number }[]
+      period: { label: string, value: string, score: number }[]
       message: string[]
     }
     placeholders: {
@@ -117,9 +118,11 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
       try {
+        const score = calculateScore()
         const payload: ZapierConsultationPayload = {
           ...values,
           clickID: values.clickID,
+          score,
           type: 'consultation',
           consultationInfo: {
             country: values.country?.name || '',
@@ -192,11 +195,26 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
   }
 
   const handleInterestedInChange = (option: string) => {
-    if (values.interestedIn.includes(option)) {
-      setFieldValue('interestedIn', values.interestedIn.filter(o => o !== option))
+    if (option === 'Not sure yet' || option === 'I\'m just browsing') {
+      setFieldValue('interestedIn', [option])
+      return
     } else {
-      setFieldValue('interestedIn', [...values.interestedIn, option])
+      if (values.interestedIn.includes(option)) {
+        setFieldValue('interestedIn', values.interestedIn.filter(o => o !== option && o !== 'Not sure yet' && o !== 'I\'m just browsing'))
+      } else {
+        setFieldValue('interestedIn', [...values.interestedIn, option].filter(o => o !== 'Not sure yet' && o !== 'I\'m just browsing'))
+      }
     }
+  }
+
+  const calculateScore = () => {
+    const totalInterestedInScore = values.interestedIn.reduce((acc, option) => acc + (interestedInOptions.find(o => o.value === option)?.score || 0), 0)
+    const score =
+      totalInterestedInScore +
+      (values.budget ? budgetOptions.find(o => o.value === values.budget)?.score || 0 : 0) +
+      (values.period ? periodOptions.find(o => o.value === values.period)?.score || 0 : 0) +
+      (values.showMessage === showMessage ? 1 : 0)
+    return score;
   }
 
   const goToNextStep = () => {
@@ -207,6 +225,56 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
   }
 
   const steps = [
+    {
+      label: translations.headers.nameTitle,
+      component: <div className='flex flex-col gap-4'>
+        <div className='grid grid-cols-2 gap-4'>
+          <Input name='firstName' title={translations.form.firstName} required value={values.firstName} onChange={handleChange} placeholder='John' />
+          <Input name='lastName' title={translations.form.lastName} required value={values.lastName} onChange={handleChange} placeholder='Doe' />
+        </div>
+        <Input name='email' title={translations.form.email} required value={values.email} onChange={handleChange} placeholder='john.doe@example.com' />
+        <PhoneInput name='phoneNumber' title={translations.form.phoneNumber} value={values.phoneNumber} onChange={(value) => setFieldValue('phoneNumber', value)} placeholder='+905555555555' />
+      </div>
+    },
+    {
+      label: translations.headers.interestedIn,
+      component: <div className='flex flex-col gap-2 mt-2'>
+        {translations.options.interestedIn.map((option, index) => (
+          <div className='flex items-center gap-2' key={index}>
+            <Checkbox id={option.value} checked={values.interestedIn.includes(option.value)} onClick={() => handleInterestedInChange(option.value)} />
+            <label className='text-lg cursor-pointer' htmlFor={option.value}>{option.label}</label>
+          </div>
+        ))}
+      </div>
+    },
+    {
+      label: translations.headers.planningToBuy,
+      component:
+        <RadioGroup name='period' value={values.period} className='mt-3'>
+          <div className='grid grid-cols-2 grid-rows-4 gap-3'>
+            {translations.options.period.map((option, index) => (
+              <div className='flex items-center gap-2' key={index}>
+                <RadioGroupItem id={option.value} value={option.value} checked={values.period === option.value} onClick={() => setFieldValue('period', option.value)} />
+                <label className='text-lg cursor-pointer' htmlFor={option.value}>{option.label}</label>
+              </div>
+            ))}
+          </div>
+        </RadioGroup>
+    },
+    {
+      label: translations.headers.budget,
+      component:
+        <RadioGroup name='budget' value={values.budget}>
+          <div className='grid grid-cols-2 grid-rows-4 gap-2'>
+            {budgetOptions.map((option, index) => (
+              <div className='flex items-center gap-2' key={index}>
+                <RadioGroupItem id={option.value} value={option.value} checked={values.budget === option.value} onClick={() => setFieldValue('budget', option.value)} />
+                <label className='text-lg cursor-pointer' htmlFor={option.value}>{option.label}</label>
+              </div>
+            ))}
+          </div>
+        </RadioGroup>
+    },
     {
       label: translations.headers.myPreferredLanguage,
       component: (
@@ -230,56 +298,6 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
           </div>
         </div>
       )
-    },
-    {
-      label: translations.headers.interestedIn,
-      component: <div className='flex flex-col gap-2 mt-2'>
-        {translations.options.interestedIn.map((option, index) => (
-          <div className='flex items-center gap-2' key={index}>
-            <Checkbox id={option} checked={values.interestedIn.includes(option)} onClick={() => handleInterestedInChange(option)} />
-            <label className='text-lg cursor-pointer' htmlFor={option}>{option}</label>
-          </div>
-        ))}
-      </div>
-    },
-    {
-      label: translations.headers.planningToBuy,
-      component:
-        <RadioGroup name='period' value={values.period} className='mt-3'>
-          <div className='grid grid-cols-2 grid-rows-4 gap-3'>
-            {translations.options.period.map((option, index) => (
-              <div className='flex items-center gap-2' key={index}>
-                <RadioGroupItem id={option} value={option} checked={values.period === option} onClick={() => setFieldValue('period', option)} />
-                <label className='text-lg cursor-pointer' htmlFor={option}>{option}</label>
-              </div>
-            ))}
-          </div>
-        </RadioGroup>
-    },
-    {
-      // label: 'My name is ...',
-      component: <div className='flex flex-col gap-4'>
-        <div className='grid grid-cols-2 gap-4'>
-          <Input name='firstName' title={translations.form.firstName} required value={values.firstName} onChange={handleChange} placeholder='John' />
-          <Input name='lastName' title={translations.form.lastName} required value={values.lastName} onChange={handleChange} placeholder='Doe' />
-        </div>
-        <Input name='email' title={translations.form.email} required value={values.email} onChange={handleChange} placeholder='john.doe@example.com' />
-        <PhoneInput name='phoneNumber' title={translations.form.phoneNumber} value={values.phoneNumber} onChange={handleChange} placeholder='+905555555555' />
-      </div>
-    },
-    {
-      label: translations.headers.budget,
-      component:
-        <RadioGroup name='budget' value={values.budget}>
-          <div className='grid grid-cols-2 grid-rows-4 gap-2'>
-            {budgetOptions.map((option, index) => (
-              <div className='flex items-center gap-2' key={index}>
-                <RadioGroupItem id={option} value={option} checked={values.budget === option} onClick={() => setFieldValue('budget', option)} />
-                <label className='text-lg cursor-pointer' htmlFor={option}>{option}</label>
-              </div>
-            ))}
-          </div>
-        </RadioGroup>
     },
     {
       label: translations.headers.isThereAnyQuestions,
