@@ -81,8 +81,7 @@ export default function TrackingForm() {
 
   const handleCopyContent = () => {
     const content = `Tracking Code: ${trackingCode}\nTracking URL: ${trackingUrl}`
-    navigator.clipboard.writeText(content)
-    window.alert('Copied to clipboard')
+    handleCopy(content)
   }
 
   const handleInputChange = (field: string, value: string) => {
