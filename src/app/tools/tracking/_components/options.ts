@@ -6,8 +6,10 @@ export const audiences = [
 ]
 
 export const websitePages = [
+  { value: '/', label: 'Home' },
   { value: '/waitlist', label: 'Waitlist' },
   { value: '/webinar', label: 'Webinar' },
   { value: '/consultation', label: 'Consultation' },
-  { value: 'custom', label: 'Custom URL' }
+  { value: '/ebook', label: 'Ebook' },
+  // { value: 'custom', label: 'Custom URL' }
 ]

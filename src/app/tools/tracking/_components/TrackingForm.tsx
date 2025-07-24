@@ -79,6 +79,11 @@ export default function TrackingForm() {
     }
   }
 
+  const handleCopyContent = () => {
+    const content = `Tracking Code: ${trackingCode}\nTracking URL: ${trackingUrl}`
+    handleCopy(content)
+  }
+
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
@@ -118,12 +123,20 @@ export default function TrackingForm() {
                 <p className="text-sm font-mono text-primary-foreground">{trackingUrl}</p>
               </div>
             </div>
-            <Button
-              onClick={() => reset()}
-              className="bg-primary hover:bg-primary/90"
-            >
-              Add Another Entry
-            </Button>
+            <div className="flex justify-center w-full gap-4">
+              <Button
+                onClick={() => handleCopyContent()}
+                variant="outline"
+              >
+                Copy Content
+              </Button>
+              <Button
+                onClick={() => reset()}
+                className="bg-primary hover:bg-primary/90"
+              >
+                Add Another Entry
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -225,7 +238,6 @@ export default function TrackingForm() {
               value={formData.campaignName}
               onChange={(e) => handleInputChange('campaignName', e.target.value)}
               className="bg-white/20 border-white/20 text-primary-foreground placeholder:text-primary-foreground/50"
-              required
             />
           </div>
 
@@ -241,7 +253,6 @@ export default function TrackingForm() {
               value={formData.postCreativeName}
               onChange={(e) => handleInputChange('postCreativeName', e.target.value)}
               className="bg-white/20 border-white/20 text-primary-foreground placeholder:text-primary-foreground/50"
-              required
             />
           </div>
 
@@ -257,7 +268,6 @@ export default function TrackingForm() {
               value={formData.keyword}
               onChange={(e) => handleInputChange('keyword', e.target.value)}
               className="bg-white/20 border-white/20 text-primary-foreground placeholder:text-primary-foreground/50"
-              required
             />
           </div>
 

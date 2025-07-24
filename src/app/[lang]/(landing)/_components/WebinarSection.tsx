@@ -9,10 +9,10 @@ export default async function WebinarSection() {
   const subTitle1 = await translate('What you will learn');
   const subTitle2 = await translate('Benefits of joining our webinar');
 
-  const content1 = await translate('Join our webinar to gain exclusive insights into investment in North Cyprus, including market updates, actionable strategies, and expert-backed advice. Learn about high rental yields, tax benefits, affordable property opportunities, and network with like-minded investors. With flexible payment plans and no credit checks, investing in North Cyprus has never been easier. Don&apos;t miss this chance to unlock your investment potential!');
-  const content2 = await translate('Joining our webinar offers you direct access to market insights, expert strategies, and actionable techniques to boost your results. Whether you&apos;re just starting or an experienced professional, you&apos;ll find valuable knowledge tailored to your level. The webinar provides opportunities to network with other professionals, learn from industry leaders, and hear real-world experiences. Plus, you&apos;ll gain all this at no cost price, without the need to search for information elsewhere.');
+  const content1 = await translate('Join our webinar to gain exclusive insights into investment in North Cyprus, including market updates, actionable strategies, and expert-backed advice. Learn about high rental yields, tax benefits, affordable property opportunities, and network with like-minded investors. With flexible payment plans and no credit checks, investing in North Cyprus has never been easier. Don\'t miss this chance to unlock your investment potential!');
+  const content2 = await translate('Joining our webinar offers you direct access to market insights, expert strategies, and actionable techniques to boost your results. Whether you&apos;re just starting or an experienced professional, you&apos;ll find valuable knowledge tailored to your level. The webinar provides opportunities to network with other professionals, learn from industry leaders, and hear real-world experiences. Plus, you\'ll gain all this at no cost price, without the need to search for information elsewhere.');
 
-  const buttonText = await translate('Join Here');
+  const buttonText = await translate('Register Now');
 
   return (
     <section id='free-webinar' className='bg-gray-50/60'>
