@@ -6,7 +6,7 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import WaitlistForm from './_components/WaitlistForm'
 import { translate } from '@/lib/translation'
-import WhyJoinSectionText from './_components/WhyJoinSectionText'
+import WhyJoinSectionRawText from './_components/WhyJoinSectionRawText'
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -37,8 +37,6 @@ export default async function FacebookGroupPage(
   }
 
   const title = await translate('Join the #1 Private Group for North Cyprus Real Estate Buyers & Relocators')
-  const subtext1 = await translate('A Trusted Community for Smart Investors, Relocators & High-Level Decision Makers.')
-  const subtext2 = await translate('If you\'re serious about exploring, relocating, or investing in North Cyprus real estate, this is where you need to be.')
   const subtext = await translate('Gain access to a group of like minded people who are looking to make money in the markets.')
 
   return (
@@ -47,20 +45,21 @@ export default async function FacebookGroupPage(
         <Image src="/images/webinar-registration-background.webp" alt="Waitlist Hero" fill className='w-full h-full object-cover absolute' />
       </div>
 
-      <div className="max-w-4xl grid grid-cols-1 lg:grid-cols-1 place-items-center gap-10 my-28">
-        <div className='flex flex-col gap-4 lg:col-span-1'>
+      <div className="section grid grid-cols-1 lg:grid-cols-2 place-items-center gap-10 my-28">
+        <div className='flex flex-col gap-4 lg:col-span-2 max-w-5xl mx-auto'>
           <h1 className='text-4xl md:text-6xl font-bold mb-4 text-primary-foreground text-center'>{title.text}</h1>
 
-          <div className='flex flex-col gap-2'>
-            <p className='text-primary-foreground text-xl text-center'>{subtext1.text}</p>
-            <p className='text-primary-foreground text-xl text-center'>{subtext2.text}</p>
-          </div>
+          {/* <div className='flex flex-col gap-2'>
+            <p className='text-primary-foreground text-xl text-left'>{subtext1.text}</p>
+            <p className='text-primary-foreground text-xl text-left'>{subtext2.text}</p>
+          </div> */}
         </div>
         <div className="flex flex-col gap-4 w-full max-w-2xl mx-auto">
           {/* <WhyJoinSection /> */}
-
-          <WhyJoinSectionText />
+          {/* <WhyJoinSectionText /> */}
+          <WhyJoinSectionRawText />
         </div>
+
         <div className='flex flex-col gap-4'>
           <div className="text-center flex flex-col gap-10 px-8 bg-secondary p-6 rounded-lg h-max">
             <div className='flex flex-col gap-2 max-w-xl mx-auto'>
