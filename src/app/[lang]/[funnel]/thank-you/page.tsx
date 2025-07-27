@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation'
 import ConsultationThankYouFunnel from './_components/ConsultationThankYouFunnel';
 import WaitlistThankYouFunnel from './_components/WaitlistThankYouFunnel';
 import WebinarThankYouFunnel from './_components/WebinarThankYouFunnel';
+import EbookThankYouFunnel from './_components/EbookThankYouFunnel';
 
 export default function ThankYouPage() {
   const { funnel }: { funnel: string } = useParams();
@@ -18,6 +19,7 @@ export default function ThankYouPage() {
         consultation: <ConsultationThankYouFunnel />,
         waitlist: <WaitlistThankYouFunnel />,
         webinar: <WebinarThankYouFunnel />,
+        ebook: <EbookThankYouFunnel />,
       }[funnel]}
     </section>
   )

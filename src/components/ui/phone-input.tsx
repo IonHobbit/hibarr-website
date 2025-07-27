@@ -37,20 +37,21 @@ type PhoneInputProps = Omit<
     title?: string;
     truncateTitle?: boolean;
     titleClassName?: string;
+    hideRequiredAsterisk?: boolean;
     onChange?: (value: RPNInput.Value) => void;
     error?: string;
   };
 
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
   React.forwardRef<React.ElementRef<typeof RPNInput.default>, PhoneInputProps>(
-    ({ className, onChange, value, title, truncateTitle, titleClassName, error, ...props }, ref) => {
+    ({ className, onChange, value, title, truncateTitle, titleClassName, error, hideRequiredAsterisk, ...props }, ref) => {
       const { lang } = useParams<{ lang: Locale }>();
 
       const defaultCountry = localeInfo[lang]?.countryCode || 'GB' as CountryCode;
 
       return (
         <div className={"relative flex flex-col items-start gap-1 w-full"}>
-          <InputTitle id={props.id} title={title} truncateTitle={truncateTitle} titleClassName={titleClassName} required={props.required} />
+          <InputTitle id={props.id} title={title} truncateTitle={truncateTitle} titleClassName={titleClassName} required={props.required} hideRequiredAsterisk={hideRequiredAsterisk} />
           <RPNInput.default
             ref={ref}
             className={cn("flex w-full", className)}

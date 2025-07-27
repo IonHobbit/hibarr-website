@@ -3,10 +3,10 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import InputTitle from "../InputTitle"
 
-function Input({ className, type, title, titleClassName, error, truncateTitle = false, hideTitle = false, ...props }: React.ComponentProps<"input"> & { error?: string, truncateTitle?: boolean, titleClassName?: string, hideTitle?: boolean }) {
+function Input({ className, type, title, titleClassName, error, truncateTitle = false, hideTitle = false, hideRequiredAsterisk = false, ...props }: React.ComponentProps<"input"> & { error?: string, truncateTitle?: boolean, titleClassName?: string, hideTitle?: boolean, hideRequiredAsterisk?: boolean }) {
   return (
     <div className={"relative flex flex-col items-start gap-1 w-full"}>
-      <InputTitle id={props.id} title={title} truncateTitle={truncateTitle} titleClassName={titleClassName} required={props.required} hideTitle={hideTitle} />
+      <InputTitle id={props.id} title={title} truncateTitle={truncateTitle} titleClassName={titleClassName} required={props.required} hideTitle={hideTitle} hideRequiredAsterisk={hideRequiredAsterisk} />
       <input
         type={type}
         data-slot="input"
