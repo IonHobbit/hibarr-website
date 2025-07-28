@@ -186,7 +186,10 @@ export default function TrackingForm() {
             </div>
             <Select
               value={formData.platform}
-              onValueChange={(value) => handleInputChange('platform', value)}
+              onValueChange={(value) => {
+                handleInputChange('platform', value)
+                handleInputChange('platformPage', '')
+              }}
               required
             >
               <SelectTrigger className="bg-white/20 border-white/20 data-[placeholder]:text-primary-foreground/80 text-primary-foreground w-full">
