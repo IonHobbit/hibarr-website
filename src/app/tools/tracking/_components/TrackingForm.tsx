@@ -38,7 +38,8 @@ export default function TrackingForm() {
     queryFn: () => {
       const sourceID = sourcesData?.find(source => source.source === formData.platform)?._id;
       return client.fetch<UtmMediums[]>(`*[_type == "utmMediums" && source._ref == $sourceID]`, { sourceID })
-    }
+    },
+    enabled: !!formData.platform
   })
 
   const { data: destinationsData } = useQuery({
