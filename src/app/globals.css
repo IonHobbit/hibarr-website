@@ -56,7 +56,8 @@
 }
 
 body {
-  font-family: var(--font-work-sans), Arial, Helvetica, sans-serif;
+  font-family:
+    var(--font-inter), var(--font-work-sans), Arial, Helvetica, sans-serif;
 }
 
 h1,
@@ -65,7 +66,9 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-playfair-display), Inter, Helvetica, sans-serif;
+  font-family:
+    var(--font-figtree), var(--font-playfair-display), Inter, Helvetica,
+    sans-serif;
   @apply font-bold;
 }
 
