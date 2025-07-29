@@ -93,7 +93,7 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
         onChange={(value) => setFieldValue('phoneNumber', value)}
       />
       <Button isLoading={isPending} disabled={isPending} variant='accent' className='!mt-4 uppercase font-semibold' type='submit'>
-        {formData?.form?.submitButton || 'Join the Waitlist'}
+        {formData?.form?.submitButton || 'Join the Group'}
       </Button>
     </form>
   )

@@ -3,7 +3,6 @@ import { Locale } from '@/lib/i18n-config';
 import { client } from '@/lib/sanity/client';
 import { cn } from '@/lib/utils';
 import { PropertyKind } from '@/types/sanity.types';
-import { PortableText } from '@portabletext/react';
 import Image from 'next/image';
 
 export default async function FindrPage({ params }: { params: Promise<{ lang: Locale, type: string }> }) {
@@ -25,7 +24,7 @@ export default async function FindrPage({ params }: { params: Promise<{ lang: Lo
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-        <PortableText value={data.description || []} />
+        {/* <PortableText value={data.description || []} /> */}
         <div className={"relative rounded-lg overflow-hidden h-96 col-span-2"}>
           <Image src={data.images?.[0] || ''} alt={data.name || ''} fill sizes='100%' className='object-cover absolute rounded-lg' />
         </div>
