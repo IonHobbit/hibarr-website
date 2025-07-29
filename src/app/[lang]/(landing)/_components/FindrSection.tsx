@@ -44,8 +44,8 @@ export default function FindrSection() {
     }
   })
 
-  const list = [...(propertyKinds?.filter(item => item.images?.[0]).map(item => ({
-    image: item.images?.[0] || '',
+  const list = [...(propertyKinds?.filter(item => item.image).map(item => ({
+    image: item.image || '',
     title: item.name,
     slug: item.slug
   })) || []), ...items] as ExpandableItem[]

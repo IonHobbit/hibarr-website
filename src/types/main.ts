@@ -103,7 +103,8 @@ type ZapierSignupPayload = ZapierPayload & {
 
 type ZapierConsultationPayload = ZapierPayload & {
   type: 'consultation'
-  clickID: string
+  clickID: string;
+  score: number;
   consultationInfo: {
     country: string
     interestedIn: string[]

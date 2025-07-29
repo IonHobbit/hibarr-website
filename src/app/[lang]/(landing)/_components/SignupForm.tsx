@@ -10,7 +10,6 @@ import { callZapierWebhook } from '@/lib/zapier';
 import { PhoneInput } from '@/components/ui/phone-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import Image from 'next/image';
 import { HomePage } from '@/types/sanity.types';
 import { Button } from '@/components/ui/button';
 import useUserInfo from '@/hooks/useUserInfo';
@@ -172,7 +171,7 @@ export default function SignupForm({ data, text }: SignupFormProps) {
               ))}
             </SelectContent>
           </Select>
-          <div className="flex items-end gap-4">
+          {/* <div className="flex items-end gap-4">
             <Image src="/images/alphacashclub-logo.png" alt="Alpha Cash Logo" width={50} height={50} />
             <div className="flex flex-col gap-1">
               <div className="flex items-start gap-2">
@@ -195,6 +194,7 @@ export default function SignupForm({ data, text }: SignupFormProps) {
               placeholder={text.alphaCashReferralLink}
             />
           )}
+          */}
 
           <Button type="submit" disabled={!isValid} isLoading={isSubmitting}>{data?.form?.submit}</Button>
           <div className="flex items-start gap-2">

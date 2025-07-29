@@ -34,12 +34,13 @@ export default async function ConsultationPage(
   const consultationProcessSection = await client.fetch<HomePage['consultationProcessSection']>(`*[_type == "homePage" && language == $lang][0].consultationProcessSection`, { lang }, { cache: 'no-store' });
 
   const frequentlyAskedQuestions = await translate('Frequently Asked Questions');
-  const [registedTitle, registedDescription] = await translateBatch(['Thank you for your interest in our services!', 'We will schedule a consultation with you soon.']);
+
+  const [nameTitle, registedTitle, registedDescription] = await translateBatch(['My name is ...', 'Thank you for your interest in our services!', 'We will schedule a consultation with you soon.']);
   const [myPreferredLanguage, currentlyLivingIn] = await translateBatch(['My preferred language is ...', 'I am currently living in ...']);
   const [nextButton, backButton, submitButton] = await translateBatch(['Next', 'Back', 'Submit']);
   const [interestedIn, planningToBuy, budget, isThereAnyQuestions] = await translateBatch(['I am interested in ...', 'I am planning to buy ...', 'My ideal budget range is ...', 'Is there anything else you would like us to know before our meeting?']);
-  const translatedInterestedInOptions = await translateBatch(interestedInOptions);
-  const translatedPeriodOptions = await translateBatch(periodOptions);
+  const translatedInterestedInOptions = await Promise.all(interestedInOptions.map(async (option) => ({ ...option, label: (await translate(option.label)).text })));
+  const translatedPeriodOptions = await Promise.all(periodOptions.map(async (option) => ({ ...option, label: (await translate(option.label)).text })));
   const translatedMessageOptions = await translateBatch(messageOptions);
   const [firstName, lastName, email, phoneNumber] = await translateBatch(['First Name', 'Last Name', 'Email Address', 'Phone Number']);
   const [selectLanguagePlaceholder, questionPlaceholder] = await translateBatch(['Select language', 'For example: I am looking for a property in Istanbul, I am a first time buyer, etc.']);
@@ -54,6 +55,7 @@ export default async function ConsultationPage(
   }
 
   const headers = {
+    nameTitle: nameTitle.text,
     myPreferredLanguage: myPreferredLanguage.text,
     currentlyLivingIn: currentlyLivingIn.text,
     interestedIn: interestedIn.text,
@@ -69,8 +71,8 @@ export default async function ConsultationPage(
   }
 
   const options = {
-    interestedIn: translatedInterestedInOptions.map(option => option.text),
-    period: translatedPeriodOptions.map(option => option.text),
+    interestedIn: translatedInterestedInOptions,
+    period: translatedPeriodOptions,
     message: translatedMessageOptions.map(option => option.text),
   }
 

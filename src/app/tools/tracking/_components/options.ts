@@ -6,8 +6,10 @@ export const audiences = [
 ]
 
 export const websitePages = [
-  { value: '/facebook-group', label: 'Facebook Group' },
+  { value: '/', label: 'Home' },
   { value: '/webinar', label: 'Webinar' },
+  { value: '/facebook-group', label: 'Facebook Group' },
   { value: '/consultation', label: 'Consultation' },
-  { value: 'custom', label: 'Custom URL' }
+  { value: '/ebook', label: 'Ebook' },
+  // { value: 'custom', label: 'Custom URL' }
 ]

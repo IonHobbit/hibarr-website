@@ -5,14 +5,17 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { audiences, websitePages } from './options'
+import { audiences } from './options'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { makeGETRequest, makePOSTRequest } from '@/lib/services/api.service'
-import { Campaign, CampaignRequest, Platform, PlatformPage } from '@/types/campaign'
+import { makeN8NPOSTRequest } from '@/lib/services/n8n.service'
+import { CampaignRequest } from '@/types/campaign'
 import { Icon } from '@iconify/react/dist/iconify.js'
+import { client } from '@/lib/sanity/client'
+import { UtmDestinations, UtmMediums, UtmSources } from '@/types/sanity.types'
 
 export default function TrackingForm() {
   const [formData, setFormData] = useState({
+    title: '',
     platform: '',
     platformPage: '',
     audience: '',
@@ -22,41 +25,71 @@ export default function TrackingForm() {
     websitePageUrl: ''
   })
   const [trackingCode, setTrackingCode] = useState('');
-  const [trackingUrl, setTrackingUrl] = useState('');
 
-  const { data: platformsData } = useQuery({
-    queryKey: ['platforms'],
+  const { data: sourcesData } = useQuery({
+    queryKey: ['tracking-sources'],
     queryFn: () => {
-      return makeGETRequest<Platform[]>('/platforms')
+      return client.fetch<UtmSources[]>(`*[_type == "utmSources"]`)
     }
   })
 
-  const { data: platformPagesData } = useQuery({
-    queryKey: ['platformPages'],
+  const { data: mediumsData } = useQuery({
+    queryKey: ['tracking-mediums', formData.platform],
     queryFn: () => {
-      return makeGETRequest<PlatformPage[]>('/platform-pages')
+      const sourceID = sourcesData?.find(source => source.source === formData.platform)?._id;
+      return client.fetch<UtmMediums[]>(`*[_type == "utmMediums" && source._ref == $sourceID]`, { sourceID })
+    },
+    enabled: !!formData.platform
+  })
+
+  const { data: destinationsData } = useQuery({
+    queryKey: ['tracking-destinations'],
+    queryFn: () => {
+      return client.fetch<UtmDestinations[]>(`*[_type == "utmDestinations"]`)
     }
   })
 
-  const platforms = platformsData?.data ?? []
-  const platformPages = (platformPagesData?.data ?? []).filter(page => page.platform.name === formData.platform)
+  const sources = sourcesData ?? []
+  const mediums = mediumsData ?? []
+  const destinations = destinationsData ?? []
 
-  const { mutateAsync: createCampaign, isPending, isSuccess, reset } = useMutation({
-    mutationFn: (data: CampaignRequest) => {
-      return makePOSTRequest<Campaign>('/campaigns', data)
+  const generateTrackingCode = async (data: CampaignRequest) => {
+    const utmParams = new URLSearchParams();
+    if (data.platform) utmParams.append('utm_source', data.platform);
+    if (data.platformPage) utmParams.append('utm_medium', data.platformPage);
+    if (data.audience) utmParams.append('utm_audience', data.audience);
+    if (data.keyword) utmParams.append('utm_term', data.keyword);
+    if (data.postCreativeName) utmParams.append('utm_content', data.postCreativeName);
+    if (data.campaignName) utmParams.append('utm_campaign', data.campaignName);
+    if (data.websitePageUrl) utmParams.append('utm_destination', data.websitePageUrl);
+
+    const trackingUrl = `${data.websitePageUrl}?${utmParams.toString()}`
+
+    return trackingUrl
+  }
+
+  const { mutateAsync: shortenURL, isPending, isSuccess, reset } = useMutation({
+    mutationFn: (data: { trackingUrl: string, title: string }) => {
+      return makeN8NPOSTRequest<{ shortURL: string, originalURL: string }>('/shorten-url', data)
     }
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    try {
-      const response = await createCampaign(formData)
+    if (!formData.title || !formData.platform || !formData.platformPage || !formData.websitePageUrl) {
+      window.alert('Please fill in all fields')
+      return
+    }
 
-      setTrackingCode(response.data.code)
-      setTrackingUrl(response.data.trackingUrl)
+    try {
+      const trackingUrl = await generateTrackingCode(formData)
+      const response = await shortenURL({ trackingUrl, title: formData.title })
+
+      setTrackingCode(response.shortURL)
 
       setFormData({
+        title: '',
         platform: '',
         platformPage: '',
         audience: '',
@@ -103,27 +136,20 @@ export default function TrackingForm() {
               Your campaign tracking information has been successfully recorded.
             </p>
             <div className="bg-white/20 flex flex-col items-center gap-2 backdrop-blur-sm rounded-lg p-4 mb-4">
-              <p className="text-primary-foreground/80 text-sm">Generated Tracking Code:</p>
+              <p className="text-primary-foreground/80 text-sm">Generated Tracking URL:</p>
               <div className="flex items-center gap-2">
                 <p className="text-2xl font-mono font-bold text-primary-foreground">{trackingCode}</p>
                 <Icon icon="mdi:content-copy" onClick={() => handleCopy(trackingCode)} className="text-primary-foreground/80 cursor-pointer" />
               </div>
             </div>
-            <div className="bg-white/20 flex flex-col items-center gap-2 backdrop-blur-sm rounded-lg p-4 mb-4">
-              <div className="flex items-center gap-2">
-                <p className="text-primary-foreground/80 text-sm">Generated Tracking URL:</p>
-                <Icon icon="mdi:content-copy" onClick={() => handleCopy(trackingUrl)} className="text-primary-foreground/80 cursor-pointer" />
-              </div>
-              <div className="break-all">
-                <p className="text-sm font-mono text-primary-foreground">{trackingUrl}</p>
-              </div>
+            <div className="flex justify-center w-full gap-4">
+              <Button
+                onClick={() => reset()}
+                className="bg-primary hover:bg-primary/90"
+              >
+                Add Another Entry
+              </Button>
             </div>
-            <Button
-              onClick={() => reset()}
-              className="bg-primary hover:bg-primary/90"
-            >
-              Add Another Entry
-            </Button>
           </div>
         </CardContent>
       </Card>
@@ -140,25 +166,47 @@ export default function TrackingForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Platform Selection */}
+          {/* Link Title */}
           <div className="space-y-2">
             <div className="text-primary-foreground font-medium">
-              Platform
+              Link Title <span className="text-red-400">*</span>
+            </div>
+            <Input
+              name="title"
+              type="text"
+              placeholder="e.g. Linktree Webinar Link"
+              value={formData.title}
+              required
+              onChange={(e) => handleInputChange('title', e.target.value)}
+              className="bg-white/20 border-white/20 text-primary-foreground placeholder:text-primary-foreground/50"
+            />
+          </div>
+          <div className="space-y-2">
+            <div className="text-primary-foreground font-medium">
+              Platform  <span className="text-red-400">*</span>
             </div>
             <Select
               value={formData.platform}
-              onValueChange={(value) => handleInputChange('platform', value)}
+              onValueChange={(value) => {
+                handleInputChange('platform', value)
+                handleInputChange('platformPage', '')
+              }}
               required
             >
               <SelectTrigger className="bg-white/20 border-white/20 data-[placeholder]:text-primary-foreground/80 text-primary-foreground w-full">
                 <SelectValue placeholder="Select platform" />
               </SelectTrigger>
               <SelectContent>
-                {platforms.map((platform) => (
-                  <SelectItem key={platform.id} value={platform.name}>
-                    {platform.label}
+                {sources.map((source) => (
+                  <SelectItem key={source._id} value={source.source ?? ''}>
+                    {source.source}
                   </SelectItem>
                 ))}
+                {sources.length === 0 && (
+                  <div className='p-2'>
+                    <p className='text-sm'>No platform found</p>
+                  </div>
+                )}
               </SelectContent>
             </Select>
           </div>
@@ -168,7 +216,7 @@ export default function TrackingForm() {
             formData.platform && (
               <div className="space-y-2">
                 <div className="text-primary-foreground font-medium">
-                  Page on Platform
+                  Medium on Platform <span className="text-red-400">*</span>
                 </div>
                 <Select
                   value={formData.platformPage}
@@ -176,14 +224,19 @@ export default function TrackingForm() {
                   required
                 >
                   <SelectTrigger className="bg-white/20 border-white/20 data-[placeholder]:text-primary-foreground/80 text-primary-foreground w-full">
-                    <SelectValue placeholder="Select page" />
+                    <SelectValue placeholder="Select medium" />
                   </SelectTrigger>
                   <SelectContent>
-                    {platformPages.filter(page => page.platform.name === formData.platform).map((page) => (
-                      <SelectItem key={page.id} value={page.name}>
-                        {page.label}
+                    {mediums.map((medium) => (
+                      <SelectItem key={medium._id} value={medium.medium ?? ''}>
+                        {medium.medium}
                       </SelectItem>
                     ))}
+                    {mediums.length === 0 && (
+                      <div className='p-2'>
+                        <p className='text-sm'>No medium found</p>
+                      </div>
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -225,7 +278,6 @@ export default function TrackingForm() {
               value={formData.campaignName}
               onChange={(e) => handleInputChange('campaignName', e.target.value)}
               className="bg-white/20 border-white/20 text-primary-foreground placeholder:text-primary-foreground/50"
-              required
             />
           </div>
 
@@ -241,7 +293,6 @@ export default function TrackingForm() {
               value={formData.postCreativeName}
               onChange={(e) => handleInputChange('postCreativeName', e.target.value)}
               className="bg-white/20 border-white/20 text-primary-foreground placeholder:text-primary-foreground/50"
-              required
             />
           </div>
 
@@ -257,14 +308,13 @@ export default function TrackingForm() {
               value={formData.keyword}
               onChange={(e) => handleInputChange('keyword', e.target.value)}
               className="bg-white/20 border-white/20 text-primary-foreground placeholder:text-primary-foreground/50"
-              required
             />
           </div>
 
           {/* Destination Page */}
           <div className="space-y-2">
             <div className="text-primary-foreground font-medium">
-              Website Page
+              Destination Page <span className="text-red-400">*</span>
             </div>
             <Select
               value={formData.websitePageUrl}
@@ -275,11 +325,19 @@ export default function TrackingForm() {
                 <SelectValue placeholder="Select destination page" />
               </SelectTrigger>
               <SelectContent>
-                {websitePages.map((page) => (
-                  <SelectItem key={page.value} value={page.value}>
-                    {page.label}
+                {destinations.map((destination) => (
+                  <SelectItem key={destination._id} value={destination.url ?? ''}>
+                    <div className="flex items-center justify-between gap-10 w-full">
+                      <div className="flex flex-col items-start gap-0.5">
+                        <p className=" text-sm">{destination.name}</p>
+                        <p className=" text-xs">({destination.url})</p>
+                      </div>
+                    </div>
                   </SelectItem>
                 ))}
+                {destinations.length === 0 && (
+                  <SelectItem value="None">No destination page found</SelectItem>
+                )}
               </SelectContent>
             </Select>
           </div>
