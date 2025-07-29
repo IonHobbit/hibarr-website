@@ -75,9 +75,9 @@ export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
         <div className='flex flex-col gap-2'>
           <h4 className='text-xl font-medium'>{thankYouTranslation?.text || 'Thank you for reaching out!'}</h4>
           <p className='text-sm text-muted-foreground'>{weWillGetBackToYouTranslation?.text || 'We will get back to you as soon as possible'}</p>
-          <p className='text-sm text-muted-foreground'>{inTheMeantimeTranslation?.text || 'In the meantime, join our Facebook waitlist to stay updated on the smartest ways to buy property'}</p>
+          <p className='text-sm text-muted-foreground'>{inTheMeantimeTranslation?.text || 'In the meantime, join our Facebook Group to stay updated on the smartest ways to buy property'}</p>
           <Button asChild className='mt-4'>
-            <Link href="/waitlist">
+            <Link href="/facebook-group">
               {joinFacebookGroupTranslation?.text || 'Join our Facebook Group'}
             </Link>
           </Button>

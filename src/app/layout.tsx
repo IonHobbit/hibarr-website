@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { Playfair_Display, Inter, Work_Sans } from "next/font/google";
+import { Playfair_Display, Inter, Work_Sans, Figtree } from "next/font/google";
 import { Locale } from "@/lib/i18n-config";
 import "./globals.css";
 import "flag-icons/css/flag-icons.min.css";
@@ -13,6 +13,11 @@ import GTMBody from "@/components/analytics/GTMBody";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair-display",
+  subsets: ["latin"],
+});
+
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
 });
 
@@ -50,7 +55,7 @@ export default async function RootLayout(
         <MetaPixel />
       </head>
       <body
-        className={`${playfairDisplay.variable} ${inter.variable} ${workSans.variable} antialiased relative w-screen`}
+        className={`${playfairDisplay.variable} ${inter.variable} ${workSans.variable} ${figtree.variable} antialiased relative w-screen`}
       >
         <GTMBody />
         <ThemeProvider>

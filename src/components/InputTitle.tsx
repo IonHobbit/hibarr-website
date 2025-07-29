@@ -8,11 +8,12 @@ type InputTitleProps = {
   titleClassName?: string;
   required?: boolean;
   hideTitle?: boolean;
+  hideRequiredAsterisk?: boolean;
 }
 
-export default function InputTitle({ id, title, truncateTitle, titleClassName, required, hideTitle }: InputTitleProps) {
+export default function InputTitle({ id, title, truncateTitle, titleClassName, required, hideTitle, hideRequiredAsterisk }: InputTitleProps) {
   if (!title || hideTitle) return null;
   return (
-    <label htmlFor={id} className={cn("text-base text-muted-foreground", truncateTitle && "truncate max-w-60", titleClassName)}>{title} {required && <span className="text-destructive text-xs">*</span>}</label>
+    <label htmlFor={id} className={cn("text-base text-muted-foreground", truncateTitle && "truncate max-w-60", titleClassName)}>{title} {required && !hideRequiredAsterisk && <span className="text-destructive text-xs">*</span>}</label>
   )
 }
