@@ -1,12 +1,9 @@
-'use client'
-
-import { useParams } from 'next/navigation'
-import ConsultationThankYouFunnel from './_components/ConsultationThankYouFunnel';
-import WaitlistThankYouFunnel from './_components/WaitlistThankYouFunnel';
 import WebinarThankYouFunnel from './_components/WebinarThankYouFunnel';
+import ConsultationThankYouFunnel from './_components/ConsultationThankYouFunnel';
+import FacebookGroupThankYouFunnel from './_components/FacebookGroupThankYouFunnel';
 
-export default function ThankYouPage() {
-  const { funnel }: { funnel: string } = useParams();
+export default async function ThankYouPage({ params }: { params: Promise<{ funnel: string }> }) {
+  const { funnel } = await params;
 
   if (!funnel) {
     return <div>No funnel found</div>
@@ -15,9 +12,9 @@ export default function ThankYouPage() {
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 pt-28 pb-10 sm:px-6 lg:px-8 lg:py-10 grid place-items-center md:place-content-center min-h-screen">
       {{
-        consultation: <ConsultationThankYouFunnel />,
-        waitlist: <WaitlistThankYouFunnel />,
         webinar: <WebinarThankYouFunnel />,
+        consultation: <ConsultationThankYouFunnel />,
+        'facebook-group': <FacebookGroupThankYouFunnel />,
       }[funnel]}
     </section>
   )

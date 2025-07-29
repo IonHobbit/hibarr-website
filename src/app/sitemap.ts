@@ -15,7 +15,7 @@ const staticRoutes = [
   { path: '/blog', priority: 0.8 },
   { path: '/webinar', priority: 0.8 },
   { path: '/consultation', priority: 0.8 },
-  { path: '/waitlist', priority: 0.8 },
+  { path: '/facebook-group', priority: 0.8 },
   // { path: '/partners/oscar-group', priority: 0.7 },
   { path: '/partners/near-east-group', priority: 0.7 },
   { path: '/our-packages', priority: 0.8 },
