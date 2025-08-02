@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Icon } from '@iconify/react';
 import { Button } from '@/components/ui/button'
 import { HomePage } from '@/types/sanity.types';
-import { useFeatureFlagEnabled } from 'posthog-js/react';
+import { useFeatureFlagVariantKey } from 'posthog-js/react';
 
 type LandingSectionProps = {
   data: HomePage;
@@ -14,9 +14,9 @@ export default function LandingSection({ data }: LandingSectionProps) {
   const baseLandingVideo = 'https://vz-da4cd036-d13.b-cdn.net/15ac0674-e562-4448-9853-a4992db2b7ab/play_720p.mp4';
   const v2LandingVideo = 'https://hibarr-01.b-cdn.net/Website%20Assets/Videos/HERO.mp4';
 
-  const isFlagEnabled = useFeatureFlagEnabled('v2-landing-section');
+  const variantKey = useFeatureFlagVariantKey('v2-landing-video');
 
-  const landingVideo = isFlagEnabled ? v2LandingVideo : baseLandingVideo;
+  const landingVideo = variantKey === 'v2' ? v2LandingVideo : baseLandingVideo;
 
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center h-screen  bg-gradient-to-b from-primary via-primary/80 to-transparent">
