@@ -11,10 +11,21 @@ import { ZapierEbookPayload } from "@/types/main";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
+import useTranslation from "@/hooks/useTranslation";
 
 export default function EbookSignupForm() {
   const userInfo = useUserInfo();
   const router = useRouter();
+
+  // Translation hooks
+  const { data: thankYouTitle } = useTranslation('Thank you for signing up!');
+  const { data: emailSentText } = useTranslation('We will send you an email with the download link shortly.');
+  const { data: firstNameTitle } = useTranslation('First Name');
+  const { data: lastNameTitle } = useTranslation('Last Name');
+  const { data: emailTitle } = useTranslation('Email');
+  const { data: phoneNumberTitle } = useTranslation('Phone Number');
+  const { data: checkEmailButton } = useTranslation('Check Your Email!');
+  const { data: privacyText } = useTranslation('No spam. Unsubscribe anytime. Your privacy is protected.');
 
   const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: async () => {
@@ -65,9 +76,9 @@ export default function EbookSignupForm() {
     <div className="space-y-4 bg-white p-6 rounded-2xl border border-gray-200">
       {isSuccess ?
         <div className="flex flex-col gap-6 p-3 bg-background max-w-2xl h-full m-auto rounded-lg overflow-hidden">
-          <h3 className="text-2xl md:text-3xl md:text-center text-primary">Thank you for signing up!</h3>
+          <h3 className="text-2xl md:text-3xl md:text-center text-primary">{thankYouTitle?.text || 'Thank you for signing up!'}</h3>
           <p className="text-sm md:text-lg text-center">
-            We will send you an email with the download link shortly.
+            {emailSentText?.text || 'We will send you an email with the download link shortly.'}
           </p>
         </div>
         :
@@ -79,8 +90,8 @@ export default function EbookSignupForm() {
               type="text"
               name="firstName"
               onChange={handleChange}
-              title="First Name"
-              placeholder="First Name"
+              title={firstNameTitle?.text || 'First Name'}
+              placeholder={firstNameTitle?.text || 'First Name'}
               value={values.firstName}
             />
             <Input
@@ -90,8 +101,8 @@ export default function EbookSignupForm() {
               name="lastName"
               onChange={handleChange}
               value={values.lastName}
-              title="Last Name"
-              placeholder="Last Name"
+              title={lastNameTitle?.text || 'Last Name'}
+              placeholder={lastNameTitle?.text || 'Last Name'}
             />
           </div>
           <Input
@@ -101,21 +112,21 @@ export default function EbookSignupForm() {
             name="email"
             value={values.email}
             onChange={handleChange}
-            title="Email"
-            placeholder="Email"
+            title={emailTitle?.text || 'Email'}
+            placeholder={emailTitle?.text || 'Email'}
           />
           <PhoneInput
             required
             hideRequiredAsterisk
             name="phoneNumber"
-            title={'Phone Number'}
+            title={phoneNumberTitle?.text || 'Phone Number'}
             value={values.phoneNumber}
             onChange={(value) => setFieldValue('phoneNumber', value)}
           />
-          <Button type="submit" disabled={!isValid} isLoading={isPending} className="w-full">Check Your Email!</Button>
+          <Button type="submit" disabled={!isValid} isLoading={isPending} className="w-full">{checkEmailButton?.text || 'Check Your Email!'}</Button>
 
           <p className="text-xs text-gray-500 text-center">
-            No spam. Unsubscribe anytime. Your privacy is protected.
+            {privacyText?.text || 'No spam. Unsubscribe anytime. Your privacy is protected.'}
           </p>
         </form>
       }
