@@ -48,6 +48,6 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    '/((?!_next|api|logos|featured|images|favicon.ico|sitemap.xml|robots.txt|ingest|calendar|expose/testimonials|tools|external/alpha-cash).*)',
+    '/((?!_next|api|logos|featured|images|favicon.ico|sitemap.xml|robots.txt|ingest|expose/testimonials|tools|external/alpha-cash).*)',
   ],
 } 

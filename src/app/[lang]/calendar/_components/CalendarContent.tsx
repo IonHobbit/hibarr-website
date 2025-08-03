@@ -1,9 +1,8 @@
-'use client'
-
-import { useSearchParams } from 'next/navigation'
-import { useState, useEffect, Suspense } from 'react'
-import { Calendar, Clock, MapPin } from 'lucide-react'
-import { Icon } from '@iconify/react'
+import { useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
+import useTranslation from "@/hooks/useTranslation"
+import { Calendar, Clock, MapPin } from "lucide-react"
+import { Icon } from "@iconify/react"
 
 interface CalendarEvent {
   subject: string
@@ -11,10 +10,18 @@ interface CalendarEvent {
   joinUrl: string
 }
 
-function CalendarContent() {
+export default function CalendarContent() {
   const searchParams = useSearchParams()
   const [event, setEvent] = useState<CalendarEvent | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+
+  const title = useTranslation('Add to Calendar')
+  const description = useTranslation('Choose your preferred calendar')
+
+  const googleCalendar = useTranslation('Google Calendar')
+  const outlookCalendar = useTranslation('Outlook Calendar')
+  const yahooCalendar = useTranslation('Yahoo Calendar')
+  const downloadICalText = useTranslation('Download iCal')
 
   useEffect(() => {
     const subject = searchParams.get('subject')
@@ -61,7 +68,7 @@ function CalendarContent() {
   const formatDateForGoogle = (dateStr: string) => {
     const date = new Date(dateStr)
     const endDate = new Date(date.getTime() + 60 * 60 * 1000) // 1 hour later
-    
+
     return {
       start: date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''),
       end: endDate.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
@@ -71,7 +78,7 @@ function CalendarContent() {
   const formatDateForOutlook = (dateStr: string) => {
     const date = new Date(dateStr)
     const endDate = new Date(date.getTime() + 60 * 60 * 1000) // 1 hour later
-    
+
     return {
       start: date.toISOString(),
       end: endDate.toISOString()
@@ -81,7 +88,7 @@ function CalendarContent() {
   const formatDateForYahoo = (dateStr: string) => {
     const date = new Date(dateStr)
     const endDate = new Date(date.getTime() + 60 * 60 * 1000) // 1 hour later
-    
+
     return {
       start: date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''),
       end: endDate.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
@@ -130,7 +137,7 @@ function CalendarContent() {
   const generateICalData = () => {
     const date = new Date(event.date)
     const endDate = new Date(date.getTime() + 60 * 60 * 1000) // 1 hour later
-    
+
     const icalContent = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
@@ -151,15 +158,15 @@ function CalendarContent() {
   const downloadICal = () => {
     const link = document.createElement('a')
     link.href = generateICalData()
-    
+
     // Format date for filename
     const eventDate = new Date(event.date)
     const dateStr = eventDate.toISOString().split('T')[0] // YYYY-MM-DD format
-    
+
     // Create filename with date
     const sanitizedSubject = event.subject.replace(/[^a-z0-9]/gi, '_').toLowerCase()
     const filename = `${sanitizedSubject}_${dateStr}.ics`
-    
+
     link.download = filename
     document.body.appendChild(link)
     link.click()
@@ -168,25 +175,25 @@ function CalendarContent() {
 
   const calendarButtons = [
     {
-      name: 'Google Calendar',
+      name: googleCalendar.data?.text || 'Google Calendar',
       icon: 'logos:google-calendar',
       color: 'bg-blue-500 hover:bg-blue-600',
       onClick: () => window.open(generateGoogleCalendarUrl(), '_blank')
     },
     {
-      name: 'Outlook Calendar',
+      name: outlookCalendar.data?.text || 'Outlook Calendar',
       icon: 'vscode-icons:file-type-outlook',
       color: 'bg-blue-400 hover:bg-blue-500',
       onClick: () => window.open(generateOutlookCalendarUrl(), '_blank')
     },
     {
-      name: 'Yahoo Calendar',
+      name: yahooCalendar.data?.text || 'Yahoo Calendar',
       icon: 'ion:logo-yahoo',
       color: 'bg-[#6400CD] hover:bg-purple-600',
       onClick: () => window.open(generateYahooCalendarUrl(), '_blank')
     },
     {
-      name: 'Download iCal',
+      name: downloadICalText.data?.text || 'Download iCal',
       icon: 'mdi:calendar-download',
       color: 'bg-primary hover:bg-primary/80',
       onClick: downloadICal
@@ -198,8 +205,8 @@ function CalendarContent() {
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
         <div className="text-center mb-6">
           <Calendar className="mx-auto h-12 w-12 text-blue-500 mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Add to Calendar</h1>
-          <p className="text-gray-600">Choose your preferred calendar</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{title.data?.text || 'Add to Calendar'}</h1>
+          <p className="text-gray-600">{description.data?.text || 'Choose your preferred calendar'}</p>
         </div>
 
         <div className="mb-6 p-4 bg-gray-50 rounded-lg">
@@ -241,25 +248,5 @@ function CalendarContent() {
         </div>
       </div>
     </div>
-  )
-}
-
-function LoadingFallback() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-        <h1 className="text-xl font-semibold text-gray-900 mb-2">Loading Calendar Event</h1>
-        <p className="text-gray-600">Preparing your calendar options...</p>
-      </div>
-    </div>
-  )
-}
-
-export default function CalendarPage() {
-  return (
-    <Suspense fallback={<LoadingFallback />}>
-      <CalendarContent />
-    </Suspense>
   )
 }
