@@ -38,6 +38,17 @@ export default function CalendarContent() {
     setIsLoading(false)
   }, [searchParams])
 
+  const eventDate = event?.date ? new Date(event.date).toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    hour12: true,
+    weekday: 'long',
+  }) : '';
+
+  const translatedDate = useTranslation(eventDate);
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -223,7 +234,7 @@ export default function CalendarContent() {
               <div className="space-y-1 text-sm text-gray-600">
                 <div className="flex items-center">
                   <Clock className="w-4 h-4 mr-2" />
-                  <span>{new Date(event.date).toLocaleString()}</span>
+                  <span>{translatedDate.data?.text || eventDate}</span>
                 </div>
                 <div className="flex items-center">
                   <MapPin className="w-4 h-4 mr-2" />
