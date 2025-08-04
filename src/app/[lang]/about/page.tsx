@@ -40,10 +40,10 @@ export default async function AboutPage(
         </div>
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col gap-2'>
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 text-background uppercase">
+            <h1 className="text-5xl md:text-7xl font-bold mb-4 text-background uppercase">
               {data?.title}
             </h1>
-            <p className="text-md md:text-base text-background">
+            <p className="text-md md:text-xl text-background">
               {data?.subtitle}
             </p>
           </div>
