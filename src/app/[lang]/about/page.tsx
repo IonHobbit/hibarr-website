@@ -34,16 +34,16 @@ export default async function AboutPage(
 
   return (
     <Fragment>
-      <section id='root' className="relative grid place-items-center place-content-center h-[60vh] bg-cover bg-center bg-no-repeat">
+      <section id='root' className="relative grid place-items-center place-content-center min-h-screen bg-cover bg-center bg-no-repeat">
         <div className='absolute inset-0 w-full h-full -z-10'>
           <video src="https://hibarr-01.b-cdn.net/Website%20Assets/Videos/HERO.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover' poster='/images/landing-background-fallback.png' />
         </div>
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col gap-2'>
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 text-background uppercase">
+            <h1 className="text-5xl md:text-7xl font-bold mb-4 text-background uppercase">
               {data?.title}
             </h1>
-            <p className="text-md md:text-base text-background">
+            <p className="text-md md:text-xl text-background">
               {data?.subtitle}
             </p>
           </div>
