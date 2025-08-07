@@ -32,6 +32,7 @@ export const fetchBlogPost = async (slug: string): Promise<BlogPostType> => {
       "image": image.asset->url,
     },
     "image": image.asset->url,
+    "audio": audio.asset->url,
     "category": category->{
       title,
       "slug": slug.current,
@@ -45,15 +46,86 @@ export const fetchBlogPost = async (slug: string): Promise<BlogPostType> => {
       question,
       answer,
     },
+    "content": content[]{
+      ...,
+      "file": file.asset->{
+        
+        url,
+        "originalFilename": originalFilename,
+        "mimeType": mimeType,
+        "size": size,
+      },
+      "coverImage": coverImage.asset->{
+        url,
+        "width": metadata.dimensions.width,
+        "height": metadata.dimensions.height,
+      },
+      "asset": asset-> {
+        ...,
+        url,
+      },
+      "images": images[]{
+        ...,
+        "image": image.asset->{
+          url,
+          "width": metadata.dimensions.width,
+          "height": metadata.dimensions.height,
+        },
+      },
+    },
   }`, { slug })
   return post
 }
 
 export const fetchRelatedBlogPosts = async (lang: Locale, blogPost: BlogPostType): Promise<BlogPostCardType[]> => {
   const relatedPosts = await client.fetch(`*[_type == "blogPost" && published == true && publishedAt < now() && language == $lang && category->slug.current == $category && slug.current != $slug] | order(publishedAt desc) {
-    _id,
-    title,
+    ...,
     "slug": slug.current,
+    "author": author->{
+      name,
+      "image": image.asset->url,
+    },
+    "image": image.asset->url,
+    "category": category->{
+      title,
+      "slug": slug.current,
+    },
+    "tags": tags[]->{
+      _id,
+      title,
+      "slug": slug.current,
+    },
+    "faqs": faqs[]->{
+      question,
+      answer,
+    },
+    "content": content[]{
+      ...,
+      "file": file.asset->{
+        url,
+        "originalFilename": originalFilename,
+        "mimeType": mimeType,
+        "size": size,
+      },
+      "coverImage": coverImage.asset->{
+        url,
+        "width": metadata.dimensions.width,
+        "height": metadata.dimensions.height,
+      },
+      "image": image.asset->{
+        url,
+        "width": metadata.dimensions.width,
+        "height": metadata.dimensions.height,
+      },
+      "images": images[]{
+        ...,
+        "image": image.asset->{
+          url,
+          "width": metadata.dimensions.width,
+          "height": metadata.dimensions.height,
+        },
+      },
+    },
   }`, { lang, category: blogPost.category.slug, slug: blogPost.slug })
   return relatedPosts
 }
