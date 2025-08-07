@@ -162,7 +162,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         <h3 className="text-xl font-semibold mb-4">{value.title}</h3>
                       )}
                       <div className={`grid ${gridCols} gap-4`}>
-                        {value.images?.map((item: any, index: number) => (
+                        {value.images?.map((item: { image: { url: string, width: number, height: number }, alt: string, caption: string }, index: number) => (
                           <div key={index} className="relative group">
                             <Image
                               src={item.image.url}
