@@ -13,6 +13,142 @@
  */
 
 // Source: schema.json
+export type Gallery = {
+  _type: 'gallery'
+  title?: string
+  images?: Array<{
+    image?: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      _type: 'image'
+    }
+    caption?: string
+    alt?: string
+    _key: string
+  }>
+  layout?: 'grid' | 'masonry' | 'carousel' | 'lightbox'
+  columns?: number
+  showCaptions?: boolean
+  enableLightbox?: boolean
+}
+
+export type Audio = {
+  _type: 'audio'
+  file?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
+    }
+    media?: unknown
+    _type: 'file'
+  }
+  title?: string
+  artist?: string
+  description?: string
+  duration?: number
+  showPlayer?: boolean
+  autoplay?: boolean
+  loop?: boolean
+  showDownloadButton?: boolean
+  coverImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+}
+
+export type Quote = {
+  _type: 'quote'
+  text?: string
+  author?: string
+  source?: string
+  url?: string
+  style?: 'default' | 'large' | 'pull' | 'blockquote'
+}
+
+export type Divider = {
+  _type: 'divider'
+  style?: 'solid' | 'dashed' | 'dotted' | 'double'
+  color?: 'default' | 'primary' | 'secondary' | 'accent' | 'muted'
+}
+
+export type Callout = {
+  _type: 'callout'
+  type?: 'info' | 'warning' | 'error' | 'success' | 'note' | 'tip'
+  title?: string
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+}
+
+export type Code = {
+  _type: 'code'
+  code?: string
+  language?:
+    | 'javascript'
+    | 'typescript'
+    | 'python'
+    | 'java'
+    | 'cpp'
+    | 'csharp'
+    | 'php'
+    | 'ruby'
+    | 'go'
+    | 'rust'
+    | 'swift'
+    | 'kotlin'
+    | 'html'
+    | 'css'
+    | 'scss'
+    | 'json'
+    | 'yaml'
+    | 'markdown'
+    | 'sql'
+    | 'shell'
+    | 'bash'
+    | 'text'
+  filename?: string
+  highlightedLines?: Array<number>
+}
+
+export type Youtube = {
+  _type: 'youtube'
+  url?: string
+  title?: string
+  caption?: string
+}
+
 export type Translations = {
   _id: string
   _type: 'translations'
@@ -427,7 +563,65 @@ export type BlogPost = {
     _type: 'image'
   }
   description?: string
-  content?: Array<{
+  content?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: {
+          _ref: string
+          _type: 'reference'
+          _weak?: boolean
+          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+        }
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }
+    | ({
+        _key: string
+      } & Youtube)
+    | ({
+        _key: string
+      } & Callout)
+    | ({
+        _key: string
+      } & Divider)
+    | ({
+        _key: string
+      } & Audio)
+    | ({
+        _key: string
+      } & Gallery)
+  >
+  audio?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
+    }
+    media?: unknown
+    _type: 'file'
+  }
+  tableOfContents?: Array<{
     children?: Array<{
       marks?: Array<string>
       text?: string
@@ -1256,6 +1450,13 @@ export type SanityAssetSourceData = {
 }
 
 export type AllSanitySchemaTypes =
+  | Gallery
+  | Audio
+  | Quote
+  | Divider
+  | Callout
+  | Code
+  | Youtube
   | Translations
   | Footer
   | Testimonial

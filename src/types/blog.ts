@@ -40,4 +40,6 @@ export type BlogPostType = {
   };
   slug: string;
   image: string;
+  audio?: string;
+
 } & BlogPost

@@ -21,6 +21,14 @@ export function middleware(request: NextRequest) {
   // Get the pathname of the request
   const pathname = request.nextUrl.pathname;
 
+  if (pathname.includes('/src/internal/') ||
+    pathname.endsWith('.ts') ||
+    pathname.endsWith('.js.map') ||
+    pathname.includes('node_modules')) {
+    // Return 204 No Content for these requests to stop the logging
+    return new NextResponse(null, { status: 204 });
+  }
+
   // Check if the pathname already starts with a language code
   const pathnameHasLocale = languages.some(
     locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
@@ -49,5 +57,6 @@ export const config = {
   matcher: [
     // Skip all internal paths (_next)
     '/((?!_next|api|logos|featured|images|favicon.ico|sitemap.xml|robots.txt|ingest|expose/testimonials|tools|external/alpha-cash).*)',
+    '/:path*/src/internal/:file*',
   ],
 } 
