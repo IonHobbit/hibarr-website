@@ -8,7 +8,7 @@ export const client = createClient({
   useCdn: false,
 });
 
-export const fetchSanityData = cache(async<T>(query: string, params: object, options?: { cache: 'no-store' }): Promise<T> => {
+export const fetchSanityData = cache(async<T>(query: string, params: object = {}, options?: { cache: 'no-store' }): Promise<T> => {
   const env = process.env.NODE_ENV;
   const data = await client.fetch<T>(query, params, {
     ...options,

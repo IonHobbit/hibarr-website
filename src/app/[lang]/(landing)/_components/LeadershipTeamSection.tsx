@@ -1,4 +1,4 @@
-import { client } from "@/lib/sanity/client";
+import { client, fetchSanityData } from "@/lib/sanity/client";
 import { HomePage, Team } from "@/types/sanity.types";
 import Image from "next/image";
 import { generateImageUrl } from "@/lib/utils";
@@ -9,7 +9,7 @@ type LeadershipTeamSectionProps = {
 }
 
 export default async function LeadershipTeamSection({ data }: LeadershipTeamSectionProps) {
-  const leadershipTeam = await client.fetch<Team[]>(`*[_type == "team" && leadership == true] | order(order asc)`);
+  const leadershipTeam = await fetchSanityData<Team[]>(`*[_type == "team" && leadership == true] | order(order asc)`);
 
   return (
     <section id='leadership-team' className='min-h-[50vh] bg-gray-50/50'>

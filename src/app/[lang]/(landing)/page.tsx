@@ -39,7 +39,7 @@ export const revalidate = 60;
 export default async function Home(props: HomePageProps) {
   const { lang } = await props.params;
 
-  const data = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const data = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
 
   return (
     <Fragment>
