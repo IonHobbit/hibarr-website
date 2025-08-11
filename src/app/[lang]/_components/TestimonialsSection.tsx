@@ -37,7 +37,7 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
                 <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'flex-col items-center', 'flex gap-4 p-4 relative')}>
                   {showImage && testimonial.clientImage && (
                     <div className='w-32 h-32 rounded overflow-hidden relative shrink-0'>
-                      <Image src={generateImageUrl(testimonial.clientImage).url()} alt={testimonial.clientName || ''} className='w-full h-full object-cover' fill />
+                      <Image src={generateImageUrl(testimonial.clientImage).url()} alt={testimonial.clientName || ''} className='w-full h-full object-cover' fill loading='lazy' />
                     </div>
                   )}
                   <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'items-center', 'flex flex-col gap-2')}>

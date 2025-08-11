@@ -18,7 +18,7 @@ import WebinarSection from './_components/WebinarSection';
 import SignupSection from './_components/SignupSection';
 import { Metadata } from 'next';
 import { generateSEOMetadata } from '@/lib/utils';
-import FindrSection from './_components/FindrSection';
+// import FindrSection from './_components/FindrSection';
 
 import LandingWrapper from './_components/LandingWrapper';
 
@@ -51,7 +51,7 @@ export default async function Home(props: HomePageProps) {
         </div>
       </div> */}
       <AboutSection data={data} />
-      <FindrSection />
+      {/* <FindrSection /> */}
       <TestimonialsSection lang={lang} />
       <PartnersSection lang={lang} />
       <ConsultationProcessSection data={data.consultationProcessSection} />

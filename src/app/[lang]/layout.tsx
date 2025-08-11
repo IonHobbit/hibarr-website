@@ -20,35 +20,35 @@ export default async function RootLayout(
   const { params, children } = props;
 
   return (
-    <Fragment>
-      <Suspense fallback={null}>
-        <Header params={params} />
-      </Suspense>
 
-      <Suspense fallback={
-        <div className='flex justify-center items-center h-screen'>
-          <Image src='/logos/logo-blue.png' className='animate-pulse' alt='logo' width={250} height={50} />
-        </div>
-      }>
+    <Suspense fallback={
+      <div className='flex justify-center items-center h-screen'>
+        <Image src='/logos/logo-blue.png' className='animate-pulse' alt='logo' width={250} height={50} />
+      </div>
+    }>
+      <Fragment>
+        <Suspense fallback={null}>
+          <Header params={params} />
+        </Suspense>
         <main className='min-h-screen overflow-x-hidden w-full'>
           {children}
         </main>
-      </Suspense>
-      <Suspense fallback={null}>
-        <ScrollToTop />
-      </Suspense>
-      <Suspense fallback={null}>
-        <Footer params={params} />
-      </Suspense>
-      <Script 
-        id='bitrix-script'
-        strategy="lazyOnload"
-      >
-        {`(function(w,d,u){
+        <Suspense fallback={null}>
+          <ScrollToTop />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Footer params={params} />
+        </Suspense>
+        <Script
+          id='bitrix-script'
+          strategy="lazyOnload"
+        >
+          {`(function(w,d,u){
               var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
               var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
       })(window,document,'https://cdn.bitrix24.de/b26123245/crm/site_button/loader_4_mnv0cr.js');`}
-      </Script>
-    </Fragment>
+        </Script>
+      </Fragment>
+    </Suspense>
   );
 } 

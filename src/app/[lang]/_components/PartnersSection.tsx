@@ -21,6 +21,7 @@ export default async function PartnersSection({ lang }: PartnersSectionProps) {
         alt={item.display_name}
         sizes="100%"
         fill
+        loading='lazy'
         className="object-contain absolute hover:scale-110 transition-all duration-300 grayscale hover:grayscale-0"
       />
     </div>
