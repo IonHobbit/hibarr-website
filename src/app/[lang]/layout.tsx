@@ -3,9 +3,9 @@ import { i18n } from '@/lib/i18n-config';
 import type { Locale } from '@/lib/i18n-config';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Image from 'next/image';
 import ScrollToTop from '@/app/[lang]/_components/ScrollToTop';
 import Script from 'next/script';
-import Image from 'next/image';
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
@@ -21,23 +21,26 @@ export default async function RootLayout(
 
   return (
     <Fragment>
+      <Suspense fallback={null}>
+        <Header params={params} />
+      </Suspense>
+
       <Suspense fallback={
         <div className='flex justify-center items-center h-screen'>
           <Image src='/logos/logo-blue.png' className='animate-pulse' alt='logo' width={250} height={50} />
         </div>
       }>
-        <Header params={params} />
+        <main className='min-h-screen overflow-x-hidden w-full'>
+          {children}
+        </main>
       </Suspense>
-      <main className='min-h-screen overflow-x-hidden w-full'>
-        {children}
-      </main>
       <Suspense fallback={null}>
         <ScrollToTop />
       </Suspense>
       <Suspense fallback={null}>
         <Footer params={params} />
       </Suspense>
-      <Script
+      <Script 
         id='bitrix-script'
         strategy="lazyOnload"
       >
