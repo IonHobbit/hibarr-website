@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { Playfair_Display, Inter, Work_Sans, Figtree } from "next/font/google";
+import { Inter, Figtree } from "next/font/google";
 import { Locale } from "@/lib/i18n-config";
 import "./globals.css";
 import "flag-icons/css/flag-icons.min.css";
