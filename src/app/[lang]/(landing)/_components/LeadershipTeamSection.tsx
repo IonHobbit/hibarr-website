@@ -1,4 +1,4 @@
-import { client, fetchSanityData } from "@/lib/sanity/client";
+import { fetchSanityData } from "@/lib/sanity/client";
 import { HomePage, Team } from "@/types/sanity.types";
 import Image from "next/image";
 import { generateImageUrl } from "@/lib/utils";
