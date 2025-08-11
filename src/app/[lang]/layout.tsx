@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ScrollToTop from '@/app/[lang]/_components/ScrollToTop';
 import Script from 'next/script';
+import Image from 'next/image';
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
@@ -22,7 +23,7 @@ export default async function RootLayout(
     <Fragment>
       <Suspense fallback={
         <div className='flex justify-center items-center h-screen'>
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+          <Image src='/logos/logo-blue.png' className='animate-pulse' alt='logo' width={250} height={50} />
         </div>
       }>
         <Header params={params} />
