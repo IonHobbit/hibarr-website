@@ -12,7 +12,7 @@ export const fetchSanityData = cache(async<T>(query: string, params: any, option
   const env = process.env.NODE_ENV;
   const data = await client.fetch<T>(query, params, {
     ...options,
-    // ...(env === 'development' && { cache: 'no-store' })
+    ...(env === 'development' && { cache: 'no-store' })
   });
   return data;
 })
