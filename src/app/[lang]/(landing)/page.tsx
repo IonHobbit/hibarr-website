@@ -13,7 +13,6 @@ import TestimonialsSection from '@/app/[lang]/_components/TestimonialsSection';
 import { fetchSanityData } from "@/lib/sanity/client";
 import { HomePage } from '@/types/sanity.types';
 import ConsultationProcessSection from './_components/ConsultationProcessSection';
-// import SearchBar from '../listings/_components/SearchBar';
 import InvestorCommunitySection from './_components/InvestorCommunitySection';
 import WebinarSection from './_components/WebinarSection';
 import SignupSection from './_components/SignupSection';
