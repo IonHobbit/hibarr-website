@@ -1,6 +1,6 @@
 import { BankPackagesPage } from '@/types/sanity.types'
 import { BankPackage } from './_components/PackageCard'
-import { Fragment } from 'react'
+import { Fragment, Suspense } from 'react'
 import { client } from '@/lib/sanity/client'
 import { Locale } from '@/lib/i18n-config'
 import PackageSelector from './_components/PackageSelector'
@@ -26,7 +26,17 @@ export default async function BankingPackagesPage(
           </p>
         </div>
       </section>
-      <PackageSelector packages={packages as BankPackage[]} form={form} />
+      <SuspendedPackageSelector packages={packages as BankPackage[]} form={form} />
     </Fragment>
+  )
+}
+
+const SuspendedPackageSelector = (props: { packages: BankPackage[], form: BankPackagesPage['form'] }) => {
+  const { packages, form } = props;
+
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PackageSelector packages={packages as BankPackage[]} form={form} />
+    </Suspense>
   )
 }

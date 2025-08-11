@@ -3,7 +3,6 @@ import { i18n } from '@/lib/i18n-config';
 import type { Locale } from '@/lib/i18n-config';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Image from 'next/image';
 import ScrollToTop from '@/app/[lang]/_components/ScrollToTop';
 import Script from 'next/script';
 
@@ -20,25 +19,32 @@ export default async function RootLayout(
   const { params, children } = props;
 
   return (
-    <Suspense fallback={
-      <div className='flex justify-center items-center h-screen'>
-        <Image src='/logos/logo-blue.png' className='animate-pulse' alt='logo' width={250} height={50} />
-      </div>
-    }>
-      <Fragment>
+    <Fragment>
+      <Suspense fallback={
+        <div className='flex justify-center items-center h-screen'>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+        </div>
+      }>
         <Header params={params} />
-        <main className='min-h-screen overflow-x-hidden w-full'>
-          {children}
-        </main>
+      </Suspense>
+      <main className='min-h-screen overflow-x-hidden w-full'>
+        {children}
+      </main>
+      <Suspense fallback={null}>
         <ScrollToTop />
+      </Suspense>
+      <Suspense fallback={null}>
         <Footer params={params} />
-        <Script id='bitrix-script'>
-          {`(function(w,d,u){
-                var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
-                var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-        })(window,document,'https://cdn.bitrix24.de/b26123245/crm/site_button/loader_4_mnv0cr.js');`}
-        </Script>
-      </Fragment>
-    </Suspense>
+      </Suspense>
+      <Script
+        id='bitrix-script'
+        strategy="lazyOnload"
+      >
+        {`(function(w,d,u){
+              var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
+              var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+      })(window,document,'https://cdn.bitrix24.de/b26123245/crm/site_button/loader_4_mnv0cr.js');`}
+      </Script>
+    </Fragment>
   );
 } 

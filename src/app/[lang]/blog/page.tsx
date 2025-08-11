@@ -5,6 +5,7 @@ import { BlogPostCardType, BlogPostCategoryType } from "@/types/blog";
 import { cn } from "@/lib/utils";
 import BlogCategories, { ALL_CATEGORY } from "./_components/BlogCategories";
 import FeaturedBlogPosts from "./_components/FeaturedBlogPosts";
+import { Suspense } from "react";
 
 export default async function BlogPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params
@@ -68,9 +69,28 @@ export default async function BlogPage({ params }: { params: Promise<{ lang: str
           <h1 className="text-4xl font-bold">{title || 'Blog'}</h1>
           <p>{subtitle || 'Here we share our thoughts and insights on the markets.'}</p>
         </div>
-        <BlogCategories categories={[ALL_CATEGORY, ...categories]} />
-        <BlogPosts />
+        <SuspendedBlogCategories categories={[ALL_CATEGORY, ...categories]} />
+        <SuspendedBlogPosts />
       </div>
     </div>
+  )
+}
+
+const SuspendedBlogCategories = (props: { categories: BlogPostCategoryType[] }) => {
+  const { categories } = props;
+
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BlogCategories categories={categories} />
+    </Suspense>
+  )
+}
+
+
+const SuspendedBlogPosts = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BlogPosts />
+    </Suspense>
   )
 }

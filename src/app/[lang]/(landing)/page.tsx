@@ -10,7 +10,7 @@ import CallToActionSection from './_components/CallToActionSection';
 import FeaturedSection from '../_components/FeaturedSection';
 import TestimonialsSection from '@/app/[lang]/_components/TestimonialsSection';
 
-import { client } from "@/lib/sanity/client";
+import { client, fetchSanityData } from "@/lib/sanity/client";
 import { HomePage } from '@/types/sanity.types';
 import ConsultationProcessSection from './_components/ConsultationProcessSection';
 // import SearchBar from '../listings/_components/SearchBar';
@@ -23,22 +23,24 @@ import FindrSection from './_components/FindrSection';
 
 import LandingWrapper from './_components/LandingWrapper';
 
+type HomePageProps = {
+  params: Promise<{ lang: Locale }>;
+}
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
-  const { seo } = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const { seo } = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
 
   return generateSEOMetadata(seo)
 }
 
-export default async function Home(
-  props: {
-    params: Promise<{ lang: Locale }>;
-  }
-) {
+export const revalidate = 60;
+
+export default async function Home(props: HomePageProps) {
   const { lang } = await props.params;
 
-  const data = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const data = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return (
     <Fragment>
