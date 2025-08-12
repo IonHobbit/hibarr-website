@@ -3,7 +3,7 @@ import { Carousel } from '@/components/ui/carousel'
 import { Icon } from '@iconify/react'
 import { Button } from '@/components/ui/button'
 import { HomePage, Testimonial } from '@/types/sanity.types'
-import { fetchSanityData } from '@/lib/sanity/client'
+import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import { Locale } from '@/lib/i18n-config';
 import { cn, formatDate, generateImageUrl } from '@/lib/utils'
 import Image from 'next/image'

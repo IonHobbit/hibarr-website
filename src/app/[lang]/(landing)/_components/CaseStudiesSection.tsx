@@ -1,4 +1,4 @@
-import { fetchSanityData } from "@/lib/sanity/client";
+import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { CaseStudy, HomePage } from "@/types/sanity.types";
 import CaseStudies from "./CaseStudies";
 

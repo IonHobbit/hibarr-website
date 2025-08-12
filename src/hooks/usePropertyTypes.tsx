@@ -1,4 +1,4 @@
-import { client } from "@/lib/sanity/client";
+import { client } from "@/lib/third-party/sanity.client";
 import { useQuery } from "@tanstack/react-query";
 
 export default function usePropertyTypes() {

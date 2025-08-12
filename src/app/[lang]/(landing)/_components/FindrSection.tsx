@@ -1,7 +1,7 @@
 'use client'
 
 import Expandable, { ExpandableItem } from "@/components/animata/carousel/expandable";
-import { client } from "@/lib/sanity/client";
+import { client } from "@/lib/third-party/sanity.client";
 import { PropertyKind } from "@/types/sanity.types";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";

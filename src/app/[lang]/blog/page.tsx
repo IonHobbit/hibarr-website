@@ -1,6 +1,6 @@
 import type { BlogPage } from "@/types/sanity.types";
 import BlogPosts from "./_components/BlogPosts";
-import { client } from "@/lib/sanity/client";
+import { client } from "@/lib/third-party/sanity.client";
 import { BlogPostCardType, BlogPostCategoryType } from "@/types/blog";
 import { cn } from "@/lib/utils";
 import BlogCategories, { ALL_CATEGORY } from "./_components/BlogCategories";

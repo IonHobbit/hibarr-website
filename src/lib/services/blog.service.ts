@@ -1,4 +1,4 @@
-import { client } from "../sanity/client"
+import { client } from "../third-party/sanity.client"
 import { Locale } from "../i18n-config"
 import { BlogPostType, BlogPostCardType } from "@/types/blog"
 

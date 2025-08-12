@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Locale } from '@/lib/i18n-config'
-import { client } from '@/lib/sanity/client'
+import { client } from '@/lib/third-party/sanity.client'
 import { HomePage, WebinarPage } from '@/types/sanity.types'
 import { Metadata } from 'next'
 import Link from 'next/link'

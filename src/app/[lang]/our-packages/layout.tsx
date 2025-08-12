@@ -1,4 +1,4 @@
-import { client } from '@/lib/sanity/client'
+import { client } from '@/lib/third-party/sanity.client'
 import { generateSEOMetadata } from '@/lib/utils'
 import { BankPackagesPage } from '@/types/sanity.types'
 import { Locale } from '@/lib/i18n-config'

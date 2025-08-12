@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import type { Locale } from '@/lib/i18n-config';
 import { formatDate, generateSEOMetadata } from '@/lib/utils';
 import { Metadata } from 'next';
-import { client } from '@/lib/sanity/client';
+import { client } from '@/lib/third-party/sanity.client';
 import { Testimonial, TestimonialsPage as TestimonialsPageType } from '@/types/sanity.types';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {

@@ -1,5 +1,5 @@
 import { Locale } from "@/lib/i18n-config";
-import { fetchSanityData } from "@/lib/sanity/client";
+import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { Navigation } from "@/types/sanity.types";
 import ClientHeader from "./ClientHeader";
 

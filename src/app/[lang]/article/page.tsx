@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import { Icon } from '@iconify/react';
 import FAQAccordion from '../_components/FAQAccordion';
 // import CalendlyEmbed from '@/components/CalendlyEmbed';
-import { client } from '@/lib/sanity/client';
+import { client } from '@/lib/third-party/sanity.client';
 import { ConsultationPage as ConsultationPageType, HomePage } from '@/types/sanity.types';
 import BitrixForm from './_components/BitrixForm';
 import { generateSEOMetadata } from '@/lib/utils';

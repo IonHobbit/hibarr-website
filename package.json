@@ -12,7 +12,6 @@
     "analyze": "npm run build:analyze && npx webpack-bundle-analyzer .next/static/chunks/*.js"
   },
   "dependencies": {
-    "@google-cloud/translate": "^9.0.1",
     "@radix-ui/react-accordion": "^1.2.4",
     "@radix-ui/react-checkbox": "^1.1.4",
     "@radix-ui/react-dialog": "^1.1.13",
@@ -35,7 +34,6 @@
     "cmdk": "^1.1.1",
     "country-data-list": "^1.4.1",
     "date-fns": "^3.6.0",
-    "deepl-node": "^1.18.0",
     "embla-carousel-react": "^8.6.0",
     "facebook-nodejs-business-sdk": "^22.0.3",
     "flag-icons": "^7.5.0",

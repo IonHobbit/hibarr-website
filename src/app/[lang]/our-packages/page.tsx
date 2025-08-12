@@ -1,7 +1,7 @@
 import { BankPackagesPage } from '@/types/sanity.types'
 import { BankPackage } from './_components/PackageCard'
 import { Fragment, Suspense } from 'react'
-import { client } from '@/lib/sanity/client'
+import { client } from '@/lib/third-party/sanity.client'
 import { Locale } from '@/lib/i18n-config'
 import PackageSelector from './_components/PackageSelector'
 

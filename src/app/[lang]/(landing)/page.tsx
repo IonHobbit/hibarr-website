@@ -10,7 +10,7 @@ import CallToActionSection from './_components/CallToActionSection';
 import FeaturedSection from '../_components/FeaturedSection';
 import TestimonialsSection from '@/app/[lang]/_components/TestimonialsSection';
 
-import { fetchSanityData } from "@/lib/sanity/client";
+import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { HomePage } from '@/types/sanity.types';
 import ConsultationProcessSection from './_components/ConsultationProcessSection';
 import InvestorCommunitySection from './_components/InvestorCommunitySection';

@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import CaseStudies from './_components/CaseStudies';
-import { client } from '@/lib/sanity/client';
+import { client } from '@/lib/third-party/sanity.client';
 import { CaseStudy } from '@/types/sanity.types';
 import Link from 'next/link';
 import { Locale } from '@/lib/i18n-config';

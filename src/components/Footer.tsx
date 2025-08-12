@@ -1,5 +1,5 @@
 import { Locale } from "@/lib/i18n-config";
-import { client } from "@/lib/sanity/client";
+import { client } from "@/lib/third-party/sanity.client";
 import { Footer as FooterType } from "@/types/sanity.types";
 import ClientFooter from "./ClientFooter";
 

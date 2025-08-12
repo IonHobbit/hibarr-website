@@ -1,6 +1,6 @@
 import WaveReveal from '@/components/animata/text/wave-reveal';
 import { Locale } from '@/lib/i18n-config';
-import { client } from '@/lib/sanity/client';
+import { client } from '@/lib/third-party/sanity.client';
 import { cn } from '@/lib/utils';
 import { PropertyKind } from '@/types/sanity.types';
 import Image from 'next/image';

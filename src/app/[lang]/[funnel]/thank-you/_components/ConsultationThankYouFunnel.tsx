@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import Video from '@/components/Video';
 import useTranslation from '@/hooks/useTranslation';
-import { client } from '@/lib/sanity/client'
+import { client } from '@/lib/third-party/sanity.client'
 import storage, { StorageKey } from '@/lib/storage.util';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useQuery } from '@tanstack/react-query'

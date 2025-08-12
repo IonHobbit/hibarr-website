@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { InfiniteMovingCards } from '@/components/InfiniteMovingCards'
 import { HomePage } from '@/types/sanity.types';
-import { fetchSanityData } from '@/lib/sanity/client';
+import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import { Locale } from '@/lib/i18n-config';
 import { CloudinaryFile, fetchFiles } from '@/lib/third-party/cloudinary.client';
 

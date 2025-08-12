@@ -8,7 +8,7 @@ import MissionVisionSection from './_components/MissionVisionSection';
 import AboutRabih from './_components/AboutRabih';
 import CallToActionSection from './_components/CallToActionSection';
 import GallerySection from './_components/GallerySection';
-import { client } from '@/lib/sanity/client';
+import { client } from '@/lib/third-party/sanity.client';
 import { AboutPage as AboutPageType } from '@/types/sanity.types';
 import { generateSEOMetadata } from '@/lib/utils';
 

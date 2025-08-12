@@ -1,5 +1,5 @@
 import CaseStudiesSection from '@/app/[lang]/(landing)/_components/CaseStudiesSection'
-import { client } from '@/lib/sanity/client'
+import { client } from '@/lib/third-party/sanity.client'
 import { formatDate } from '@/lib/utils'
 import { Testimonial } from '@/types/sanity.types'
 import { Icon } from '@iconify/react/dist/iconify.js'
