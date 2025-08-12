@@ -4,7 +4,7 @@ import { formatDate } from '@/lib/utils'
 import { Testimonial } from '@/types/sanity.types'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import Image from 'next/image'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 export const metadata = {
   title: 'Expose Testimonials',
@@ -24,7 +24,9 @@ export default async function ExposeTestimonialsPage() {
           <p className='text-primary-foreground'>Hear from our clients</p>
         </div>
         <div className="w-[80vw] md:w-[70vw] h-[70vh] relative overflow-y-auto text-center px-3 lg:px-8 bg-secondary rounded-lg z-10">
-          <CaseStudiesSection data={{ title: '', description: '' }} />
+          <Suspense fallback={<div className="p-4">Loading testimonials...</div>}>
+            <CaseStudiesSection data={{ title: '', description: '' }} />
+          </Suspense>
           <section id='stories' className='section pt-0'>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
               {testimonials.map((testimonial, index) => (
