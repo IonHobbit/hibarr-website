@@ -1,4 +1,4 @@
-import { client } from "@/lib/third-party/sanity.client";
+import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { PropertyResponse } from "@/types/property";
 import { useQuery } from "@tanstack/react-query";
 
@@ -6,7 +6,7 @@ export default function useListing(slug: string) {
 
   const fetchListingQuery = useQuery({
     queryKey: ['listing', slug],
-    queryFn: () => client.fetch<PropertyResponse>(`
+    queryFn: () => fetchSanityData<PropertyResponse>(`
       *[_type == "property" && basicInfo.slug.current == "${slug}"][0] {
       ...,
       "id": _id,

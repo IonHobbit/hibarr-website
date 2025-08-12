@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from "@tanstack/react-query";
-import { client } from "@/lib/third-party/sanity.client";
+import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { PropertyListResponse } from "@/types/property";
 
 export type Filters = {
@@ -35,7 +35,7 @@ export default function useListings(
     queryKey: ['listings', filters, page, limit],
     queryFn: async () => {
       const [listings, count] = await Promise.all([
-        client.fetch<PropertyListResponse[]>(`
+        fetchSanityData<PropertyListResponse[]>(`
           *[_type == "property" ${filtersString.join(' ')}] | order(_updatedAt desc) [${(page - 1) * limit}...${page * limit}] {
             "id": _id,
             _createdAt,
@@ -51,7 +51,7 @@ export default function useListings(
             "location": basicInfo.location,
           }
         `),
-        client.fetch<number>(`
+        fetchSanityData<number>(`
           count(*[_type == "property" ${filtersString.join(' ')}])
         `)
       ]);

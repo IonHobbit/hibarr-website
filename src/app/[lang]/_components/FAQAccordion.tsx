@@ -1,5 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { client } from "@/lib/third-party/sanity.client";
+import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { Faq } from "@/types/sanity.types";
 import { Locale } from "@/lib/i18n-config";
 
@@ -8,7 +8,7 @@ type FAQAccordionProps = {
 }
 
 export default async function FAQAccordion({ lang }: FAQAccordionProps) {
-  const data = await client.fetch<Faq[]>(`*[_type == "faq" && language == $lang]`, { lang }, { cache: 'no-store' });
+  const data = await fetchSanityData<Faq[]>(`*[_type == "faq" && language == $lang]`, { lang }, { cache: 'no-store' });
 
   return (
     <Accordion type='single' collapsible>

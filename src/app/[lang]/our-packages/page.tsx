@@ -1,7 +1,7 @@
 import { BankPackagesPage } from '@/types/sanity.types'
 import { BankPackage } from './_components/PackageCard'
 import { Fragment, Suspense } from 'react'
-import { client } from '@/lib/third-party/sanity.client'
+import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import { Locale } from '@/lib/i18n-config'
 import PackageSelector from './_components/PackageSelector'
 
@@ -12,7 +12,7 @@ export default async function BankingPackagesPage(
 ) {
   const { lang } = await props.params;
 
-  const bankingPackagesPage = await client.fetch<BankPackagesPage>(`*[_type == "bankPackagesPage"  && language == $lang][0]`, { lang: lang || 'de' }, { cache: 'no-cache' })
+  const bankingPackagesPage = await fetchSanityData<BankPackagesPage>(`*[_type == "bankPackagesPage"  && language == $lang][0]`, { lang: lang || 'de' })
 
   const { packages = [], title, subtitle, form } = bankingPackagesPage;
 

@@ -5,13 +5,13 @@ import { Button } from '@/components/ui/button';
 import type { Locale } from '@/lib/i18n-config';
 import { formatDate, generateSEOMetadata } from '@/lib/utils';
 import { Metadata } from 'next';
-import { client } from '@/lib/third-party/sanity.client';
+import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import { Testimonial, TestimonialsPage as TestimonialsPageType } from '@/types/sanity.types';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
-  const { seo } = await client.fetch<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const { seo } = await fetchSanityData<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang });
 
   return generateSEOMetadata(seo, {
     title: 'Testimonials',
@@ -25,8 +25,8 @@ export default async function TestimonialsPage(
 ) {
   const { lang } = await props.params;
 
-  const data = await client.fetch<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
-  const testimonials = await client.fetch<Testimonial[]>(`*[_type == "testimonial"] | order(date desc)`, {}, { cache: 'no-store' });
+  const data = await fetchSanityData<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang });
+  const testimonials = await fetchSanityData<Testimonial[]>(`*[_type == "testimonial"] | order(date desc)`);
 
   return (
     <Fragment>

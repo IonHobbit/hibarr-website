@@ -1,6 +1,6 @@
 import type { BlogPage } from "@/types/sanity.types";
 import BlogPosts from "./_components/BlogPosts";
-import { client } from "@/lib/third-party/sanity.client";
+import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { BlogPostCardType, BlogPostCategoryType } from "@/types/blog";
 import { cn } from "@/lib/utils";
 import BlogCategories, { ALL_CATEGORY } from "./_components/BlogCategories";
@@ -10,13 +10,13 @@ import { Suspense } from "react";
 export default async function BlogPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params
 
-  const categories = await client.fetch<BlogPostCategoryType[]>(`*[_type == "blogPostCategory"]{
+  const categories = await fetchSanityData<BlogPostCategoryType[]>(`*[_type == "blogPostCategory"]{
     _id,
     title,
     "slug": slug.current,
   }`)
 
-  const postPage = await client.fetch<{
+  const postPage = await fetchSanityData<{
     title: string;
     subtitle: string;
     featuredPosts: BlogPostCardType[];

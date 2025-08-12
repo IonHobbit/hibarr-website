@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import CaseStudies from './_components/CaseStudies';
-import { client } from '@/lib/third-party/sanity.client';
+import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import { CaseStudy } from '@/types/sanity.types';
 import Link from 'next/link';
 import { Locale } from '@/lib/i18n-config';
@@ -18,7 +18,7 @@ export default async function ClientTestimonialsPage({ params }: ClientTestimoni
 
   const { lang } = await params;
 
-  const caseStudies = await client.fetch<CaseStudy[]>(`*[_type == "caseStudy" && isFeatured == true && language == $lang]`, { lang }, { cache: 'no-store' });
+  const caseStudies = await fetchSanityData<CaseStudy[]>(`*[_type == "caseStudy" && isFeatured == true && language == $lang]`, { lang });
 
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 lg:px-8 grid place-items-center gap-4 place-content-center h-screen bg-[url('/images/testimonials-hero.jpg')] bg-cover bg-center bg-no-repeat scroll-smooth">

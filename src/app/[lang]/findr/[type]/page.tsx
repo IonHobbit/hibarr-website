@@ -1,6 +1,6 @@
 import WaveReveal from '@/components/animata/text/wave-reveal';
 import { Locale } from '@/lib/i18n-config';
-import { client } from '@/lib/third-party/sanity.client';
+import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import { cn } from '@/lib/utils';
 import { PropertyKind } from '@/types/sanity.types';
 import Image from 'next/image';
@@ -8,7 +8,7 @@ import Image from 'next/image';
 export default async function FindrPage({ params }: { params: Promise<{ lang: Locale, type: string }> }) {
   const { type } = await params;
 
-  const data = await client.fetch<{ images: string[] } & PropertyKind>(`*[_type == "propertyKind" && slug.current == $type][0]{
+  const data = await fetchSanityData<{ images: string[] } & PropertyKind>(`*[_type == "propertyKind" && slug.current == $type][0]{
     ...,
     "images": images[].asset->url,
   }`, { type })

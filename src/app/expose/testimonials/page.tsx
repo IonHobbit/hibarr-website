@@ -1,5 +1,5 @@
 import CaseStudiesSection from '@/app/[lang]/(landing)/_components/CaseStudiesSection'
-import { client } from '@/lib/third-party/sanity.client'
+import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import { formatDate } from '@/lib/utils'
 import { Testimonial } from '@/types/sanity.types'
 import { Icon } from '@iconify/react/dist/iconify.js'
@@ -12,7 +12,7 @@ export const metadata = {
 }
 
 export default async function ExposeTestimonialsPage() {
-  const testimonials = await client.fetch<Testimonial[]>(`*[_type == "testimonial"] | order(date desc)`, {}, { cache: 'no-store' });
+  const testimonials = await fetchSanityData<Testimonial[]>(`*[_type == "testimonial"] | order(date desc)`);
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 lg:px-8 grid place-items-center gap-4 place-content-center h-screen bg-[url('/images/testimonials-hero.jpg')] bg-cover bg-center bg-no-repeat scroll-smooth">
       <div className='absolute inset-0 w-full h-full bg-gradient-to-b from-primary via-primary/80 to-transparent'></div>

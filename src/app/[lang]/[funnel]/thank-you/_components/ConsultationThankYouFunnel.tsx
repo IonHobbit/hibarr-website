@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import Video from '@/components/Video';
 import useTranslation from '@/hooks/useTranslation';
-import { client } from '@/lib/third-party/sanity.client'
+import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import storage, { StorageKey } from '@/lib/storage.util';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useQuery } from '@tanstack/react-query'
@@ -15,15 +15,15 @@ export default function ConsultationThankYouFunnel() {
 
   const { data } = useQuery({
     queryKey: ['next-webinar-date'],
-    queryFn: () => client.fetch(`*[_type == "webinarPage" && language == "en"][0]{ "date": webinarInformationSection.date }`)
+    queryFn: () => fetchSanityData<{ date: string }>(`*[_type == "webinarPage" && language == "en"][0]{ "date": webinarInformationSection.date }`)
   })
 
   const isRegisteredForWebinar = storage.get<boolean>(StorageKey.REGISTERED_WEBINAR);
   const isRegisteredForWaitlist = storage.get<boolean>(StorageKey.REGISTERED_WAITLIST);
 
-  const nextWebinarDate = new Date(data?.date);
+  const nextWebinarDate = data?.date ? new Date(data.date) : null;
 
-  const isWebinarBeforeConsultation = nextWebinarDate > new Date() && nextWebinarDate < consultationDate;
+  const isWebinarBeforeConsultation = nextWebinarDate && nextWebinarDate > new Date() && nextWebinarDate < consultationDate;
 
   const { data: title, isLoading: isLoadingTitle } = useTranslation('Consultation confirmed!')
   const { data: subtitle, isLoading: isLoadingSubtitle } = useTranslation('Thank you for booking your consultation with us. We are looking forward to meeting you.')

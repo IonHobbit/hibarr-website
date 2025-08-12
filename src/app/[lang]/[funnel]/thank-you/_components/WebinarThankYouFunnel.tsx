@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import Video from '@/components/Video';
 import useTranslation from '@/hooks/useTranslation';
-import { client } from '@/lib/third-party/sanity.client';
+import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import storage from '@/lib/storage.util';
 import { StorageKey } from '@/lib/storage.util';
 import { Icon } from '@iconify/react/dist/iconify.js';
@@ -14,16 +14,16 @@ export default function WebinarThankYouFunnel() {
 
   const { data } = useQuery({
     queryKey: ['next-webinar-date'],
-    queryFn: () => client.fetch(`*[_type == "webinarPage" && language == "en"][0]{ "date": webinarInformationSection.date }`)
+    queryFn: () => fetchSanityData<{ date: string }>(`*[_type == "webinarPage" && language == "en"][0]{ "date": webinarInformationSection.date }`)
   })
 
-  const nextWebinarDate = new Date(data?.date).toLocaleDateString('en-US', {
+  const nextWebinarDate = data?.date ? new Date(data.date).toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit'
-  });
+  }) : null;
 
   const isBookedConsultation = storage.get<boolean>(StorageKey.BOOKED_CONSULTATION);
   const isRegisteredForWaitlist = storage.get<boolean>(StorageKey.REGISTERED_WAITLIST);
@@ -55,7 +55,7 @@ export default function WebinarThankYouFunnel() {
             </div>
             <div className='flex flex-col items-center gap-2'>
               <h4 className='text-2xl font-semibold text-center'>{title?.text}</h4>
-              <p className='text-center text-sm font-medium'>{subtitle?.text.replace('{nextWebinarDate}', nextWebinarDate)}</p>
+              <p className='text-center text-sm font-medium'>{subtitle?.text.replace('{nextWebinarDate}', nextWebinarDate || '')}</p>
             </div>
           </div >
           <div className='flex flex-col items-center gap-4 w-full px-5 pb-5'>
