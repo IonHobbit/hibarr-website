@@ -3,7 +3,7 @@ import { Carousel } from '@/components/ui/carousel'
 import { Icon } from '@iconify/react'
 import { Button } from '@/components/ui/button'
 import { HomePage, Testimonial } from '@/types/sanity.types'
-import { client } from '@/lib/sanity/client'
+import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import { Locale } from '@/lib/i18n-config';
 import { cn, formatDate, generateImageUrl } from '@/lib/utils'
 import Image from 'next/image'
@@ -15,8 +15,8 @@ type TestimonialsSectionProps = {
 }
 
 export default async function TestimonialsSection({ lang, type = 'client', showImage = false }: TestimonialsSectionProps) {
-  const data = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
-  const testimonials = await client.fetch<Testimonial[]>(`*[_type == "testimonial" && type == $type] | order(date desc)[0...3]`, { type }, { cache: 'no-store' });
+  const data = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
+  const testimonials = await fetchSanityData<Testimonial[]>(`*[_type == "testimonial" && type == $type] | order(date desc)[0...3]`, { type });
 
   if (testimonials.length === 0) return null;
 
@@ -37,7 +37,7 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
                 <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'flex-col items-center', 'flex gap-4 p-4 relative')}>
                   {showImage && testimonial.clientImage && (
                     <div className='w-32 h-32 rounded overflow-hidden relative shrink-0'>
-                      <Image src={generateImageUrl(testimonial.clientImage).url()} alt={testimonial.clientName || ''} className='w-full h-full object-cover' fill />
+                      <Image src={generateImageUrl(testimonial.clientImage).url()} alt={testimonial.clientName || ''} className='w-full h-full object-cover' fill loading='lazy' />
                     </div>
                   )}
                   <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'items-center', 'flex flex-col gap-2')}>

@@ -8,14 +8,14 @@ import MissionVisionSection from './_components/MissionVisionSection';
 import AboutRabih from './_components/AboutRabih';
 import CallToActionSection from './_components/CallToActionSection';
 import GallerySection from './_components/GallerySection';
-import { client } from '@/lib/sanity/client';
+import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import { AboutPage as AboutPageType } from '@/types/sanity.types';
 import { generateSEOMetadata } from '@/lib/utils';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
-  const { seo } = await client.fetch<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const { seo } = await fetchSanityData<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return generateSEOMetadata(seo, {
     title: 'About Us',
@@ -30,7 +30,7 @@ export default async function AboutPage(
 ) {
   const { lang } = await props.params;
 
-  const data = await client.fetch<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const data = await fetchSanityData<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return (
     <Fragment>

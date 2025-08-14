@@ -1,4 +1,4 @@
-import { client } from "@/lib/sanity/client";
+import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { CaseStudy, HomePage } from "@/types/sanity.types";
 import CaseStudies from "./CaseStudies";
 
@@ -7,7 +7,7 @@ type CaseStudiesSectionProps = {
 }
 
 export default async function CaseStudiesSection({ data }: CaseStudiesSectionProps) {
-  const caseStudies = await client.fetch<CaseStudy[]>(`*[_type == "caseStudy"]`, {}, { cache: 'no-store' });
+  const caseStudies = await fetchSanityData<CaseStudy[]>(`*[_type == "caseStudy"]`);
 
   return (
     <section id='case-studies' className='section md:min-h-[50vh]'>

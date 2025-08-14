@@ -1,4 +1,4 @@
-import { client } from '@/lib/sanity/client'
+import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import { MetadataRoute } from 'next'
 import { groq } from 'next-sanity'
 
@@ -59,7 +59,7 @@ async function getBlogPosts() {
   }`
 
   try {
-    const posts = await client.fetch(query)
+    const posts = await fetchSanityData<{ slug: string; _updatedAt: string }[]>(query)
     return posts
   } catch (error) {
     console.error('Error fetching blog posts:', error)

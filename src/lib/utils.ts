@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { client } from "./sanity/client";
+import { client } from "./third-party/sanity.client";
 import createImageUrlBuilder from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { SeoMetaFields } from "@/types/sanity.types";
