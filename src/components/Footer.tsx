@@ -1,5 +1,5 @@
 import { Locale } from "@/lib/i18n-config";
-import { client } from "@/lib/sanity/client";
+import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { Footer as FooterType } from "@/types/sanity.types";
 import ClientFooter from "./ClientFooter";
 
@@ -10,7 +10,7 @@ export default async function Footer(
 ) {
   const { lang } = await props.params;
 
-  const data = await client.fetch<FooterType>(`*[_type == "footer"][0]`, { lang }, { cache: 'no-store' });
+  const data = await fetchSanityData<FooterType>(`*[_type == "footer"][0]`, { lang });
 
   return (
     <ClientFooter lang={lang} footerData={data} />

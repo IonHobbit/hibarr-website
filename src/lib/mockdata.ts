@@ -1120,12 +1120,6 @@ export const count = [
   },
 ]
 
-export const PACKAGE_TYPE = {
-  'basic-package': 'Basic Package',
-  'bank-vip-package': 'Bank Package',
-  'immo-package': 'Property Package',
-} as const;
-
 const _features = listings.map((listing) => listing.features).flat();
 
 const uniqueFeatures = [...new Set(_features)];

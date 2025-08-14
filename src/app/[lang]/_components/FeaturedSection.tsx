@@ -14,6 +14,7 @@ export default async function FeaturedSection() {
         alt={item.display_name}
         sizes="100%"
         fill
+        loading='lazy'
         className="object-contain absolute"
       />
     </div>

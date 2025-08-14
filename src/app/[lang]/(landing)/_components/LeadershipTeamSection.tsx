@@ -1,4 +1,4 @@
-import { client } from "@/lib/sanity/client";
+import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { HomePage, Team } from "@/types/sanity.types";
 import Image from "next/image";
 import { generateImageUrl } from "@/lib/utils";
@@ -9,7 +9,7 @@ type LeadershipTeamSectionProps = {
 }
 
 export default async function LeadershipTeamSection({ data }: LeadershipTeamSectionProps) {
-  const leadershipTeam = await client.fetch<Team[]>(`*[_type == "team" && leadership == true] | order(order asc)`);
+  const leadershipTeam = await fetchSanityData<Team[]>(`*[_type == "team" && leadership == true] | order(order asc)`);
 
   return (
     <section id='leadership-team' className='min-h-[50vh] bg-gray-50/50'>
@@ -23,7 +23,7 @@ export default async function LeadershipTeamSection({ data }: LeadershipTeamSect
             {leadershipTeam.map((member) => (
               <div key={member.name} className="flex flex-col gap-2 border p-4 bg-white basis-full md:basis-[23.5%]">
                 <div className="relative w-full h-80 md:h-52">
-                  <Image src={generateImageUrl(member.image as SanityImageSource).url() || ''} alt={member.name || ''} fill sizes="100%" className="object-cover object-top w-full h-full" />
+                  <Image src={generateImageUrl(member.image as SanityImageSource).url() || ''} alt={member.name || ''} fill sizes="100%" className="object-cover object-top w-full h-full" loading='lazy' />
                 </div>
                 <div className="flex flex-col gap-1">
                   <h4 className="text-lg md:text-xl">{member.name}</h4>

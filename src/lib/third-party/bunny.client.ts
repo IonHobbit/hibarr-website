@@ -1,4 +1,4 @@
-import { generateRandomFileName } from "./utils";
+import { generateRandomFileName } from "../utils";
 
 const BASE_HOSTNAME = process.env.BASE_HOSTNAME;
 const HOSTNAME = BASE_HOSTNAME;

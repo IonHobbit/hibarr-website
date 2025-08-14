@@ -1,5 +1,5 @@
 import { Locale } from '@/lib/i18n-config'
-import { client } from '@/lib/sanity/client'
+import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import { AboutPage, WebinarPage } from '@/types/sanity.types'
 import { Metadata } from 'next'
 import { Fragment } from 'react'
@@ -31,8 +31,8 @@ export default async function EbookPage(
 ) {
   const { lang } = await props.params;
 
-  const aboutPage = await client.fetch<AboutPage>(`*[_type == "aboutPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
-  const webinarPage = await client.fetch<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const aboutPage = await fetchSanityData<AboutPage>(`*[_type == "aboutPage" && language == $lang][0]`, { lang });
+  const webinarPage = await fetchSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang });
 
   const [getTheUltimateCyprusInvestmentGuide, discoverTheInsiderSecrets, hiddenPropertyDeals, stepByStepBuyingProcess, taxLoopholes, boostIncome] = await translateBatch(['Get the Ultimate Cyprus Investment Guide', 'Discover the insider secrets top investors use to maximize profits in North Cyprus! This exclusive guide reveals:', 'Hidden property deals & how to access them before the public', 'Step-by-step buying process to avoid costly mistakes', 'Tax loopholes & financial strategies to keep more money in your pocket', 'How to legally pay less & boost income'])
 

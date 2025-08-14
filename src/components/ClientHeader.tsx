@@ -34,7 +34,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
       <nav className={cn("section py-6 px-4 sm:px-6 lg:px-8", isExcludedPath ? "bg-primary rounded-lg py-3" : "")}>
         <div className="flex justify-between gap-2 items-center">
           <Link href={`/${lang}`} className='shrink-0'>
-            <Image src="/logos/logo.png" alt="Hibarr Estates Logo" className="object-contain h-auto" width={140} height={20} />
+            <Image src="/logos/logo.png" alt="Hibarr Estates Logo" loading='eager' className="object-contain h-auto" width={140} height={20} />
           </Link>
           <div className="hidden md:flex space-x-8 items-center w-full justify-center overflow-x-auto">
             {navigationData?.items?.map((item, index) => (

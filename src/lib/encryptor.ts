@@ -1,21 +1,7 @@
-/**
- * JSON Encryption/Decryption Utilities
- * 
- * These functions provide a way to shorten and encrypt JSON objects using a secret key,
- * and then decrypt them back to their original form.
- */
-
 import * as crypto from 'crypto';
 
 export const TOKEN_SECRET = process.env.TOKEN_SECRET || '550e8400-e29b-41d4-a716-446655440000';
 
-/**
- * Shortens and encrypts a JSON object using the provided key
- * 
- * @param jsonObject - The JSON object to encrypt
- * @param secretKey - The secret key used for encryption
- * @returns - An encrypted string representation of the JSON object
- */
 export function shortenAndEncryptJSON<T>(jsonObject: T, secretKey: string): string | null {
   try {
     // Convert the JSON object to a string
@@ -42,13 +28,6 @@ export function shortenAndEncryptJSON<T>(jsonObject: T, secretKey: string): stri
   }
 }
 
-/**
- * Decrypts an encrypted JSON string back to its original object form
- * 
- * @param encryptedData - The encrypted string to decrypt
- * @param secretKey - The secret key used for decryption (must be the same as used for encryption)
- * @returns - The original JSON object
- */
 export function decryptJSON<T>(encryptedData: string, secretKey: string): T | null {
   try {
     // Split the encrypted data to get the IV and the actual encrypted content

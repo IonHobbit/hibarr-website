@@ -1,5 +1,5 @@
 import { Locale } from '@/lib/i18n-config'
-import { client } from '@/lib/sanity/client'
+import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import { generateSEOMetadata } from '@/lib/utils'
 import type { WaitlistPage } from '@/types/sanity.types'
 import { Metadata } from 'next'
@@ -11,7 +11,7 @@ import WhyJoinSectionRawText from './_components/WhyJoinSectionRawText'
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
-  const { seo } = await client.fetch<WaitlistPage>(`*[_type == "waitlistPage" && language == $lang][0]{seo}`, { lang }, { cache: 'no-store' })
+  const { seo } = await fetchSanityData<WaitlistPage>(`*[_type == "waitlistPage" && language == $lang][0]{seo}`, { lang })
 
   return generateSEOMetadata(seo, {
     title: 'Join the #1 Private Group for North Cyprus Real Estate Buyers & Investors',
@@ -26,7 +26,7 @@ export default async function FacebookGroupPage(
 ) {
   const { lang } = await props.params;
 
-  const waitlistPage = await client.fetch<WaitlistPage>(`*[_type == "waitlistPage" && language == $lang][0]`, { lang }, { cache: 'no-store' })
+  const waitlistPage = await fetchSanityData<WaitlistPage>(`*[_type == "waitlistPage" && language == $lang][0]`, { lang }, { cache: 'no-store' })
 
   const formTitle = await translate('Join the')
   const formSubtitle = await translate(waitlistPage?.subtitle || 'Facebook Group')

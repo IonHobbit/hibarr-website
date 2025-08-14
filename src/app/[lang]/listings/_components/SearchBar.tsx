@@ -8,7 +8,7 @@ import { count, locations } from '@/lib/mockdata';
 import { cn } from '@/lib/utils';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import useURL from '@/hooks/useURL';
 import useFeatures from '@/hooks/useFeatures';
 import { decryptJSON, shortenAndEncryptJSON, TOKEN_SECRET } from '@/lib/encryptor';
@@ -134,5 +134,14 @@ export default function SearchBar() {
         )}
       </div>
     </div>
+  )
+}
+
+
+export const SuspendedSearchBar = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchBar />
+    </Suspense>
   )
 }
