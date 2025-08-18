@@ -16,3 +16,8 @@ export const fetchSanityData = cache(async<T>(query: string, params: object = {}
   });
   return data;
 })
+
+export const fetchRawSanityData = cache(async<T>(query: string, params: object = {}): Promise<T> => {
+  const data = await client.fetch<T>(query, params, { useCdn: false });
+  return data;
+})
