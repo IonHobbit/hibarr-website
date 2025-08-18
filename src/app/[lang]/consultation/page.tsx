@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import { Icon } from '@iconify/react';
 import FAQAccordion from '../_components/FAQAccordion';
 // import CalendlyEmbed from '@/components/CalendlyEmbed';
-import { fetchSanityData } from '@/lib/third-party/sanity.client';
+import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
 import { ConsultationPage as ConsultationPageType, HomePage } from '@/types/sanity.types';
 import ConsultationForm from './_components/ConsultationForm';
 import { generateSEOMetadata } from '@/lib/utils';
@@ -15,7 +15,7 @@ import { interestedInOptions, messageOptions, periodOptions } from '@/lib/option
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
-  const { seo } = await fetchSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang });
+  const { seo } = await fetchRawSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang });
 
   return generateSEOMetadata(seo, {
     title: 'Schedule a Free Kick Off Meeting',

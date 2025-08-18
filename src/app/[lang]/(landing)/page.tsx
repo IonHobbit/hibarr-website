@@ -10,7 +10,7 @@ import CallToActionSection from './_components/CallToActionSection';
 import FeaturedSection from '../_components/FeaturedSection';
 import TestimonialsSection from '@/app/[lang]/_components/TestimonialsSection';
 
-import { fetchSanityData } from "@/lib/third-party/sanity.client";
+import { fetchRawSanityData, fetchSanityData } from "@/lib/third-party/sanity.client";
 import { HomePage } from '@/types/sanity.types';
 import ConsultationProcessSection from './_components/ConsultationProcessSection';
 import InvestorCommunitySection from './_components/InvestorCommunitySection';
@@ -29,7 +29,7 @@ type HomePageProps = {
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
-  const { seo } = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
+  const { seo } = await fetchRawSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
 
   return generateSEOMetadata(seo)
 }

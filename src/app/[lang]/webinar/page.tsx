@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Locale } from '@/lib/i18n-config'
-import { fetchSanityData } from '@/lib/third-party/sanity.client'
+import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client'
 import { HomePage, WebinarPage } from '@/types/sanity.types'
 import { Metadata } from 'next'
 import Link from 'next/link'
@@ -18,7 +18,7 @@ import { generateSEOMetadata } from '@/lib/utils'
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
-  const { seo } = await fetchSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang });
+  const { seo } = await fetchRawSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang });
 
   return generateSEOMetadata(seo, {
     title: 'Webinar',

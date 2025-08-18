@@ -1,4 +1,4 @@
-import { fetchSanityData } from '@/lib/third-party/sanity.client';
+import { fetchRawSanityData } from '@/lib/third-party/sanity.client';
 import React from 'react'
 
 
@@ -7,7 +7,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
 
   const decodedSlug = decodeURIComponent(slug);
 
-  const property = await fetchSanityData<{ title: string }>(`*[_type == "property" && basicInfo.slug.current == "${decodedSlug}"][0]
+  const property = await fetchRawSanityData<{ title: string }>(`*[_type == "property" && basicInfo.slug.current == "${decodedSlug}"][0]
     {"title": basicInfo.title}`);
 
   if (!property) {

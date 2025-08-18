@@ -5,13 +5,13 @@ import { Button } from '@/components/ui/button';
 import type { Locale } from '@/lib/i18n-config';
 import { formatDate, generateSEOMetadata } from '@/lib/utils';
 import { Metadata } from 'next';
-import { fetchSanityData } from '@/lib/third-party/sanity.client';
+import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
 import { Testimonial, TestimonialsPage as TestimonialsPageType } from '@/types/sanity.types';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
-  const { seo } = await fetchSanityData<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang });
+  const { seo } = await fetchRawSanityData<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang });
 
   return generateSEOMetadata(seo, {
     title: 'Testimonials',
