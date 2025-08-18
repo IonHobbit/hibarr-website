@@ -6,12 +6,12 @@ import { WebinarPage } from "@/types/sanity.types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useFormik } from "formik";
 import Countdown from "./Countdown";
-import { ZapierWebinarPayload } from "@/types/main";
-import { callZapierWebhook } from "@/lib/zapier";
+import { WebinarRegistrationForm } from "@/types/main";
+import { registerWebinar } from "@/lib/backend";
 import { useMutation } from "@tanstack/react-query";
 import * as Yup from 'yup';
 import storage, { StorageKey } from "@/lib/storage.util";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { persistUserInfo } from "@/lib/services/user.service";
 import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
@@ -23,6 +23,8 @@ type RegistrationFormSectionProps = {
 
 export default function RegistrationFormSection({ data }: RegistrationFormSectionProps) {
   const router = useRouter();
+  const params = useParams();
+  const searchParams = useSearchParams();
   const userInfo = useUserInfo();
 
   const { data: registeredTitle } = useTranslation('Thank you for registering!')
@@ -34,21 +36,33 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
     mutationFn: async () => {
       const contactInfo = values;
       try {
-        const payload: ZapierWebinarPayload = {
-          ...contactInfo,
-          type: 'webinar',
-        }
-        await callZapierWebhook(payload);
+        const payload: WebinarRegistrationForm = {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          phone: values.phoneNumber,
+          language: params.lang as string,
+          utmInfo: {
+            utmSource: searchParams.get("utm_source") || userInfo.utm.source,
+            utmMedium: searchParams.get("utm_medium") || userInfo.utm.medium,
+            utmCampaign:
+              searchParams.get("utm_campaign") || userInfo.utm.campaign,
+            utmTerm: searchParams.get("utm_term") || userInfo.utm.term,
+            utmContent: searchParams.get("utm_content") || userInfo.utm.content,
+          },
+        };
+        const response = await registerWebinar(payload);
+        console.log(response);
         // persist user info to storage
         persistUserInfo(contactInfo);
       } catch (error) {
-        console.error('Error calling Zapier webhook:', error);
+        console.error("Error registering for webinar:", error);
       }
     },
     onSuccess: () => {
       router.push('/webinar/thank-you');
       storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 5 })
-    }
+    },
   });
 
   const { values, handleChange, handleSubmit, isValid, errors, touched, setFieldTouched, setFieldValue } = useFormik({
@@ -63,6 +77,8 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
 
   return (
     <section id='register' className='bg-primary bg-[url("/images/webinar-registration-background.webp")] bg-cover bg-center flex flex-col bg-blend-soft-light'>
+     
+
       <div className="section h-full grow py-40">
         <div className="max-w-screen-md mx-auto flex md:hidden flex-col gap-4">
           <Countdown date={data.webinarInformationSection?.date || ''} timezone={data.webinarInformationSection?.timezone || ''} />

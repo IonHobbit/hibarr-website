@@ -147,9 +147,23 @@ type PropertyListing = {
     lastName: string;
   };
 };
+type WebinarRegistrationForm = {
+  firstName: string,
+  lastName: string,
+  email: string,
+  phone: string,
+  language: string,
+  utmInfo: {
+    utmSource: string,
+    utmMedium: string,
+    utmCampaign: string,
+    utmTerm: string,
+    utmContent: string
+  }
+}
 
 export type {
   PropertyType, RegistrationFormType,
   ZapierPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierWaitlistPayload, ZapierConsultationPayload, ZapierPropertyEnquiryPayload, ZapierSignupPayload,
-  PropertyListing
+  PropertyListing, WebinarRegistrationForm
 }
