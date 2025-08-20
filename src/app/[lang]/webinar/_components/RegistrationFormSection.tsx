@@ -6,8 +6,6 @@ import { WebinarPage } from "@/types/sanity.types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useFormik } from "formik";
 import Countdown from "./Countdown";
-import { ZapierWebinarPayload } from "@/types/main";
-import { callZapierWebhook } from "@/lib/zapier";
 import { useMutation } from "@tanstack/react-query";
 import * as Yup from 'yup';
 import storage, { StorageKey } from "@/lib/storage.util";
@@ -16,6 +14,8 @@ import { persistUserInfo } from "@/lib/services/user.service";
 import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
 import useTranslation from "@/hooks/useTranslation";
+import { WebinarRegistrationRequest } from "@/types/webinar.type";
+import { makePOSTRequest } from "@/lib/services/api.service";
 
 type RegistrationFormSectionProps = {
   data: WebinarPage;
@@ -33,17 +33,23 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
   const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: async () => {
       const contactInfo = values;
-      try {
-        const payload: ZapierWebinarPayload = {
-          ...contactInfo,
-          type: 'webinar',
+      const payload: WebinarRegistrationRequest = {
+        firstName: contactInfo.firstName,
+        lastName: contactInfo.lastName,
+        email: contactInfo.email,
+        phone: contactInfo.phoneNumber,
+        language: userInfo.lang,
+        utmInfo: {
+          utmSource: contactInfo.utm.source,
+          utmMedium: contactInfo.utm.medium,
+          utmCampaign: contactInfo.utm.campaign,
+          utmTerm: contactInfo.utm.term,
+          utmContent: contactInfo.utm.content,
         }
-        await callZapierWebhook(payload);
-        // persist user info to storage
-        persistUserInfo(contactInfo);
-      } catch (error) {
-        console.error('Error calling Zapier webhook:', error);
       }
+      await makePOSTRequest('/registration/webinar', payload)
+      // persist user info to storage
+      persistUserInfo(contactInfo);
     },
     onSuccess: () => {
       // Set storage immediately to prevent race condition
