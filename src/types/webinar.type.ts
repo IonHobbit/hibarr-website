@@ -1,6 +1,6 @@
 import { Locale } from "@/lib/i18n-config";
 
-export interface WebinarRegistrationRequest {
+export interface RegistrationRequest {
   firstName: string;
   lastName: string;
   email: string;

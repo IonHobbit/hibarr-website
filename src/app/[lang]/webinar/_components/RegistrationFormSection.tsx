@@ -14,7 +14,7 @@ import { persistUserInfo } from "@/lib/services/user.service";
 import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
 import useTranslation from "@/hooks/useTranslation";
-import { WebinarRegistrationRequest } from "@/types/webinar.type";
+import { RegistrationRequest } from "@/types/webinar.type";
 import { makePOSTRequest } from "@/lib/services/api.service";
 
 type RegistrationFormSectionProps = {
@@ -33,7 +33,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
   const { mutate, error, isPending, isSuccess } = useMutation({
     mutationFn: async () => {
       const contactInfo = values;
-      const payload: WebinarRegistrationRequest = {
+      const payload: RegistrationRequest = {
         firstName: contactInfo.firstName,
         lastName: contactInfo.lastName,
         email: contactInfo.email,

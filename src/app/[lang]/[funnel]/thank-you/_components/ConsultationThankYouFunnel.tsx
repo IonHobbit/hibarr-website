@@ -36,57 +36,59 @@ export default function ConsultationThankYouFunnel() {
 
   const isLoading = isLoadingTitle || isLoadingSubtitle || isLoadingNextStepsTitle || isLoadingEmailConfirmation || isLoadingRecordedMeeting || isLoadingRegisterForWebinar || isLoadingJoinFacebookGroup || isLoadingReturnHome;
 
+  if (isLoading) {
+    return (
+      <div className='flex items-center justify-center w-full'>
+        <Icon icon="ri:loader-4-line" className="size-8 text-black animate-spin" />
+      </div>
+    )
+  }
+
   return (
     <div className='flex flex-col lg:flex-row items-center gap-6 max-w-screen-lg mx-auto'>
       <Video src='https://vz-da4cd036-d13.b-cdn.net/94d83fce-96d4-4981-97b9-22f6466a5ff9/play_720p.mp4' />
-      {isLoading ? (
-        <div className='flex items-center justify-center w-full'>
-          <Icon icon="ri:loader-4-line" className="size-8 text-black animate-spin" />
+      <div className='flex flex-col shrink-0 items-center gap-4 rounded-lg overflow-hidden border-[0.5px] max-w-sm'>
+        <div className='flex flex-col items-center gap-2 bg-green-50 p-5 w-full'>
+          <div className='rounded-lg bg-white p-2'>
+            <Icon icon="mdi:calendar-check" className='size-9 text-green-600' />
+          </div>
+          <div className='flex flex-col items-center gap-2'>
+            <h4 className='text-2xl font-semibold text-center'>{title?.text}</h4>
+            <p className='text-center text-sm font-medium'>{subtitle?.text}</p>
+          </div>
         </div>
-      ) : (
-        <div className='flex flex-col shrink-0 items-center gap-4 rounded-lg overflow-hidden border-[0.5px] max-w-sm'>
-          <div className='flex flex-col items-center gap-2 bg-green-50 p-5 w-full'>
-            <div className='rounded-lg bg-white p-2'>
-              <Icon icon="mdi:calendar-check" className='size-9 text-green-600' />
+        <div className='flex flex-col items-center gap-4 w-full px-5 pb-5'>
+          <div className='w-full rounded overflow-hidden flex flex-col gap-2 border-[0.5px]'>
+            <div className="flex p-2 px-4 bg-gray-100">
+              <p className='text-sm font-medium text-center'>{nextStepsTitle?.text}</p>
             </div>
-            <div className='flex flex-col items-center gap-2'>
-              <h4 className='text-2xl font-semibold text-center'>{title?.text}</h4>
-              <p className='text-center text-sm font-medium'>{subtitle?.text}</p>
+            <div className='flex flex-col gap-2 px-4 pb-4'>
+              <p className='text-xs'>- {emailConfirmation?.text}</p>
+              <p className='text-xs'>- {recordedMeeting?.text}</p>
             </div>
           </div>
-          <div className='flex flex-col items-center gap-4 w-full px-5 pb-5'>
-            <div className='w-full rounded overflow-hidden flex flex-col gap-2 border-[0.5px]'>
-              <div className="flex p-2 px-4 bg-gray-100">
-                <p className='text-sm font-medium text-center'>{nextStepsTitle?.text}</p>
-              </div>
-              <div className='flex flex-col gap-2 px-4 pb-4'>
-                <p className='text-xs'>- {emailConfirmation?.text}</p>
-                <p className='text-xs'>- {recordedMeeting?.text}</p>
-              </div>
-            </div>
-            {(isWebinarBeforeConsultation && !isRegisteredForWebinar) && (
-              <Button className='w-full' asChild>
-                <Link href={`/webinar`}>
-                  {registerForWebinar?.text}
-                </Link>
-              </Button>
-            )}
-            {((!isWebinarBeforeConsultation || isRegisteredForWebinar) && !isRegisteredForWaitlist) && (
-              <Button className='w-full' asChild>
-                <Link href={`/facebook-group`}>
-                  {joinFacebookGroup?.text}
-                </Link>
-              </Button>
-            )}
-            <Button className='w-full' variant='ghost' asChild>
-              <Link href="/" className='flex items-center justify-center'>
-                <Icon icon="" className='size-4 mr-2' />
-                {returnHome?.text}
+          {(isWebinarBeforeConsultation && !isRegisteredForWebinar) && (
+            <Button className='w-full' asChild>
+              <Link href={`/webinar`}>
+                {registerForWebinar?.text}
               </Link>
             </Button>
-          </div>
+          )}
+          {((!isWebinarBeforeConsultation || isRegisteredForWebinar) && !isRegisteredForWaitlist) && (
+            <Button className='w-full' asChild>
+              <Link href={`/facebook-group`}>
+                {joinFacebookGroup?.text}
+              </Link>
+            </Button>
+          )}
+          <Button className='w-full' variant='ghost' asChild>
+            <Link href="/" className='flex items-center justify-center'>
+              <Icon icon="" className='size-4 mr-2' />
+              {returnHome?.text}
+            </Link>
+          </Button>
         </div>
-      )}
+      </div>
     </div>
   )
 }
