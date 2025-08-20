@@ -30,7 +30,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
 
   const isRegistered = storage.get(StorageKey.REGISTERED_WEBINAR) ?? false;
 
-  const { mutate, isPending, isSuccess } = useMutation({
+  const { mutate, error, isPending, isSuccess } = useMutation({
     mutationFn: async () => {
       const contactInfo = values;
       const payload: WebinarRegistrationRequest = {
@@ -56,8 +56,11 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
       storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 5 });
       // Navigate after storage is set
       router.push('/webinar/thank-you');
-    }
+    },
   });
+
+  const translation = useTranslation(error?.message || '');
+  const errorMessage = translation.data?.text;
 
   const { values, handleChange, handleSubmit, isValid, errors, touched, setFieldTouched, setFieldValue } = useFormik({
     initialValues: userInfo,
@@ -133,6 +136,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
                   onBlur={() => setFieldTouched('phoneNumber', true)}
                   error={errors.phoneNumber && touched.phoneNumber ? errors.phoneNumber : undefined}
                 />
+                {errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
                 <Button type="submit" isLoading={isPending} disabled={isPending || !isValid}>{data.registrationSection?.form?.submitButton || 'Register'}</Button>
               </form>
             }

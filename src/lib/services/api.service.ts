@@ -4,7 +4,7 @@ export type APIResponse<T> = {
   status: 'success' | 'error';
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
 export const makeAPIRequest = async <T>(url: string, options: RequestInit): Promise<APIResponse<T>> => {
   const headers: Record<string, string> = {
@@ -18,7 +18,8 @@ export const makeAPIRequest = async <T>(url: string, options: RequestInit): Prom
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    const error = await response.json();
+    throw new Error(error.message || 'Unknown error');
   }
 
   return response.json();
