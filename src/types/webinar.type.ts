@@ -24,6 +24,15 @@ export interface PropertyEnquiryRegistrationRequest extends RegistrationRequest 
   }
 }
 
+export interface ConsultationRegistrationRequest extends RegistrationRequest {
+  score?: number;
+  country?: string
+  interestedIn?: string[]
+  budget?: string
+  period?: string
+  message?: string
+}
+
 // UTM information interface
 export interface UtmInfo {
   utmSource?: string;
