@@ -29,6 +29,8 @@ export type PropertyResponse = {
   id: string,
   basicInfo: {
     type: string[],
+    slug: string,
+    title: string,
   },
   agent: {
     firstName: string,

@@ -183,7 +183,7 @@ export default function PropertyPage(
               </div>
             </div>
             <div className="flex flex-col gap-4 md:col-span-2 relative w-full">
-              <EnquiryForm propertyId={property._id} />
+              <EnquiryForm property={property} />
             </div>
           </div>
         </div>

@@ -15,10 +15,8 @@ import { HomePage } from '@/types/sanity.types';
 import ConsultationProcessSection from './_components/ConsultationProcessSection';
 import InvestorCommunitySection from './_components/InvestorCommunitySection';
 import WebinarSection from './_components/WebinarSection';
-import SignupSection from './_components/SignupSection';
 import { Metadata } from 'next';
 import { generateSEOMetadata } from '@/lib/utils';
-// import FindrSection from './_components/FindrSection';
 
 import LandingWrapper from './_components/LandingWrapper';
 
@@ -63,7 +61,7 @@ export default async function Home(props: HomePageProps) {
       <LeadershipTeamSection data={data.leadershipTeamSection} />
       <CallToActionSection data={data.callToActionSection} />
       {/* <FreebieSignupSection data={data.freebieSignupSection} /> */}
-      <SignupSection data={data.freebieSignupSection} />
+      {/* <SignupSection data={data.freebieSignupSection} /> */}
     </Fragment>
   );
 } 

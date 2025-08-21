@@ -9,6 +9,21 @@ export interface RegistrationRequest {
   utmInfo?: UtmInfo;
 }
 
+export interface SignupRegistrationRequest extends RegistrationRequest {
+  package: 'vip' | 'bank';
+  isAlphaCashMember?: boolean;
+  alphaCashReferral?: string;
+}
+
+export interface PropertyEnquiryRegistrationRequest extends RegistrationRequest {
+  comment?: string;
+  property: {
+    id: string;
+    title: string;
+    slug: string;
+  }
+}
+
 // UTM information interface
 export interface UtmInfo {
   utmSource?: string;
