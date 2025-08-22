@@ -35,7 +35,7 @@ const SuspendedPackageSelector = (props: { packages: BankPackage[], form: BankPa
   const { packages, form } = props;
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={null}>
       <PackageSelector packages={packages as BankPackage[]} form={form} />
     </Suspense>
   )
