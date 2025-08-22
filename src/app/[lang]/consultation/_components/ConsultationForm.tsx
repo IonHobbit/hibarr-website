@@ -184,7 +184,8 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
     url.searchParams.set('first_name', values.firstName)
     url.searchParams.set('last_name', values.lastName)
     url.searchParams.set('email', values.email)
-    url.searchParams.set('a3', values.phoneNumber)
+    url.searchParams.set('a1', values.phoneNumber)
+    url.searchParams.set('a3', values.message)
     // const compiledAnswers = [
     //   values.country ? `Country:-${values.country}` : null,
     //   values.interestedIn.length > 0 ? `Interested in:-${values.interestedIn.join(', ')}` : null,
