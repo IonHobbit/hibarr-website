@@ -6,9 +6,11 @@ import { PhoneInput } from '@/components/ui/phone-input'
 import { Textarea } from '@/components/ui/textarea'
 import useTranslation from '@/hooks/useTranslation'
 import useUserInfo from '@/hooks/useUserInfo'
+import { makePOSTRequest } from '@/lib/services/api.service'
 import { persistUserInfo } from '@/lib/services/user.service'
-import { callZapierWebhook } from '@/lib/zapier'
 import { ZapierPropertyEnquiryPayload } from '@/types/main'
+import { PropertyResponse } from '@/types/property'
+import { PropertyEnquiryRegistrationRequest } from '@/types/webinar.type'
 import { useMutation } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import Link from 'next/link'
@@ -16,10 +18,10 @@ import { Fragment } from 'react'
 import * as Yup from 'yup'
 
 type EnquiryFormProps = {
-  propertyId: string
+  property: PropertyResponse
 }
 
-export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
+export default function EnquiryForm({ property }: EnquiryFormProps) {
   const userInfo = useUserInfo();
 
   const { data: interestedInThisPropertyTranslation } = useTranslation('Interested in this property?');
@@ -33,17 +35,28 @@ export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
   const { mutate, isSuccess, isPending } = useMutation({
     mutationFn: async () => {
       const contactInfo = values;
-      const payload: ZapierPropertyEnquiryPayload = {
-        ...contactInfo,
+      const payload: PropertyEnquiryRegistrationRequest = {
+        firstName: contactInfo.firstName,
+        lastName: contactInfo.lastName,
+        email: contactInfo.email,
+        phone: contactInfo.phoneNumber,
+        language: userInfo.lang,
+        utmInfo: {
+          utmSource: contactInfo.utm.source,
+          utmMedium: contactInfo.utm.medium,
+          utmCampaign: contactInfo.utm.campaign,
+          utmTerm: contactInfo.utm.term,
+          utmContent: contactInfo.utm.content,
+        },
         comment: values.comment,
-        type: 'property-enquiry',
-        propertyId,
+        property: {
+          id: property.id,
+          title: property.basicInfo.title,
+          slug: property.basicInfo.slug.current!,
+        }
       }
-
-      // persist user info to storage
+      await makePOSTRequest('/registration/property-enquiry', payload)
       persistUserInfo(contactInfo);
-
-      await callZapierWebhook(payload)
     }
   })
 
@@ -52,7 +65,7 @@ export default function EnquiryForm({ propertyId }: EnquiryFormProps) {
       ...userInfo,
       comment: '',
       type: 'property-enquiry',
-      propertyId,
+      propertyId: property.id,
     },
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required('First name is required'),

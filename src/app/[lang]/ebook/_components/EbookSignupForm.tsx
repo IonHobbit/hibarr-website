@@ -6,12 +6,13 @@ import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
 import { persistUserInfo } from "@/lib/services/user.service";
 import storage, { StorageKey } from "@/lib/storage.util";
-import { callZapierWebhook } from "@/lib/zapier";
-import { ZapierEbookPayload } from "@/types/main";
+import { RegistrationRequest } from "@/types/webinar.type";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import useTranslation from "@/hooks/useTranslation";
+import { makePOSTRequest } from "@/lib/services/api.service";
+import { ContactInfo } from "@/types/main";
 
 export default function EbookSignupForm() {
   const userInfo = useUserInfo();
@@ -27,33 +28,35 @@ export default function EbookSignupForm() {
   const { data: checkEmailButton } = useTranslation('Check Your Email!');
   const { data: privacyText } = useTranslation('No spam. Unsubscribe anytime. Your privacy is protected.');
 
-  const { mutate, isPending, isSuccess } = useMutation({
+  const { mutate, error, isPending, isSuccess } = useMutation({
     mutationFn: async () => {
-      const contactInfo = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phoneNumber: values.phoneNumber,
-        language: userInfo.language,
-        utm: userInfo.utm,
+      const contactInfo = { ...userInfo, ...values } as ContactInfo;
+      const payload: RegistrationRequest = {
+        firstName: contactInfo.firstName,
+        lastName: contactInfo.lastName,
+        email: contactInfo.email,
+        phone: contactInfo.phoneNumber,
+        language: userInfo.lang,
+        utmInfo: {
+          utmSource: contactInfo.utm.source,
+          utmMedium: contactInfo.utm.medium,
+          utmCampaign: contactInfo.utm.campaign,
+          utmTerm: contactInfo.utm.term,
+          utmContent: contactInfo.utm.content,
+        }
       }
-      const payload: ZapierEbookPayload = {
-        ...contactInfo,
-        type: 'ebook'
-      };
 
-      try {
-        await callZapierWebhook(payload);
-        persistUserInfo(contactInfo);
-      } catch (error) {
-        console.error('Error calling Zapier webhook:', error);
-      }
+      await makePOSTRequest('/registration/ebook', payload)
+      persistUserInfo(contactInfo);
     },
     onSuccess: () => {
       storage.set(StorageKey.DOWNLOADED_EBOOK, true, { expiration: 1000 * 60 * 60 * 24 * 30 })
       router.push('/ebook/thank-you');
     }
   })
+
+  const translation = useTranslation(error?.message || '');
+  const errorMessage = translation.data?.text;
 
   const { values, isValid, setFieldValue, handleChange, handleSubmit } = useFormik({
     initialValues: {
@@ -123,6 +126,7 @@ export default function EbookSignupForm() {
             value={values.phoneNumber}
             onChange={(value) => setFieldValue('phoneNumber', value)}
           />
+          {errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
           <Button type="submit" disabled={!isValid} isLoading={isPending} className="w-full">{checkEmailButton?.text || 'Check Your Email!'}</Button>
 
           <p className="text-xs text-gray-500 text-center">

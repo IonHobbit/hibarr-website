@@ -6,12 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { WaitlistPage } from "@/types/sanity.types";
 import storage, { StorageKey } from "@/lib/storage.util";
-import { callZapierWebhook } from "@/lib/zapier";
 import { useMutation } from "@tanstack/react-query";
-import { ZapierWaitlistPayload } from "@/types/main";
+import { ContactInfo } from "@/types/main";
 import { persistUserInfo } from "@/lib/services/user.service";
 import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
+import { makePOSTRequest } from "@/lib/services/api.service";
+import { RegistrationRequest } from "@/types/webinar.type";
 
 type WaitlistFormProps = {
   formData: WaitlistPage['waitlistForm']
@@ -23,22 +24,27 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      const contactInfo = values;
-
-      try {
-        const payload: ZapierWaitlistPayload = {
-          ...contactInfo,
-          type: 'waitlist',
+      const contactInfo = { ...userInfo, ...values } as ContactInfo;
+      const payload: RegistrationRequest = {
+        firstName: contactInfo.firstName,
+        lastName: contactInfo.lastName,
+        email: contactInfo.email,
+        phone: contactInfo.phoneNumber,
+        language: userInfo.lang,
+        utmInfo: {
+          utmSource: contactInfo.utm.source,
+          utmMedium: contactInfo.utm.medium,
+          utmCampaign: contactInfo.utm.campaign,
+          utmTerm: contactInfo.utm.term,
+          utmContent: contactInfo.utm.content,
         }
-        await callZapierWebhook(payload);
-        // persist user info to storage
-        persistUserInfo(contactInfo);
-        storage.set(StorageKey.REGISTERED_WAITLIST, true, { expiration: 1000 * 60 * 60 * 24 * 30 });
-      } catch (error) {
-        console.error('Error calling Zapier webhook:', error);
       }
+
+      await makePOSTRequest('/registration/facebook-group', payload)
+      persistUserInfo(contactInfo);
     },
     onSuccess: () => {
+      storage.set(StorageKey.REGISTERED_WAITLIST, true, { expiration: 1000 * 60 * 60 * 24 * 30 });
       router.push('/waitlist/thank-you');
     }
   });

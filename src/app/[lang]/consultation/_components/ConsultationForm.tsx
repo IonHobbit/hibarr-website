@@ -11,8 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import * as Yup from 'yup'
 import useRegistrationCheck from '@/hooks/useRegistrationCheck'
 import CalendlyEmbed from '@/components/CalendlyEmbed'
-import { callZapierWebhook } from '@/lib/zapier'
-import { ContactInfo, ZapierConsultationPayload } from '@/types/main'
+import { ContactInfo } from '@/types/main'
 import { CountryDropdown, Country } from '@/components/ui/country-dropdonw'
 import { countries } from 'country-data-list'
 import { useParams } from 'next/navigation'
@@ -24,12 +23,15 @@ import router from 'next/router'
 import { persistUserInfo } from '@/lib/services/user.service'
 import { PhoneInput } from '@/components/ui/phone-input'
 import useUserInfo from '@/hooks/useUserInfo'
+import { ConsultationRegistrationRequest } from '@/types/webinar.type'
+import { makePOSTRequest } from '@/lib/services/api.service'
+import { Locale } from '@/lib/i18n-config'
 
 type FormValues = ContactInfo & {
   country: Country | null
   interestedIn: string[]
   message: string
-  language: string
+  language: Locale
   budget: string
   period: string
   clickID: string
@@ -87,29 +89,29 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
 
   const [step, setStep] = useState(0);
 
-  const makeConversion = async () => {
-    if (values.clickID) return;
-    try {
-      const response = await fetch('/api/meta/conversions', {
-        method: 'POST',
-        body: JSON.stringify({
-          email: values.email,
-          firstName: values.firstName,
-          lastName: values.lastName,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to make conversion');
-      }
-      const data = await response.json();
-      const clickID = data.data.clickID;
-      setFieldValue('clickID', clickID);
-      storage.set(StorageKey.CLICK_ID, clickID, { expiration: 1000 * 60 * 60 * 24 * 30 })
-    } catch (error) {
-      console.error('Error making conversion:', error);
-      // Continue with the form submission even if conversion fails
-    }
-  }
+  // const makeConversion = async () => {
+  //   if (values.clickID) return;
+  //   try {
+  //     const response = await fetch('/api/meta/conversions', {
+  //       method: 'POST',
+  //       body: JSON.stringify({
+  //         email: values.email,
+  //         firstName: values.firstName,
+  //         lastName: values.lastName,
+  //       }),
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error('Failed to make conversion');
+  //     }
+  //     const data = await response.json();
+  //     const clickID = data.data.clickID;
+  //     setFieldValue('clickID', clickID);
+  //     storage.set(StorageKey.CLICK_ID, clickID, { expiration: 1000 * 60 * 60 * 24 * 30 })
+  //   } catch (error) {
+  //     console.error('Error making conversion:', error);
+  //     // Continue with the form submission even if conversion fails
+  //   }
+  // }
 
   const alpha2 = lang !== 'en' ? lang : 'de'
   const initialCountry = countries.all.find(country => country.alpha2.toLowerCase() === alpha2)
@@ -117,25 +119,33 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      try {
-        const score = calculateScore()
-        const payload: ZapierConsultationPayload = {
-          ...values,
-          clickID: values.clickID,
-          score,
-          type: 'consultation',
-          consultationInfo: {
-            country: values.country?.name || '',
-            interestedIn: values.interestedIn,
-            budget: values.budget,
-            period: values.period,
-            language: languageOptions.find(option => option.value === values.language)?.label || 'English',
-          }
-        }
-        await callZapierWebhook(payload)
-      } catch (error) {
-        console.error('Error calling Zapier webhook:', error);
+      const score = calculateScore()
+      const contactInfo = values;
+      const payload: ConsultationRegistrationRequest = {
+        firstName: contactInfo.firstName,
+        lastName: contactInfo.lastName,
+        email: contactInfo.email,
+        phone: contactInfo.phoneNumber,
+        language: values.language,
+        utmInfo: {
+          utmSource: contactInfo.utm.source,
+          utmMedium: contactInfo.utm.medium,
+          utmCampaign: contactInfo.utm.campaign,
+          utmTerm: contactInfo.utm.term,
+          utmContent: contactInfo.utm.content,
+        },
+        score,
+        country: values.country?.name || '',
+        interestedIn: values.interestedIn,
+        budget: values.budget,
+        period: values.period,
+        message: values.message,
       }
+      await makePOSTRequest('/registration/consultation', payload)
+      persistUserInfo({
+        ...contactInfo,
+        language: values.language,
+      });
     },
     onSuccess: () => {
       storage.set(StorageKey.BOOKED_CONSULTATION, true, { expiration: 1000 * 60 * 60 * 24 * 30 })
@@ -153,7 +163,7 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
       period: '',
       message: '',
       showMessage: 'No',
-      language: initialLanguage?.value || 'en',
+      language: initialLanguage?.value as Locale || 'en',
       clickID: storage.get(StorageKey.CLICK_ID) || '',
     },
     validationSchema: Yup.object().shape({
@@ -162,16 +172,8 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
       email: Yup.string().email('Invalid email address').required('Email is required'),
       phoneNumber: Yup.string(),
     }),
-    onSubmit: () => {
+    onSubmit: async () => {
       const link = generateCalendlyPrefilledUrl();
-      persistUserInfo({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phoneNumber: values.phoneNumber,
-        language: userInfo.language,
-        utm: userInfo.utm,
-      });
       setCalendlyUrl(link);
       mutate()
     }
@@ -182,15 +184,16 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
     url.searchParams.set('first_name', values.firstName)
     url.searchParams.set('last_name', values.lastName)
     url.searchParams.set('email', values.email)
-    const compiledAnswers = [
-      values.country ? `Country:-${values.country}` : null,
-      values.interestedIn.length > 0 ? `Interested in:-${values.interestedIn.join(', ')}` : null,
-      values.budget ? `Budget:-${values.budget}` : null,
-      values.period ? `Period:-${values.period}` : null,
-      values.language ? `Language:-${values.language}` : null,
-      values.message ? `Message:-${values.message}` : null
-    ].filter(Boolean).join(';')
-    url.searchParams.set('a1', `********PLEASE-DO-NOT-CHANGE-THIS: ${compiledAnswers}********`)
+    url.searchParams.set('a3', values.phoneNumber)
+    // const compiledAnswers = [
+    //   values.country ? `Country:-${values.country}` : null,
+    //   values.interestedIn.length > 0 ? `Interested in:-${values.interestedIn.join(', ')}` : null,
+    //   values.budget ? `Budget:-${values.budget}` : null,
+    //   values.period ? `Period:-${values.period}` : null,
+    //   values.language ? `Language:-${values.language}` : null,
+    //   values.message ? `Message:-${values.message}` : null
+    // ].filter(Boolean).join(';')
+    // url.searchParams.set('a1', `********PLEASE-DO-NOT-CHANGE-THIS: ${compiledAnswers}********`)
     return url.toString()
   }
 
@@ -218,9 +221,9 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
   }
 
   const goToNextStep = () => {
-    if (step === 0) {
-      makeConversion()
-    }
+    // if (step === 0) {
+    //   makeConversion()
+    // }
     setStep(step + 1)
   }
 
