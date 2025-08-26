@@ -8,13 +8,13 @@ export type APIResponse<T> = {
 
 export class APIRequestError extends Error {
   public status: number;
-  public details?: any;
+  public details?: unknown;
   public code?: string;
 
   constructor(
     message: string = 'An unexpected error occurred',
     status: number = 500,
-    details?: any,
+    details?: unknown,
     code?: string
   ) {
     super(message);
@@ -48,7 +48,7 @@ apiClient.interceptors.response.use(
     if (error.response) {
       // Server responded with error status
       const { data, status } = error.response;
-      const errorData = data as any;
+      const errorData = data as { message: string, details: unknown, code: string };
 
       throw new APIRequestError(
         errorData?.message || error.message,
@@ -74,7 +74,7 @@ apiClient.interceptors.response.use(
   }
 );
 
-export const makeAPIRequest = async <T>(url: string, options: any = {}): Promise<APIResponse<T>> => {
+export const makeAPIRequest = async <T>(url: string, options: object = {}): Promise<APIResponse<T>> => {
   const response = await apiClient.request({
     url: url.startsWith('/') ? url : `/${url}`,
     ...options,
@@ -83,7 +83,7 @@ export const makeAPIRequest = async <T>(url: string, options: any = {}): Promise
   return response.data;
 }
 
-export const makePOSTRequest = async <T>(url: string, body: unknown, options: any = {}): Promise<APIResponse<T>> => {
+export const makePOSTRequest = async <T>(url: string, body: unknown, options: object = {}): Promise<APIResponse<T>> => {
   return makeAPIRequest<T>(url, {
     method: 'POST',
     data: body,
@@ -91,7 +91,7 @@ export const makePOSTRequest = async <T>(url: string, body: unknown, options: an
   });
 }
 
-export const makeGETRequest = async <T>(url: string, options: any = {}): Promise<APIResponse<T>> => {
+export const makeGETRequest = async <T>(url: string, options: object = {}): Promise<APIResponse<T>> => {
   return makeAPIRequest<T>(url, {
     method: 'GET',
     ...options,
@@ -117,7 +117,7 @@ export const handleAPIError = (error: unknown, context?: string): never => {
     if (error.response) {
       // Server responded with error status
       const { data, status } = error.response;
-      const errorData = data as any;
+      const errorData = data as { message: string, details: unknown, code: string };
 
       throw new APIRequestError(
         errorData?.message || error.message,
