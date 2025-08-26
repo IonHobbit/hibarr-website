@@ -15,7 +15,7 @@ import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
 import useTranslation from "@/hooks/useTranslation";
 import { RegistrationRequest } from "@/types/webinar.type";
-import { makePOSTRequest } from "@/lib/services/api.service";
+import { siteAPI } from "@/lib/services/site.api.service";
 
 type RegistrationFormSectionProps = {
   data: WebinarPage;
@@ -47,7 +47,9 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
           utmContent: contactInfo.utm.content,
         }
       }
-      await makePOSTRequest('/registration/webinar', payload)
+
+      await siteAPI.post('/registration/webinar', payload);
+
       // persist user info to storage
       persistUserInfo(contactInfo);
     },
