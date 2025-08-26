@@ -63,7 +63,10 @@ export default function Countdown({ date, timezone }: CountdownProps) {
   const { data: minuteString } = useTranslation('Minute');
   const { data: secondString } = useTranslation('Second');
 
-  const { data: translatedWebinarDate } = useTranslation(webinarDate)
+  const { data: webinarStarted } = useTranslation('Webinar has started');
+  const { data: registerToJoinNextOne } = useTranslation('Register to join the next one if you missed it');
+
+  const { data: translatedWebinarDate } = useTranslation(webinarDate);
 
   if (!date || !timezone) return null;
 
@@ -73,9 +76,9 @@ export default function Countdown({ date, timezone }: CountdownProps) {
     return (
       <div className='flex flex-col items-center gap-2 bg-secondary rounded-lg p-4 px-6'>
         <p className="text-2xl font-semibold text-center text-primary">
-          The webinar has started
+          {webinarStarted?.text}
         </p>
-        <p className='text-sm text-center text-muted-foreground'>Register to join the next one if you missed it</p>
+        <p className='text-sm text-center text-muted-foreground'>{registerToJoinNextOne?.text}</p>
       </div>
     )
   }
@@ -84,10 +87,10 @@ export default function Countdown({ date, timezone }: CountdownProps) {
     <Fragment>
       <p className="text-2xl font-semibold text-center text-primary-foreground">{translatedWebinarDate?.text || webinarDate}</p>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 place-items-center place-content-center bg-secondary w-full rounded-lg p-4">
-        <Counter label={pluralize(dayString?.text || '', parseInt(days))} value={days} />
-        <Counter label={pluralize(hourString?.text || '', parseInt(hours))} value={hours} />
-        <Counter label={pluralize(minuteString?.text || '', parseInt(minutes))} value={minutes} />
-        <Counter label={pluralize(secondString?.text || '', parseInt(seconds))} value={seconds} />
+        <Counter label={pluralize(dayString?.text || 'Day', parseInt(days))} value={days} />
+        <Counter label={pluralize(hourString?.text || 'Hour', parseInt(hours))} value={hours} />
+        <Counter label={pluralize(minuteString?.text || 'Minute', parseInt(minutes))} value={minutes} />
+        <Counter label={pluralize(secondString?.text || 'Second', parseInt(seconds))} value={seconds} />
       </div>
     </Fragment>
   )

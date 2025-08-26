@@ -97,3 +97,73 @@ export const makeGETRequest = async <T>(url: string, options: any = {}): Promise
     ...options,
   });
 }
+
+export const isAPIError = (error: unknown): error is APIRequestError => {
+  return error instanceof APIRequestError;
+};
+
+// Error handler function for try-catch blocks
+export const handleAPIError = (error: unknown, context?: string): never => {
+  // Log the error with context for debugging
+  console.error(`API Error${context ? ` in ${context}` : ''}:`, error);
+
+  // If it's already our custom error, re-throw it
+  if (error instanceof APIRequestError) {
+    throw error;
+  }
+
+  // If it's an axios error, convert it
+  if (axios.isAxiosError(error)) {
+    if (error.response) {
+      // Server responded with error status
+      const { data, status } = error.response;
+      const errorData = data as any;
+
+      throw new APIRequestError(
+        errorData?.message || error.message,
+        status || 500,
+        errorData?.details || errorData,
+        errorData?.code
+      );
+    } else if (error.request) {
+      // Request was made but no response received
+      throw new APIRequestError(
+        'No response from server. Please check your connection.',
+        0,
+        { originalError: error.message }
+      );
+    } else {
+      // Something else happened
+      throw new APIRequestError(
+        error.message || 'An unexpected error occurred',
+        500,
+        { originalError: error.message }
+      );
+    }
+  }
+
+  // If it's a standard Error, convert it
+  if (error instanceof Error) {
+    throw new APIRequestError(
+      error.message,
+      500,
+      { originalError: error.message }
+    );
+  }
+
+  // If it's a string, convert it
+  if (typeof error === 'string') {
+    throw new APIRequestError(
+      error,
+      500,
+      { originalError: error }
+    );
+  }
+
+  // Fallback for unknown error types
+  throw new APIRequestError(
+    'An unexpected error occurred',
+    500,
+    { originalError: String(error) }
+  );
+};
