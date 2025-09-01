@@ -69,9 +69,14 @@ export default function ClientFooter({ lang, footerData }: ClientFooterProps) {
         <div className="flex flex-col-reverse lg:flex-row lg:items-center gap-8 justify-between w-full">
           <div className="flex flex-col gap-3">
             <Link href={`/${lang}`}>
-              <Image src="/logos/logo-blue.png" alt="Hibarr Estates Logo" className="object-contain w-auto h-auto" width={140} height={20} />
+              <Image src="/logos/logo-blue.png" alt="HIBARR Estates Logo" className="object-contain w-auto h-auto" width={140} height={20} />
             </Link>
             <p className="text-xs md:text-sm text-foreground font-light">© Copyright {currentYear} <span className="font-semibold">XEGARA Trading Ltd.</span> all rights reserved</p>
+            <div className="flex items-center gap-4 text-xs text-muted-foreground">
+              <Link href={`/${lang}/privacy-policy`} className="hover:text-foreground transition-colors">
+                Privacy Policy
+              </Link>
+            </div>
             <div className="flex items-center gap-4">
               {socialLinks.map((link) => (
                 <Link key={link.href} href={link.href}>
