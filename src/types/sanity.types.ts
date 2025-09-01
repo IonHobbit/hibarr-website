@@ -103,7 +103,7 @@ export type PrivacyPolicy = {
     openGraph?: {
       title?: string
       description?: string
-      image?: any
+      image?: string
     }
   }
   _updatedAt: string
