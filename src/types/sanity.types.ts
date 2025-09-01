@@ -88,6 +88,28 @@ export type Divider = {
   color?: 'default' | 'primary' | 'secondary' | 'accent' | 'muted'
 }
 
+export type PrivacyPolicy = {
+  _type: 'privacyPolicy'
+  _id: string
+  title: string
+  content: Array<{
+    _type: 'block' | 'divider'
+    [key: string]: any
+  }>
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string
+    openGraph?: {
+      title?: string
+      description?: string
+      image?: any
+    }
+  }
+  _updatedAt: string
+  language: string
+}
+
 export type Callout = {
   _type: 'callout'
   type?: 'info' | 'warning' | 'error' | 'success' | 'note' | 'tip'
@@ -116,28 +138,28 @@ export type Code = {
   _type: 'code'
   code?: string
   language?:
-    | 'javascript'
-    | 'typescript'
-    | 'python'
-    | 'java'
-    | 'cpp'
-    | 'csharp'
-    | 'php'
-    | 'ruby'
-    | 'go'
-    | 'rust'
-    | 'swift'
-    | 'kotlin'
-    | 'html'
-    | 'css'
-    | 'scss'
-    | 'json'
-    | 'yaml'
-    | 'markdown'
-    | 'sql'
-    | 'shell'
-    | 'bash'
-    | 'text'
+  | 'javascript'
+  | 'typescript'
+  | 'python'
+  | 'java'
+  | 'cpp'
+  | 'csharp'
+  | 'php'
+  | 'ruby'
+  | 'go'
+  | 'rust'
+  | 'swift'
+  | 'kotlin'
+  | 'html'
+  | 'css'
+  | 'scss'
+  | 'json'
+  | 'yaml'
+  | 'markdown'
+  | 'sql'
+  | 'shell'
+  | 'bash'
+  | 'text'
   filename?: string
   highlightedLines?: Array<number>
 }
@@ -468,78 +490,78 @@ export type TranslationMetadata = {
 export type InternationalizedArrayReferenceValue = {
   _type: 'internationalizedArrayReferenceValue'
   value?:
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'homePage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'aboutPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'testimonialsPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'webinarPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'navigation'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'consultationPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'bankPackagesPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'blogPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'waitlistPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'faq'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'caseStudy'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'blogPost'
-      }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'homePage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'aboutPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'testimonialsPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'webinarPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'navigation'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'consultationPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'bankPackagesPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'blogPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'waitlistPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'faq'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'caseStudy'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'blogPost'
+  }
 }
 
 export type BlogPost = {
@@ -565,51 +587,51 @@ export type BlogPost = {
   description?: string
   content?: Array<
     | {
-        children?: Array<{
-          marks?: Array<string>
-          text?: string
-          _type: 'span'
-          _key: string
-        }>
-        style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
-        listItem?: 'bullet' | 'number'
-        markDefs?: Array<{
-          href?: string
-          _type: 'link'
-          _key: string
-        }>
-        level?: number
-        _type: 'block'
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
         _key: string
-      }
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }
     | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
-        media?: unknown
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        _type: 'image'
-        _key: string
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
       }
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      _type: 'image'
+      _key: string
+    }
     | ({
-        _key: string
-      } & Youtube)
+      _key: string
+    } & Youtube)
     | ({
-        _key: string
-      } & Callout)
+      _key: string
+    } & Callout)
     | ({
-        _key: string
-      } & Divider)
+      _key: string
+    } & Divider)
     | ({
-        _key: string
-      } & Audio)
+      _key: string
+    } & Audio)
     | ({
-        _key: string
-      } & Gallery)
+      _key: string
+    } & Gallery)
   >
   audio?: {
     asset?: {
