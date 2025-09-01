@@ -94,7 +94,7 @@ export type PrivacyPolicy = {
   title: string
   content: Array<{
     _type: 'block' | 'divider'
-    [key: string]: any
+    [key: string]: string
   }>
   seo?: {
     metaTitle?: string
