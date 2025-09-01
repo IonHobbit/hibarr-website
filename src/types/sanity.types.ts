@@ -96,16 +96,7 @@ export type PrivacyPolicy = {
     _type: 'block' | 'divider'
     [key: string]: string
   }>
-  seo?: {
-    metaTitle?: string
-    metaDescription?: string
-    keywords?: string
-    openGraph?: {
-      title?: string
-      description?: string
-      image?: string
-    }
-  }
+  seo?: SeoMetaFields;
   _updatedAt: string
   language: string
 }

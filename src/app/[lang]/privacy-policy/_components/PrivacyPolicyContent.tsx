@@ -3,13 +3,13 @@
 import { Icon } from '@iconify/react';
 import { PrivacyPolicy } from '@/types/sanity.types';
 import { PortableText } from '@portabletext/react';
-import useTranslation from '@/hooks/useTranslation';
 
 type PrivacyPolicyContentProps = {
   privacyPolicyData: PrivacyPolicy | null;
+  lastUpdated: string;
 };
 
-export default function PrivacyPolicyContent({ privacyPolicyData }: PrivacyPolicyContentProps) {
+export default function PrivacyPolicyContent({ privacyPolicyData, lastUpdated }: PrivacyPolicyContentProps) {
   const currentDate = privacyPolicyData?._updatedAt
     ? new Date(privacyPolicyData._updatedAt).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -22,7 +22,6 @@ export default function PrivacyPolicyContent({ privacyPolicyData }: PrivacyPolic
       day: 'numeric'
     });
 
-  const { data: lastUpdated } = useTranslation('Last updated: {currentDate}')
 
   if (!privacyPolicyData) return null;
 
@@ -37,7 +36,7 @@ export default function PrivacyPolicyContent({ privacyPolicyData }: PrivacyPolic
             </h1>
             <div className="flex items-center justify-center gap-2 mt-6 text-sm text-primary-foreground/80">
               <Icon icon="mdi:calendar" className="size-4" />
-              <span>{lastUpdated?.text.replace('{currentDate}', currentDate)}</span>
+              <span>{lastUpdated} {currentDate}</span>
             </div>
           </div>
         </div>
