@@ -47,8 +47,8 @@ export default function HlsBackgroundVideo({
                     hls = undefined;
                 }
                 video.removeAttribute('src');
-                video.load();
                 video.src = fallbackMp4;
+                video.load();
                 if (autoPlay) {
                     video.play().catch(err => console.debug('[HLS][Fallback] Autoplay blocked:', err));
                 }
