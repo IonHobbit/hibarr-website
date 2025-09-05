@@ -19,8 +19,8 @@ export default function LandingSection({ data }: LandingSectionProps) {
   const baseLandingVideoMp4 = 'https://vz-da4cd036-d13.b-cdn.net/15ac0674-e562-4448-9853-a4992db2b7ab/play_720p.mp4';
   const v2LandingVideoMp4 = 'https://hibarr-01.b-cdn.net/Website%20Assets/Videos/HERO.mp4';
 
-  const baseLandingVideoHls = '/videos/hero/hero.m3u8'; // Should be replaced with actual HLS source
-  const v2LandingVideoHls = '/videos/hero/herov2.m3u8'; // Should be replaced with actual HLS source
+  const baseLandingVideoHls = 'https://vz-da4cd036-d13.b-cdn.net/31c737df-ff40-48a5-a2ab-e8fc0a829df5/playlist.m3u8';
+  const v2LandingVideoHls = 'https://vz-da4cd036-d13.b-cdn.net/31c737df-ff40-48a5-a2ab-e8fc0a829df5/playlist.m3u8';
 
   const variantKey = useFeatureFlagVariantKey('v2-landing-video');
 
