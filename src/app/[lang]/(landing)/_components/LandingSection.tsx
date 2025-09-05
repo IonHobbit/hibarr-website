@@ -5,23 +5,40 @@ import { Icon } from '@iconify/react';
 import { Button } from '@/components/ui/button'
 import { HomePage } from '@/types/sanity.types';
 import { useFeatureFlagVariantKey } from 'posthog-js/react';
+import dynamic from 'next/dynamic';
+
+// dynamic import to avoid SSR issues with window / MediaSource
+const HlsBackgroundVideo = dynamic(() => import('@/components/HlsBackgroundVideo'), { ssr: false });
 
 type LandingSectionProps = {
   data: HomePage;
 }
 
 export default function LandingSection({ data }: LandingSectionProps) {
-  const baseLandingVideo = 'https://vz-da4cd036-d13.b-cdn.net/15ac0674-e562-4448-9853-a4992db2b7ab/play_720p.mp4';
-  const v2LandingVideo = 'https://hibarr-01.b-cdn.net/Website%20Assets/Videos/HERO.mp4';
+  // fallback
+  const baseLandingVideoMp4 = 'https://vz-da4cd036-d13.b-cdn.net/15ac0674-e562-4448-9853-a4992db2b7ab/play_720p.mp4';
+  const v2LandingVideoMp4 = 'https://hibarr-01.b-cdn.net/Website%20Assets/Videos/HERO.mp4';
+
+  const baseLandingVideoHls = '/videos/hero/hero.m3u8'; // Should be replaced with actual HLS source
+  const v2LandingVideoHls = '/videos/hero/herov2.m3u8'; // Should be replaced with actual HLS source
 
   const variantKey = useFeatureFlagVariantKey('v2-landing-video');
 
-  const landingVideo = variantKey === 'v2' ? v2LandingVideo : baseLandingVideo;
+  const landingVideoMp4 = variantKey === 'v2' ? v2LandingVideoMp4 : baseLandingVideoMp4;
+  const landingVideoHls = variantKey === 'v2' ? v2LandingVideoHls : baseLandingVideoHls;
 
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center h-screen  bg-gradient-to-b from-primary via-primary/80 to-transparent">
       <div className='absolute inset-0 w-full h-full -z-10'>
-        <video src={landingVideo} autoPlay muted loop playsInline className='w-full h-full object-cover' poster='/images/landing-background-fallback.png' />
+        <HlsBackgroundVideo
+          src={landingVideoHls}
+            // fallback MP4 ensures playback if HLS unsupported or fails to load
+          fallbackMp4={landingVideoMp4}
+          muted
+          autoPlay
+          loop
+          poster='/images/landing-background-fallback.png'
+        />
       </div>
 
       <div className="max-w-6xl text-center flex flex-col gap-10 px-4">

@@ -21,11 +21,15 @@ export function middleware(request: NextRequest) {
   // Get the pathname of the request
   const pathname = request.nextUrl.pathname;
 
+  // Allow static video segment + playlist requests to pass through untouched.
+  if (pathname.startsWith('/videos/')) {
+    return NextResponse.next();
+  }
+
   if (pathname.includes('/src/internal/') ||
-    pathname.endsWith('.ts') ||
     pathname.endsWith('.js.map') ||
     pathname.includes('node_modules')) {
-    // Return 204 No Content for these requests to stop the logging
+    // Return 204 No Content for internal build artifact requests to reduce noise
     return new NextResponse(null, { status: 204 });
   }
 
@@ -56,7 +60,8 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    '/((?!_next|api|logos|featured|images|favicon.ico|sitemap.xml|robots.txt|ingest|expose/testimonials|tools|external/alpha-cash).*)',
+    // Exclude /videos from locale redirect so HLS assets are served with original path
+    '/((?!_next|api|logos|featured|images|videos|favicon.ico|sitemap.xml|robots.txt|ingest|expose/testimonials|tools|external/alpha-cash).*)',
     '/:path*/src/internal/:file*',
   ],
 } 
