@@ -1,6 +1,5 @@
 import CaseStudiesSection from '@/app/[lang]/(landing)/_components/CaseStudiesSection'
 import { fetchSanityData } from '@/lib/third-party/sanity.client'
-import { Locale } from '@/lib/i18n-config'
 import { formatDate } from '@/lib/utils'
 import { Testimonial } from '@/types/sanity.types'
 import { Icon } from '@iconify/react/dist/iconify.js'
@@ -12,12 +11,7 @@ export const metadata = {
   description: 'Expose Testimonials',
 }
 
-type ExposeTestimonialsPageProps = {
-  params: Promise<{ lang: Locale }>;
-}
-
-export default async function ExposeTestimonialsPage(props: ExposeTestimonialsPageProps) {
-  const { lang } = await props.params;
+export default async function ExposeTestimonialsPage() {
 
   const testimonials = await fetchSanityData<Testimonial[]>(`*[_type == "testimonial"] | order(date desc)`);
   return (
@@ -32,7 +26,7 @@ export default async function ExposeTestimonialsPage(props: ExposeTestimonialsPa
         </div>
         <div className="w-[80vw] md:w-[70vw] h-[70vh] relative overflow-y-auto text-center px-3 lg:px-8 bg-secondary rounded-lg z-10">
           <Suspense fallback={<div className="p-4">Loading testimonials...</div>}>
-            <CaseStudiesSection data={{ title: '', description: '' }} lang={lang} />
+            <CaseStudiesSection data={{ title: '', description: '' }} lang='en' />
           </Suspense>
           <section id='stories' className='section pt-0'>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
