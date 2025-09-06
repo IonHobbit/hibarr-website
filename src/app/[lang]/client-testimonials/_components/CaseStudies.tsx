@@ -39,11 +39,30 @@ export default function CaseStudies({ caseStudies }: CaseStudiesProps) {
                 }} />
               </div>
               <div className='xl:col-span-5 flex flex-col gap-2'>
-                <Video
-                  ref={(el) => { videoRefs.current[index] = el as VideoRef }}
-                  src={caseStudy.videoUrl || ''}
-                  poster={generateImageUrl(caseStudy.thumbnail as SanityImageSource).url()}
-                />
+                {(() => {
+                  const src = caseStudy.videoUrl || '';
+                  console.log('Case study video URL:', src);
+                  const isHls = /\.m3u8(\?.*)?$/i.test(src);
+                  let fallbackMp4: string | undefined;
+                  if (isHls) {
+                    // Get the fallback url (playlist/index.m3u8 -> play_720p.mp4)
+                    const match = src.match(/^(.*\/)(playlist|index)\.m3u8(\?.*)?$/i);
+                    if (match) {
+                      const base = match[1];
+                      const query = match[3] ?? '';
+                      fallbackMp4 = `${base}play_720p.mp4${query}`;
+                    }
+                  }
+                  return (
+                    <Video
+                      ref={(el) => { videoRefs.current[index] = el as VideoRef }}
+                      src={src}
+                      poster={generateImageUrl(caseStudy.thumbnail as SanityImageSource).url()}
+                      hls={isHls}
+                      fallbackMp4={fallbackMp4}
+                    />
+                  );
+                })()}
               </div>
             </div>
           </CarouselItem>

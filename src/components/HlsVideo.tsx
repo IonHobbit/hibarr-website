@@ -18,9 +18,9 @@ const HlsVideo = ({
     src,
     poster,
     className,
-    autoPlay = true,
-    muted = true,
-    loop = true,
+    autoPlay = false,
+    muted = false,
+    loop = false,
     fallbackMp4
 }: HlsVideoProps, forwardedRef: React.Ref<HTMLVideoElement>) => {
     const videoRef = useRef<HTMLVideoElement | null>(null);

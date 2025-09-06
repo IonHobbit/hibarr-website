@@ -133,6 +133,8 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
   }));
 
   const wrapperClass = containerClassName ?? "relative group w-full aspect-video rounded-lg overflow-hidden bg-black";
+  // Auto-detect HLS if not explicitly provided
+  const isHls = (typeof hls === 'boolean') ? hls : /\.m3u8(\?.*)?$/i.test(src);
 
   return (
     <div className={wrapperClass}>
@@ -184,8 +186,9 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
           </div>
         </Fragment>
       }
-      {hls ? (
+      {isHls ? (
         <HlsVideo
+          key={src}
           ref={videoRef}
           src={src}
           poster={poster}
