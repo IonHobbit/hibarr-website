@@ -5,8 +5,7 @@ import { Icon } from '@iconify/react';
 import { Button } from '@/components/ui/button'
 import { HomePage } from '@/types/sanity.types';
 import { useFeatureFlagVariantKey } from 'posthog-js/react';
-import dynamic from 'next/dynamic';
-const Video = dynamic(() => import('@/components/Video'), { ssr: false });
+import Video from '@/components/Video';
 
 type LandingSectionProps = {
   data: HomePage;

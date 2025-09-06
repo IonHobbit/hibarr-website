@@ -14,10 +14,7 @@ import TwoForOneSection from './_components/TwoForOneSection'
 import BenefitsSection from './_components/BenefitsSection'
 import StatisticsSection from './_components/StatisticsSection'
 import { generateSEOMetadata } from '@/lib/utils'
-import dynamic from 'next/dynamic'
-
-// Client-side video component for HLS playback
-const Video = dynamic(() => import('@/components/Video'), { ssr: false });
+import Video from '@/components/Video'
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
