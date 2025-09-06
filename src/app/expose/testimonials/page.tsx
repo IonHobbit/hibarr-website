@@ -1,5 +1,6 @@
 import CaseStudiesSection from '@/app/[lang]/(landing)/_components/CaseStudiesSection'
 import { fetchSanityData } from '@/lib/third-party/sanity.client'
+import { Locale } from '@/lib/i18n-config'
 import { formatDate } from '@/lib/utils'
 import { Testimonial } from '@/types/sanity.types'
 import { Icon } from '@iconify/react/dist/iconify.js'
@@ -11,7 +12,13 @@ export const metadata = {
   description: 'Expose Testimonials',
 }
 
-export default async function ExposeTestimonialsPage() {
+type ExposeTestimonialsPageProps = {
+  params: Promise<{ lang: Locale }>;
+}
+
+export default async function ExposeTestimonialsPage(props: ExposeTestimonialsPageProps) {
+  const { lang } = await props.params;
+
   const testimonials = await fetchSanityData<Testimonial[]>(`*[_type == "testimonial"] | order(date desc)`);
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 lg:px-8 grid place-items-center gap-4 place-content-center h-screen bg-[url('/images/testimonials-hero.jpg')] bg-cover bg-center bg-no-repeat scroll-smooth">
@@ -25,7 +32,7 @@ export default async function ExposeTestimonialsPage() {
         </div>
         <div className="w-[80vw] md:w-[70vw] h-[70vh] relative overflow-y-auto text-center px-3 lg:px-8 bg-secondary rounded-lg z-10">
           <Suspense fallback={<div className="p-4">Loading testimonials...</div>}>
-            <CaseStudiesSection data={{ title: '', description: '' }} />
+            <CaseStudiesSection data={{ title: '', description: '' }} lang={lang} />
           </Suspense>
           <section id='stories' className='section pt-0'>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
