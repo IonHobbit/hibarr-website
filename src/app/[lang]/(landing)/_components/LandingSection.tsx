@@ -6,9 +6,7 @@ import { Button } from '@/components/ui/button'
 import { HomePage } from '@/types/sanity.types';
 import { useFeatureFlagVariantKey } from 'posthog-js/react';
 import dynamic from 'next/dynamic';
-
-// dynamic import to avoid SSR issues with window / MediaSource
-const HlsBackgroundVideo = dynamic(() => import('@/components/HlsBackgroundVideo'), { ssr: false });
+const Video = dynamic(() => import('@/components/Video'), { ssr: false });
 
 type LandingSectionProps = {
   data: HomePage;
@@ -30,14 +28,16 @@ export default function LandingSection({ data }: LandingSectionProps) {
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center h-screen  bg-gradient-to-b from-primary via-primary/80 to-transparent">
       <div className='absolute inset-0 w-full h-full -z-10'>
-        <HlsBackgroundVideo
+        <Video
+          hls
           src={landingVideoHls}
-            // fallback MP4 ensures playback if HLS unsupported or fails to load
           fallbackMp4={landingVideoMp4}
           muted
           autoPlay
           loop
           poster='/images/landing-background-fallback.png'
+          containerClassName="contents"
+          videoClassName="w-full h-full object-cover"
         />
       </div>
 
