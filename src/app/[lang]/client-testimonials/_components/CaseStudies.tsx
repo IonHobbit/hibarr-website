@@ -41,7 +41,6 @@ export default function CaseStudies({ caseStudies }: CaseStudiesProps) {
               <div className='xl:col-span-5 flex flex-col gap-2'>
                 {(() => {
                   const src = caseStudy.videoUrl || '';
-                  console.log('Case study video URL:', src);
                   const isHls = /\.m3u8(\?.*)?$/i.test(src);
                   let fallbackMp4: string | undefined;
                   if (isHls) {
