@@ -54,7 +54,7 @@ export default function VideoArchiveForm() {
     }
   })
 
-  const videoUrl = 'https://vz-7d90b9e0-ff2.b-cdn.net/1d02b11a-b7a9-41aa-b015-42a99cc3ddae/play_720p.mp4';
+  const videoUrl = 'https://vz-7d90b9e0-ff2.b-cdn.net/1d02b11a-b7a9-41aa-b015-42a99cc3ddae/playlist.m3u8';
   const posterUrl = 'https://vz-7d90b9e0-ff2.b-cdn.net/1d02b11a-b7a9-41aa-b015-42a99cc3ddae/thumbnail_c4dad539.jpg';
 
   return (
@@ -66,7 +66,11 @@ export default function VideoArchiveForm() {
 
         {isSuccess ?
           <div className='w-full h-full'>
-            <Video src={videoUrl} poster={posterUrl} />
+            <Video
+            src={videoUrl}
+            poster={posterUrl}
+            hls
+            fallbackMp4="https://vz-7d90b9e0-ff2.b-cdn.net/1d02b11a-b7a9-41aa-b015-42a99cc3ddae/play_720p.mp4" />
           </div> :
           <form className='space-y-4' onSubmit={handleSubmit}>
             <div className="grid grid-cols-2 gap-4 ">

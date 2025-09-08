@@ -13,7 +13,9 @@ export default function WhyCyprus({ data, link }: WhyCyprusProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-10 overflow-hidden">
         <div>
           <Video
-            src="https://vz-da4cd036-d13.b-cdn.net/31c737df-ff40-48a5-a2ab-e8fc0a829df5/play_720p.mp4"
+            hls
+            src="https://vz-da4cd036-d13.b-cdn.net/31c737df-ff40-48a5-a2ab-e8fc0a829df5/playlist.m3u8"
+            fallbackMp4="https://vz-da4cd036-d13.b-cdn.net/31c737df-ff40-48a5-a2ab-e8fc0a829df5/play_720p.mp4"
             poster="/images/about-north-cyprus.jpg"
           />
         </div>
