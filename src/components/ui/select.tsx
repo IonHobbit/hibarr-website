@@ -4,7 +4,7 @@ import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
 
 import { cn } from "@/lib/utils"
-import { Icon } from "@iconify/react"
+import { Icon } from "@/components/icons"
 import InputTitle from "../InputTitle"
 function Select({
   ...props

@@ -1,7 +1,7 @@
 'use client';
 
 import { cn, joinWith } from "@/lib/utils"
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@/components/icons";
 import { useMutation } from "@tanstack/react-query";
 import { Fragment, useRef } from "react";
 

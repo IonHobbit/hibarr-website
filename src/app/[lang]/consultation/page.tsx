@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Locale } from '@/lib/i18n-config';
 import { Metadata } from 'next';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons';
 import FAQAccordion from '../_components/FAQAccordion';
 // import CalendlyEmbed from '@/components/CalendlyEmbed';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';

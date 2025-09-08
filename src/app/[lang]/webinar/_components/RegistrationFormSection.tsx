@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { WebinarPage } from "@/types/sanity.types";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@/components/icons";
 import { useFormik } from "formik";
 import Countdown from "./Countdown";
 import { useMutation } from "@tanstack/react-query";

@@ -16,7 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Icon } from "@iconify/react"
+import { Icon } from "@/components/icons"
 
 type SelectProps = {
   options: {

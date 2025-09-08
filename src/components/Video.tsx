@@ -2,7 +2,7 @@
 
 import React, { Fragment, useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react'
 import { clsx } from 'clsx';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons';
 import { cn } from '@/lib/utils';
 
 interface IVideoProps {

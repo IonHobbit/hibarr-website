@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { StorageKey } from '@/lib/storage.util';
 import storage from '@/lib/storage.util';
 import useTranslation from '@/hooks/useTranslation';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { Icon } from '@/components/icons';
 import Link from 'next/link';
 
 export default function FacebookGroupThankYouFunnel() {

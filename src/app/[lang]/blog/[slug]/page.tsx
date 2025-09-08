@@ -11,7 +11,7 @@ import ShareLinks from "./_components/ShareLinks";
 import SharePost from "./_components/SharePost";
 import FAQs from "@/components/FAQs";
 import { Fragment, ReactNode } from "react";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@/components/icons";
 import Audio from "./_components/Audio";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {

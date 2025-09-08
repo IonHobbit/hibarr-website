@@ -6,7 +6,7 @@ import { Slider } from '@/components/ui/slider';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { count, locations } from '@/lib/mockdata';
 import { cn } from '@/lib/utils';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { Icon } from '@/components/icons';
 import { useFormik } from 'formik';
 import { Suspense, useState } from 'react';
 import useURL from '@/hooks/useURL';

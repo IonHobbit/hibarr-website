@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import pluralize from 'pluralize'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/icons'
 import { BlogPostCardType } from '@/types/blog'
 import { cn } from '@/lib/utils'
 

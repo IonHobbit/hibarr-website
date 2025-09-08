@@ -1,7 +1,7 @@
 'use client'
 
 import useTranslation from '@/hooks/useTranslation';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { Icon } from '@/components/icons';
 import React, { useEffect, useRef, useState } from 'react'
 
 export default function Audio({ audio }: { audio: string }) {

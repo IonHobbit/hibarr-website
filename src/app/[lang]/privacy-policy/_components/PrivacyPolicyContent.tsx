@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons';
 import { PrivacyPolicy } from '@/types/sanity.types';
 import { PortableText } from '@portabletext/react';
 

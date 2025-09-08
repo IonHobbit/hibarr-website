@@ -4,7 +4,7 @@ import { Locale } from "@/lib/i18n-config";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/icons";
 import { Navigation } from "@/types/sanity.types";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 

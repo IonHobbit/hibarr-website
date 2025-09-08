@@ -11,7 +11,7 @@ import ListingImages from './_components/ListingImages';
 import useListing from '@/hooks/useListing';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { Icon } from '@/components/icons';
 import { formatCurrency } from '@/lib/currency';
 import useSource from '@/hooks/useSource';
 

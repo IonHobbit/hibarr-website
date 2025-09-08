@@ -10,7 +10,7 @@ import { decryptJSON, TOKEN_SECRET } from "@/lib/encryptor";
 import useFeatures from "@/hooks/useFeatures";
 import pluralize from "pluralize";
 import usePropertyTypes from "@/hooks/usePropertyTypes";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@/components/icons";
 
 export default function PropertyList() {
   const { searchParams, updateParams } = useURL();

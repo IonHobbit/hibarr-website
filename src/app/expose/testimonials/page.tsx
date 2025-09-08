@@ -2,7 +2,7 @@ import CaseStudiesSection from '@/app/[lang]/(landing)/_components/CaseStudiesSe
 import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import { formatDate } from '@/lib/utils'
 import { Testimonial } from '@/types/sanity.types'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/icons'
 import Image from 'next/image'
 import React, { Suspense } from 'react'
 
