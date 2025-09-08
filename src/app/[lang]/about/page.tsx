@@ -36,7 +36,7 @@ export default async function AboutPage(
     <Fragment>
       <section id='root' className="relative grid place-items-center place-content-center min-h-screen bg-cover bg-center bg-no-repeat">
         <div className='absolute inset-0 w-full h-full -z-10'>
-          <video src="https://hibarr-01.b-cdn.net/Website%20Assets/Videos/HERO.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover' poster='/images/landing-background-fallback.png' />
+          <video src="https://hibarr-01.b-cdn.net/Website%20Assets/Videos/HERO.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover' poster='/images/aboutus-background-fallback.png' />
         </div>
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col gap-2'>
