@@ -49,7 +49,7 @@ export default async function ZoomRegistrationPage(
             autoPlay
             muted
             loop
-            poster='/images/landing-background-fallback.png'
+            poster='/images/webinar-background-fallback.png'
             containerClassName="contents"
             videoClassName="w-full h-full object-cover"
           />
