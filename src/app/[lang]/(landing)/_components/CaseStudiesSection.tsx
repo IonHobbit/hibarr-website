@@ -1,13 +1,15 @@
 import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { CaseStudy, HomePage } from "@/types/sanity.types";
 import CaseStudies from "./CaseStudies";
+import { Locale } from "@/lib/i18n-config";
 
 type CaseStudiesSectionProps = {
   data: HomePage['caseStudiesSection'];
+  lang: Locale;
 }
 
-export default async function CaseStudiesSection({ data }: CaseStudiesSectionProps) {
-  const caseStudies = await fetchSanityData<CaseStudy[]>(`*[_type == "caseStudy"]`);
+export default async function CaseStudiesSection({ data, lang }: CaseStudiesSectionProps) {
+  const caseStudies = await fetchSanityData<CaseStudy[]>(`*[_type == "caseStudy" && language == $lang]`, { lang });
 
   return (
     <section id='case-studies' className='section md:min-h-[50vh]'>

@@ -46,7 +46,11 @@ export default function ConsultationThankYouFunnel() {
 
   return (
     <div className='flex flex-col lg:flex-row items-center gap-6 max-w-screen-lg mx-auto'>
-      <Video src='https://vz-da4cd036-d13.b-cdn.net/94d83fce-96d4-4981-97b9-22f6466a5ff9/play_720p.mp4' />
+      <Video
+        hls
+        src='https://vz-da4cd036-d13.b-cdn.net/94d83fce-96d4-4981-97b9-22f6466a5ff9/playlist.m3u8'
+        fallbackMp4='https://vz-da4cd036-d13.b-cdn.net/94d83fce-96d4-4981-97b9-22f6466a5ff9/play_720p.mp4'
+      />
       <div className='flex flex-col shrink-0 items-center gap-4 rounded-lg overflow-hidden border-[0.5px] max-w-sm'>
         <div className='flex flex-col items-center gap-2 bg-green-50 p-5 w-full'>
           <div className='rounded-lg bg-white p-2'>

@@ -17,7 +17,9 @@ export default function BenefitsSection({ data }: BenefitsSectionProps) {
             autoPlay
             muted
             loop
-            src="https://vz-da4cd036-d13.b-cdn.net/50e75c2c-6c87-432d-bd6c-e7078c3e580f/play_720p.mp4"
+            hls
+            src="https://vz-da4cd036-d13.b-cdn.net/50e75c2c-6c87-432d-bd6c-e7078c3e580f/playlist.m3u8"
+            fallbackMp4="https://vz-da4cd036-d13.b-cdn.net/50e75c2c-6c87-432d-bd6c-e7078c3e580f/play_720p.mp4"
           />
         </div>
         <div className="flex flex-col gap-6">

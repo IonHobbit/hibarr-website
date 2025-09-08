@@ -2,6 +2,7 @@ import type { Locale } from '@/lib/i18n-config';
 import { Metadata } from 'next';
 import { Fragment } from 'react';
 import FeaturedSection from '../_components/FeaturedSection';
+import Video from '@/components/Video';
 import PartnersSection from '../_components/PartnersSection';
 import TestimonialsSection from '../_components/TestimonialsSection';
 import MissionVisionSection from './_components/MissionVisionSection';
@@ -36,7 +37,17 @@ export default async function AboutPage(
     <Fragment>
       <section id='root' className="relative grid place-items-center place-content-center min-h-screen bg-cover bg-center bg-no-repeat">
         <div className='absolute inset-0 w-full h-full -z-10'>
-          <video src="https://hibarr-01.b-cdn.net/Website%20Assets/Videos/HERO.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover' poster='/images/landing-background-fallback.png' />
+          <Video
+            hls
+            src="https://hibarr-01.b-cdn.net/Website%20Assets/Videos/HERO/playlist.m3u8"
+            fallbackMp4="https://hibarr-01.b-cdn.net/Website%20Assets/Videos/HERO.mp4"
+            autoPlay
+            muted
+            loop
+            poster='/images/aboutus-background-fallback.png'
+            containerClassName="contents"
+            videoClassName="w-full h-full object-cover"
+          />
         </div>
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col gap-2'>

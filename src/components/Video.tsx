@@ -4,6 +4,7 @@ import React, { Fragment, useEffect, useRef, useState, forwardRef, useImperative
 import { clsx } from 'clsx';
 import { Icon } from '@iconify/react';
 import { cn } from '@/lib/utils';
+import HlsVideo from './HlsVideo';
 
 interface IVideoProps {
   src: string;
@@ -11,13 +12,17 @@ interface IVideoProps {
   autoPlay?: boolean;
   muted?: boolean;
   loop?: boolean;
+  hls?: boolean; // when true, interpret src as m3u8 and use HLS player
+  fallbackMp4?: string; // optional MP4 fallback when using HLS
+  containerClassName?: string; // override wrapper container classes
+  videoClassName?: string; // override video element classes
 }
 
 export interface VideoRef {
   pause: () => void;
 }
 
-const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted, loop }, ref) => {
+const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted, loop, hls, fallbackMp4, containerClassName, videoClassName }, ref) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const [isMuted, setIsMuted] = useState(false);
@@ -127,8 +132,12 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
     pause: handlePause
   }));
 
+  const wrapperClass = containerClassName ?? "relative group w-full aspect-video rounded-lg overflow-hidden bg-black";
+  // Auto-detect HLS if not explicitly provided
+  const isHls = (typeof hls === 'boolean') ? hls : /\.m3u8(\?.*)?$/i.test(src);
+
   return (
-    <div className="relative group w-full aspect-video rounded-lg overflow-hidden bg-black">
+    <div className={wrapperClass}>
       {!autoPlay && !muted &&
         <Fragment>
           <div
@@ -177,20 +186,34 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
           </div>
         </Fragment>
       }
-      <video
-        poster={poster}
-        preload='auto'
-        className="object-contain !h-full w-full"
-        controls={false}
-        autoPlay={autoPlay}
-        muted={muted}
-        loop={loop}
-        playsInline
-        ref={videoRef}
-      >
-        <source src={src} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      {isHls ? (
+        <HlsVideo
+          key={src}
+          ref={videoRef}
+          src={src}
+          poster={poster}
+          autoPlay={autoPlay}
+          muted={muted}
+          loop={loop}
+          fallbackMp4={fallbackMp4}
+          className={videoClassName ?? "object-contain !h-full w-full"}
+        />
+      ) : (
+        <video
+          poster={poster}
+          preload='auto'
+          className={videoClassName ?? "object-contain !h-full w-full"}
+          controls={false}
+          autoPlay={autoPlay}
+          muted={muted}
+          loop={loop}
+          playsInline
+          ref={videoRef}
+        >
+          <source src={src} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )}
     </div>
   )
 });

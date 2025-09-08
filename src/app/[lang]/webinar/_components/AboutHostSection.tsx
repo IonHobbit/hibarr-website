@@ -17,7 +17,12 @@ export default function AboutHostSection({ data }: AboutHostSectionProps) {
           <p className="text-muted-foreground md:text-lg">{data?.paragraph1}</p>
           <p className="text-muted-foreground md:text-lg">{data?.paragraph2}</p>
         </div>
-        <Video src="https://vz-da4cd036-d13.b-cdn.net/56b164f5-3dcc-4a0b-8640-7310d9110a4f/play_720p.mp4" poster="/images/about-rabih-thumbnail.png" />
+        <Video
+          hls
+          src="https://vz-da4cd036-d13.b-cdn.net/56b164f5-3dcc-4a0b-8640-7310d9110a4f/playlist.m3u8"
+          fallbackMp4="https://vz-da4cd036-d13.b-cdn.net/56b164f5-3dcc-4a0b-8640-7310d9110a4f/play_720p.mp4"
+          poster="/images/about-rabih-thumbnail.png"
+        />
       </div>
     </section>
   )
