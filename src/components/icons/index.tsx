@@ -67,7 +67,17 @@ export function Icon({ icon, className, title, ...rest }: { icon: IconName; titl
 
   if (!hasIcon) return null;
   if (missing) {
-    return <IconifyIcon icon={icon} className={className} />;
+    return (
+      <span
+        className={className}
+        aria-label={title}
+        role={title ? "img" : "presentation"}
+        {...rest}
+        style={{ display: "inline-flex", lineHeight: 0, ...(rest.style || {}) }}
+      >
+        <IconifyIcon icon={icon} />
+      </span>
+    );
   }
   return <LocalMaskedSvg src={src} className={className} title={title} {...rest} />;
 }
