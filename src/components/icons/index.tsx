@@ -19,8 +19,12 @@ function deriveFilename(icon: string): string {
 }
 
 // Local SVG renderer (using mask so we can color with currentColor without SVGR)
-function LocalMaskedSvg({ src, className, title, ...rest }: { src: string; title?: string } & React.HTMLAttributes<HTMLSpanElement>) {
-  const style: React.CSSProperties = {
+function LocalMaskedSvg({ src, className, title, style, ...rest }: { src: string; title?: string } & React.HTMLAttributes<HTMLSpanElement>) {
+  const hasExplicitSize = Boolean(
+    (className && /(^|\s)(w-|h-|size-)/.test(className)) ||
+    (style && (style.width || style.height))
+  );
+  const maskStyle: React.CSSProperties = {
     WebkitMaskImage: `url(${src})`,
     maskImage: `url(${src})`,
     WebkitMaskRepeat: "no-repeat",
@@ -30,11 +34,10 @@ function LocalMaskedSvg({ src, className, title, ...rest }: { src: string; title
     WebkitMaskSize: "contain",
     maskSize: "contain",
     backgroundColor: "currentColor",
-    display: "inline-block",
-    width: "1em",
-    height: "1em",
+    ...(hasExplicitSize ? {} : { width: "1em", height: "1em" }),
   };
-  return <span role={title ? "img" : "presentation"} aria-label={title} className={className} style={style} {...rest} />;
+  const mergedClass = ["inline-block", className].filter(Boolean).join(" ");
+  return <span role={title ? "img" : "presentation"} aria-label={title} className={mergedClass} style={{ ...maskStyle, ...style }} {...rest} />;
 }
 
 export function Icon({ icon, className, title, ...rest }: { icon: IconName; title?: string } & React.HTMLAttributes<HTMLSpanElement>) {
@@ -67,15 +70,21 @@ export function Icon({ icon, className, title, ...rest }: { icon: IconName; titl
 
   if (!hasIcon) return null;
   if (missing) {
+    const hasExplicitSize = Boolean(
+      (className && /(^|\s)(w-|h-|size-)/.test(className)) ||
+      (rest.style && (rest.style.width || rest.style.height))
+    );
+    const mergedClass = ["inline-flex", className].filter(Boolean).join(" ");
+    const sizeStyle = hasExplicitSize ? {} : { width: "1em", height: "1em" };
     return (
       <span
-        className={className}
+        className={mergedClass}
         aria-label={title}
         role={title ? "img" : "presentation"}
         {...rest}
-        style={{ display: "inline-flex", lineHeight: 0, ...(rest.style || {}) }}
+        style={{ lineHeight: 0, ...sizeStyle, ...(rest.style || {}) }}
       >
-        <IconifyIcon icon={icon} />
+        <IconifyIcon icon={icon} className="w-full h-full" />
       </span>
     );
   }
