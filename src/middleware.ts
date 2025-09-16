@@ -21,6 +21,11 @@ export function middleware(request: NextRequest) {
   // Get the pathname of the request
   const pathname = request.nextUrl.pathname;
 
+  // Ignore all SVG files (let Next/static serve them directly)
+  if (pathname.endsWith('.svg')) {
+    return NextResponse.next();
+  }
+
   if (pathname.includes('/src/internal/') ||
     pathname.endsWith('.ts') ||
     pathname.endsWith('.js.map') ||
@@ -56,7 +61,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    '/((?!_next|api|logos|featured|images|favicon.ico|sitemap.xml|robots.txt|ingest|expose/testimonials|tools|external/alpha-cash).*)',
+    '/((?!_next|api|logos|featured|images|icons|favicon.ico|sitemap.xml|robots.txt|ingest|expose/testimonials|tools|external/alpha-cash).*)',
     '/:path*/src/internal/:file*',
   ],
 } 

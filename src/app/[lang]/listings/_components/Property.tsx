@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Icon } from '@iconify/react'
+import { Icon } from '@/components/icons'
 import Link from 'next/link'
 import { generateImageUrl } from '@/lib/utils'
 import { PropertyListResponse } from '@/types/property'

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Icon } from '@iconify/react'
+import { Icon } from '@/components/icons'
 import Image from 'next/image'
 
 interface PartnershipBenefit {

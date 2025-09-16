@@ -2,7 +2,7 @@
 
 import { Dialog, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { DialogContent } from '@/components/ui/dialog'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/icons'
 import React, { useState } from 'react'
 import { BankPackage } from './PackageCard'
 import { Button } from '@/components/ui/button'

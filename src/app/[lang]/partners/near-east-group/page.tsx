@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react'
+import { Icon } from '@/components/icons'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import React, { Fragment } from 'react'

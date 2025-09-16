@@ -1,7 +1,7 @@
 'use client'
 
 import { BlogPostType } from '@/types/blog'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/icons'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
 

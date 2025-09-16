@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Fragment } from 'react';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import type { Locale } from '@/lib/i18n-config';
 import { formatDate, generateSEOMetadata } from '@/lib/utils';

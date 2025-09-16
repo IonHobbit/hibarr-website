@@ -5,7 +5,7 @@ import Video from '@/components/Video';
 import useTranslation from '@/hooks/useTranslation';
 import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import storage, { StorageKey } from '@/lib/storage.util';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { Icon } from '@/components/icons';
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link';
 
