@@ -48,11 +48,11 @@ export default function AboutSection({ data }: AboutSectionProps) {
           <BounceCards
             enableHover={true}
             images={[
-              '/images/about/home/about-image.jpg',
-              '/images/about/home/about-hero.jpg',
-              '/images/about/home/about24.png',
-              '/images/about/home/about1.jpg',
-              '/images/about/home/about2.jpg']}
+              '/images/about/home/about-image.webp',
+              '/images/about/home/about-hero.webp',
+              '/images/about/home/about24.webp',
+              '/images/about/home/about1.webp',
+              '/images/about/home/about2.webp']}
           />
         </div>
       </div>
