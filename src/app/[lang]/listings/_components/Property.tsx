@@ -34,7 +34,11 @@ export default function Property({ property }: PropertyProps) {
     <Link href={generateLink()} className='border group cursor-pointer overflow-hidden'>
       <div className='relative w-full h-60 overflow-hidden'>
         <Image
-          src={coverImage ? generateImageUrl(coverImage.image).url() : "/images/listings/stock.jpg"}
+          src={
+            coverImage
+              ? generateImageUrl(coverImage.image).url()
+              : "https://res.cloudinary.com/hibarr/image/upload/listing-luxury-home-exterior-pool_gjodzh"
+          }
           alt={coverImage?.alt || title}
           fill
           sizes='100%'
