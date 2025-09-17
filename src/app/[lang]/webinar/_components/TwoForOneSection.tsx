@@ -12,7 +12,7 @@ export default async function TwoForOneSection({ data }: TwoForOneSectionProps) 
   const title = await translate('Ready to learn how to buy two properties for the price of one?');
 
   return (
-    <section id='two-for-one' className='bg-primary bg-[url("/images/wave-background.webp")] bg-blend-overlay bg-cover bg-center'>
+  <section id='two-for-one' className='bg-primary bg-[url("https://res.cloudinary.com/hibarr/image/upload/wave-background_tjiedr")] bg-blend-overlay bg-cover bg-center'>
       <div className="section grid place-items-center place-content-center gap-10 py-20 max-w-screen-md mx-auto">
         <h3 className='text-4xl md:text-5xl text-primary-foreground text-center' data-token={title.token}>{title.text}</h3>
         <Button className="w-max" variant="accent" size="lg" asChild>

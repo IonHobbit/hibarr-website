@@ -34,7 +34,7 @@ export default function LandingSection({ data }: LandingSectionProps) {
           muted
           autoPlay
           loop
-          poster='/images/landing-background-fallback.png'
+          poster='https://res.cloudinary.com/hibarr/image/upload/landing-background-fallback_fitt21'
           containerClassName="contents"
           videoClassName="w-full h-full object-cover"
         />

@@ -30,7 +30,7 @@ export default async function TestimonialsPage(
 
   return (
     <Fragment>
-      <section id='hero' className="relative grid place-items-center place-content-center h-screen bg-[url('/images/testimonials-hero.jpg')] bg-cover bg-center bg-no-repeat">
+  <section id='hero' className="relative grid place-items-center place-content-center h-screen bg-[url('https://res.cloudinary.com/hibarr/image/upload/testimonials-hero_byqwmh')] bg-cover bg-center bg-no-repeat">
         <div className="max-w-5xl text-center flex flex-col gap-10 z-10 p-4">
           <div className='flex flex-col gap-2'>
             <div className='flex items-center p-1 px-3 bg-secondary w-max mx-auto rounded-full'>

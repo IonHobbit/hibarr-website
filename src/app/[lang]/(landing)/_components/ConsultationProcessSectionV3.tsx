@@ -8,7 +8,7 @@ type ConsultationProcessSection = {
 export default function ConsultationProcessSection({ data }: ConsultationProcessSection) {
   return (
     <section id='consultation-process' className='section max-w-screen-lg bg-cover bg-center'>
-      <div className="bg-primary rounded-lg p-6 md:p-9 flex flex-col gap-6 bg-[url('/images/wave-background.webp')] bg-no-repeat bg-center">
+  <div className="bg-primary rounded-lg p-6 md:p-9 flex flex-col gap-6 bg-[url('https://res.cloudinary.com/hibarr/image/upload/wave-background_tjiedr')] bg-no-repeat bg-center">
         <div className="max-w-screen-lg mx-auto flex flex-col gap-3">
           <h3 className='text-3xl md:text-5xl text-center text-primary-foreground'>{data?.title}</h3>
           <p className="text-sm md:text-lg text-primary-foreground text-center">{data?.description}</p>

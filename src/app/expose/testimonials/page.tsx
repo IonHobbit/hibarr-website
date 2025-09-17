@@ -15,7 +15,7 @@ export default async function ExposeTestimonialsPage() {
 
   const testimonials = await fetchSanityData<Testimonial[]>(`*[_type == "testimonial"] | order(date desc)`);
   return (
-    <section id='hero' className="relative w-full overflow-hidden px-4 lg:px-8 grid place-items-center gap-4 place-content-center h-screen bg-[url('/images/testimonials-hero.jpg')] bg-cover bg-center bg-no-repeat scroll-smooth">
+  <section id='hero' className="relative w-full overflow-hidden px-4 lg:px-8 grid place-items-center gap-4 place-content-center h-screen bg-[url('https://res.cloudinary.com/hibarr/image/upload/testimonials-hero_byqwmh')] bg-cover bg-center bg-no-repeat scroll-smooth">
       <div className='absolute inset-0 w-full h-full bg-gradient-to-b from-primary via-primary/80 to-transparent'></div>
 
       <div className='flex flex-col items-center gap-4 z-10'>
