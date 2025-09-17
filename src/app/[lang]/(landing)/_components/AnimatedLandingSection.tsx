@@ -13,10 +13,10 @@ export default function AnimatedLandingSection({ }: AnimatedLandingSectionProps)
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center">
       {/* <div className="h-screen w-screen relative overflow-hidden">
-        <Image src="/images/landing-animation/generate.png" alt="Landing Background" fill className='absolute inset-0 object-contain object-center animate-landing-background w-full h-full' />
-        <Image src="/images/landing-animation/cover.png" alt="Landing Background" fill className='absolute bottom-0 right-0 h-full object-cover object-bottom animate-landing-cover' />
+        <Image src="https://res.cloudinary.com/hibarr/image/upload/generate_pa5u3i" alt="Landing Background" fill className='absolute inset-0 object-contain object-center animate-landing-background w-full h-full' />
+        <Image src="https://res.cloudinary.com/hibarr/image/upload/cover_w4idze" alt="Landing Background" fill className='absolute bottom-0 right-0 h-full object-cover object-bottom animate-landing-cover' />
         <Image
-          src="/images/landing-animation/couple.png"
+          src="https://res.cloudinary.com/hibarr/image/upload/couple_qlcyjh"
           alt="Landing Background"
           width={700}
           height={100}
