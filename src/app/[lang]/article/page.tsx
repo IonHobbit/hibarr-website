@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Locale } from '@/lib/i18n-config';
 import { Metadata } from 'next';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons';
 import FAQAccordion from '../_components/FAQAccordion';
 // import CalendlyEmbed from '@/components/CalendlyEmbed';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
@@ -9,6 +9,7 @@ import { ConsultationPage as ConsultationPageType, HomePage } from '@/types/sani
 import BitrixForm from './_components/BitrixForm';
 import { generateSEOMetadata } from '@/lib/utils';
 import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
+import Video from '@/components/Video';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -73,7 +74,16 @@ export default async function ConsultationPage(
       </section>
       <ConsultationProcessSection data={consultationProcessSection} />
       <section className="section">
-        <video src="https://vz-da4cd036-d13.b-cdn.net/50e75c2c-6c87-432d-bd6c-e7078c3e580f/play_720p.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover aspect-video rounded-lg overflow-hidden' />
+        <Video
+          autoPlay
+          muted
+          loop
+          hls
+          src="https://vz-da4cd036-d13.b-cdn.net/50e75c2c-6c87-432d-bd6c-e7078c3e580f/playlist.m3u8"
+          fallbackMp4="https://vz-da4cd036-d13.b-cdn.net/50e75c2c-6c87-432d-bd6c-e7078c3e580f/play_720p.mp4"
+          containerClassName="relative group w-full aspect-video rounded-lg overflow-hidden bg-black"
+          videoClassName="w-full h-full object-cover"
+        />
       </section>
       <section id="faqs" className="section">
         <div className="bg-primary rounded-lg py-6 px-10 flex flex-col gap-6">

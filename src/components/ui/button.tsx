@@ -5,7 +5,7 @@ import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
-import { Icon } from "@iconify/react/dist/iconify.js"
+import { Icon } from "@/components/icons"
 import Link from "next/link"
 import useURL from "@/hooks/useURL"
 

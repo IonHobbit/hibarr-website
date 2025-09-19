@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Icon } from "@iconify/react"
+import { Icon } from "@/components/icons"
 
 function Command({
   className,

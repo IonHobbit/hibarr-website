@@ -1,6 +1,6 @@
 import { CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel'
 import { Carousel } from '@/components/ui/carousel'
-import { Icon } from '@iconify/react'
+import { Icon } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { HomePage, Testimonial } from '@/types/sanity.types'
 import { fetchSanityData } from '@/lib/third-party/sanity.client'

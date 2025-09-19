@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/icons'
 import React, { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 

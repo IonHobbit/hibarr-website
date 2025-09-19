@@ -6,7 +6,7 @@ import useTranslation from '@/hooks/useTranslation';
 import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import storage from '@/lib/storage.util';
 import { StorageKey } from '@/lib/storage.util';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { Icon } from '@/components/icons';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
@@ -42,7 +42,11 @@ export default function WebinarThankYouFunnel() {
 
   return (
     <div className='flex flex-col lg:flex-row items-center gap-6 max-w-screen-lg mx-auto'>
-      <Video src='https://vz-da4cd036-d13.b-cdn.net/94d83fce-96d4-4981-97b9-22f6466a5ff9/play_720p.mp4' />
+      <Video
+        hls
+        src='https://vz-da4cd036-d13.b-cdn.net/94d83fce-96d4-4981-97b9-22f6466a5ff9/playlist.m3u8'
+        fallbackMp4='https://vz-da4cd036-d13.b-cdn.net/94d83fce-96d4-4981-97b9-22f6466a5ff9/play_720p.mp4'
+      />
       {isLoading ? (
         <div className='flex items-center justify-center w-full'>
           <Icon icon="ri:loader-4-line" className="size-8 text-black animate-spin" />

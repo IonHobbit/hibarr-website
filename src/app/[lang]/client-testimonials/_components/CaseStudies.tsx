@@ -12,6 +12,20 @@ type CaseStudiesProps = {
   caseStudies: CaseStudy[];
 }
 
+function getHlsInfo(src: string): { isHls: boolean; fallbackMp4?: string } {
+  const isHls = /\.m3u8(\?.*)?$/i.test(src);
+  if (!isHls) return { isHls: false };
+
+  // playlist/index.m3u8 -> play_720p.mp4 (preserve query if present)
+  const match = src.match(/^(.*\/)(playlist|index)\.m3u8(\?.*)?$/i);
+  if (match) {
+    const base = match[1];
+    const query = match[3] ?? '';
+    return { isHls: true, fallbackMp4: `${base}play_720p.mp4${query}` };
+  }
+  return { isHls: true };
+}
+
 export default function CaseStudies({ caseStudies }: CaseStudiesProps) {
   const videoRefs = useRef<VideoRef[]>([]);
 
@@ -39,11 +53,19 @@ export default function CaseStudies({ caseStudies }: CaseStudiesProps) {
                 }} />
               </div>
               <div className='xl:col-span-5 flex flex-col gap-2'>
-                <Video
-                  ref={(el) => { videoRefs.current[index] = el as VideoRef }}
-                  src={caseStudy.videoUrl || ''}
-                  poster={generateImageUrl(caseStudy.thumbnail as SanityImageSource).url()}
-                />
+                {(() => {
+                  const src = caseStudy.videoUrl || '';
+                  const { isHls, fallbackMp4 } = getHlsInfo(src);
+                  return (
+                    <Video
+                      ref={(el) => { videoRefs.current[index] = el as VideoRef }}
+                      src={src}
+                      poster={generateImageUrl(caseStudy.thumbnail as SanityImageSource).url()}
+                      hls={isHls}
+                      fallbackMp4={fallbackMp4}
+                    />
+                  );
+                })()}
               </div>
             </div>
           </CarouselItem>

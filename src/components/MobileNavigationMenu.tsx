@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import HeaderItem from './HeaderItem'
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/icons";
 import { Sheet, SheetTrigger, SheetContent, SheetTitle, SheetDescription } from "./ui/sheet";
 import LanguageSwitcher from './LanguageSwitcher';
 import { Locale } from '@/lib/i18n-config';

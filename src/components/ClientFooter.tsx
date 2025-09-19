@@ -3,7 +3,7 @@
 import { Locale } from "@/lib/i18n-config";
 import Image from "next/image";
 import Link from "next/link";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/icons";
 import { Footer as FooterType } from "@/types/sanity.types";
 import { usePathname } from "next/navigation";
 
@@ -24,19 +24,19 @@ export default function ClientFooter({ lang, footerData }: ClientFooterProps) {
   const socialLinks = [
     {
       href: footerData.socialMedia?.facebook || '',
-      icon: "mdi:facebook",
+      icon: "mdi:facebook" as const,
     },
     {
       href: footerData.socialMedia?.twitter || '',
-      icon: "ri:twitter-x-fill",
+      icon: "ri:twitter-x-fill" as const,
     },
     {
       href: footerData.socialMedia?.youtube || '',
-      icon: "mdi:youtube",
+      icon: "mdi:youtube" as const,
     },
     {
       href: footerData.socialMedia?.instagram || '',
-      icon: "mdi:instagram",
+      icon: "mdi:instagram" as const,
     }
   ].filter((link) => link.href !== '');
 
@@ -45,17 +45,17 @@ export default function ClientFooter({ lang, footerData }: ClientFooterProps) {
 
   const contactInfo = [
     {
-      icon: "mdi:email",
+      icon: "mdi:email" as const,
       text: footerData.contactSection?.email?.email || "info@hibarr.de",
       link: footerData.contactSection?.email?.emailLink || "mailto:info@hibarr.de",
     },
     {
-      icon: "mdi:phone",
+      icon: "mdi:phone" as const,
       text: footerData.contactSection?.phone?.phoneNumber || "(+90) 539 136 00 81",
       link: footerData.contactSection?.phone?.phoneLink || "tel:+905391360081",
     },
     {
-      icon: "mdi:map-marker",
+      icon: "mdi:map-marker" as const,
       text: footerData.contactSection?.address?.fullAddress || "Bedrettin Demirel Caddesi 170, Girne 3300 | North Cyprus",
       link: footerData.contactSection?.address?.googleMapsLink || mapsLocation,
     },

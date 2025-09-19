@@ -1,7 +1,7 @@
 'use client'
 
 import { useFormik } from 'formik';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import BankxLawyerForm from './BankxLawyerForm';

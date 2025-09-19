@@ -2,7 +2,7 @@ import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import useTranslation from "@/hooks/useTranslation"
 import { Calendar, Clock, MapPin } from "lucide-react"
-import { Icon } from "@iconify/react"
+import { Icon } from "@/components/icons"
 
 interface CalendarEvent {
   subject: string
