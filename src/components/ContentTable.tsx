@@ -31,6 +31,7 @@ export default function ContentTable({ caption, columns = [], rows = [], options
   const headerColor = headerTone === 'brand' && inverseHeaderText ? '#FFFFFF' : '#0A0A0A'
   const cellPad = dense ? '10px 12px' : '14px 16px'
   const borderColor = '#C9D3E0'
+  const brandLineBlue = '#053160'
 
   // Normalize rows to match column count; missing cells become empty
   const normalizedRows = (rows || []).map(r => {
@@ -50,47 +51,65 @@ export default function ContentTable({ caption, columns = [], rows = [], options
         )}
         <thead>
           <tr style={{ background: headerBg, color: headerColor }}>
-            {columns.map((col, i) => (
-              <th
-                key={i}
-                scope="col"
-                style={{
-                  textAlign: col.align || 'left',
-                  padding: cellPad,
-                  borderRight: borders === 'grid' ? `1px solid ${borderColor}` : 'none',
-                  width: col.width ? `${col.width}%` : undefined,
-                  fontWeight: 700,
-                }}
-              >
-                {col.title}
-              </th>
-            ))}
+            {columns.map((col, i) => {
+              const isLast = i === columns.length - 1
+              const headerDivider = borders === 'none' || isLast
+                ? 'none'
+                : `1px solid ${headerTone === 'brand' ? '#FFFFFF' : brandLineBlue}`
+              return (
+                <th
+                  key={i}
+                  scope="col"
+                  style={{
+                    textAlign: col.align || 'left',
+                    padding: cellPad,
+                    borderRight: headerDivider,
+                    width: col.width ? `${col.width}%` : undefined,
+                    fontWeight: 700,
+                  }}
+                >
+                  {col.title}
+                </th>
+              )
+            })}
           </tr>
         </thead>
         <tbody>
           {normalizedRows.map((row, rIdx) => (
-            <tr key={rIdx} style={{ borderBottom: borders !== 'none' ? `1px solid ${borderColor}` : 'none' }}>
-              {columns.map((col, cIdx) => (
-                <td
-                  key={cIdx}
-                  style={{
-                    textAlign: col.align || 'left',
-                    padding: cellPad,
-                    borderRight: borders === 'grid' ? `1px solid ${borderColor}` : 'none',
-                    verticalAlign: 'top',
-                    background: cIdx === 0 ? headerBg : '#FFFFFF',
-                    color: cIdx === 0 ? headerColor : undefined,
-                    width: col.width ? `${col.width}%` : undefined,
-                    wordBreak: 'break-word',
-                    whiteSpace: 'normal',
-                    fontWeight: cIdx === 0 ? 600 : undefined,
-                  }}
-                  data-label={mobileStack ? col.title : undefined}
-                  data-first-col={cIdx === 0 ? 'true' : undefined}
-                >
-                  {row.cells[cIdx]?.text || ''}
-                </td>
-              ))}
+            <tr key={rIdx} style={{ borderBottom: 'none' }}>
+              {columns.map((col, cIdx) => {
+                const isBlueCell = headerTone === 'brand' && cIdx === 0
+                const bg = isBlueCell ? headerBg : '#FFFFFF'
+                const fg = isBlueCell ? headerColor : undefined
+                const rightBorder = cIdx === columns.length - 1 || borders === 'none'
+                  ? 'none'
+                  : `1px solid ${isBlueCell ? '#FFFFFF' : brandLineBlue}`
+                const topBorder = borders === 'none'
+                  ? 'none'
+                  : `1px solid ${isBlueCell ? '#FFFFFF' : brandLineBlue}`
+                return (
+                  <td
+                    key={cIdx}
+                    style={{
+                      textAlign: col.align || 'left',
+                      padding: cellPad,
+                      borderRight: rightBorder,
+                      borderTop: topBorder,
+                      verticalAlign: 'top',
+                      background: bg,
+                      color: fg,
+                      width: col.width ? `${col.width}%` : undefined,
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      fontWeight: isBlueCell ? 600 : undefined,
+                    }}
+                    data-label={mobileStack ? col.title : undefined}
+                    data-first-col={cIdx === 0 ? 'true' : undefined}
+                  >
+                    {row.cells[cIdx]?.text || ''}
+                  </td>
+                )
+              })}
             </tr>
           ))}
         </tbody>
