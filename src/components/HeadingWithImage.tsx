@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { SanityImageCrop, SanityImageHotspot } from "@/types/sanity.types";
+import type { ElementType } from "react";
 
 export type HeadingWithImageBlock = {
   _type: "headingWithImage";
@@ -20,6 +21,7 @@ export type HeadingWithImageBlock = {
   align?: "left" | "center" | "right";
   textTone?: "light" | "dark";
   overlayOpacity?: number; // 0-100
+  headingLevel?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 };
 
 type Props = HeadingWithImageBlock & {
@@ -42,9 +44,15 @@ export default function HeadingWithImage({
   align = "center",
   textTone = "light",
   overlayOpacity = 40,
+  headingLevel = "h2",
   className,
   priority = false,
 }: Props) {
+
+  // Semantic heading tag selection with default and sanitization
+  const validLevels = ["h1", "h2", "h3", "h4", "h5", "h6"] as const;
+  const level = (validLevels.find(v => v === headingLevel) ?? "h2");
+  const Tag = level as ElementType;
   // Guard: if no heading, do not render
   if (!heading) return null;
 
@@ -139,9 +147,9 @@ export default function HeadingWithImage({
           style={{ textAlign: textAlign, color: textColor }}
           data-testid="hwi-content"
         >
-          <h2 className="m-0 font-semibold" style={{ fontSize: "clamp(28px,4vw,48px)", lineHeight: 1.1 }}>
+          <Tag className="m-0 font-semibold" style={{ fontSize: "clamp(28px,4vw,48px)", lineHeight: 1.1 }}>
             {heading}
-          </h2>
+          </Tag>
           {subheading && (
             <p className="mt-3 opacity-90" style={{ fontSize: "clamp(16px,2.5vw,20px)" }}>
               {subheading}
