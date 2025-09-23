@@ -14,6 +14,7 @@ import { Fragment, ReactNode } from "react";
 import { Icon } from "@/components/icons";
 import Audio from "./_components/Audio";
 import HeadingWithImage, { HeadingWithImageBlock } from "@/components/HeadingWithImage";
+import Subheading, { SubheadingBlock } from "@/components/Subheading";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -115,6 +116,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               types: {
                 headingWithImage: ({ value }) => (
                   <HeadingWithImage {...(value as HeadingWithImageBlock)} />
+                ),
+                subheading: ({ value }) => (
+                  <Subheading {...(value as SubheadingBlock)} />
                 ),
                 image: ({ value }) => (
                   <div className="my-4 w-full relative aspect-video">

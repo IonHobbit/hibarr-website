@@ -48,6 +48,15 @@ export const fetchBlogPost = async (slug: string): Promise<BlogPostType> => {
     },
     "content": content[]{
       ...,
+      _type == "subheading" => {
+        _type,
+        label,
+        align,
+        variant,
+        tone,
+        size,
+        uppercase,
+      },
       _type == "headingWithImage" => {
         _type,
         heading,
@@ -115,6 +124,15 @@ export const fetchRelatedBlogPosts = async (lang: Locale, blogPost: BlogPostType
     },
     "content": content[]{
       ...,
+      _type == "subheading" => {
+        _type,
+        label,
+        align,
+        variant,
+        tone,
+        size,
+        uppercase,
+      },
       _type == "headingWithImage" => {
         _type,
         heading,
