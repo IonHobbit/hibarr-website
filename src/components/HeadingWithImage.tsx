@@ -79,8 +79,9 @@ export default function HeadingWithImage({
   const size = sizeMap[height] || sizeMap.md;
   const mobileH = typeof size.mobile === "number" ? `${size.mobile}px` : size.mobile;
   const desktopH = typeof size.desktop === "number" ? `${size.desktop}px` : size.desktop;
-  const minHMobile = height === "full" ? "360px" : undefined;
-  const minHDesktop = height === "full" ? "480px" : undefined;
+  // Use target sizes as minimums so the section can expand if content is taller
+  const minHMobile = mobileH;
+  const minHDesktop = desktopH;
 
   const hasImage = Boolean(backgroundImage?.asset?.url);
   const brandBlueHex = "#053160";
@@ -95,7 +96,7 @@ export default function HeadingWithImage({
       )}
       style={{
         color: textColor,
-        height: mobileH,
+        height: 'auto',
         minHeight: minHMobile,
       }}
       data-testid="hwi-section"
@@ -129,7 +130,7 @@ export default function HeadingWithImage({
       {/* Content */}
       <div
         className={cn(
-          "relative h-full w-full grid px-4",
+          "relative h-full w-full grid px-4 py-6 lg:py-3",
           align === "left" && "place-items-center lg:place-items-center",
         )}
         style={{
@@ -158,12 +159,11 @@ export default function HeadingWithImage({
         </div>
       </div>
 
-      {/* Ensure min-heights for full mode via hidden utility wrapper to avoid tailwind arbitrary issues */}
+      {/* Ensure min-heights at desktop breakpoint; allow height to grow beyond if content requires */}
       <style jsx>{`
         @media (min-width: 1024px) {
           section {
-            height: ${desktopH};
-            ${minHDesktop ? `min-height: ${minHDesktop};` : ""}
+            min-height: ${minHDesktop};
           }
         }
       `}</style>
