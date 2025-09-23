@@ -112,7 +112,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   <h6 className="text-lg !font-medium mt-3 mb-6 !font-sans">{children}</h6>
                 ),
                 normal: ({ children }) => (
-                  <p className="text-base">{children}</p>
+                  <p className="text-base" style={{ color: '#053160' }}>{children}</p>
                 ),
               },
               types: {
@@ -322,13 +322,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               },
               list: {
                 bullet: ({ children }) => (
-                  <ul className="list-disc pl-4">{children}</ul>
+                  <ul className="list-disc pl-4" style={{ color: '#053160' }}>{children}</ul>
                 ),
                 number: ({ children }) => (
-                  <ol className="list-decimal pl-4">{children}</ol>
+                  <ol className="list-decimal pl-4" style={{ color: '#053160' }}>{children}</ol>
                 ),
                 checkmark: ({ children }) => (
-                  <ul className="list-disc pl-4">{children}</ul>
+                  <ul className="list-disc pl-4" style={{ color: '#053160' }}>{children}</ul>
                 ),
               }
             }}
