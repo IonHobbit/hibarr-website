@@ -111,7 +111,7 @@ export default function HeadingWithImage({
       {hasImage && overlay > 0 && (
         <div
           className="absolute inset-0"
-          style={{ backgroundColor: `rgba(0,0,0,${overlay})` }}
+          style={{ backgroundColor: `rgba(37,99,235,${overlay})` }}
           aria-hidden
         />
       )}
