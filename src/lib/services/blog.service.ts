@@ -48,6 +48,13 @@ export const fetchBlogPost = async (slug: string): Promise<BlogPostType> => {
     },
     "content": content[]{
       ...,
+      _type == "table" => {
+        _type,
+        caption,
+        columns[]{ title, align, width },
+        rows[]{ cells[]{ text } },
+        options{ headerTone, inverseHeaderText, borders, dense, mobileStack }
+      },
       _type == "spacer" => {
         _type,
         preset,
@@ -129,6 +136,13 @@ export const fetchRelatedBlogPosts = async (lang: Locale, blogPost: BlogPostType
     },
     "content": content[]{
       ...,
+      _type == "table" => {
+        _type,
+        caption,
+        columns[]{ title, align, width },
+        rows[]{ cells[]{ text } },
+        options{ headerTone, inverseHeaderText, borders, dense, mobileStack }
+      },
       _type == "spacer" => {
         _type,
         preset,

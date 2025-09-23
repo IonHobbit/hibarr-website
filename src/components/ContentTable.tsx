@@ -1,0 +1,122 @@
+"use client";
+
+export type TableBlock = {
+  _type: 'table'
+  caption?: string
+  columns: { title: string; align?: 'left' | 'center' | 'right'; width?: number }[]
+  rows?: { cells: { text?: string }[] }[]
+  options?: {
+    headerTone?: 'brand' | 'neutral'
+    inverseHeaderText?: boolean
+    borders?: 'rows' | 'grid' | 'none'
+    dense?: boolean
+    mobileStack?: boolean
+  }
+}
+
+type Props = TableBlock & { className?: string }
+
+export default function ContentTable({ caption, columns = [], rows = [], options = {}, className }: Props) {
+  if (!columns || columns.length === 0) return null
+
+  const {
+    headerTone = 'brand',
+    inverseHeaderText = true,
+    borders = 'rows',
+    dense = false,
+    mobileStack = true,
+  } = options || {}
+
+  const headerBg = headerTone === 'brand' ? '#0F3D75' : '#F5F5F7'
+  const headerColor = headerTone === 'brand' && inverseHeaderText ? '#FFFFFF' : '#0A0A0A'
+  const cellPad = dense ? '10px 12px' : '14px 16px'
+  const borderColor = '#C9D3E0'
+
+  // Normalize rows to match column count; missing cells become empty
+  const normalizedRows = (rows || []).map(r => {
+    const cells = r?.cells || []
+    const fixed = [...cells]
+    if (fixed.length < columns.length) {
+      for (let i = fixed.length; i < columns.length; i++) fixed.push({ text: '' })
+    }
+    return { cells: fixed }
+  })
+
+  return (
+    <figure style={{ margin: '16px 0' }} className={className}>
+      <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0 }}>
+        {caption && (
+          <caption style={{ captionSide: 'bottom', color: '#5B6B7C', paddingTop: 8 }}>{caption}</caption>
+        )}
+        <thead>
+          <tr style={{ background: headerBg, color: headerColor }}>
+            {columns.map((col, i) => (
+              <th
+                key={i}
+                scope="col"
+                style={{
+                  textAlign: col.align || 'left',
+                  padding: cellPad,
+                  borderRight: borders === 'grid' ? `1px solid ${borderColor}` : 'none',
+                  width: col.width ? `${col.width}%` : undefined,
+                  fontWeight: 700,
+                }}
+              >
+                {col.title}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {normalizedRows.map((row, rIdx) => (
+            <tr key={rIdx} style={{ borderBottom: borders !== 'none' ? `1px solid ${borderColor}` : 'none' }}>
+              {columns.map((col, cIdx) => (
+                <td
+                  key={cIdx}
+                  style={{
+                    textAlign: col.align || 'left',
+                    padding: cellPad,
+                    borderRight: borders === 'grid' ? `1px solid ${borderColor}` : 'none',
+                    verticalAlign: 'top',
+                    background: cIdx === 0 ? headerBg : '#FFFFFF',
+                    color: cIdx === 0 ? headerColor : undefined,
+                    width: col.width ? `${col.width}%` : undefined,
+                    wordBreak: 'break-word',
+                    whiteSpace: 'normal',
+                    fontWeight: cIdx === 0 ? 600 : undefined,
+                  }}
+                  data-label={mobileStack ? col.title : undefined}
+                  data-first-col={cIdx === 0 ? 'true' : undefined}
+                >
+                  {row.cells[cIdx]?.text || ''}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Mobile stacking helper styles */}
+      {mobileStack && (
+        <style jsx>{`
+          @media (max-width: 640px) {
+            table thead { display: none; }
+            table, tbody, tr, td { display: block; width: 100%; }
+            tr { border-bottom: ${borders !== 'none' ? `1px solid ${borderColor}` : 'none'}; }
+            td { border-right: none !important; }
+            td::before {
+              content: attr(data-label);
+              display: block;
+              font-weight: 600;
+              color: #5B6B7C;
+              margin-bottom: 4px;
+            }
+            td[data-first-col='true']::before {
+              color: ${headerTone === 'brand' ? '#E6EEF8' : '#5B6B7C'};
+            }
+          }
+        `}</style>
+      )}
+    </figure>
+  )
+}
