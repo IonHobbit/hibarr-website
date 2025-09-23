@@ -70,7 +70,7 @@ export default function TextWithImage({
           </figure>
         )}
 
-        <div>
+        <div style={{ color: '#053160' }}>
           {heading && <strong className="block mb-2" style={{ color: '#053160' }}>{heading}</strong>}
           <PortableText value={body} />
         </div>
