@@ -70,9 +70,9 @@ export default function HeadingWithImage({
 
   // Heights: mobile vs desktop (lg: breakpoint)
   const sizeMap = {
-    sm: { mobile: 60, desktop: 100 },
-    md: { mobile: 140, desktop: 220 },
-    lg: { mobile: 240, desktop: 380 },
+    sm: { mobile: 80, desktop: 120 },
+    md: { mobile: 160, desktop: 240 },
+    lg: { mobile: 260, desktop: 400 },
     full: { mobile: "70vh", desktop: "100vh" as const },
   } as const;
 
