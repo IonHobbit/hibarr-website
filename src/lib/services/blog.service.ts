@@ -48,6 +48,20 @@ export const fetchBlogPost = async (slug: string): Promise<BlogPostType> => {
     },
     "content": content[]{
       ...,
+      _type == "headingWithImage" => {
+        _type,
+        heading,
+        subheading,
+        height,
+        align,
+        textTone,
+        overlayOpacity,
+        "backgroundImage": backgroundImage{
+          asset->{ url, metadata{ dimensions, lqip, palette } },
+          crop,
+          hotspot
+        }
+      },
       "file": file.asset->{
         
         url,
@@ -101,6 +115,20 @@ export const fetchRelatedBlogPosts = async (lang: Locale, blogPost: BlogPostType
     },
     "content": content[]{
       ...,
+      _type == "headingWithImage" => {
+        _type,
+        heading,
+        subheading,
+        height,
+        align,
+        textTone,
+        overlayOpacity,
+        "backgroundImage": backgroundImage{
+          asset->{ url, metadata{ dimensions, lqip, palette } },
+          crop,
+          hotspot
+        }
+      },
       "file": file.asset->{
         url,
         "originalFilename": originalFilename,
