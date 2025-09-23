@@ -15,6 +15,7 @@ import { Icon } from "@/components/icons";
 import Audio from "./_components/Audio";
 import HeadingWithImage, { HeadingWithImageBlock } from "@/components/HeadingWithImage";
 import Subheading, { SubheadingBlock } from "@/components/Subheading";
+import Spacer, { SpacerBlock } from "@/components/Spacer";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -119,6 +120,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 ),
                 subheading: ({ value }) => (
                   <Subheading {...(value as SubheadingBlock)} />
+                ),
+                spacer: ({ value }) => (
+                  <Spacer {...(value as SpacerBlock)} />
                 ),
                 image: ({ value }) => (
                   <div className="my-4 w-full relative aspect-video">

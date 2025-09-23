@@ -48,6 +48,11 @@ export const fetchBlogPost = async (slug: string): Promise<BlogPostType> => {
     },
     "content": content[]{
       ...,
+      _type == "spacer" => {
+        _type,
+        preset,
+        customHeight,
+      },
       _type == "subheading" => {
         _type,
         label,
@@ -124,6 +129,11 @@ export const fetchRelatedBlogPosts = async (lang: Locale, blogPost: BlogPostType
     },
     "content": content[]{
       ...,
+      _type == "spacer" => {
+        _type,
+        preset,
+        customHeight,
+      },
       _type == "subheading" => {
         _type,
         label,
