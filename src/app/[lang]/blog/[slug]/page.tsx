@@ -17,6 +17,7 @@ import HeadingWithImage, { HeadingWithImageBlock } from "@/components/HeadingWit
 import Subheading, { SubheadingBlock } from "@/components/Subheading";
 import Spacer, { SpacerBlock } from "@/components/Spacer";
 import ContentTable, { TableBlock } from "@/components/ContentTable";
+import TextWithImage, { TextWithImageBlock } from "@/components/TextWithImage";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -127,6 +128,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 ),
                 table: ({ value }) => (
                   <ContentTable {...(value as TableBlock)} />
+                ),
+                textWithImage: ({ value }) => (
+                  <TextWithImage {...(value as TextWithImageBlock)} />
                 ),
                 image: ({ value }) => (
                   <div className="my-4 w-full relative aspect-video">

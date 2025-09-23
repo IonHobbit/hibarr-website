@@ -48,6 +48,20 @@ export const fetchBlogPost = async (slug: string): Promise<BlogPostType> => {
     },
     "content": content[]{
       ...,
+      _type == "textWithImage" => {
+        _type,
+        heading,
+        body[]{ ..., markDefs[] },
+        "image": image{
+          asset->{ url, metadata { dimensions, lqip, palette } },
+          crop, hotspot, alt, caption
+        },
+        imagePosition,
+        verticalAlign,
+        gap,
+        imageSize,
+        imageRounded
+      },
       _type == "table" => {
         _type,
         caption,
@@ -136,6 +150,20 @@ export const fetchRelatedBlogPosts = async (lang: Locale, blogPost: BlogPostType
     },
     "content": content[]{
       ...,
+      _type == "textWithImage" => {
+        _type,
+        heading,
+        body[]{ ..., markDefs[] },
+        "image": image{
+          asset->{ url, metadata { dimensions, lqip, palette } },
+          crop, hotspot, alt, caption
+        },
+        imagePosition,
+        verticalAlign,
+        gap,
+        imageSize,
+        imageRounded
+      },
       _type == "table" => {
         _type,
         caption,
