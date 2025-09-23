@@ -75,6 +75,8 @@ export default function HeadingWithImage({
   const minHDesktop = height === "full" ? "480px" : undefined;
 
   const hasImage = Boolean(backgroundImage?.asset?.url);
+  const brandBlueHex = "#053160";
+  const brandBlueRgb = "5,49,96";
 
   return (
     <section
@@ -104,14 +106,14 @@ export default function HeadingWithImage({
           blurDataURL={backgroundImage?.asset?.metadata?.lqip || undefined}
         />
       ) : (
-        <div className="absolute inset-0 bg-neutral-100" />
+        <div className="absolute inset-0" style={{ backgroundColor: brandBlueHex }} />
       )}
 
       {/* Overlay */}
       {hasImage && overlay > 0 && (
         <div
           className="absolute inset-0"
-          style={{ backgroundColor: `rgba(37,99,235,${overlay})` }}
+          style={{ backgroundColor: `rgba(${brandBlueRgb},${overlay})` }}
           aria-hidden
         />
       )}
