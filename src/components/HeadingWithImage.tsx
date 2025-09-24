@@ -7,7 +7,7 @@ import type { ElementType } from "react";
 
 export type HeadingWithImageBlock = {
   _type: "headingWithImage";
-  heading: string;
+  heading?: string;
   subheading?: string;
   backgroundImage?: {
     asset?: {
@@ -55,8 +55,7 @@ export default function HeadingWithImage({
   const validLevels = ["h1", "h2", "h3", "h4", "h5", "h6"] as const;
   const level = (validLevels.find(v => v === headingLevel) ?? "h2");
   const Tag = level as ElementType;
-  // Guard: if no heading, do not render
-  if (!heading) return null;
+  const hasHeading = Boolean(heading && heading.trim().length > 0);
 
   // Clamp overlay opacity
   const overlay = Math.max(0, Math.min(100, Number.isFinite(overlayOpacity as number) ? (overlayOpacity as number) : 40)) / 100;
@@ -90,9 +89,11 @@ export default function HeadingWithImage({
   const brandBlueRgb = "5,49,96";
   const imgOpacity = Math.max(0, Math.min(100, Number.isFinite(imageOpacity as number) ? (imageOpacity as number) : 100)) / 100;
 
+  const ariaLabel = hasHeading ? undefined : (subheading && subheading.trim().length > 0 ? subheading : undefined);
+
   return (
     <section
-      aria-label={heading}
+      aria-label={ariaLabel}
       className={cn(
         "relative w-full overflow-hidden rounded-lg",
         className,
@@ -108,7 +109,7 @@ export default function HeadingWithImage({
       {hasImage ? (
         <Image
           src={backgroundImage!.asset!.url as string}
-          alt={heading}
+          alt={hasHeading ? (heading as string) : (subheading || "")}
           fill
           priority={priority}
           sizes="(max-width: 1024px) 100vw, 960px"
@@ -131,7 +132,7 @@ export default function HeadingWithImage({
       )}
 
       {/* Content */}
-      <div
+        <div
         className={cn(
           "relative h-full w-full grid px-4 py-6 lg:py-3",
           align === "left" && "place-items-center lg:place-items-center",
@@ -151,11 +152,19 @@ export default function HeadingWithImage({
           style={{ textAlign: textAlign, color: textColor }}
           data-testid="hwi-content"
         >
-          <Tag className="m-0 font-semibold" style={{ fontSize: "clamp(28px,4vw,48px)", lineHeight: 1.1 }}>
-            {heading}
-          </Tag>
+          {hasHeading ? (
+            <Tag className="m-0 font-semibold" style={{ fontSize: "clamp(28px,4vw,48px)", lineHeight: 1.1 }}>
+              {heading}
+            </Tag>
+          ) : null}
           {subheading && (
-            <p className="mt-3 opacity-90" style={{ fontSize: "clamp(16px,2.5vw,20px)" }}>
+            <p
+              className="opacity-90"
+              style={{
+                fontSize: "clamp(16px,2.5vw,20px)",
+                marginTop: hasHeading ? 12 : 0,
+              }}
+            >
               {subheading}
             </p>
           )}
