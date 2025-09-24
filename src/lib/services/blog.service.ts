@@ -91,6 +91,7 @@ export const fetchBlogPost = async (slug: string): Promise<BlogPostType> => {
         align,
         textTone,
         overlayOpacity,
+        imageOpacity,
         "backgroundImage": backgroundImage{
           asset->{ url, metadata{ dimensions, lqip, palette } },
           crop,
@@ -193,6 +194,7 @@ export const fetchRelatedBlogPosts = async (lang: Locale, blogPost: BlogPostType
         align,
         textTone,
         overlayOpacity,
+        imageOpacity,
         "backgroundImage": backgroundImage{
           asset->{ url, metadata{ dimensions, lqip, palette } },
           crop,

@@ -21,6 +21,7 @@ export type HeadingWithImageBlock = {
   align?: "left" | "center" | "right";
   textTone?: "light" | "dark";
   overlayOpacity?: number; // 0-100
+  imageOpacity?: number; // 0-100
   headingLevel?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 };
 
@@ -44,6 +45,7 @@ export default function HeadingWithImage({
   align = "center",
   textTone = "light",
   overlayOpacity = 40,
+  imageOpacity = 100,
   headingLevel = "h2",
   className,
   priority = false,
@@ -86,6 +88,7 @@ export default function HeadingWithImage({
   const hasImage = Boolean(backgroundImage?.asset?.url);
   const brandBlueHex = "#053160";
   const brandBlueRgb = "5,49,96";
+  const imgOpacity = Math.max(0, Math.min(100, Number.isFinite(imageOpacity as number) ? (imageOpacity as number) : 100)) / 100;
 
   return (
     <section
@@ -110,7 +113,7 @@ export default function HeadingWithImage({
           priority={priority}
           sizes="(max-width: 1024px) 100vw, 960px"
           className="absolute inset-0 object-cover"
-          style={{ objectPosition }}
+          style={{ objectPosition, opacity: imgOpacity }}
           placeholder={backgroundImage?.asset?.metadata?.lqip ? "blur" : undefined}
           blurDataURL={backgroundImage?.asset?.metadata?.lqip || undefined}
         />
