@@ -13,11 +13,11 @@ import FAQs from "@/components/FAQs";
 import { Fragment, ReactNode } from "react";
 import { Icon } from "@/components/icons";
 import Audio from "./_components/Audio";
-import HeadingWithImage, { HeadingWithImageBlock } from "@/components/HeadingWithImage";
-import Subheading, { SubheadingBlock } from "@/components/Subheading";
-import Spacer, { SpacerBlock } from "@/components/Spacer";
-import ContentTable, { TableBlock } from "@/components/ContentTable";
-import TextWithImage, { TextWithImageBlock } from "@/components/TextWithImage";
+import HeadingWithImage, { HeadingWithImageBlock } from "@/app/[lang]/blog/[slug]/_components/HeadingWithImage";
+import Subheading, { SubheadingBlock } from "@/app/[lang]/blog/[slug]/_components/Subheading";
+import Spacer, { SpacerBlock } from "@/app/[lang]/blog/[slug]/_components/Spacer";
+import ContentTable, { TableBlock } from "@/app/[lang]/blog/[slug]/_components/ContentTable";
+import TextWithImage, { TextWithImageBlock } from "@/app/[lang]/blog/[slug]/_components/TextWithImage";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params

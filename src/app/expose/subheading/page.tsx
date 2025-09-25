@@ -1,4 +1,4 @@
-import Subheading from "@/components/Subheading";
+import Subheading from "@/app/[lang]/blog/[slug]/_components/Subheading";
 
 export default function SubheadingDemo() {
   return (
