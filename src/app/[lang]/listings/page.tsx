@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default async function ListingsPage() {
   return (
     <Fragment>
-      <section id='root' className="pt-40 pb-20 xl:pt-32 relative grid place-items-center place-content-center min-h-[40vh] bg-[url('/images/listings-hero.jpg')] bg-cover bg-center bg-no-repeat">
+  <section id='root' className="pt-40 pb-20 xl:pt-32 relative grid place-items-center place-content-center min-h-[40vh] bg-[url('https://res.cloudinary.com/hibarr/image/upload/listings-hero_z1qom9')] bg-cover bg-center bg-no-repeat">
         <div className="max-w-screen-sm xl:max-w-screen-xl mx-auto z-10">
           <SuspendedSearchBar />
         </div>

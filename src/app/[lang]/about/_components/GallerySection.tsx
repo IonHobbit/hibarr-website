@@ -10,28 +10,28 @@ type GallerySectionProps = {
 export default function GallerySection({ data }: GallerySectionProps) {
   const gallery = [
     {
-      src: "/images/gallery/1.png",
-      alt: "Gallery"
+      src: "https://res.cloudinary.com/hibarr/image/upload/about-team-collaboration-analytics-office_apqzto",
+      alt: "Team collaborating on analytics dashboards in the office"
     },
     {
-      src: "/images/gallery/2.jpg",
-      alt: "Gallery"
+      src: 'https://res.cloudinary.com/hibarr/image/upload/about-team-group-photo-exterior_ydobgc',
+      alt: 'Hibarr team group photo taken outdoors',
     },
     {
-      src: "/images/gallery/3.jpg",
-      alt: "Gallery"
+      src: "https://res.cloudinary.com/hibarr/image/upload/about-boardroom-contract-signing_gja0yn",
+      alt: "Executives reviewing and signing partnership documents in a boardroom"
     },
     {
-      src: "/images/gallery/4.jpg",
-      alt: "Gallery"
+      src: "https://res.cloudinary.com/hibarr/image/upload/about-partnership-handshake-restaurant_rdhehd",
+      alt: "Business partners shaking hands in a modern restaurant after a meeting"
     },
     {
-      src: "/images/gallery/5.png",
-      alt: "Gallery"
+      src: 'https://res.cloudinary.com/hibarr/image/upload/about-team-meeting-boardroom_xfchbn',
+      alt: 'Team meeting in a boardroom discussing strategy',
     },
     {
-      src: "/images/gallery/6.jpg",
-      alt: "Gallery"
+      src: 'https://res.cloudinary.com/hibarr/image/upload/about-leadership-team-portrait_krhorc',
+      alt: 'Hibarr leadership team portrait',
     },
   ]
   return (

@@ -123,7 +123,7 @@ export default function FreebieSignupSection({ data }: FreebieSignupSectionProps
             </div>
             <div className="relative w-full h-80 md:h-full flex items-center justify-center p-2">
               <div className="relative w-full h-full p-1 rounded-lg overflow-hidden">
-                <Image src="/images/freebie-book-background.jpg" alt="Book Background" fill sizes="100%" className="object-cover object-top blur-sm " />
+                <Image src="https://res.cloudinary.com/hibarr/image/upload/freebie-book-background_op8exk" alt="Book Background" fill sizes="100%" className="object-cover object-top blur-sm " />
               </div>
               <div className="absolute inset-0 w-full h-full flex items-center justify-center">
                 <ThreeDBook />

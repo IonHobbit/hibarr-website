@@ -44,7 +44,7 @@ export default async function AboutPage(
             autoPlay
             muted
             loop
-            poster='/images/aboutus-background-fallback.png'
+            poster='https://res.cloudinary.com/hibarr/image/upload/aboutus-background-fallback_dhjxlb'
             containerClassName="contents"
             videoClassName="w-full h-full object-cover"
           />

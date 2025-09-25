@@ -4,9 +4,11 @@ import { useEffect } from "react";
 import { gsap } from "gsap";
 import Image from "next/image";
 
+type BounceCardImage = string | { src: string; alt: string };
+
 interface BounceCardsProps {
   className?: string;
-  images?: string[];
+  images?: BounceCardImage[];
   containerWidth?: number;
   containerHeight?: number;
   animationDelay?: number;
@@ -134,7 +136,10 @@ export default function BounceCards({
         height: containerHeight,
       }}
     >
-      {images.map((src, idx) => (
+      {images.map((item, idx) => {
+        const src = typeof item === "string" ? item : item.src;
+        const alt = typeof item === "string" ? `card-${idx}` : item.alt;
+        return (
         <div
           key={idx}
           className={`card card-${idx} absolute w-[280px] aspect-square border-[3px] border-white rounded-[30px] overflow-hidden`}
@@ -151,10 +156,11 @@ export default function BounceCards({
             fill
             src={src}
             loading="lazy"
-            alt={`card-${idx}`}
+            alt={alt}
           />
         </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

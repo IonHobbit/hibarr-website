@@ -175,7 +175,7 @@ export default async function NewsCentralCorp() {
   return (
     <Fragment>
       <AnimatedHeroSection
-        logo="/images/partners/news-central-corp/ncc-logo.png"
+        logo="https://res.cloudinary.com/hibarr/image/upload/logo-ncc_np8hqm"
         title={heroTitle}
         subtitle={heroSubtitle}
         primaryColor={colors.primary}
@@ -196,7 +196,7 @@ export default async function NewsCentralCorp() {
       />
 
       <AnimatedPartnershipSection
-        nccLogo="/images/partners/news-central-corp/ncc-logo.png"
+        nccLogo="https://res.cloudinary.com/hibarr/image/upload/ncc-webicon_wqlkas"
         hibarrLogo="/logos/logo-full-white.svg"
         tagline={tagline}
         benefitsTitle={benefitsTitle}

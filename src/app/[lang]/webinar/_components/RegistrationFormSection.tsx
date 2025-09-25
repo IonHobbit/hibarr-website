@@ -75,7 +75,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
   });
 
   return (
-    <section id='register' className='bg-primary bg-[url("/images/webinar-registration-background.webp")] bg-cover bg-center flex flex-col bg-blend-soft-light'>
+  <section id='register' className='bg-primary bg-[url("https://res.cloudinary.com/hibarr/image/upload/webinar-registration-background_m3p9kq")] bg-cover bg-center flex flex-col bg-blend-soft-light'>
       <div className="section h-full grow py-40">
         <div className="max-w-screen-md mx-auto flex md:hidden flex-col gap-4">
           <Countdown date={data.webinarInformationSection?.date || ''} timezone={data.webinarInformationSection?.timezone || ''} />

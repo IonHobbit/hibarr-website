@@ -183,7 +183,7 @@ export default function SignupForm({ data, text }: SignupFormProps) {
             </SelectContent>
           </Select>
           {/* <div className="flex items-end gap-4">
-            <Image src="/images/alphacashclub-logo.png" alt="Alpha Cash Logo" width={50} height={50} />
+            <Image src="https://res.cloudinary.com/hibarr/image/upload/alphacashclub-logo_no4zx5" alt="Alpha Cash Logo" width={50} height={50} />
             <div className="flex flex-col gap-1">
               <div className="flex items-start gap-2">
                 <Checkbox id="isAlphaCashMember" checked={values.isAlphaCashMember} onClick={() => setFieldValue('isAlphaCashMember', !values.isAlphaCashMember)} />
