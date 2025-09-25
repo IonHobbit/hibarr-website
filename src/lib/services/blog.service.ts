@@ -48,6 +48,56 @@ export const fetchBlogPost = async (slug: string): Promise<BlogPostType> => {
     },
     "content": content[]{
       ...,
+      _type == "textWithImage" => {
+        _type,
+        heading,
+        body[]{ ..., markDefs[] },
+        "image": image{
+          asset->{ url, metadata { dimensions, lqip, palette } },
+          crop, hotspot, alt, caption
+        },
+        imagePosition,
+        verticalAlign,
+        gap,
+        imageSize,
+        imageRounded
+      },
+      _type == "table" => {
+        _type,
+        caption,
+        columns[]{ title, align, width },
+        rows[]{ cells[]{ text } },
+        options{ headerTone, inverseHeaderText, borders, dense, mobileStack }
+      },
+      _type == "spacer" => {
+        _type,
+        preset,
+        customHeight,
+      },
+      _type == "subheading" => {
+        _type,
+        label,
+        align,
+        variant,
+        tone,
+        size,
+        uppercase,
+      },
+      _type == "headingWithImage" => {
+        _type,
+        heading,
+        subheading,
+        height,
+        align,
+        textTone,
+        overlayOpacity,
+        imageOpacity,
+        "backgroundImage": backgroundImage{
+          asset->{ url, metadata{ dimensions, lqip, palette } },
+          crop,
+          hotspot
+        }
+      },
       "file": file.asset->{
         
         url,
@@ -101,6 +151,56 @@ export const fetchRelatedBlogPosts = async (lang: Locale, blogPost: BlogPostType
     },
     "content": content[]{
       ...,
+      _type == "textWithImage" => {
+        _type,
+        heading,
+        body[]{ ..., markDefs[] },
+        "image": image{
+          asset->{ url, metadata { dimensions, lqip, palette } },
+          crop, hotspot, alt, caption
+        },
+        imagePosition,
+        verticalAlign,
+        gap,
+        imageSize,
+        imageRounded
+      },
+      _type == "table" => {
+        _type,
+        caption,
+        columns[]{ title, align, width },
+        rows[]{ cells[]{ text } },
+        options{ headerTone, inverseHeaderText, borders, dense, mobileStack }
+      },
+      _type == "spacer" => {
+        _type,
+        preset,
+        customHeight,
+      },
+      _type == "subheading" => {
+        _type,
+        label,
+        align,
+        variant,
+        tone,
+        size,
+        uppercase,
+      },
+      _type == "headingWithImage" => {
+        _type,
+        heading,
+        subheading,
+        height,
+        align,
+        textTone,
+        overlayOpacity,
+        imageOpacity,
+        "backgroundImage": backgroundImage{
+          asset->{ url, metadata{ dimensions, lqip, palette } },
+          crop,
+          hotspot
+        }
+      },
       "file": file.asset->{
         url,
         "originalFilename": originalFilename,

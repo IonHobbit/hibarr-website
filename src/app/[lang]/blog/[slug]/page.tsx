@@ -13,6 +13,11 @@ import FAQs from "@/components/FAQs";
 import { Fragment, ReactNode } from "react";
 import { Icon } from "@/components/icons";
 import Audio from "./_components/Audio";
+import HeadingWithImage, { HeadingWithImageBlock } from "@/app/[lang]/blog/[slug]/_components/HeadingWithImage";
+import Subheading, { SubheadingBlock } from "@/app/[lang]/blog/[slug]/_components/Subheading";
+import Spacer, { SpacerBlock } from "@/app/[lang]/blog/[slug]/_components/Spacer";
+import ContentTable, { TableBlock } from "@/app/[lang]/blog/[slug]/_components/ContentTable";
+import TextWithImage, { TextWithImageBlock } from "@/app/[lang]/blog/[slug]/_components/TextWithImage";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -90,28 +95,43 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             components={{
               block: {
                 h1: ({ children }) => (
-                  <h1 className="text-4xl !font-medium mt-3 mb-6 !font-sans">{children}</h1>
+                  <h1 className="text-4xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h1>
                 ),
                 h2: ({ children }) => (
-                  <h2 className="text-3xl !font-medium mt-3 mb-6 !font-sans">{children}</h2>
+                  <h2 className="text-3xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h2>
                 ),
                 h3: ({ children }) => (
-                  <h3 className="text-2xl !font-medium mt-3 mb-6 !font-sans">{children}</h3>
+                  <h3 className="text-2xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h3>
                 ),
                 h4: ({ children }) => (
-                  <h4 className="text-xl !font-medium mt-3 mb-6 !font-sans">{children}</h4>
+                  <h4 className="text-xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h4>
                 ),
                 h5: ({ children }) => (
-                  <h5 className="text-xl !font-medium mt-3 mb-6 !font-sans">{children}</h5>
+                  <h5 className="text-xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h5>
                 ),
                 h6: ({ children }) => (
-                  <h6 className="text-lg !font-medium mt-3 mb-6 !font-sans">{children}</h6>
+                  <h6 className="text-lg !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h6>
                 ),
                 normal: ({ children }) => (
-                  <p className="text-base">{children}</p>
+                  <p className="text-base text-primary">{children}</p>
                 ),
               },
               types: {
+                headingWithImage: ({ value }) => (
+                  <HeadingWithImage {...(value as HeadingWithImageBlock)} />
+                ),
+                subheading: ({ value }) => (
+                  <Subheading {...(value as SubheadingBlock)} />
+                ),
+                spacer: ({ value }) => (
+                  <Spacer {...(value as SpacerBlock)} />
+                ),
+                table: ({ value }) => (
+                  <ContentTable {...(value as TableBlock)} />
+                ),
+                textWithImage: ({ value }) => (
+                  <TextWithImage {...(value as TextWithImageBlock)} />
+                ),
                 image: ({ value }) => (
                   <div className="my-4 w-full relative aspect-video">
                     <Image src={value.asset.url} alt={value.alt} fill loading="lazy" className="w-full h-full object-contain" />
@@ -306,13 +326,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               },
               list: {
                 bullet: ({ children }) => (
-                  <ul className="list-disc pl-4">{children}</ul>
+                  <ul className="list-disc pl-4" style={{ color: '#053160' }}>{children}</ul>
                 ),
                 number: ({ children }) => (
-                  <ol className="list-decimal pl-4">{children}</ol>
+                  <ol className="list-decimal pl-4" style={{ color: '#053160' }}>{children}</ol>
                 ),
                 checkmark: ({ children }) => (
-                  <ul className="list-disc pl-4">{children}</ul>
+                  <ul className="list-disc pl-4" style={{ color: '#053160' }}>{children}</ul>
                 ),
               }
             }}
