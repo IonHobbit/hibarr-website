@@ -11,7 +11,7 @@ export default async function StatisticsSection({ data }: StatisticsSectionProps
   const title = await translate('Unlocking Success in Exclusive Opportunities with Rabih Rabea');
 
   return (
-    <section id='statistics' className='bg-primary bg-[url("/images/wave-background.webp")] bg-blend-overlay bg-cover bg-center'>
+  <section id='statistics' className='bg-primary bg-[url("https://res.cloudinary.com/hibarr/image/upload/wave-background_tjiedr")] bg-blend-overlay bg-cover bg-center'>
       <div className="section grid place-items-center place-content-center gap-10 py-20 max-w-screen-lg mx-auto">
         <h3 className='text-4xl md:text-5xl text-primary-foreground text-center' data-token={title.token}>{title.text}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">

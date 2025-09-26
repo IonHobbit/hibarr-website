@@ -15,7 +15,7 @@ export default async function FeaturedSection() {
         sizes="100%"
         fill
         loading='lazy'
-        className="object-contain absolute"
+        className="object-contain absolute grayscale hover:grayscale-0 transition-all duration-300"
       />
     </div>
   )

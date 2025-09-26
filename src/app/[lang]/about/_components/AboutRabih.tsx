@@ -11,7 +11,7 @@ export default function AboutRabih({ data }: AboutRabihProps) {
     <section id='about-rabih' className='section md:h-[80vh]'>
       <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-10 h-full">
         <div className="relative w-full h-[60vh] md:h-full">
-          <Image src="/images/rabih.jpg" alt="Rabih" fill className='object-cover' />
+          <Image src="https://res.cloudinary.com/hibarr/image/upload/rabih_wfmpqv" alt="Rabih" fill className='object-cover' />
         </div>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
