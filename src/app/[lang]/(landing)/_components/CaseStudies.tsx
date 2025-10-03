@@ -30,7 +30,7 @@ export default function CaseStudies({ caseStudies }: CaseStudiesProps) {
             <Video
               ref={(el) => { videoRefs.current[index] = el as VideoRef }}
               src={caseStudy.videoUrl || ''}
-              poster={generateImageUrl(caseStudy.thumbnail as SanityImageSource).url()}
+              poster={caseStudy.thumbnail ? generateImageUrl(caseStudy.thumbnail as SanityImageSource).url() : undefined}
             />
           </CarouselItem>
         ))}

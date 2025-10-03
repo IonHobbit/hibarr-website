@@ -6,7 +6,7 @@ import { groq } from 'next-sanity'
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://hibarr.de'
 
 // Define supported languages
-const languages = ['en', 'de', 'tr']
+const languages = ['en', 'de', 'tr', 'ru']
 
 // Define static routes with their priorities
 const staticRoutes = [
