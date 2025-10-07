@@ -28,8 +28,8 @@ export default function Countdown({ date, timezone }: CountdownProps) {
     const [seconds, setSeconds] = useState("");
 
     useEffect(() => {
-      const now = new Date();
-      const interval = setInterval(() => {
+      const updateCountdown = () => {
+        const now = new Date();
         const days = Math.floor((targetDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
         const hours = Math.floor((targetDate.getTime() - now.getTime()) / (1000 * 60 * 60)) % 24;
         const minutes = Math.floor((targetDate.getTime() - now.getTime()) / (1000 * 60)) % 60;
@@ -39,8 +39,10 @@ export default function Countdown({ date, timezone }: CountdownProps) {
         setHours(hours > 0 ? hours.toString().padStart(2, '0') : '0');
         setMinutes(minutes > 0 ? minutes.toString().padStart(2, '0') : '0');
         setSeconds(seconds > 0 ? seconds.toString().padStart(2, '0') : '0');
-      }, 1000);
+      }
 
+      updateCountdown();
+      const interval = setInterval(updateCountdown, 1000);
       return () => clearInterval(interval);
     }, [targetDate]);
 

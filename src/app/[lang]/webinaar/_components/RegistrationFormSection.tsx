@@ -57,7 +57,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
       // Set storage immediately to prevent race condition
       storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 5 });
       // Navigate after storage is set
-      router.push('/webinar/thank-you');
+      router.push('/webinaar/thank-you');
     },
   });
 

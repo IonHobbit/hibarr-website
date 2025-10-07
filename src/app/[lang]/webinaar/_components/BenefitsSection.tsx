@@ -25,8 +25,8 @@ export default function BenefitsSection({ data }: BenefitsSectionProps) {
         <div className="flex flex-col gap-6">
           <h3 className="text-3xl md:text-4xl">{data?.title}</h3>
           <div className="flex flex-col gap-4">
-            {data?.benefits?.map((benefit) => (
-              <div key={benefit.title} className="flex gap-2">
+            {data?.benefits?.map((benefit, index ) => (
+              <div key={index} className="flex gap-2">
                 <p className="text-sm md:text-lg font-semibold">{benefit.title}: <span className="font-normal">{benefit.description}</span></p>
               </div>
             ))}

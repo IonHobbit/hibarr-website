@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: ['/'],
-        disallow: ['/api', '/external', '/ingest', '/expose', '/tools', '/calendar', '/webinaar']
+        disallow: ['/api', '/external', '/ingest', '/expose', '/tools', '/calendar', '/webinaar', '/webinaar*', '/*/webinaar*', '/*/webinaar']
       }
     ],
     sitemap: 'https://hibarr.de/sitemap.xml',
