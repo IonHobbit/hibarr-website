@@ -14,6 +14,7 @@ export default async function ThankYouPage({ params }: { params: Promise<{ funne
     <section id='hero' className="relative w-full overflow-hidden px-4 pt-28 pb-10 sm:px-6 lg:px-8 lg:py-10 grid place-items-center md:place-content-center min-h-screen">
       {{
         webinar: <WebinarThankYouFunnel />,
+        webinaar: <WebinarThankYouFunnel />,
         ebook: <EbookThankYouFunnel />,
         consultation: <ConsultationThankYouFunnel />,
         'facebook-group': <FacebookGroupThankYouFunnel />,
