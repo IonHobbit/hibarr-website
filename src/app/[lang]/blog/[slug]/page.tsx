@@ -334,6 +334,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 checkmark: ({ children }) => (
                   <ul className="list-disc pl-4" style={{ color: '#053160' }}>{children}</ul>
                 ),
+              },
+              marks: {
+                link: ({ children, value }) => {
+                  const rel = !value.href.startsWith('/') ? 'noreferrer noopener' : undefined
+                  return (
+                    <a href={value.href} rel={rel} className="text-primary underline underline-offset-2 hover:underline-offset-4 transition-all">
+                      {children}
+                    </a>
+                  )
+                },
               }
             }}
           />
