@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { NextRequest } from 'next/server'
 
 // List of all supported languages
-export const languages = ['en', 'de', 'tr']
+export const languages = ['en', 'de', 'tr', 'ru']
 
 // Get the preferred language from the request
 function getPreferredLanguage(request: NextRequest) {
