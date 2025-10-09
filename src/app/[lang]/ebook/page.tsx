@@ -39,9 +39,41 @@ export default async function EbookPage(
   const [whatYoullLearn, provenStrategies, expertInsights, actionableTips, everythingYouNeed, whatOurReadersAreSaying] = await translateBatch(['What You\'ll Learn', 'Proven Strategies', 'Expert Insights', 'Actionable Tips', 'Everything you need to transform your business and achieve lasting success', 'What Our Readers Are Saying']);
 
   const [frequentlyAskedQuestions, downloads] = await translateBatch(['Frequently Asked Questions', '10,000+ Downloads'])
-
-
   const [stepByStepMethods, learnFromIndustryLeaders, practicalAdvice] = await translateBatch(['Step-by-step methods that have generated millions in revenue', 'Learn from industry leaders and successful entrepreneurs', 'Practical advice you can implement immediately'])
+
+  const comments = await translateBatch([
+    "This ebook completely transformed how I approach my business. The strategies are practical and the results speak for themselves.",
+    "Finally, a guide that cuts through the noise. Clear, actionable, and incredibly valuable. Highly recommended!",
+    "I've read countless business books, but this one stands out. The insights are fresh and immediately applicable."
+  ])
+  const roles = await translateBatch([
+    "CEO, TechStart",
+    "Marketing Director",
+    "Entrepreneur"
+  ])
+  const [sarahJohnson, michaelChen, emmaDavis] = comments;
+  const [ceoTechStart, marketingDirector, entrepreneur] = roles;
+
+  const testimonials = [
+    {
+      name: "Sarah Johnson",
+      role: ceoTechStart.text,
+      content: sarahJohnson.text,
+      avatar: "SJ"
+    },
+    {
+      name: "Michael Chen",
+      role: marketingDirector.text,
+      content: michaelChen.text,
+      avatar: "MC"
+    },
+    {
+      name: "Emma Davis",
+      role: entrepreneur.text,
+      content: emmaDavis.text,
+      avatar: "ED"
+    }
+  ]
 
   return (
     <Fragment>
@@ -118,26 +150,7 @@ export default async function EbookPage(
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Sarah Johnson",
-                role: "CEO, TechStart",
-                content: "This ebook completely transformed how I approach my business. The strategies are practical and the results speak for themselves.",
-                avatar: "SJ"
-              },
-              {
-                name: "Michael Chen",
-                role: "Marketing Director",
-                content: "Finally, a guide that cuts through the noise. Clear, actionable, and incredibly valuable. Highly recommended!",
-                avatar: "MC"
-              },
-              {
-                name: "Emma Davis",
-                role: "Entrepreneur",
-                content: "I\'ve read countless business books, but this one stands out. The insights are fresh and immediately applicable.",
-                avatar: "ED"
-              }
-            ].map((testimonial, index) => (
+            {testimonials.map((testimonial, index) => (
               <div key={index} className="bg-white p-6 rounded-xl border border-gray-200 flex flex-col">
                 <Quote className="w-8 h-8 text-primary mb-4" />
                 <p className="text-gray-700 mb-4 leading-relaxed">&quot;{testimonial.content}&quot;</p>
