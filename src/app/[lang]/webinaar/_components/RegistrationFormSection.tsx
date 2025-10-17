@@ -14,7 +14,7 @@ import { persistUserInfo } from "@/lib/services/user.service";
 import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
 import useTranslation from "@/hooks/useTranslation";
-import { RegistrationRequest, WebinarRegistrationRequest, WebinarRegistrationResponse } from "@/types/webinar.type";
+import { WebinarRegistrationRequest, WebinarRegistrationResponse } from "@/types/webinar.type";
 import { APIResponse, makePOSTRequest } from "@/lib/services/api.service";
 
 type RegistrationFormSectionProps = {
