@@ -14,8 +14,8 @@ import { persistUserInfo } from "@/lib/services/user.service";
 import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
 import useTranslation from "@/hooks/useTranslation";
-import { RegistrationRequest } from "@/types/webinar.type";
-import { makePOSTRequest } from "@/lib/services/api.service";
+import { WebinarRegistrationRequest, WebinarRegistrationResponse } from "@/types/webinar.type";
+import { APIResponse, makePOSTRequest } from "@/lib/services/api.service";
 
 type RegistrationFormSectionProps = {
   data: WebinarPage;
@@ -31,9 +31,9 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
   const isRegistered = storage.get(StorageKey.REGISTERED_WEBINAR) ?? false;
 
   const { mutate, error, isPending, isSuccess } = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (): Promise<APIResponse<WebinarRegistrationResponse>> => {
       const contactInfo = values;
-      const payload: RegistrationRequest = {
+      const payload: WebinarRegistrationRequest = {
         firstName: contactInfo.firstName,
         lastName: contactInfo.lastName,
         email: contactInfo.email,
@@ -45,19 +45,25 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
           utmCampaign: contactInfo.utm.campaign,
           utmTerm: contactInfo.utm.term,
           utmContent: contactInfo.utm.content,
-        }
+        },
+        meetingId: process.env.NEXT_PUBLIC_WEBINAR_MEETING_ID || ''
       }
-
-      await makePOSTRequest('/registration/webinar', payload);
 
       // persist user info to storage
       persistUserInfo(contactInfo);
+
+      return await makePOSTRequest('/registration/webinar', payload);
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
       // Set storage immediately to prevent race condition
       storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 5 });
+
       // Navigate after storage is set
-      router.push('/webinar/thank-you');
+      if (response.data.isStartingSoon || response.data.hasAlreadyStarted) {
+        router.push(response.data.join_url);
+      } else {
+        router.push('/webinar/thank-you');
+      }
     },
   });
 
@@ -75,7 +81,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
   });
 
   return (
-  <section id='register' className='bg-primary bg-[url("https://res.cloudinary.com/hibarr/image/upload/webinar-registration-background_m3p9kq")] bg-cover bg-center flex flex-col bg-blend-soft-light'>
+    <section id='register' className='bg-primary bg-[url("https://res.cloudinary.com/hibarr/image/upload/webinar-registration-background_m3p9kq")] bg-cover bg-center flex flex-col bg-blend-soft-light'>
       <div className="section h-full grow py-40">
         <div className="max-w-screen-md mx-auto flex md:hidden flex-col gap-4">
           <Countdown date={data.webinarInformationSection?.date || ''} timezone={data.webinarInformationSection?.timezone || ''} />
