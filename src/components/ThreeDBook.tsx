@@ -15,7 +15,7 @@ export default function ThreeDBook({ scale = 0.67 }: ThreeDBookProps) {
   const germanCover = 'https://res.cloudinary.com/hibarr/image/upload/v1760603287/Ultimate_Cyprus_Real_Estate_Investment_Guide_2025.png_wzokuz.webp'
 
   const englishSpine = 'https://res.cloudinary.com/hibarr/image/upload/v1748844872/Ultimate-Cyprus-Real-Estate-Investment-Guide-spine-3-1_ajz4ow.webp'
-  const germanSpine = 'https://res.cloudinary.com/hibarr/image/upload/v1760603287/Ultimate_Cyprus_Real_Estate_Investment_Guide_2025.png_wzokuz.webp'
+  const germanSpine = 'https://res.cloudinary.com/hibarr/image/upload/v1760697223/Ebook_side_german_ga6v3p.webp'
 
   // Use German cover when language is German, otherwise use English cover
   const frontCoverUrl = {
