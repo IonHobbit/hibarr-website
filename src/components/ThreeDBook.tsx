@@ -1,12 +1,33 @@
 'use client'
 
 import { useEffect } from 'react'
+import { useParams } from 'next/navigation'
 
 interface ThreeDBookProps {
   scale?: number
 }
 
 export default function ThreeDBook({ scale = 0.67 }: ThreeDBookProps) {
+  const params = useParams()
+  const lang = (params.lang as string) || 'en'
+
+  const englishCover = 'https://res.cloudinary.com/hibarr/image/upload/v1748844872/Ultimate-Cyprus-Real-Estate-Investment-Guide-front-1_zakdkj.webp'
+  const germanCover = 'https://res.cloudinary.com/hibarr/image/upload/v1760603287/Ultimate_Cyprus_Real_Estate_Investment_Guide_2025.png_wzokuz.webp'
+
+  const englishSpine = 'https://res.cloudinary.com/hibarr/image/upload/v1748844872/Ultimate-Cyprus-Real-Estate-Investment-Guide-spine-3-1_ajz4ow.webp'
+  const germanSpine = 'https://res.cloudinary.com/hibarr/image/upload/v1760697223/Ebook_side_german_ga6v3p.webp'
+
+  // Use German cover when language is German, otherwise use English cover
+  const frontCoverUrl = {
+    en: englishCover,
+    de: germanCover,
+  }[lang] || englishCover
+
+  const spineUrl = {
+    en: englishSpine,
+    de: germanSpine,
+  }[lang] || englishSpine
+
   useEffect(() => {
     const bookSection = document.querySelector('.book_three_d');
     const observer = new IntersectionObserver((entries) => {
@@ -87,7 +108,7 @@ export default function ThreeDBook({ scale = 0.67 }: ThreeDBookProps) {
           width: 100%;
           height: 100%;
           transform: translateZ(calc(25px * var(--book-scale)));
-          background: url(https://res.cloudinary.com/hibarr/image/upload/v1748844872/Ultimate-Cyprus-Real-Estate-Investment-Guide-front-1_zakdkj.webp) center center/cover no-repeat;
+          background: url(${frontCoverUrl}) center center/cover no-repeat;
         }
         .back-cover {
           width: 100%;
@@ -99,7 +120,7 @@ export default function ThreeDBook({ scale = 0.67 }: ThreeDBookProps) {
           width: calc(51px * var(--book-scale));
           height: calc(450px * var(--book-scale));
           transform: rotateY(90deg) translateZ(calc(-25px * var(--book-scale))) rotateX(180deg);
-          background: url(https://res.cloudinary.com/hibarr/image/upload/v1748844872/Ultimate-Cyprus-Real-Estate-Investment-Guide-spine-3-1_ajz4ow.webp) center center/cover no-repeat;
+          background: url(${spineUrl}) center center/cover no-repeat;
         }
         .top-edge, .bottom-edge {
           width: 100%;

@@ -9,6 +9,10 @@ export interface RegistrationRequest {
   utmInfo?: UtmInfo;
 }
 
+export interface WebinarRegistrationRequest extends RegistrationRequest {
+  meetingId: string;
+}
+
 export interface SignupRegistrationRequest extends RegistrationRequest {
   package: 'vip' | 'bank';
   isAlphaCashMember?: boolean;
@@ -31,6 +35,22 @@ export interface ConsultationRegistrationRequest extends RegistrationRequest {
   budget?: string
   period?: string
   message?: string
+}
+
+export interface WebinarRegistrationResponse {
+  registrant_id: string;
+  id: number;
+  topic: string;
+  start_time: string;
+  join_url: string;
+  occurrences: Array<{
+    occurrence_id: string;
+    start_time: string;
+    duration: number;
+    status: string;
+  }>;
+  isStartingSoon: boolean;
+  hasAlreadyStarted: boolean;
 }
 
 // UTM information interface

@@ -23,7 +23,7 @@ export default function LanguageSwitcher() {
           <HoverCardTrigger className='hidden md:flex'>
             <span className={cn('text-xl cursor-pointer', `fi fi-${localeInfo[lang].countryCode.toLowerCase()}`)}></span>
           </HoverCardTrigger>
-          <HoverCardContent align='end' className='hidden md:flex w-40 bg-primary flex-col gap-2 border-none mt-2 shadow-none rounded-md'>
+          <HoverCardContent align='end' className='hidden md:flex w-40 bg-primary flex-col gap-3 border-none mt-2 shadow-none rounded-md'>
             {i18n.locales.map((locale) => (
               <Link
                 key={locale}
@@ -41,7 +41,7 @@ export default function LanguageSwitcher() {
           <PopoverTrigger className='md:hidden'>
             <span className={cn('text-xl cursor-pointer', `fi fi-${localeInfo[lang].countryCode.toLowerCase()}`)}></span>
           </PopoverTrigger>
-          <PopoverContent align='end' className='w-40 bg-primary flex md:hidden flex-col gap-2 border-none mt-2 shadow-none rounded-md'>
+          <PopoverContent align='end' className='w-40 bg-primary flex md:hidden flex-col gap-3 border-none mt-2 shadow-none rounded-md'>
             {i18n.locales.map((locale) => (
               <Link
                 key={locale}

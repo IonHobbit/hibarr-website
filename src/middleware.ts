@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { NextRequest } from 'next/server'
 
 // List of all supported languages
-export const languages = ['en', 'de', 'tr']
+export const languages = ['en', 'de', 'tr', 'ru']
 
 // Get the preferred language from the request
 function getPreferredLanguage(request: NextRequest) {
@@ -61,7 +61,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    '/((?!_next|api|logos|featured|images|icons|favicon.ico|sitemap.xml|robots.txt|ingest|expose/testimonials|tools|external/alpha-cash).*)',
+    '/((?!_next|api|logos|featured|images|icons|favicon.ico|sitemap.xml|robots.txt|ingest|expose/testimonials|tools|ebook-showcase|external/alpha-cash).*)',
     '/:path*/src/internal/:file*',
   ],
 } 
