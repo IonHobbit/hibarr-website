@@ -84,7 +84,7 @@ export default async function RootLayout(
         <link rel="dns-prefetch" href="https://eu.i.posthog.com" />
       </head>
       <body
-        className={`${inter.variable} ${figtree.variable} antialiased relative w-screen`}
+        className={`${inter.variable} ${figtree.variable} antialiased relative w-screen overflow-x-hidden`}
       >
         <GTMBody />
         <ThemeProvider>
