@@ -28,8 +28,9 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
   const isHiddenPath = hiddenPaths.some(path => pathname.includes(path))
 
   if (isHiddenPath) return null
-  const navigationItems = (navigationData?.items || []).map((item) => {
-    const cloned = { ...(item || {}) } as Navigation['items'][number];
+  type NavItem = NonNullable<Navigation['items']>[number];
+  const navigationItems: NavItem[] = (navigationData?.items || []).map((item: NavItem | undefined) => {
+    const cloned = { ...(item || {}) } as NavItem;
     try {
       if (cloned.name && String(cloned.name).toLowerCase() === 'resources') {
         const children = Array.isArray(cloned.children) ? [...cloned.children] : [];
@@ -53,7 +54,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
             <Image src="/logos/logo.png" alt="Hibarr Estates Logo" loading='eager' className="object-contain h-auto" width={140} height={20} />
           </Link>
           <div className="hidden md:flex space-x-8 items-center w-full justify-center overflow-x-auto">
-            {navigationItems.map((item: Navigation['items'][number], index: number) => (
+            {navigationItems.map((item: NavItem, index: number) => (
               <HeaderItem key={index} item={item} lang={lang} />
             ))}
           </div>
