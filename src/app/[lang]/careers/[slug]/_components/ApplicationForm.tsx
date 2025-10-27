@@ -33,11 +33,12 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
       });
 
       if (!res.ok) throw new Error('Submission failed');
-      const data = await res.json();
+      await res.json();
       setMessage('Application submitted. Thank you!');
       setFirstName(''); setLastName(''); setEmail(''); setPhone(''); setFile(null);
-    } catch (err: any) {
-      setMessage(err?.message || 'An error occurred');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      setMessage(message || 'An error occurred');
     } finally {
       setIsSubmitting(false);
     }

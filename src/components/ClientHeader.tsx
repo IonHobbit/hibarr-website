@@ -28,18 +28,18 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
   const isHiddenPath = hiddenPaths.some(path => pathname.includes(path))
 
   if (isHiddenPath) return null
-  const navigationItems = (navigationData?.items || []).map((item: any) => {
-    const cloned = { ...item };
+  const navigationItems = (navigationData?.items || []).map((item) => {
+    const cloned = { ...(item || {}) } as Navigation['items'][number];
     try {
       if (cloned.name && String(cloned.name).toLowerCase() === 'resources') {
         const children = Array.isArray(cloned.children) ? [...cloned.children] : [];
-        const hasCareers = children.some((c: any) => c?.href === '/careers');
+        const hasCareers = children.some((c) => c?.href === '/careers');
         if (!hasCareers) {
           children.push({ _key: 'careers', name: 'Careers', href: '/careers' });
         }
         cloned.children = children;
       }
-    } catch (e) {
+    } catch {
       // noop
     }
     return cloned;
@@ -53,7 +53,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
             <Image src="/logos/logo.png" alt="Hibarr Estates Logo" loading='eager' className="object-contain h-auto" width={140} height={20} />
           </Link>
           <div className="hidden md:flex space-x-8 items-center w-full justify-center overflow-x-auto">
-            {navigationItems.map((item: any, index: number) => (
+            {navigationItems.map((item: Navigation['items'][number], index: number) => (
               <HeaderItem key={index} item={item} lang={lang} />
             ))}
           </div>

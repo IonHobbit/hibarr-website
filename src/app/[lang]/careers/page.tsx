@@ -30,7 +30,7 @@ export default async function CareersPage() {
         <p className='text-muted-foreground mb-6'>Explore open roles and apply to join our team.</p>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
           {jobs.map((job) => (
-            <JobCard key={String(job.id)} job={job as any} />
+            <JobCard key={String(job.id)} job={job} />
           ))}
         </div>
       </section>

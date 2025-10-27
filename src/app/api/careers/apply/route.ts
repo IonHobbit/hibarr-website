@@ -45,7 +45,8 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true, data: { firstName, lastName, email, phone, jobId, resumeUrl } });
-  } catch (err: any) {
-    return NextResponse.json({ error: err?.message || 'An error occurred' }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ error: message || 'An error occurred' }, { status: 500 });
   }
 }

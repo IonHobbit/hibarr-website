@@ -1,7 +1,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import ApplicationForm from './_components/ApplicationForm';
-import { Button } from '@/components/ui/button';
 import { makeGETRequest } from '@/lib/services/api.service';
 
 type Job = {

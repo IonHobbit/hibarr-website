@@ -1,8 +1,16 @@
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import React from 'react';
+type Job = {
+  id: number | string;
+  slug?: string;
+  title: string;
+  department?: string;
+  location?: string;
+  type?: string;
+  description?: string;
+}
 
-export default function JobCard({ job }: { job: any }) {
+export default function JobCard({ job }: { job: Job }) {
   return (
     <div className='bg-secondary rounded-lg p-6 flex flex-col gap-3'>
       <div className='flex items-center justify-between'>
