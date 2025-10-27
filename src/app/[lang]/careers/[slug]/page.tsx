@@ -16,8 +16,8 @@ type Job = {
   minWorkExperience?: string;
 }
 
-export default async function CareerPage({ params }: { params: { slug: string } }) {
-  const slug = params.slug;
+export default async function CareerPage({ params }: { params: Promise<{ slug: string, lang?: string }> }) {
+  const { slug } = await params;
   const decoded = decodeURIComponent(slug);
 
   // fetch all jobs and find by slug (backend provides slug field)
