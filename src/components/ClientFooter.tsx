@@ -76,6 +76,9 @@ export default function ClientFooter({ lang, footerData }: ClientFooterProps) {
               <Link href={`/${lang}/privacy-policy`} className="hover:text-foreground transition-colors">
                 Privacy Policy
               </Link>
+              <Link href={`/${lang}/careers`} className="hover:text-foreground transition-colors">
+                Careers
+              </Link>
             </div>
             <div className="flex items-center gap-4">
               {socialLinks.map((link) => (
