@@ -31,9 +31,8 @@ export async function POST(request: NextRequest) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          jobId: Number(jobId),
-          firstName,
-          lastName,
+          listingId: Number(jobId),
+          name: `${firstName} ${lastName}`.trim(),
           email,
           phone,
           resumeUrl,

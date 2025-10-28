@@ -52,7 +52,14 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
                 {(job.requirements ?? []).map((r: string, i: number) => <li key={i}>{r}</li>)}
               </ul>
             </div>
+
+            <div id='apply' className='bg-secondary rounded-lg p-6'>
+              <h3 className='text-xl font-semibold mb-2'>Apply for this role</h3>
+              <ApplicationForm jobId={String(job.id)} />
+            </div>
           </div>
+
+          {/* Sidebar now shows quick job meta only */}
           <aside className='bg-secondary rounded-lg p-6'>
             <p className='font-medium'>Minimum Experience</p>
             <p className='text-muted-foreground mb-4'>{job.minWorkExperience}</p>
@@ -60,9 +67,6 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
             <p className='text-muted-foreground mb-4'>{job.department}</p>
             <p className='font-medium'>Type</p>
             <p className='text-muted-foreground mb-4'>{job.type}</p>
-            <div id='apply' className='mt-4'>
-              <ApplicationForm jobId={String(job.id)} />
-            </div>
           </aside>
         </div>
       </section>
