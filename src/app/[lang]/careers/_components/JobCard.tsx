@@ -1,14 +1,6 @@
 import { Button } from '@/components/ui/button';
 import React from 'react';
-type Job = {
-  id: number | string;
-  slug?: string;
-  title: string;
-  department?: string;
-  location?: string;
-  type?: string;
-  description?: string;
-}
+import { Job } from '@/types/careers';
 
 export default function JobCard({ job }: { job: Job }) {
   return (

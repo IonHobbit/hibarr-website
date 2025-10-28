@@ -4,19 +4,7 @@ import ApplicationForm from './_components/ApplicationForm';
 import { makeGETRequest } from '@/lib/services/api.service';
 import { mockJobs } from '@/lib/mockdata';
 import { translate } from '@/lib/translation';
-
-type Job = {
-  id: number | string;
-  slug?: string;
-  title: string;
-  department?: string;
-  location?: string;
-  type?: string;
-  description?: string;
-  responsibilities?: string[];
-  requirements?: string[];
-  minWorkExperience?: string;
-}
+import { Job } from '@/types/careers';
 
 export default async function CareerPage({ params }: { params: Promise<{ slug: string, lang?: string }> }) {
   const { slug } = await params;

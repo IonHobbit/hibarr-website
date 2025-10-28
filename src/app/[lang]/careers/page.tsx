@@ -4,16 +4,7 @@ import React from 'react';
 import { makeGETRequest } from '@/lib/services/api.service';
 import { mockJobs } from '@/lib/mockdata';
 import { translate } from '@/lib/translation';
-
-type Job = {
-  id: number | string;
-  slug?: string;
-  title: string;
-  department?: string;
-  location?: string;
-  type?: string;
-  description?: string;
-}
+import { Job } from '@/types/careers';
 
 export const metadata: Metadata = {
   title: 'Careers',
