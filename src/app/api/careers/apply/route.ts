@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       });
     } catch (err) {
       // don't fail the user submission if backend persistence fails; log and continue
-      console.error('Failed to persist application to backend', err);
+      console.error('Failed to persist application to backend job-applications endpoint', err);
     }
 
     return NextResponse.json({ success: true, data: { firstName, lastName, email, phone, jobId, resumeUrl } });
