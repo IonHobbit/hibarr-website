@@ -37,7 +37,11 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
       if (!res.ok) throw new Error('Submission failed');
       await res.json();
       setMessage('Application submitted. Thank you!');
-      setFirstName(''); setLastName(''); setEmail(''); setPhone(''); setFile(null);
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setPhone('');
+      setFile(null);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
       setMessage(message || 'An error occurred');
@@ -69,7 +73,7 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
           </Button>
           <input
             ref={fileInputRef}
-            id='resume-upload'
+            className="hidden"
             type='file'
             accept='.pdf,.doc,.docx'
             onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
