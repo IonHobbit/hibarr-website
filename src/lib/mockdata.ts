@@ -1129,3 +1129,94 @@ export const features = uniqueFeatures.map((feature) => ({
   label: feature,
 }));
 
+export const mockJobs = [
+  {
+    id: 1,
+    slug: 'senior-frontend-developer',
+    title: 'Senior Frontend Developer',
+    department: 'Engineering',
+    location: 'Remote',
+    type: 'Full-time',
+    description: 'We are looking for an experienced frontend developer to join our engineering team.',
+    responsibilities: [
+      'Develop and maintain React/Next.js applications',
+      'Collaborate with design team to implement UI/UX',
+      'Optimize applications for maximum speed and scalability',
+      'Write clean, maintainable, and well-documented code'
+    ],
+    requirements: [
+      '5+ years of experience with React and TypeScript',
+      'Strong knowledge of Next.js and modern frontend tools',
+      'Experience with CSS frameworks like Tailwind CSS',
+      'Familiarity with version control systems (Git)'
+    ],
+    minWorkExperience: '5+ years'
+  },
+  {
+    id: 2,
+    slug: 'backend-developer',
+    title: 'Backend Developer',
+    department: 'Engineering',
+    location: 'Istanbul, Turkey',
+    type: 'Full-time',
+    description: 'Join our backend team to build scalable APIs and services.',
+    responsibilities: [
+      'Design and develop RESTful APIs',
+      'Implement database schemas and optimize queries',
+      'Ensure system security and data protection',
+      'Collaborate with frontend team on API integration'
+    ],
+    requirements: [
+      '3+ years of experience with Node.js or Python',
+      'Experience with databases (PostgreSQL, MongoDB)',
+      'Knowledge of cloud platforms (AWS, Azure)',
+      'Understanding of microservices architecture'
+    ],
+    minWorkExperience: '3+ years'
+  },
+  {
+    id: 3,
+    slug: 'product-manager',
+    title: 'Product Manager',
+    department: 'Product',
+    location: 'Remote',
+    type: 'Full-time',
+    description: 'Lead product strategy and development for our real estate platform.',
+    responsibilities: [
+      'Define product roadmap and strategy',
+      'Gather and analyze user feedback',
+      'Coordinate with engineering and design teams',
+      'Monitor product performance and metrics'
+    ],
+    requirements: [
+      '4+ years of product management experience',
+      'Experience in real estate or fintech industry',
+      'Strong analytical and communication skills',
+      'Knowledge of agile development methodologies'
+    ],
+    minWorkExperience: '4+ years'
+  },
+  {
+    id: 4,
+    slug: 'ux-designer',
+    title: 'UX Designer',
+    department: 'Design',
+    location: 'Remote',
+    type: 'Full-time',
+    description: 'Create intuitive and engaging user experiences for our platform.',
+    responsibilities: [
+      'Conduct user research and usability testing',
+      'Create wireframes, prototypes, and user flows',
+      'Collaborate with developers to implement designs',
+      'Maintain design system and style guidelines'
+    ],
+    requirements: [
+      '3+ years of UX design experience',
+      'Proficiency in Figma, Sketch, or Adobe XD',
+      'Experience with user research methods',
+      'Portfolio demonstrating strong design skills'
+    ],
+    minWorkExperience: '3+ years'
+  }
+];
+

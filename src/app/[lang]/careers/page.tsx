@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import JobCard from './_components/JobCard';
 import React from 'react';
 import { makeGETRequest } from '@/lib/services/api.service';
+import { mockJobs } from '@/lib/mockdata';
+import { translate } from '@/lib/translation';
 
 type Job = {
   id: number | string;
@@ -19,15 +21,31 @@ export const metadata: Metadata = {
 }
 
 export default async function CareersPage() {
-  // fetch jobs from backend
-  const resp = await makeGETRequest<Job[]>('/jobs');
-  const jobs = resp?.data ?? [];
+  // fetch jobs from backend, fallback to mock data if API is unavailable
+  let jobs: Job[] = [];
+  try {
+    const resp = await makeGETRequest<Job[]>('/jobs');
+    jobs = resp?.data ?? [];
+  } catch {
+    // Use mock data when API is unavailable (e.g., during build time)
+    jobs = mockJobs;
+  }
+
+  // Translate the page content
+  const [careerOpportunities, exploreOpenRoles] = await Promise.all([
+    translate('Career Opportunities'),
+    translate('Explore open roles and apply to join our team.')
+  ]);
 
   return (
     <main>
       <section className='section header-offset'>
-        <h1 className='text-4xl font-bold mb-4'>Career Opportunities</h1>
-        <p className='text-muted-foreground mb-6'>Explore open roles and apply to join our team.</p>
+        <h1 className='text-4xl font-bold mb-4' data-token={careerOpportunities.token}>
+          {careerOpportunities.text}
+        </h1>
+        <p className='text-muted-foreground mb-6' data-token={exploreOpenRoles.token}>
+          {exploreOpenRoles.text}
+        </p>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
           {jobs.map((job) => (
             <JobCard key={String(job.id)} job={job} />
