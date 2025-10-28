@@ -16,6 +16,8 @@ type ClientHeaderProps = {
   navigationData: Navigation
 }
 
+type NavItem = NonNullable<Navigation['items']>[number];
+
 export default function ClientHeader({ lang, navigationData }: ClientHeaderProps) {
 
   const pathname = usePathname()
@@ -28,7 +30,6 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
   const isHiddenPath = hiddenPaths.some(path => pathname.includes(path))
 
   if (isHiddenPath) return null
-  type NavItem = NonNullable<Navigation['items']>[number];
   const navigationItems: NavItem[] = (navigationData?.items || []).map((item: NavItem | undefined) => {
     const cloned = { ...(item || {}) } as NavItem;
     try {
