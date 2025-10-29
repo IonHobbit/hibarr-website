@@ -80,7 +80,12 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
       <Input id='email' required type='email' value={email} onChange={(e) => setEmail(e.target.value)} title={emailLabel?.text || 'Email address'} />
       <Input id='phone' type='tel' value={phone} onChange={(e) => setPhone(e.target.value)} title={phoneLabel?.text || 'Phone (optional)'} />
       <div>
-        <label className='block text-sm font-medium mb-1'>{resumeLabel?.text || 'Resume / CV'} *</label>
+        <label className='block text-sm font-medium mb-1'>
+          {resumeLabel?.text || 'Resume / CV'}
+          <span className='text-red-500' aria-hidden>
+            {' '}*
+          </span>
+        </label>
         <div className='flex items-center gap-3'>
           <Button
             type='button'
