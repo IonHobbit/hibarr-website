@@ -4,7 +4,7 @@ import { Job } from '@/types/careers';
 
 export default function JobCard({ job }: { job: Job }) {
   return (
-    <div className='bg-secondary rounded-lg p-6 flex flex-col gap-3'>
+    <div className='bg-secondary rounded-lg flex flex-col gap-3'>
       <div className='flex items-center justify-between'>
         <div>
           <h3 className='text-2xl font-bold'>{job.title}</h3>

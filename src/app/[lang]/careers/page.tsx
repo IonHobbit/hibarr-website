@@ -31,7 +31,7 @@ export default async function CareersPage() {
   return (
     <main>
       <section className='section header-offset'>
-        <h1 className='text-4xl font-bold mb-4' data-token={careerOpportunities.token}>
+        <h1 className='text-4xl font-bold mb-2' data-token={careerOpportunities.token}>
           {careerOpportunities.text}
         </h1>
         <p className='text-muted-foreground mb-6' data-token={exploreOpenRoles.token}>

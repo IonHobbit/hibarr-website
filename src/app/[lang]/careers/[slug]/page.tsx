@@ -36,7 +36,7 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
     <main>
       <section className='section header-offset'>
           <div className='grid grid-cols-1 md:grid-cols-5 gap-6'>
-            <aside className='md:col-span-2 bg-secondary rounded-lg p-6 flex flex-col gap-4'>
+            <aside className='md:col-span-2 bg-secondary rounded-lg flex flex-col gap-4'>
               <h1 className='text-3xl font-bold mb-2'>{job.title}</h1>
               <p className='text-muted-foreground mb-2'>{job.department} • {job.location} • {job.type}</p>
               <p className='mb-4'>{job.description}</p>
@@ -64,7 +64,7 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
               </div>
             </aside>
             <div className='md:col-span-3 flex flex-col gap-4'>
-              <div id='apply' className='bg-secondary rounded-lg p-6'>
+              <div id='apply' className='bg-secondary rounded-lg'>
                 <h3 className='text-xl font-semibold mb-2' data-token={applyForThisRole.token}>
                   {applyForThisRole.text}
                 </h3>

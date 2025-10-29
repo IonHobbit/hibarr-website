@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import useTranslation from '@/hooks/useTranslation';
 
 export default function ApplicationForm({ jobId }: { jobId: string }) {
     const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -15,10 +16,30 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
+  // Translation hooks
+  const { data: firstNameLabel } = useTranslation('First name');
+  const { data: lastNameLabel } = useTranslation('Last name');
+  const { data: emailLabel } = useTranslation('Email address');
+  const { data: phoneLabel } = useTranslation('Phone (optional)');
+  const { data: resumeLabel } = useTranslation('Resume / CV');
+  const { data: browseText } = useTranslation('Browse');
+  const { data: changeFileText } = useTranslation('Change file');
+  const { data: submitText } = useTranslation('Submit Application');
+  const { data: resumeRequiredError } = useTranslation('Please upload your resume/CV');
+  const { data: successMessage } = useTranslation('Application submitted. Thank you!');
+  const { data: errorMessage } = useTranslation('An error occurred');
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setIsSubmitting(true);
     setMessage(null);
+
+    // Validate required fields
+    if (!file) {
+      setMessage(resumeRequiredError?.text || 'Please upload your resume/CV');
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       const fd = new FormData();
@@ -26,7 +47,7 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
       fd.append('lastName', lastName);
       fd.append('email', email);
       if (phone) fd.append('phone', phone);
-      if (file) fd.append('file', file);
+      fd.append('file', file);
       fd.append('jobId', jobId);
 
       const res = await fetch('/api/careers/apply', {
@@ -36,7 +57,7 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
 
       if (!res.ok) throw new Error('Submission failed');
       await res.json();
-      setMessage('Application submitted. Thank you!');
+      setMessage(successMessage?.text || 'Application submitted. Thank you!');
       setFirstName('');
       setLastName('');
       setEmail('');
@@ -44,7 +65,7 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
       setFile(null);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
-      setMessage(message || 'An error occurred');
+      setMessage(message || errorMessage?.text || 'An error occurred');
     } finally {
       setIsSubmitting(false);
     }
@@ -53,13 +74,13 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
   return (
     <form onSubmit={onSubmit} className='flex flex-col gap-3'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
-        <Input id='firstName' required value={firstName} onChange={(e) => setFirstName(e.target.value)} title='First name' />
-        <Input id='lastName' required value={lastName} onChange={(e) => setLastName(e.target.value)} title='Last name' />
+        <Input id='firstName' required value={firstName} onChange={(e) => setFirstName(e.target.value)} title={firstNameLabel?.text || 'First name'} />
+        <Input id='lastName' required value={lastName} onChange={(e) => setLastName(e.target.value)} title={lastNameLabel?.text || 'Last name'} />
       </div>
-      <Input id='email' required type='email' value={email} onChange={(e) => setEmail(e.target.value)} title='Email address' />
-      <Input id='phone' type='tel' value={phone} onChange={(e) => setPhone(e.target.value)} title='Phone (optional)' />
+      <Input id='email' required type='email' value={email} onChange={(e) => setEmail(e.target.value)} title={emailLabel?.text || 'Email address'} />
+      <Input id='phone' type='tel' value={phone} onChange={(e) => setPhone(e.target.value)} title={phoneLabel?.text || 'Phone (optional)'} />
       <div>
-        <label className='block text-sm font-medium mb-1'>Resume / CV</label>
+        <label className='block text-sm font-medium mb-1'>{resumeLabel?.text || 'Resume / CV'} *</label>
         <div className='flex items-center gap-3'>
           <Button
             type='button'
@@ -69,7 +90,7 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
             onClick={() => fileInputRef.current?.click()}
           >
             <svg className='mr-2' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'><path d='M16 16v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6'/><polyline points='15 3 21 3 21 9'/><line x1='10' y1='14' x2='21' y2='3'/></svg>
-            {file ? 'Change file' : 'Browse'}
+            {file ? (changeFileText?.text || 'Change file') : (browseText?.text || 'Browse')}
           </Button>
           <input
             ref={fileInputRef}
@@ -83,7 +104,7 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
         </div>
       </div>
       <div>
-        <Button type='submit' isLoading={isSubmitting}>Submit Application</Button>
+        <Button type='submit' isLoading={isSubmitting}>{submitText?.text || 'Submit Application'}</Button>
       </div>
       {message && <p className='text-sm mt-2'>{message}</p>}
     </form>
