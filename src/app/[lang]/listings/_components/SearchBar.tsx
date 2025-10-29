@@ -4,7 +4,7 @@ import { Select } from '@/components/Select'
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { count, locations } from '@/lib/mockdata';
+import { count, locations } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { Icon } from '@/components/icons';
 import { useFormik } from 'formik';

@@ -269,7 +269,7 @@ export default function RegistrationForm({ packages, activePackage, form, select
   useEffect(() => {
     setFieldValue('package', activePackage.slug);
     setFieldValue('bankAndLawyer.openingBalance', activePackage?.minimumDeposit ? activePackage.minimumDeposit.toString() : '0');
-  }, [activePackage])
+  }, [activePackage, setFieldValue])
 
   return (
     <Card className='max-w-xl w-full mx-auto p-6'>
