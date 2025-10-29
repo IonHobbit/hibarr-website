@@ -29,11 +29,11 @@ export default async function CareersPage() {
 
   return (
     <main>
-      <section className='section header-offset'>
-        <h1 className='text-4xl font-bold mb-2' data-token={careerOpportunities.token}>
+      <section className='section header-offset gap-4 py-6'>
+        <h1 className='text-4xl font-bold' data-token={careerOpportunities.token}>
           {careerOpportunities.text}
         </h1>
-        <p className='text-muted-foreground mb-6' data-token={exploreOpenRoles.token}>
+        <p className='text-muted-foreground' data-token={exploreOpenRoles.token}>
           {exploreOpenRoles.text}
         </p>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
