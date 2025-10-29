@@ -1,4 +1,6 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import JobCard from './_components/JobCard';
 import React from 'react';
 import { makeGETRequest } from '@/lib/services/api.service';
@@ -22,9 +24,11 @@ export default async function CareersPage() {
   }
 
   // Translate the page content
-  const [careerOpportunities, exploreOpenRoles] = await Promise.all([
+  const [careerOpportunities, exploreOpenRoles, noOpenRoles, backHome] = await Promise.all([
     translate('Career Opportunities'),
-    translate('Explore open roles and apply to join our team.')
+    translate('Explore open roles and apply to join our team.'),
+    translate('No open roles right now.'),
+    translate('Back to Home')
   ]);
 
   return (
@@ -36,11 +40,24 @@ export default async function CareersPage() {
         <p className='text-muted-foreground' data-token={exploreOpenRoles.token}>
           {exploreOpenRoles.text}
         </p>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {jobs.map((job) => (
-            <JobCard key={String(job.id)} job={job} />
-          ))}
-        </div>
+        {jobs.length === 0 ? (
+          <div className='flex flex-col items-center justify-center gap-4 min-h-[40vh] text-center'>
+            <p className='text-muted-foreground' data-token={noOpenRoles.token}>
+              {noOpenRoles.text}
+            </p>
+            <Button asChild>
+              <Link href='/' data-token={backHome.token}>
+                {backHome.text}
+              </Link>
+            </Button>
+          </div>
+        ) : (
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+            {jobs.map((job) => (
+              <JobCard key={String(job.id)} job={job} />
+            ))}
+          </div>
+        )}
       </section>
     </main>
   )
