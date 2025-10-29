@@ -30,22 +30,6 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
   const isHiddenPath = hiddenPaths.some(path => pathname.includes(path))
 
   if (isHiddenPath) return null
-  const navigationItems: NavItem[] = (navigationData?.items || []).map((item: NavItem | undefined) => {
-    const cloned = { ...(item || {}) } as NavItem;
-    try {
-      if (cloned.name && String(cloned.name).toLowerCase() === 'resources') {
-        const children = Array.isArray(cloned.children) ? [...cloned.children] : [];
-        const hasCareers = children.some((c) => c?.href === '/careers');
-        if (!hasCareers) {
-          children.push({ _key: 'careers', name: 'Careers', href: '/careers' });
-        }
-        cloned.children = children;
-      }
-    } catch {
-      // noop
-    }
-    return cloned;
-  });
 
   return (
     <header className={cn("absolute top-0 z-20 w-full h-[75px] flex items-center", isExcludedPath ? "bg-transparent mt-2 px-4" : "bg-gradient-to-b from-primary/90 to-transparent")}>
@@ -55,7 +39,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
             <Image src="/logos/logo.png" alt="Hibarr Estates Logo" loading='eager' className="object-contain h-auto" width={140} height={20} />
           </Link>
           <div className="hidden md:flex space-x-8 items-center w-full justify-center overflow-x-auto">
-            {navigationItems.map((item: NavItem, index: number) => (
+            {(navigationData?.items || []).map((item: NavItem, index: number) => (
               <HeaderItem key={index} item={item} lang={lang} />
             ))}
           </div>
@@ -67,7 +51,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
             </Button>
             <LanguageSwitcher />
           </div>
-          <MobileNavigationMenu navigation={navigationItems} lang={lang} />
+          <MobileNavigationMenu navigation={navigationData?.items || []} lang={lang} />
         </div>
       </nav>
     </header>
