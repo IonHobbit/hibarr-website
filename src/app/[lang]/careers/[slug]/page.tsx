@@ -2,7 +2,6 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import ApplicationForm from './_components/ApplicationForm';
 import { makeGETRequest } from '@/lib/services/api.service';
-import { mockJobs } from '@/lib/mockdata';
 import { translate } from '@/lib/translation';
 import { Job } from '@/types/careers';
 
@@ -17,7 +16,7 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
     jobs = resp?.data ?? [];
   } catch {
     // Use mock data when API is unavailable (e.g., during build time)
-    jobs = mockJobs;
+    jobs = [] as Job[];
   }
   
   const job = jobs.find((j) => String(j.slug) === decoded || String(j.id) === decoded);
