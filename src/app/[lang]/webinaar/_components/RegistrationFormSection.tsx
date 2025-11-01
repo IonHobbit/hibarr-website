@@ -65,6 +65,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
           expiration = webinarTime - now;
         }
       }
+      storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration });
 
       // Navigate after storage is set
       if (response.data.isStartingSoon || response.data.hasAlreadyStarted) {
