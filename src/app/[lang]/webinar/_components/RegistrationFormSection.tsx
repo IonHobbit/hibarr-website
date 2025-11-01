@@ -55,8 +55,17 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
       return await makePOSTRequest('/registration/webinar', payload);
     },
     onSuccess: (response) => {
-      // Set storage immediately to prevent race condition
-      storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 5 });
+      // Set storage expiration to the next webinar date (or defaults to 5 days if date is invalid)
+      const now = Date.now();
+      let expiration = 1000 * 60 * 60 * 24 * 2; // fallback 5 days
+      if (data?.webinarInformationSection?.date) {
+        const webinarTime = new Date(data.webinarInformationSection.date).getTime();
+        // Only set positive expiration, otherwise fallback
+        if (!isNaN(webinarTime) && webinarTime > now) {
+          expiration = webinarTime - now;
+        }
+      }
+      storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration });
 
       // Navigate after storage is set
       if (response.data.isStartingSoon || response.data.hasAlreadyStarted) {
