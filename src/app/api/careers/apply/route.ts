@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     const file = formData.get('file') as File | null;
 
     // Basic validation
-    if (!firstName || !lastName || !email || !jobId) {
+    if (!firstName || !lastName || !email || !jobId || !file) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
