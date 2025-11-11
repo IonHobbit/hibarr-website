@@ -16,11 +16,13 @@ type ClientHeaderProps = {
   navigationData: Navigation
 }
 
+type NavItem = NonNullable<Navigation['items']>[number];
+
 export default function ClientHeader({ lang, navigationData }: ClientHeaderProps) {
 
   const pathname = usePathname()
 
-  const excludedPaths = ['/our-packages', '/listings/', 'webinar-recording', '/thank-you', '/blog', '/findr', '/partners/news-central-corp', '/ebook']
+  const excludedPaths = ['/our-packages', '/listings/', 'webinar-recording', '/thank-you', '/blog', '/findr', '/partners/news-central-corp', '/ebook', 'careers']
   const hiddenPaths = ['/calendar']
 
   const isExcludedPath = excludedPaths.some(path => pathname.includes(path))
@@ -37,7 +39,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
             <Image src="/logos/logo.png" alt="Hibarr Estates Logo" loading='eager' className="object-contain h-auto" width={140} height={20} />
           </Link>
           <div className="hidden md:flex space-x-8 items-center w-full justify-center overflow-x-auto">
-            {navigationData?.items?.map((item, index) => (
+            {(navigationData?.items || []).map((item: NavItem, index: number) => (
               <HeaderItem key={index} item={item} lang={lang} />
             ))}
           </div>
@@ -49,7 +51,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
             </Button>
             <LanguageSwitcher />
           </div>
-          <MobileNavigationMenu navigation={navigationData?.items} lang={lang} />
+          <MobileNavigationMenu navigation={navigationData?.items || []} lang={lang} />
         </div>
       </nav>
     </header>
