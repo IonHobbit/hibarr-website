@@ -114,7 +114,7 @@ export default async function NearEastGroup(
           <p className='text-primary-foreground text-xl md:text-2xl text-center'>Transforming Futures, Delivering Excellence</p>
         </div>
         <div className="section py-0">
-          <iframe className='w-full h-full object-cover aspect-video rounded-lg overflow-hidden' src="https://www.youtube-nocookie.com/embed/KDPnXIJBDdQ?si=YeSXujsHWIAGxTNR" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+          <iframe className='w-full h-full object-cover aspect-video rounded-lg overflow-hidden' src="https://www.youtube-nocookie.com/embed/KDPnXIJBDdQ?si=YeSXujsHWIAGxTNR" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen loading="lazy"></iframe>
         </div>
         <div className='section py-0'>
           <h3 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h3>
