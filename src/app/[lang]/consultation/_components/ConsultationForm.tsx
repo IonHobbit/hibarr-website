@@ -13,7 +13,6 @@ import useRegistrationCheck from '@/hooks/useRegistrationCheck'
 import CalendlyEmbed from '@/components/CalendlyEmbed'
 import { ContactInfo } from '@/types/main'
 import { Country } from '@/components/ui/country-dropdonw'
-// import { countries } from 'country-data-list'
 import { useParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 
@@ -29,7 +28,6 @@ import storage from '@/lib/storage.util'
 import { useMutation } from '@tanstack/react-query'
 import router from 'next/router'
 import { persistUserInfo } from '@/lib/services/user.service'
-// import { PhoneInput } from '@/components/ui/phone-input'
 import useUserInfo from '@/hooks/useUserInfo'
 import { ConsultationRegistrationRequest } from '@/types/webinar.type'
 import { makePOSTRequest } from '@/lib/services/api.service'
@@ -122,7 +120,6 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
   // }
 
   const alpha2 = lang !== 'en' ? lang : 'de'
-  // const initialCountry = countries.all.find(country => country.alpha2.toLowerCase() === alpha2)
   const initialLanguage = languageOptions.find(option => option.value.toLowerCase() === lang)
 
 

@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import { Input } from '@/components/ui/input';
 import { useFormik } from 'formik';
 import { persistUserInfo } from '@/lib/services/user.service';
-// import { PhoneInput } from '@/components/ui/phone-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { HomePage } from '@/types/sanity.types';

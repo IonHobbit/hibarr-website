@@ -1,5 +1,4 @@
 import { AboutPage } from "@/types/sanity.types";
-// import Video from "@/components/Video";
 import dynamic from "next/dynamic";
 
 const Video = dynamic(() => import('@/components/Video'), {

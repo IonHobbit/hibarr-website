@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-// import { PhoneInput } from '@/components/ui/phone-input';
 import Video from '@/components/Video';
 import useUserInfo from '@/hooks/useUserInfo';
 import { cn } from '@/lib/utils';

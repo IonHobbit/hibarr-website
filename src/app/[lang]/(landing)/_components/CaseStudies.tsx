@@ -1,6 +1,5 @@
 'use client';
 
-// import Video from '@/components/Video'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { VideoRef } from '@/components/Video';
 import dynamic from 'next/dynamic';

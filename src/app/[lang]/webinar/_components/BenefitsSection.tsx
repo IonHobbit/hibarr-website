@@ -1,4 +1,3 @@
-// import Video from '@/components/Video'
 import React from 'react'
 import { WebinarPage } from '@/types/sanity.types'
 import Link from 'next/link'

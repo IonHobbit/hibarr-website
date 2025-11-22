@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
 import { persistUserInfo } from "@/lib/services/user.service";
 import storage, { StorageKey } from "@/lib/storage.util";

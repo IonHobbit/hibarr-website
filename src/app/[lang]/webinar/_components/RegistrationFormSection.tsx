@@ -11,7 +11,6 @@ import * as Yup from 'yup';
 import storage, { StorageKey } from "@/lib/storage.util";
 import { useRouter } from "next/navigation";
 import { persistUserInfo } from "@/lib/services/user.service";
-// import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
 import useTranslation from "@/hooks/useTranslation";
 import dynamic from "next/dynamic";

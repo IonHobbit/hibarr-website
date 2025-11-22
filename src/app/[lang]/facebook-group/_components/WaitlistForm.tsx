@@ -9,7 +9,6 @@ import storage, { StorageKey } from "@/lib/storage.util";
 import { useMutation } from "@tanstack/react-query";
 import { ContactInfo } from "@/types/main";
 import { persistUserInfo } from "@/lib/services/user.service";
-// import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
 import { makePOSTRequest } from "@/lib/services/api.service";
 import { RegistrationRequest } from "@/types/webinar.type";
