@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useParams } from 'next/navigation'
 
 interface ThreeDBookProps {
