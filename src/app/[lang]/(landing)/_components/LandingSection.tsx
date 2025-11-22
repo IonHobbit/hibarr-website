@@ -25,7 +25,7 @@ export default function LandingSection({ data }: LandingSectionProps) {
   const landingVideoHls = variantKey === 'v2' ? v2LandingVideoHls : baseLandingVideoHls;
 
   return (
-    <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center h-screen  bg-gradient-to-b from-primary via-primary/80 to-transparent">
+    <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center h-screen  bg-gradient-to-b from-primary via-primary/80 to-transparent">
       <div className='absolute inset-0 w-full h-full -z-10'>
         <Video
           hls
@@ -40,9 +40,9 @@ export default function LandingSection({ data }: LandingSectionProps) {
         />
       </div>
 
-      <div className="max-w-6xl text-center flex flex-col gap-10 px-4">
-        <div className='flex flex-col gap-2'>
-          <h1 className="text-5xl md:text-7xl xl:text-8xl font-bold mb-4 text-background">
+      <div className="lg:max-w-6xl w-full text-center flex flex-col gap-10">
+        <div className='flex flex-col gap-2 w-full'>
+          <h1 className="text-5xl md:text-7xl xl:text-8xl font-bold mb-4 text-background break-words">
             {data.title}
           </h1>
           <p className="text-base md:text-2xl text-background">

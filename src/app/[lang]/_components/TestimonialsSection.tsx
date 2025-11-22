@@ -27,8 +27,8 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
           <div className="flex items-end justify-center w-full gap-2">
             <h3 className="text-3xl md:text-4xl text-center">{data?.testimonialsSection?.title}</h3>
           </div>
-          <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl text-primary absolute -top-10 left-10' />
-          <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl rotate-180 text-primary absolute -top-10 right-10' />
+          <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl text-primary absolute -top-16 left-10' />
+          <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl rotate-180 text-primary absolute -top-16 right-10' />
         </div>
         <Carousel opts={{ loop: true }} className='max-h-52'>
           <CarouselContent>
