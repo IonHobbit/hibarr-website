@@ -1,7 +1,14 @@
 'use client'
 
-import ThreeDBook from '@/components/ThreeDBook';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
+
+const ThreeDBook = dynamic(() => import('@/components/ThreeDBook'), {
+  loading: () => (
+    <div className="w-full h-96 bg-muted rounded-lg animate-pulse" />
+  ),
+  ssr: false
+});
 import useTranslation from '@/hooks/useTranslation';
 import { StorageKey } from '@/lib/storage.util';
 import storage from '@/lib/storage.util';

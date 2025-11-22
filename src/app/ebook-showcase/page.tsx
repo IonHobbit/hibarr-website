@@ -1,4 +1,4 @@
-import ThreeDBook from '@/components/ThreeDBook'
+import ThreeDBook from '@/components/ThreeDBookLazy'
 
 export default function EbookShowcasePage() {
   return (

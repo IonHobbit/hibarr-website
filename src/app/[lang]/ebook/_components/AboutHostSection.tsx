@@ -1,6 +1,17 @@
+'use client'
+
+import dynamic from "next/dynamic";
 import { AboutPage, WebinarPage } from "@/types/sanity.types";
-import Video from "@/components/Video";
-import CountUp from "@/components/bits/CountUp/CountUp";
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => <div className="w-full aspect-video bg-muted rounded-lg animate-pulse" />,
+  ssr: false
+});
+
+const CountUp = dynamic(() => import("@/components/bits/CountUp/CountUp"), {
+  loading: () => <span>0</span>,
+  ssr: false
+});
 
 type AboutHostSectionProps = {
   data: AboutPage['aboutRabihSection'];

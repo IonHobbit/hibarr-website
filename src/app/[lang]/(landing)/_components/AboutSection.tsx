@@ -1,7 +1,14 @@
+'use client'
+
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { HomePage } from '@/types/sanity.types';
-import BounceCards from '@/components/bits/BounceCards/BounceCards';
+
+const BounceCards = dynamic(() => import('@/components/bits/BounceCards/BounceCards'), {
+  loading: () => <div className="w-full h-48 bg-muted rounded-lg animate-pulse" />,
+  ssr: false
+});
 
 type AboutSectionProps = {
   data: HomePage;

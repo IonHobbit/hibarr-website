@@ -1,4 +1,4 @@
-import CountUp from '@/components/bits/CountUp/CountUp'
+import CountUp from '@/components/bits/CountUp/CountUpLazy'
 import { translate } from '@/lib/translation'
 import { WebinarPage } from '@/types/sanity.types'
 import React from 'react'
