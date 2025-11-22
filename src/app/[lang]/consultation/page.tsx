@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import Video from '@/components/Video';
+import Video from '@/components/VideoLazy';
 import { Locale } from '@/lib/i18n-config';
 import { Metadata } from 'next';
 import { Icon } from '@/components/icons';

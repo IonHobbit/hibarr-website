@@ -1,9 +1,16 @@
 'use client'
 
+import dynamic from 'next/dynamic';
 import Image from 'next/image'
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import Video from '@/components/Video';
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => (
+    <div className="w-full h-full bg-gradient-to-b from-primary via-primary/80 to-transparent" />
+  ),
+  ssr: false
+});
 
 export default function ErrorPage() {
   const refresh = () => {

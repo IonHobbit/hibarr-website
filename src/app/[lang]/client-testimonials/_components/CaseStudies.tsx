@@ -1,12 +1,18 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel'
-import Video, { VideoRef } from '@/components/Video'
+import type { VideoRef } from '@/components/Video'
 import { generateImageUrl } from '@/lib/utils'
 import { CaseStudy } from '@/types/sanity.types'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
 import { PortableText } from 'next-sanity'
 import React, { useRef } from 'react'
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => <div className="w-full aspect-video bg-muted rounded-lg animate-pulse" />,
+  ssr: false
+})
 
 type CaseStudiesProps = {
   caseStudies: CaseStudy[];

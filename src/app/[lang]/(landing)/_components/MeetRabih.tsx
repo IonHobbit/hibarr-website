@@ -1,6 +1,13 @@
+'use client'
+
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { HomePage } from "@/types/sanity.types";
-import Video from "@/components/Video";
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => <div className="w-full aspect-video bg-muted rounded-lg animate-pulse" />,
+  ssr: false
+});
 
 type MeetRabihProps = {
   data: HomePage['meetRabihSection'];

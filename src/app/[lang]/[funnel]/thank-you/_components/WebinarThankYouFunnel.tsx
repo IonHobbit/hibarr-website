@@ -1,8 +1,13 @@
 'use client'
 
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
-import Video from '@/components/Video';
 import useTranslation from '@/hooks/useTranslation';
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => <div className="w-full aspect-video bg-muted rounded-lg animate-pulse" />,
+  ssr: false
+});
 import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import storage from '@/lib/storage.util';
 import { StorageKey } from '@/lib/storage.util';

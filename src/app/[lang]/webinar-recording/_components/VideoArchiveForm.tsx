@@ -1,13 +1,18 @@
 "use client";
 
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PhoneInput } from '@/components/ui/phone-input';
-import Video from '@/components/Video';
 import useUserInfo from '@/hooks/useUserInfo';
 import { cn } from '@/lib/utils';
 import { useMutation } from '@tanstack/react-query';
 import { useFormik } from 'formik';
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => <div className="w-full aspect-video bg-muted rounded-lg animate-pulse" />,
+  ssr: false
+});
 
 type VideoArchiveFormData = {
   firstName: string;

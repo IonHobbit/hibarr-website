@@ -201,7 +201,7 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
       ) : (
         <video
           poster={poster}
-          preload='auto'
+          preload={autoPlay ? 'auto' : 'metadata'}
           className={videoClassName ?? "object-contain !h-full w-full"}
           controls={false}
           autoPlay={autoPlay}

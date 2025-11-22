@@ -9,7 +9,7 @@ import { ConsultationPage as ConsultationPageType, HomePage } from '@/types/sani
 import BitrixForm from './_components/BitrixForm';
 import { generateSEOMetadata } from '@/lib/utils';
 import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
-import Video from '@/components/Video';
+import Video from '@/components/VideoLazy';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;

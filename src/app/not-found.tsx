@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import Video from '@/components/Video'
+import Video from '@/components/VideoLazy'
 
 export default async function NotFoundPage() {
   return (

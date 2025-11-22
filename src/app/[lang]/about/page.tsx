@@ -2,7 +2,7 @@ import type { Locale } from '@/lib/i18n-config';
 import { Metadata } from 'next';
 import { Fragment } from 'react';
 import FeaturedSection from '../_components/FeaturedSection';
-import Video from '@/components/Video';
+import Video from '@/components/VideoLazy';
 import PartnersSection from '../_components/PartnersSection';
 import TestimonialsSection from '../_components/TestimonialsSection';
 import MissionVisionSection from './_components/MissionVisionSection';

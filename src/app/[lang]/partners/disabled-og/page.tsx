@@ -4,7 +4,7 @@ import Image from 'next/image'
 import React, { Fragment } from 'react'
 import FAQAccordion from '../../_components/FAQAccordion'
 import { Locale } from '@/lib/i18n-config'
-import Video from '@/components/Video'
+import Video from '@/components/VideoLazy'
 
 export const metadata: Metadata = {
   title: 'Oscar Group',

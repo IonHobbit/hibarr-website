@@ -1,12 +1,17 @@
 'use client';
 
-import Video from '@/components/Video'
+import dynamic from 'next/dynamic';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { VideoRef } from '@/components/Video';
+import type { VideoRef } from '@/components/Video';
 import React, { useRef } from 'react'
 import { generateImageUrl } from '@/lib/utils';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { CaseStudy } from '@/types/sanity.types';
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => <div className="w-full aspect-video bg-muted rounded-lg animate-pulse" />,
+  ssr: false
+});
 
 type CaseStudiesProps = {
   caseStudies: CaseStudy[];

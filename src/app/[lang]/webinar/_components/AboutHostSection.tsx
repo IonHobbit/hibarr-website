@@ -1,5 +1,12 @@
+'use client'
+
+import dynamic from "next/dynamic";
 import { AboutPage } from "@/types/sanity.types";
-import Video from "@/components/Video";
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => <div className="w-full aspect-video bg-muted rounded-lg animate-pulse" />,
+  ssr: false
+});
 
 type AboutHostSectionProps = {
   data: AboutPage['aboutRabihSection'];

@@ -1,9 +1,16 @@
 'use client'
 
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { Icon } from '@/components/icons';
 import { HomePage } from '@/types/sanity.types';
-import Video from '@/components/Video';
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => (
+    <div className="w-full h-full bg-gradient-to-b from-primary via-primary/80 to-transparent" />
+  ),
+  ssr: false
+});
 
 type AnimatedLandingSectionProps = {
   data: HomePage;
