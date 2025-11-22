@@ -107,7 +107,7 @@ export default function WhyJoinSection() {
             })}
           </div>
           
-          {/* CSS for smooth slide animation */}
+          {/* CSS for animations - simplified for iOS */}
           <style jsx>{`
             @keyframes smoothSlideIn {
               0% {
@@ -121,6 +121,16 @@ export default function WhyJoinSection() {
               100% {
                 opacity: 1;
                 transform: translateX(0) scale(1);
+              }
+            }
+            
+            /* Simplified animation for iOS to prevent compositing layer issues */
+            @keyframes simpleFadeIn {
+              0% {
+                opacity: 0;
+              }
+              100% {
+                opacity: 1;
               }
             }
           `}</style>
