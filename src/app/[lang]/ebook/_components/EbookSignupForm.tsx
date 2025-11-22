@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PhoneInput } from "@/components/ui/phone-input";
+// import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
 import { persistUserInfo } from "@/lib/services/user.service";
 import storage, { StorageKey } from "@/lib/storage.util";
@@ -13,6 +13,11 @@ import { useRouter } from "next/navigation";
 import useTranslation from "@/hooks/useTranslation";
 import { makePOSTRequest } from "@/lib/services/api.service";
 import { ContactInfo } from "@/types/main";
+import dynamic from "next/dynamic";
+
+const PhoneInput = dynamic(() => import('@/components/ui/phone-input').then(mod => mod.PhoneInput), {
+  loading: () => <Input placeholder="Loading..." />
+})
 
 export default function EbookSignupForm() {
   const userInfo = useUserInfo();

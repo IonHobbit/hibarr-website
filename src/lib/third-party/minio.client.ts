@@ -8,14 +8,21 @@ const MINIO_ACCESS_KEY = process.env.MINIO_ACCESS_KEY || '';
 const MINIO_SECRET_KEY = process.env.MINIO_SECRET_KEY || '';
 const MINIO_BUCKET_NAME = process.env.MINIO_BUCKET_NAME || '';
 
-// Create MinIO client instance
-const minioClient = new Minio.Client({
-  endPoint: MINIO_ENDPOINT,
-  port: MINIO_PORT,
-  useSSL: MINIO_USE_SSL,
-  accessKey: MINIO_ACCESS_KEY,
-  secretKey: MINIO_SECRET_KEY,
-});
+// Lazy load MinIO client instance
+let minioClient: Minio.Client | null = null;
+
+const getMinioClient = () => {
+  if (!minioClient) {
+    minioClient = new Minio.Client({
+      endPoint: MINIO_ENDPOINT,
+      port: MINIO_PORT,
+      useSSL: MINIO_USE_SSL,
+      accessKey: MINIO_ACCESS_KEY,
+      secretKey: MINIO_SECRET_KEY,
+    });
+  }
+  return minioClient;
+};
 
 /**
  * Downloads a file from MinIO bucket
@@ -30,10 +37,10 @@ export const downloadFile = async (objectName: string): Promise<{
   try {
     const assetsPath = `assets/${objectName}`;
     // Check if object exists and get its metadata
-    const stat = await minioClient.statObject(MINIO_BUCKET_NAME, assetsPath);
+    const stat = await getMinioClient().statObject(MINIO_BUCKET_NAME, assetsPath);
 
     // Get the object as a stream
-    const dataStream = await minioClient.getObject(MINIO_BUCKET_NAME, assetsPath);
+    const dataStream = await getMinioClient().getObject(MINIO_BUCKET_NAME, assetsPath);
 
     // Convert stream to buffer
     const chunks: Buffer[] = [];
@@ -61,7 +68,7 @@ export const getFileDetails = async (objectName: string): Promise<Minio.BucketIt
   try {
     const assetsPath = `assets/${objectName}`;
     // Get object metadata without downloading
-    const stat = await minioClient.statObject(MINIO_BUCKET_NAME, assetsPath);
+    const stat = await getMinioClient().statObject(MINIO_BUCKET_NAME, assetsPath);
     return stat;
   } catch (error) {
     throw DownloadError.fromMinioError(error, objectName);

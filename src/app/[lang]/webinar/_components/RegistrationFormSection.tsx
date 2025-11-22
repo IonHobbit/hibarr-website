@@ -11,9 +11,14 @@ import * as Yup from 'yup';
 import storage, { StorageKey } from "@/lib/storage.util";
 import { useRouter } from "next/navigation";
 import { persistUserInfo } from "@/lib/services/user.service";
-import { PhoneInput } from "@/components/ui/phone-input";
+// import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
 import useTranslation from "@/hooks/useTranslation";
+import dynamic from "next/dynamic";
+
+const PhoneInput = dynamic(() => import('@/components/ui/phone-input').then(mod => mod.PhoneInput), {
+  loading: () => <Input placeholder="Loading..." />
+})
 import { WebinarRegistrationRequest, WebinarRegistrationResponse } from "@/types/webinar.type";
 import { APIResponse, makePOSTRequest } from "@/lib/services/api.service";
 

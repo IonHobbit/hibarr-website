@@ -5,6 +5,7 @@ import { HTMLAttributes, useEffect, useState } from "react";
 // import WaveReveal from "@/animata/text/wave-reveal";
 import { cn } from "@/lib/utils";
 import WaveReveal from "../text/wave-reveal";
+import NextImage from "next/image";
 
 export type ExpandableItem = { image: string; title: string; slug: string };
 
@@ -36,11 +37,12 @@ const List = ({ item, className, index, activeItem, onItemClick, ...props }: Ima
       {...props}
     >
       <div className="absolute inset-0 bg-primary/30 z-10 group-hover:opacity-100 opacity-0 transition-all duration-300 delay-300 ease-in-out" />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <NextImage
         src={item.image}
         alt={item.title}
-        className={cn("h-full w-full object-cover group-hover:scale-115 transition-all duration-300 delay-300 ease-in-out z-0", {
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        className={cn("object-cover group-hover:scale-115 transition-all duration-300 delay-300 ease-in-out z-0", {
           "blur-[2px]": index !== activeItem,
         })}
       />
