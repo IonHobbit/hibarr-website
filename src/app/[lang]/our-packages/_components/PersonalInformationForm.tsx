@@ -1,8 +1,13 @@
 import { Input } from '@/components/ui/input'
-import { PhoneInput } from '@/components/ui/phone-input';
+// import { PhoneInput } from '@/components/ui/phone-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { RegistrationFormType } from '@/types/main';
 import { BankPackagesPage } from '@/types/sanity.types';
+import dynamic from 'next/dynamic';
+
+const PhoneInput = dynamic(() => import('@/components/ui/phone-input').then(mod => mod.PhoneInput), {
+  loading: () => <Input placeholder="Loading..." />
+})
 
 const salutations = [
   {

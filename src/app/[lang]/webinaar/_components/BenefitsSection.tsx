@@ -1,8 +1,13 @@
-import Video from '@/components/Video'
+// import Video from '@/components/Video'
 import React from 'react'
 import { WebinarPage } from '@/types/sanity.types'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import dynamic from 'next/dynamic'
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => <div className="w-full aspect-video bg-muted animate-pulse rounded-lg" />
+})
 
 type BenefitsSectionProps = {
   data: WebinarPage['benefitsSection']
@@ -25,7 +30,7 @@ export default function BenefitsSection({ data }: BenefitsSectionProps) {
         <div className="flex flex-col gap-6">
           <h3 className="text-3xl md:text-4xl">{data?.title}</h3>
           <div className="flex flex-col gap-4">
-            {data?.benefits?.map((benefit, index ) => (
+            {data?.benefits?.map((benefit, index) => (
               <div key={index} className="flex gap-2">
                 <p className="text-sm md:text-lg font-semibold">{benefit.title}: <span className="font-normal">{benefit.description}</span></p>
               </div>

@@ -1,6 +1,11 @@
 import { AboutPage, WebinarPage } from "@/types/sanity.types";
-import Video from "@/components/Video";
+// import Video from "@/components/Video";
 import CountUp from "@/components/bits/CountUp/CountUp";
+import dynamic from "next/dynamic";
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => <div className="w-full aspect-video bg-muted animate-pulse rounded-lg" />
+})
 
 type AboutHostSectionProps = {
   data: AboutPage['aboutRabihSection'];

@@ -2,8 +2,13 @@
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { PhoneInput } from '@/components/ui/phone-input'
+// import { PhoneInput } from '@/components/ui/phone-input'
 import { Textarea } from '@/components/ui/textarea'
+import dynamic from 'next/dynamic'
+
+const PhoneInput = dynamic(() => import('@/components/ui/phone-input').then(mod => mod.PhoneInput), {
+  loading: () => <Input placeholder="Loading..." />
+})
 import useTranslation from '@/hooks/useTranslation'
 import useUserInfo from '@/hooks/useUserInfo'
 import { makePOSTRequest } from '@/lib/services/api.service'

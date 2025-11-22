@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { Input } from '@/components/ui/input';
 import { useFormik } from 'formik';
 import { persistUserInfo } from '@/lib/services/user.service';
-import { PhoneInput } from '@/components/ui/phone-input';
+// import { PhoneInput } from '@/components/ui/phone-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { HomePage } from '@/types/sanity.types';
@@ -14,6 +14,11 @@ import useUserInfo from '@/hooks/useUserInfo';
 import { SignupRegistrationRequest } from '@/types/webinar.type';
 import { makePOSTRequest } from '@/lib/services/api.service';
 import { useMutation } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
+
+const PhoneInput = dynamic(() => import('@/components/ui/phone-input').then(mod => mod.PhoneInput), {
+  loading: () => <Input placeholder="Loading..." />
+})
 
 type SignupFormProps = {
   data: HomePage['freebieSignupSection'];
