@@ -1,4 +1,4 @@
-import WaveReveal from '@/components/animata/text/wave-reveal';
+import WaveReveal from '@/components/animata/text/wave-reveal-lazy';
 import { Locale } from '@/lib/i18n-config';
 import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import { cn } from '@/lib/utils';
@@ -26,7 +26,7 @@ export default async function FindrPage({ params }: { params: Promise<{ lang: Lo
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
         {/* <PortableText value={data.description || []} /> */}
         <div className={"relative rounded-lg overflow-hidden h-96 col-span-2"}>
-          <Image src={data.images?.[0] || ''} alt={data.name || ''} fill sizes='100%' className='object-cover absolute rounded-lg' />
+          <Image src={data.images?.[0] || ''} alt={data.name || ''} fill sizes='100%' className='object-cover absolute rounded-lg' priority />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
@@ -44,7 +44,7 @@ export default async function FindrPage({ params }: { params: Promise<{ lang: Lo
               )}
               key={index}
             >
-              <Image src={image} alt={data.name || ''} fill sizes='100%' className='object-cover absolute rounded-lg' />
+              <Image src={image} alt={data.name || ''} fill sizes='100%' className='object-cover absolute rounded-lg' loading="lazy" />
             </div>
           );
         })}
