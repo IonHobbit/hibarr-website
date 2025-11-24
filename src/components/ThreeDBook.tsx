@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useParams } from 'next/navigation'
 
 interface ThreeDBookProps {
@@ -23,13 +23,18 @@ export default function ThreeDBook({ scale = 0.67 }: ThreeDBookProps) {
     de: germanCover,
   }[lang] || englishCover
 
+
   const spineUrl = {
     en: englishSpine,
     de: germanSpine,
   }[lang] || englishSpine
 
+  const bookSectionRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    const bookSection = document.querySelector('.book_three_d');
+    const bookSection = bookSectionRef.current;
+    if (!bookSection) return;
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -39,9 +44,7 @@ export default function ThreeDBook({ scale = 0.67 }: ThreeDBookProps) {
       });
     });
 
-    if (bookSection) {
-      observer.observe(bookSection);
-    }
+    observer.observe(bookSection);
 
     return () => {
       if (bookSection) {
@@ -161,7 +164,7 @@ export default function ThreeDBook({ scale = 0.67 }: ThreeDBookProps) {
         }
       `}</style>
 
-      <div className="book_three_d">
+      <div className="book_three_d" ref={bookSectionRef}>
         <div className="book-container">
           <div className="string"></div>
           <div className="book">

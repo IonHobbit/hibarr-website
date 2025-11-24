@@ -1,7 +1,12 @@
 'use client'
 
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel'
-import Video, { VideoRef } from '@/components/Video'
+import { VideoRef } from '@/components/Video'
+import dynamic from 'next/dynamic'
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => <div className="w-full aspect-video bg-muted animate-pulse rounded-lg" />
+})
 import { generateImageUrl } from '@/lib/utils'
 import { CaseStudy } from '@/types/sanity.types'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'

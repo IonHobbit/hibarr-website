@@ -1,8 +1,12 @@
-import Video from '@/components/Video'
 import React from 'react'
 import { WebinarPage } from '@/types/sanity.types'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import dynamic from 'next/dynamic'
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => <div className="w-full aspect-video bg-muted animate-pulse rounded-lg" />
+})
 
 type BenefitsSectionProps = {
   data: WebinarPage['benefitsSection']

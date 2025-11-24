@@ -4,7 +4,12 @@ import React, { Fragment, useEffect, useRef, useState, forwardRef, useImperative
 import { clsx } from 'clsx';
 import { Icon } from '@/components/icons';
 import { cn } from '@/lib/utils';
-import HlsVideo from './HlsVideo';
+import dynamic from 'next/dynamic';
+
+const HlsVideo = dynamic(() => import('./HlsVideo'), {
+  ssr: false,
+  loading: () => <div className="w-full h-full bg-black animate-pulse" />
+});
 
 interface IVideoProps {
   src: string;
