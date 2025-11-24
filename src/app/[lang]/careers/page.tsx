@@ -7,9 +7,11 @@ import { makeGETRequest } from '@/lib/services/api.service';
 import { translate } from '@/lib/translation';
 import { Job } from '@/types/careers';
 
-export const metadata: Metadata = {
-  title: 'Careers',
-  description: 'Career opportunities at Hibarr',
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Careers - Join Our Team',
+    description: 'Explore exciting career opportunities at HIBARR. Join a team of innovators shaping the future.',
+  }
 }
 
 export default async function CareersPage() {
