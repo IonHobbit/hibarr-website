@@ -135,8 +135,10 @@ export default function DownloadPage({ params }: DownloadPageProps) {
                     className="mt-4"
                     id='retry-download-button'
                 >
-                    <Icon icon="mdi:download" />
-                    Retry Download
+                    <div className="flex items-center gap-2">
+                        <Icon icon="mdi:download" />
+                        Retry Download
+                    </div>
                 </Button>
             </div>
         );
@@ -164,8 +166,10 @@ export default function DownloadPage({ params }: DownloadPageProps) {
                     className="mt-4"
                     id='begin-download-button'
                 >
-                    {isPending ? <Icon icon="mdi:loading" className="size-4 animate-spin shrink-0" /> : <Icon icon="mdi:download" />}
-                    Begin Download
+                    <div className="flex items-center gap-2">
+                        {isPending ? <Icon icon="mdi:loading" className="size-4 animate-spin shrink-0" /> : <Icon icon="mdi:download" />}
+                        Begin Download
+                    </div>
                 </Button>
             </div>
         );

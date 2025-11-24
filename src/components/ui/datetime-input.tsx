@@ -68,12 +68,14 @@ export function DateTimeInput({ value, onChange, title, truncateTitle, titleClas
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {date ? (
-              format(date, "MM/dd/yyyy HH:mm")
-            ) : (
-              <span>MM/DD/YYYY hh:mm</span>
-            )}
+            <div className="flex items-center gap-2">
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? (
+                format(date, "MM/dd/yyyy HH:mm")
+              ) : (
+                <span>MM/DD/YYYY hh:mm</span>
+              )}
+            </div>
           </Button>
         </div>
       </PopoverTrigger>
