@@ -1,10 +1,23 @@
 import { Metadata } from 'next'
 import React, { Fragment } from 'react'
-import AnimatedHeroSection from './_components/AnimatedHeroSection'
-import AnimatedAboutSection from './_components/AnimatedAboutSection'
-import AnimatedWhySection from './_components/AnimatedWhySection'
-import AnimatedPartnershipSection from './_components/AnimatedPartnershipSection'
+import dynamic from 'next/dynamic'
 import { translate } from '@/lib/translation'
+
+const AnimatedHeroSection = dynamic(() => import('./_components/AnimatedHeroSection'), {
+  loading: () => <div className="min-h-screen bg-black" />
+})
+
+const AnimatedAboutSection = dynamic(() => import('./_components/AnimatedAboutSection'), {
+  loading: () => <div className="min-h-[50vh] bg-white" />
+})
+
+const AnimatedWhySection = dynamic(() => import('./_components/AnimatedWhySection'), {
+  loading: () => <div className="min-h-screen bg-black" />
+})
+
+const AnimatedPartnershipSection = dynamic(() => import('./_components/AnimatedPartnershipSection'), {
+  loading: () => <div className="min-h-[25vh] bg-black" />
+})
 
 export const metadata: Metadata = {
   title: 'News Central Corp',
@@ -114,19 +127,19 @@ export default async function NewsCentralCorp() {
     // Hero section
     translate('News Central Corp').then(res => res.text),
     translate('Secure Your Assets with Smart, Strategic Investment Planning.').then(res => res.text),
-    
+
     // About section
     translate('About News Central Corp').then(res => res.text),
     translate('News Central Corp is an information sourcing company with over 15 years of experience. Their mission is to provide accessible, quality information on business, economy, politics, law, and lifestyle to help individuals seize market opportunities in funds, real estate, economic products, cryptocurrencies, energy, and the environment. They aim to help users make informed decisions, open doors, build bridges, expand networks, and strengthen connections for a successful and fulfilling life.').then(res => res.text),
-    
+
     // Why section
     translate('Why We Chose to Work with NCC').then(res => res.text),
     translate('Our partnership with NCC is built on shared values of excellence, transparency, and customer satisfaction. Here\'s why we believe this collaboration delivers exceptional value to our clients.').then(res => res.text),
-    
+
     // Partnership section
     translate('Building Your Future - Together').then(res => res.text),
     translate('Benefits to Our Customers').then(res => res.text),
-    
+
     // Core services
     Promise.all(coreServices.map(async (service) => {
       const [name, description] = await Promise.all([
@@ -140,7 +153,7 @@ export default async function NewsCentralCorp() {
         description,
       }
     })),
-    
+
     // Partnership benefits
     Promise.all(partnershipBenefits.map(async (benefit) => {
       const [title, description] = await Promise.all([
@@ -154,7 +167,7 @@ export default async function NewsCentralCorp() {
         description,
       }
     })),
-    
+
     // Why cards
     Promise.all(whyCards.map(async (card) => {
       const translatedTitle = await translate(card.title).then(res => res.text);

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useFormik } from 'formik'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -12,16 +12,22 @@ import * as Yup from 'yup'
 import useRegistrationCheck from '@/hooks/useRegistrationCheck'
 import CalendlyEmbed from '@/components/CalendlyEmbed'
 import { ContactInfo } from '@/types/main'
-import { CountryDropdown, Country } from '@/components/ui/country-dropdonw'
-import { countries } from 'country-data-list'
+import { Country } from '@/components/ui/country-dropdonw'
 import { useParams } from 'next/navigation'
+import dynamic from 'next/dynamic'
+
+const CountryDropdown = dynamic(() => import('@/components/ui/country-dropdonw').then(mod => mod.CountryDropdown), {
+  loading: () => <div className="h-12 w-full bg-muted rounded animate-pulse" />
+})
+const PhoneInput = dynamic(() => import('@/components/ui/phone-input').then(mod => mod.PhoneInput), {
+  loading: () => <Input placeholder="Loading..." />
+})
 import { budgetOptions, interestedInOptions, languageOptions, periodOptions } from '@/lib/options'
 import { StorageKey } from '@/lib/storage.util'
 import storage from '@/lib/storage.util'
 import { useMutation } from '@tanstack/react-query'
 import router from 'next/router'
 import { persistUserInfo } from '@/lib/services/user.service'
-import { PhoneInput } from '@/components/ui/phone-input'
 import useUserInfo from '@/hooks/useUserInfo'
 import { ConsultationRegistrationRequest } from '@/types/webinar.type'
 import { makePOSTRequest } from '@/lib/services/api.service'
@@ -114,8 +120,9 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
   // }
 
   const alpha2 = lang !== 'en' ? lang : 'de'
-  const initialCountry = countries.all.find(country => country.alpha2.toLowerCase() === alpha2)
   const initialLanguage = languageOptions.find(option => option.value.toLowerCase() === lang)
+
+
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
@@ -157,7 +164,7 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
   const { values, setFieldValue, handleChange, handleSubmit } = useFormik<FormValues>({
     initialValues: {
       ...userInfo,
-      country: initialCountry || null,
+      country: null,
       interestedIn: [],
       budget: '',
       period: '',
@@ -178,6 +185,18 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
       mutate()
     }
   })
+
+  useEffect(() => {
+    if (!values.country) {
+      import('country-data-list').then((module) => {
+        const countries = module.countries
+        const initialCountry = countries.all.find(country => country.alpha2.toLowerCase() === alpha2)
+        if (initialCountry) {
+          setFieldValue('country', initialCountry)
+        }
+      })
+    }
+  }, [alpha2, setFieldValue, values.country])
 
   const generateCalendlyPrefilledUrl = () => {
     const url = new URL(baseCalendlyUrl)

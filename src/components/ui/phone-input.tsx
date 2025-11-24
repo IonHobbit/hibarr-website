@@ -123,9 +123,10 @@ const CountrySelect = ({
         <Button
           type="button"
           variant="outline"
-          className="flex gap-1 rounded-e-none rounded-s h-12 border-r-0 px-3 focus:z-10"
+          className="rounded-e-none rounded-s h-12 border-r-0 px-3 focus:z-10"
           disabled={disabled}
         >
+          <div className="flex items-center gap-2">
           <FlagComponent
             country={selectedCountry}
             countryName={selectedCountry}
@@ -136,6 +137,7 @@ const CountrySelect = ({
               disabled ? "hidden" : "opacity-100",
             )}
           />
+          </div>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[300px] p-0" align="start">

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import useTranslation from '@/hooks/useTranslation';
 
 export default function ApplicationForm({ jobId }: { jobId: string }) {
-    const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -94,8 +94,10 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
             className='relative'
             onClick={() => fileInputRef.current?.click()}
           >
-            <svg className='mr-2' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'><path d='M16 16v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6'/><polyline points='15 3 21 3 21 9'/><line x1='10' y1='14' x2='21' y2='3'/></svg>
-            {file ? (changeFileText?.text || 'Change file') : (browseText?.text || 'Browse')}
+            <div className="flex items-center gap-2">
+              <svg className='mr-2' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'><path d='M16 16v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6' /><polyline points='15 3 21 3 21 9' /><line x1='10' y1='14' x2='21' y2='3' /></svg>
+              {file ? (changeFileText?.text || 'Change file') : (browseText?.text || 'Browse')}
+            </div>
           </Button>
           <input
             ref={fileInputRef}
