@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import ScrollToTop from '@/app/[lang]/_components/ScrollToTop';
 import Script from 'next/script';
+import { generateOrganizationSchema, generateLocalBusinessSchema } from '@/lib/seo-schema';
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
@@ -48,6 +49,18 @@ export default async function RootLayout(
               var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
       })(window,document,'https://cdn.bitrix24.de/b26123245/crm/site_button/loader_4_mnv0cr.js');`}
         </Script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateOrganizationSchema()),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateLocalBusinessSchema()),
+          }}
+        />
       </Fragment>
     </Suspense>
   );

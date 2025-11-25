@@ -6,12 +6,13 @@ import { Icon } from '@/components/icons';
 import FAQAccordion from '../_components/FAQAccordion';
 // import CalendlyEmbed from '@/components/CalendlyEmbed';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
-import { ConsultationPage as ConsultationPageType, HomePage } from '@/types/sanity.types';
+import { ConsultationPage as ConsultationPageType, HomePage, Faq } from '@/types/sanity.types';
 import ConsultationForm from './_components/ConsultationForm';
 import { generateSEOMetadata } from '@/lib/utils';
 import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
 import { translate, translateBatch } from '@/lib/translation';
 import { interestedInOptions, messageOptions, periodOptions } from '@/lib/options';
+import { generateFAQSchema } from '@/lib/seo-schema';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -155,6 +156,15 @@ export default async function ConsultationPage(
           <FAQAccordion lang={lang} />
         </div>
       </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(generateFAQSchema(
+            (await fetchSanityData<Faq[]>(`*[_type == "faq" && language == $lang]`, { lang }, { cache: 'no-store' }))
+              .map(f => ({ question: f.question || '', answer: f.answer || '' }))
+          )),
+        }}
+      />
     </Fragment>
   );
 } 

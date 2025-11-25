@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/icons';
 import { formatCurrency } from '@/lib/currency';
 import useSource from '@/hooks/useSource';
+import { generateProductSchema } from '@/lib/seo-schema';
 
 export default function PropertyPage(
   props: {
@@ -188,6 +189,12 @@ export default function PropertyPage(
           </div>
         </div>
       </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(generateProductSchema(property)),
+        }}
+      />
     </Fragment >
   )
 }
