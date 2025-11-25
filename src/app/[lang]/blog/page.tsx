@@ -45,7 +45,7 @@ export default async function BlogPage({ params }: { params: Promise<{ lang: Loc
   }`, { lang })
 
 
-  const title = postPage?.title || 'Blog'
+
   const subtitle = postPage?.subtitle || 'Here we share our thoughts and insights on the markets.'
   const featuredPosts = postPage?.featuredPosts || []
 
