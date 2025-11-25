@@ -7,11 +7,15 @@ import { HomePage } from '@/types/sanity.types';
 import { useFeatureFlagVariantKey } from 'posthog-js/react';
 import Video from '@/components/Video';
 
+import { Locale } from '@/lib/i18n-config';
+import { seoH1s } from '@/lib/seo-h1';
+
 type LandingSectionProps = {
   data: HomePage;
+  lang: Locale;
 }
 
-export default function LandingSection({ data }: LandingSectionProps) {
+export default function LandingSection({ data, lang }: LandingSectionProps) {
   // fallback
   const baseLandingVideoMp4 = 'https://vz-da4cd036-d13.b-cdn.net/15ac0674-e562-4448-9853-a4992db2b7ab/play_720p.mp4';
   const v2LandingVideoMp4 = 'https://vz-da4cd036-d13.b-cdn.net/6ef32e69-1060-4df5-b792-b1179b6c6650/play.mp4';
@@ -43,7 +47,7 @@ export default function LandingSection({ data }: LandingSectionProps) {
       <div className="lg:max-w-6xl w-full text-center flex flex-col gap-10">
         <div className='flex flex-col gap-2 w-full'>
           <h1 className="text-5xl md:text-7xl xl:text-8xl font-bold mb-4 text-background break-words">
-            {data.title}
+            {seoH1s.home[lang]}
           </h1>
           <p className="text-base md:text-2xl text-background">
             {data.subtitle}

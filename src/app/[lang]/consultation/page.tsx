@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { seoH1s } from '@/lib/seo-h1';
 import Video from '@/components/Video';
 import { Locale } from '@/lib/i18n-config';
 import { Metadata } from 'next';
@@ -102,7 +103,7 @@ export default async function ConsultationPage(
         <div className="section grid grid-cols-1 md:grid-cols-2 place-items-center gap-10 z-10 mt-16 md:mt-0">
           <div className='flex flex-col gap-6'>
             <h1 className="text-5xl md:text-6xl text-primary-foreground">
-              {data?.title}
+              {seoH1s.consultation[lang]}
             </h1>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">

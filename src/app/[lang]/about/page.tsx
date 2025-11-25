@@ -1,4 +1,5 @@
 import type { Locale } from '@/lib/i18n-config';
+import { seoH1s } from '@/lib/seo-h1';
 import { Metadata } from 'next';
 import { Fragment } from 'react';
 import FeaturedSection from '../_components/FeaturedSection';
@@ -52,7 +53,7 @@ export default async function AboutPage(
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col gap-2'>
             <h1 className="text-5xl md:text-7xl font-bold mb-4 text-background uppercase">
-              {data?.title}
+              {seoH1s.about[lang]}
             </h1>
             <p className="text-md md:text-xl text-background">
               {data?.subtitle}

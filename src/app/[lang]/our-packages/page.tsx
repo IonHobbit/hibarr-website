@@ -3,6 +3,7 @@ import { BankPackage } from './_components/PackageCard'
 import { Fragment, Suspense } from 'react'
 import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import { Locale } from '@/lib/i18n-config'
+import { seoH1s } from '@/lib/seo-h1'
 import PackageSelector from './_components/PackageSelector'
 
 export default async function BankingPackagesPage(
