@@ -4,6 +4,15 @@ import { Fragment, Suspense } from 'react'
 import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import { Locale } from '@/lib/i18n-config'
 import PackageSelector from './_components/PackageSelector'
+import { Metadata } from 'next'
+import { seoTitles } from '@/lib/seo-titles'
+
+export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await props.params;
+  return {
+    title: seoTitles[lang].packages
+  }
+}
 
 export default async function BankingPackagesPage(
   props: {
