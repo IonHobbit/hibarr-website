@@ -4,6 +4,7 @@ import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import { CaseStudy } from '@/types/sanity.types';
 import Link from 'next/link';
 import { Locale } from '@/lib/i18n-config';
+import { generateReviewSchema, generateVideoSchema } from '@/lib/seo-schema';
 
 export const metadata = {
   title: 'Client Testimonials',
@@ -21,7 +22,7 @@ export default async function ClientTestimonialsPage({ params }: ClientTestimoni
   const caseStudies = await fetchSanityData<CaseStudy[]>(`*[_type == "caseStudy" && isFeatured == true && language == $lang]`, { lang });
 
   return (
-  <section id='hero' className="relative w-full overflow-hidden px-4 lg:px-8 grid place-items-center gap-4 place-content-center h-screen bg-[url('https://res.cloudinary.com/hibarr/image/upload/testimonials-hero_byqwmh')] bg-cover bg-center bg-no-repeat scroll-smooth">
+    <section id='hero' className="relative w-full overflow-hidden px-4 lg:px-8 grid place-items-center gap-4 place-content-center h-screen bg-[url('https://res.cloudinary.com/hibarr/image/upload/testimonials-hero_byqwmh')] bg-cover bg-center bg-no-repeat scroll-smooth">
       <div className='absolute inset-0 w-full h-full bg-gradient-to-b from-primary via-primary/80 to-transparent'></div>
 
       <div className='flex flex-col items-center gap-4 z-10'>
@@ -42,6 +43,23 @@ export default async function ClientTestimonialsPage({ params }: ClientTestimoni
           </Button>
         </div>
       </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(generateReviewSchema(caseStudies)),
+        }}
+      />
+      {caseStudies.map((study) => (
+        study.videoUrl && (
+          <script
+            key={study._id}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(generateVideoSchema(study)),
+            }}
+          />
+        )
+      ))}
     </section>
   )
 }
