@@ -8,6 +8,8 @@ import WaitlistForm from './_components/WaitlistForm'
 import { translate } from '@/lib/translation'
 import WhyJoinSectionRawText from './_components/WhyJoinSectionRawText'
 
+import { seoDescriptions } from '@/data/seo-descriptions'
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
@@ -15,6 +17,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   return generateSEOMetadata(seo, {
     title: 'Join the #1 Private Group for North Cyprus Real Estate Buyers & Investors',
+    description: seoDescriptions[lang]?.facebookGroup,
     keywords: [],
   })
 }
@@ -42,7 +45,7 @@ export default async function FacebookGroupPage(
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center min-h-screen bg-gradient-to-b from-primary via-primary/80 to-transparent">
       <div className='absolute inset-0 w-full h-full -z-10'>
-  <Image src="https://res.cloudinary.com/hibarr/image/upload/webinar-registration-background_m3p9kq" alt="Waitlist Hero" fill className='w-full h-full object-cover absolute' />
+        <Image src="https://res.cloudinary.com/hibarr/image/upload/webinar-registration-background_m3p9kq" alt="Waitlist Hero" fill className='w-full h-full object-cover absolute' />
       </div>
 
       <div className="section grid grid-cols-1 lg:grid-cols-2 place-items-center gap-10 my-28">

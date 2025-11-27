@@ -16,6 +16,8 @@ import StatisticsSection from './_components/StatisticsSection'
 import { generateSEOMetadata } from '@/lib/utils'
 import Video from '@/components/Video'
 
+import { seoDescriptions } from '@/data/seo-descriptions';
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
@@ -23,6 +25,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   return generateSEOMetadata(seo, {
     title: 'Webinar',
+    description: seoDescriptions[lang]?.webinar,
   })
 }
 

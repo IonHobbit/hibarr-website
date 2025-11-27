@@ -1,4 +1,4 @@
-import { generateSEOMetadata } from "@/lib/utils";
+import { generateSEOMetadata, toPlainText } from "@/lib/utils";
 import { BlogPostCardType } from "@/types/blog";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
@@ -24,14 +24,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = await fetchBlogPost(slug)
   const seo = post?.seo
 
-  if (!seo) {
+  if (!seo && !post) {
     return {
       title: 'Blog Post Not Found',
       description: 'The blog post you are looking for does not exist.',
     }
   }
 
-  return generateSEOMetadata(seo);
+  const description = post?.description || toPlainText(post?.content).slice(0, 160) || '';
+
+  return generateSEOMetadata(seo, {
+    title: post?.title,
+    description: description,
+  });
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string, lang: Locale }> }) {
