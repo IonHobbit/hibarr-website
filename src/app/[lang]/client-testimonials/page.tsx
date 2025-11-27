@@ -1,18 +1,19 @@
 import { Button } from '@/components/ui/button';
 import CaseStudies from './_components/CaseStudies';
 import { fetchSanityData } from '@/lib/third-party/sanity.client';
-import { CaseStudy } from '@/types/sanity.types';
+import { CaseStudy, SeoMetaFields } from '@/types/sanity.types';
 import Link from 'next/link';
 import { Locale } from '@/lib/i18n-config';
+import { seoH1s } from '@/lib/seo-h1';
 import { Metadata } from 'next';
-import { seoTitles } from '@/lib/seo-titles';
+import { seoTitles } from '@/lib/seo-titles'
+import { seoDescriptions } from '@/data/seo-descriptions';
+import { generateSEOMetadata } from '@/lib/utils';
+
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
-  return {
-    title: seoTitles[lang].clientTestimonials,
-    description: 'Client Testimonials',
-  }
+  return generateSEOMetadata({ metaTitle: seoTitles[lang].clientTestimonials, metaDescription: seoDescriptions[lang].clientTestimonials } as SeoMetaFields)
 }
 
 type ClientTestimonialsPageProps = {
@@ -32,7 +33,7 @@ export default async function ClientTestimonialsPage({ params }: ClientTestimoni
       <div className='flex flex-col items-center gap-4 z-10'>
         <div className="w-[80vw] md:w-[70vw] relative overflow-y-auto text-center p-4 md:p-6 lg:p-8 bg-secondary rounded-lg z-10">
           <div className="flex flex-col items-center gap-1">
-            <h3 className='text-4xl font-bold text-primary'>Testimonials</h3>
+            <h1 className='text-4xl font-bold text-primary'>{seoH1s.testimonials[lang]}</h1>
             <p className='text-primary'>Hear from our clients</p>
           </div>
           <section id='case-studies' className='section'>

@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { seoH1s } from '@/lib/seo-h1'
 import { Locale } from '@/lib/i18n-config'
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client'
 import { HomePage, WebinarPage, SeoMetaFields } from '@/types/sanity.types'
@@ -59,7 +60,7 @@ export default async function ZoomRegistrationPage(
         <div className="max-w-5xl text-center flex flex-col gap-10 px-4 mt-20 md:mt-0">
           <div className='flex flex-col gap-2'>
             <h1 className="text-5xl md:text-7xl font-bold mb-4 text-background">
-              {webinarPage?.title}
+              {seoH1s.webinar[lang]}
             </h1>
             <p className="text-sm md:text-lg text-background">
               {webinarPage?.subtitle}
