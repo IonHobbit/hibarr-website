@@ -4,6 +4,7 @@ import { SuspendedSearchBar } from './_components/SearchBar';
 import PropertyList from './_components/PropertyList';
 import { Locale } from '@/lib/i18n-config';
 import { seoDescriptions } from '@/data/seo-descriptions';
+import { seoH1s } from '@/lib/seo-h1';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -14,8 +15,6 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
   }
 }
 
-import { Locale } from '@/lib/i18n-config';
-import { seoH1s } from '@/lib/seo-h1';
 
 // ... existing imports
 
