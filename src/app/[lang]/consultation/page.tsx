@@ -14,6 +14,8 @@ import ConsultationProcessSection from '../(landing)/_components/ConsultationPro
 import { translate, translateBatch } from '@/lib/translation';
 import { interestedInOptions, messageOptions, periodOptions } from '@/lib/options';
 
+import { seoDescriptions } from '@/data/seo-descriptions';
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
@@ -21,7 +23,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   return generateSEOMetadata(seo, {
     title: 'Schedule a Free Kick Off Meeting',
-    description: 'We are the only company in North Cyprus that can offer 10 year payment plans, 0% interest, and no credit checks.',
+    description: seoDescriptions[lang]?.consultation,
   })
 }
 

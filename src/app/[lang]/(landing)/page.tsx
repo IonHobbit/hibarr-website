@@ -24,12 +24,16 @@ type HomePageProps = {
   params: Promise<{ lang: Locale }>;
 }
 
+import { seoDescriptions } from '@/data/seo-descriptions';
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
   const { seo } = await fetchRawSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata(seo)
+  return generateSEOMetadata(seo, {
+    description: seoDescriptions[lang]?.home
+  })
 }
 
 export const revalidate = 60;

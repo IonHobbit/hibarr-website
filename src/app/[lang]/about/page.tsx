@@ -14,6 +14,8 @@ import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.cl
 import { AboutPage as AboutPageType } from '@/types/sanity.types';
 import { generateSEOMetadata } from '@/lib/utils';
 
+import { seoDescriptions } from '@/data/seo-descriptions';
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
@@ -21,7 +23,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   return generateSEOMetadata(seo, {
     title: 'About Us',
-    description: 'About Us',
+    description: seoDescriptions[lang]?.about,
   })
 }
 
