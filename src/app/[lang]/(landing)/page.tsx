@@ -21,6 +21,7 @@ import { generateSEOMetadata } from '@/lib/utils';
 import LandingWrapper from './_components/LandingWrapper';
 
 import { seoTitles } from '@/lib/seo-titles';
+import { seoDescriptions } from '@/data/seo-descriptions';
 
 type HomePageProps = {
   params: Promise<{ lang: Locale }>;
@@ -31,7 +32,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchRawSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].home } as SeoMetaFields)
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].home, metaDescription: seoDescriptions[lang].home } as SeoMetaFields)
 }
 
 export const revalidate = 60;

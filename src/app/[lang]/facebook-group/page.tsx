@@ -9,16 +9,14 @@ import { translate } from '@/lib/translation'
 import WhyJoinSectionRawText from './_components/WhyJoinSectionRawText'
 
 import { seoTitles } from '@/lib/seo-titles';
+import { seoDescriptions } from '@/data/seo-descriptions'
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
   const { seo } = await fetchRawSanityData<WaitlistPage>(`*[_type == "waitlistPage" && language == $lang][0]{seo}`, { lang })
 
-  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].facebookGroup } as SeoMetaFields, {
-    title: 'Join the #1 Private Group for North Cyprus Real Estate Buyers & Investors',
-    keywords: [],
-  })
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].facebookGroup, metaDescription: seoDescriptions[lang].facebookGroup } as SeoMetaFields)
 }
 
 export default async function FacebookGroupPage(

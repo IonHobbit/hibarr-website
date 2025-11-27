@@ -10,6 +10,8 @@ import { Testimonial, TestimonialsPage as TestimonialsPageType, SeoMetaFields } 
 
 import { seoTitles } from '@/lib/seo-titles';
 
+import { seoDescriptions } from '@/data/seo-descriptions';
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
@@ -17,6 +19,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].testimonials } as SeoMetaFields, {
     title: 'Testimonials',
+    description: seoDescriptions[lang]?.testimonials,
   })
 }
 

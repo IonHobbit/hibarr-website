@@ -17,15 +17,14 @@ import { generateSEOMetadata } from '@/lib/utils'
 import Video from '@/components/Video'
 
 import { seoTitles } from '@/lib/seo-titles';
+import { seoDescriptions } from '@/data/seo-descriptions';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
   const { seo } = await fetchRawSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].webinar } as SeoMetaFields, {
-    title: 'Webinar',
-  })
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].webinar, metaDescription: seoDescriptions[lang].webinar } as SeoMetaFields)
 }
 
 type ZoomRegistrationPageProps = {
