@@ -11,9 +11,10 @@ import AboutRabih from './_components/AboutRabih';
 import CallToActionSection from './_components/CallToActionSection';
 import GallerySection from './_components/GallerySection';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
-import { AboutPage as AboutPageType } from '@/types/sanity.types';
+import { AboutPage as AboutPageType, SeoMetaFields } from '@/types/sanity.types';
 import { generateSEOMetadata } from '@/lib/utils';
 
+import { seoTitles } from '@/lib/seo-titles';
 import { seoDescriptions } from '@/data/seo-descriptions';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
@@ -21,10 +22,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchRawSanityData<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata(seo, {
-    title: 'About Us',
-    description: seoDescriptions[lang]?.about,
-  })
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].about, metaDescription: seoDescriptions[lang].about } as SeoMetaFields)
 }
 
 export default async function AboutPage(

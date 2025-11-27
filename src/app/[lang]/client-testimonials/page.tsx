@@ -1,14 +1,19 @@
 import { Button } from '@/components/ui/button';
 import CaseStudies from './_components/CaseStudies';
 import { fetchSanityData } from '@/lib/third-party/sanity.client';
-import { CaseStudy } from '@/types/sanity.types';
+import { CaseStudy, SeoMetaFields } from '@/types/sanity.types';
 import Link from 'next/link';
 import { Locale } from '@/lib/i18n-config';
 import { seoH1s } from '@/lib/seo-h1';
+import { Metadata } from 'next';
+import { seoTitles } from '@/lib/seo-titles'
+import { seoDescriptions } from '@/data/seo-descriptions';
+import { generateSEOMetadata } from '@/lib/utils';
 
-export const metadata = {
-  title: 'Client Testimonials',
-  description: 'Client Testimonials',
+
+export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await props.params;
+  return generateSEOMetadata({ metaTitle: seoTitles[lang].clientTestimonials, metaDescription: seoDescriptions[lang].clientTestimonials } as SeoMetaFields)
 }
 
 type ClientTestimonialsPageProps = {

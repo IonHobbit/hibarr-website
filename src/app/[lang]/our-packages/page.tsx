@@ -6,15 +6,14 @@ import { Locale } from '@/lib/i18n-config'
 import { seoH1s } from '@/lib/seo-h1'
 import PackageSelector from './_components/PackageSelector'
 import { Metadata } from 'next'
+import { seoTitles } from '@/lib/seo-titles'
+import { generateSEOMetadata } from '@/lib/utils'
 import { seoDescriptions } from '@/data/seo-descriptions'
+import { SeoMetaFields } from '@/types/sanity.types'
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
-
-  return {
-    title: 'Our Packages',
-    description: seoDescriptions[lang]?.packages,
-  }
+  return generateSEOMetadata({ metaTitle: seoTitles[lang].packages, metaDescription: seoDescriptions[lang].packages } as SeoMetaFields)
 }
 
 export default async function BankingPackagesPage(

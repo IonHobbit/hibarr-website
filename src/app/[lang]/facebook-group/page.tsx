@@ -1,13 +1,14 @@
 import { Locale } from '@/lib/i18n-config'
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client'
 import { generateSEOMetadata } from '@/lib/utils'
-import type { WaitlistPage } from '@/types/sanity.types'
+import type { WaitlistPage, SeoMetaFields } from '@/types/sanity.types'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import WaitlistForm from './_components/WaitlistForm'
 import { translate } from '@/lib/translation'
 import WhyJoinSectionRawText from './_components/WhyJoinSectionRawText'
 
+import { seoTitles } from '@/lib/seo-titles';
 import { seoDescriptions } from '@/data/seo-descriptions'
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
@@ -15,11 +16,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchRawSanityData<WaitlistPage>(`*[_type == "waitlistPage" && language == $lang][0]{seo}`, { lang })
 
-  return generateSEOMetadata(seo, {
-    title: 'Join the #1 Private Group for North Cyprus Real Estate Buyers & Investors',
-    description: seoDescriptions[lang]?.facebookGroup,
-    keywords: [],
-  })
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].facebookGroup, metaDescription: seoDescriptions[lang].facebookGroup } as SeoMetaFields)
 }
 
 export default async function FacebookGroupPage(

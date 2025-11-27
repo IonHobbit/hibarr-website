@@ -6,7 +6,9 @@ import type { Locale } from '@/lib/i18n-config';
 import { formatDate, generateSEOMetadata } from '@/lib/utils';
 import { Metadata } from 'next';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
-import { Testimonial, TestimonialsPage as TestimonialsPageType } from '@/types/sanity.types';
+import { Testimonial, TestimonialsPage as TestimonialsPageType, SeoMetaFields } from '@/types/sanity.types';
+
+import { seoTitles } from '@/lib/seo-titles';
 
 import { seoDescriptions } from '@/data/seo-descriptions';
 
@@ -15,10 +17,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchRawSanityData<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata(seo, {
-    title: 'Testimonials',
-    description: seoDescriptions[lang]?.testimonials,
-  })
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].testimonials, metaDescription: seoDescriptions[lang].testimonials } as SeoMetaFields)
 }
 
 export default async function TestimonialsPage(
