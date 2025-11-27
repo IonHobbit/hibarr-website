@@ -16,6 +16,7 @@ export const seoDescriptions: SeoDescriptions = {
         webinar: "Join our free webinar on North Cyprus real estate investment. Learn expert strategies, market insights, and how to maximize your ROI with HIBARR.",
         consultation: "Book a free consultation with HIBARR experts. Get personalized advice on North Cyprus property investment, legal processes, and portfolio management.",
         facebookGroup: "Join the HIBARR Community Facebook Group. Connect with like-minded investors, get exclusive market updates, and share insights on North Cyprus real estate.",
+        clientTestimonials: "See what our investors say about HIBARR. Read success stories and reviews from satisfied clients who have successfully invested in North Cyprus real estate.",
     },
     de: {
         home: "Investieren Sie in Immobilien in Nordzypern mit HIBARR. 10 Jahre Zahlungsplan, 0% Zinsen. Exklusive Objekte mit hohem ROI und 15% jährlicher Rendite.",
@@ -26,6 +27,7 @@ export const seoDescriptions: SeoDescriptions = {
         webinar: "Nehmen Sie an unserem kostenlosen Webinar über Immobilieninvestitionen in Nordzypern teil. Lernen Sie Expertenstrategien und Marktanalysen für maximalen ROI.",
         consultation: "Buchen Sie eine kostenlose Beratung mit HIBARR-Experten. Erhalten Sie persönliche Tipps zu Immobilieninvestitionen, rechtlichen Prozessen und Portfolio-Management.",
         facebookGroup: "Treten Sie der HIBARR Community Facebook-Gruppe bei. Vernetzen Sie sich mit Investoren, erhalten Sie exklusive Markt-Updates und teilen Sie Einblicke.",
+        clientTestimonials: "Das sagen unsere Investoren über HIBARR. Lesen Sie Erfolgsgeschichten und Bewertungen von zufriedenen Kunden, die erfolgreich in Nordzypern investiert haben.",
     },
     tr: {
         home: "HIBARR ile Kuzey Kıbrıs gayrimenkul yatırımı yapın. 10 yıl ödeme planı, %0 faiz. Yüksek ROI ve %15 yıllık getiri sağlayan özel mülklere erişin.",
@@ -36,6 +38,7 @@ export const seoDescriptions: SeoDescriptions = {
         webinar: "Kuzey Kıbrıs gayrimenkul yatırımı üzerine ücretsiz webinarımıza katılın. Uzman stratejileri, piyasa analizleri ve ROI'nizi maksimize etmenin yollarını öğrenin.",
         consultation: "HIBARR uzmanlarıyla ücretsiz danışmanlık randevusu alın. Kuzey Kıbrıs emlak yatırımı, yasal süreçler ve portföy yönetimi hakkında kişisel tavsiyeler alın.",
         facebookGroup: "HIBARR Topluluğu Facebook Grubuna katılın. Yatırımcılarla bağlantı kurun, özel piyasa güncellemelerini alın ve Kuzey Kıbrıs emlak piyasası hakkında bilgi paylaşın.",
+        clientTestimonials: "Yatırımcılarımızın HIBARR hakkında neler söylediğini görün. Kuzey Kıbrıs'ta başarıyla yatırım yapmış mutlu müşterilerimizin başarı hikayelerini okuyun.",
     },
     ru: {
         home: "Инвестируйте в недвижимость Северного Кипра с HIBARR. Рассрочка на 10 лет, 0% процентов. Эксклюзивные объекты с высоким ROI и доходностью 15% годовых.",
@@ -46,5 +49,6 @@ export const seoDescriptions: SeoDescriptions = {
         webinar: "Присоединяйтесь к бесплатному вебинару по инвестициям в недвижимость Северного Кипра. Узнайте стратегии экспертов и как максимизировать ваш ROI с HIBARR.",
         consultation: "Запишитесь на бесплатную консультацию с экспертами HIBARR. Получите персональные советы по инвестициям, юридическим вопросам и управлению портфелем.",
         facebookGroup: "Вступайте в группу HIBARR Community в Facebook. Общайтесь с инвесторами, получайте эксклюзивные новости рынка и делитесь мнением о недвижимости.",
+        clientTestimonials: "Узнайте, что говорят инвесторы о HIBARR. Читайте истории успеха и отзывы довольных клиентов, успешно инвестировавших в недвижимость Северного Кипра.",
     },
 };
