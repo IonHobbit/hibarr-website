@@ -6,13 +6,14 @@ import { Icon } from '@/components/icons';
 import FAQAccordion from '../_components/FAQAccordion';
 // import CalendlyEmbed from '@/components/CalendlyEmbed';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
-import { ConsultationPage as ConsultationPageType, HomePage } from '@/types/sanity.types';
+import { ConsultationPage as ConsultationPageType, HomePage, SeoMetaFields } from '@/types/sanity.types';
 import ConsultationForm from './_components/ConsultationForm';
 import { generateSEOMetadata } from '@/lib/utils';
 import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
 import { translate, translateBatch } from '@/lib/translation';
 import { interestedInOptions, messageOptions, periodOptions } from '@/lib/options';
 
+import { seoTitles } from '@/lib/seo-titles';
 import { seoDescriptions } from '@/data/seo-descriptions';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
@@ -20,10 +21,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchRawSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata(seo, {
-    title: 'Schedule a Free Kick Off Meeting',
-    description: seoDescriptions[lang]?.consultation,
-  })
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].consultation, metaDescription: seoDescriptions[lang].consultation } as SeoMetaFields)
 }
 
 export default async function ConsultationPage(

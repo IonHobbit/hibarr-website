@@ -2,16 +2,15 @@ import { Metadata } from 'next';
 import { Fragment, Suspense } from 'react';
 import { SuspendedSearchBar } from './_components/SearchBar';
 import PropertyList from './_components/PropertyList';
+import { seoTitles } from '@/lib/seo-titles';
 import { Locale } from '@/lib/i18n-config';
 import { seoDescriptions } from '@/data/seo-descriptions';
+import { SeoMetaFields } from '@/types/sanity.types';
+import { generateSEOMetadata } from '@/lib/utils';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
-
-  return {
-    title: 'Listings',
-    description: seoDescriptions[lang]?.listings,
-  }
+  return generateSEOMetadata({ metaTitle: seoTitles[lang].listings, metaDescription: seoDescriptions[lang].listings } as SeoMetaFields)
 }
 
 export default async function ListingsPage() {
