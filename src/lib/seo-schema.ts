@@ -1,4 +1,4 @@
-import { WithContext, Organization, LocalBusiness, Product, Review, FAQPage, VideoObject, RealEstateAgent } from 'schema-dts';
+import { WithContext, Organization, Product, Review, FAQPage, VideoObject, RealEstateAgent } from 'schema-dts';
 import { Property, CaseStudy } from '@/types/sanity.types';
 import imageUrlBuilder from '@sanity/image-url';
 import { client } from '@/lib/third-party/sanity.client';
