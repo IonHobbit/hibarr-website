@@ -2,10 +2,10 @@ import { Locale } from "./i18n-config";
 
 export const seoH1s: Record<string, Record<Locale, string>> = {
     home: {
-        en: "Invest in North Cyprus Real Estate - 0% Interest Payment Plans & High ROI Properties",
-        de: "Investieren Sie in Nordzypern Immobilien - 0% Zinsen Zahlungspläne & Hohe ROI Immobilien",
-        tr: "Kuzey Kıbrıs Emlak Yatırımı - %0 Faizli Ödeme Planları & Yüksek ROI Emlak",
-        ru: "Инвестируйте в недвижимость Северного Кипра - Планы оплаты под 0% и высокая рентабельность",
+        en: "Own Affordable Luxury in North Cyprus",
+        de: "Besitzen Sie erschwinglichen Luxus in Nordzypern",
+        tr: "Kuzey Kıbrıs'ta Uygun Fiyatlı Lükse Sahip Olun",
+        ru: "Владейте доступной роскошью на Северном Кипре",
     },
     about: {
         en: "About HIBARR - Your Trusted Partner in North Cyprus Real Estate",
