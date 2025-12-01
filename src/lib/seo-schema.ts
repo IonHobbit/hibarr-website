@@ -66,6 +66,7 @@ export const generateLocalBusinessSchema = (): WithContext<RealEstateAgent> => {
                 'Wednesday',
                 'Thursday',
                 'Friday',
+                'Saturday',
             ],
             opens: '09:00',
             closes: '18:00',
