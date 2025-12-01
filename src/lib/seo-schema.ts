@@ -1,4 +1,4 @@
-import { WithContext, Organization, LocalBusiness, Product, Review, FAQPage, VideoObject } from 'schema-dts';
+import { WithContext, Organization, LocalBusiness, Product, Review, FAQPage, VideoObject, RealEstateAgent } from 'schema-dts';
 import { Property, CaseStudy } from '@/types/sanity.types';
 import imageUrlBuilder from '@sanity/image-url';
 import { client } from '@/lib/third-party/sanity.client';
@@ -35,7 +35,7 @@ export const generateOrganizationSchema = (): WithContext<Organization> => {
     };
 };
 
-export const generateLocalBusinessSchema = (): WithContext<LocalBusiness> => {
+export const generateLocalBusinessSchema = (): WithContext<RealEstateAgent> => {
     return {
         '@context': 'https://schema.org',
         '@type': 'RealEstateAgent', // Or generic LocalBusiness
