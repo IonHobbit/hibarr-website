@@ -15,8 +15,8 @@ export const generateOrganizationSchema = (): WithContext<Organization> => {
         '@context': 'https://schema.org',
         '@type': 'Organization',
         name: 'HIBARR',
-        url: 'https://hibarr.com',
-        logo: 'https://hibarr.com/logos/logo-blue.png',
+        url: 'https://hibarr.de',
+        logo: 'https://hibarr.de/logos/logo-blue.png',
         email: 'info@hibarr.de',
         sameAs: [
             'https://www.facebook.com/hibarr',
@@ -40,9 +40,9 @@ export const generateLocalBusinessSchema = (): WithContext<RealEstateAgent> => {
         '@context': 'https://schema.org',
         '@type': 'RealEstateAgent', // Or generic LocalBusiness
         name: 'HIBARR Real Estate',
-        image: 'https://hibarr.com/logos/logo-blue.png',
-        '@id': 'https://hibarr.com',
-        url: 'https://hibarr.com',
+        image: 'https://hibarr.de/logos/logo-blue.png',
+        '@id': 'https://hibarr.de',
+        url: 'https://hibarr.de',
         telephone: '+90-539-119-1823',
         email: 'info@hibarr.de',
         address: {
@@ -90,7 +90,7 @@ export const generateProductSchema = (listing: Property): WithContext<Product> =
         },
         offers: {
             '@type': 'Offer',
-            url: `https://hibarr.com/listings/${info.slug?.current}`,
+            url: `https://hibarr.de/listings/${info.slug?.current}`,
             priceCurrency: info.price?.currency || 'GBP',
             price: info.price?.amount,
             availability: 'https://schema.org/InStock',
