@@ -5,9 +5,19 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: ['/'],
-        disallow: ['/api', '/external', '/ingest', '/expose', '/tools', '/calendar', '/webinaar', '/webinaar*', '/*/webinaar*', '/*/webinaar']
-      }
+        allow: ['/', '/_next/'],
+        disallow: [
+          // Block internal / system routes that should never be indexed
+          '/api/',
+          '/external/',
+          '/ingest/',
+          '/expose/',
+          '/tools/',
+          '/calendar/',
+          '/webinaar',
+          '/*/webinaar',
+        ],
+      },
     ],
     sitemap: 'https://hibarr.de/sitemap.xml',
   }
