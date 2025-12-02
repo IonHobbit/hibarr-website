@@ -10,6 +10,7 @@ import MetaPixel from "@/components/analytics/MetaPixel";
 import ThemeProvider from "@/providers/ThemeProvider";
 import GA4 from "@/components/analytics/GTMHead";
 import GTMBody from "@/components/analytics/GTMBody";
+import { WebVitals } from "@/components/analytics/WebVitals";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -82,11 +83,13 @@ export default async function RootLayout(
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://vz-da4cd036-d13.b-cdn.net" />
         <link rel="dns-prefetch" href="https://eu.i.posthog.com" />
+        <link rel="preload" as="image" href="https://res.cloudinary.com/hibarr/image/upload/landing-background-fallback_fitt21" />
       </head>
       <body
         className={`${inter.variable} ${figtree.variable} antialiased relative w-screen overflow-x-hidden`}
       >
         <GTMBody />
+        <WebVitals />
         <ThemeProvider>
           <PostHogProvider>
             <ReactQueryProvider>
