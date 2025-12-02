@@ -16,14 +16,19 @@ import StatisticsSection from './_components/StatisticsSection'
 import { generateSEOMetadata } from '@/lib/utils'
 import Video from '@/components/Video'
 
+import { getHreflangAlternates } from '@/lib/seo-metadata';
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
   const { seo } = await fetchRawSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata(seo, {
-    title: 'Webinar',
-  })
+  return {
+    ...generateSEOMetadata(seo, {
+      title: 'Webinar',
+    }),
+    alternates: getHreflangAlternates('/webinar', lang)
+  }
 }
 
 type ZoomRegistrationPageProps = {

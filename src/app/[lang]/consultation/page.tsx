@@ -13,15 +13,20 @@ import ConsultationProcessSection from '../(landing)/_components/ConsultationPro
 import { translate, translateBatch } from '@/lib/translation';
 import { interestedInOptions, messageOptions, periodOptions } from '@/lib/options';
 
+import { getHreflangAlternates } from '@/lib/seo-metadata';
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
   const { seo } = await fetchRawSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata(seo, {
-    title: 'Schedule a Free Kick Off Meeting',
-    description: 'We are the only company in North Cyprus that can offer 10 year payment plans, 0% interest, and no credit checks.',
-  })
+  return {
+    ...generateSEOMetadata(seo, {
+      title: 'Schedule a Free Kick Off Meeting',
+      description: 'We are the only company in North Cyprus that can offer 10 year payment plans, 0% interest, and no credit checks.',
+    }),
+    alternates: getHreflangAlternates('/consultation', lang)
+  }
 }
 
 export default async function ConsultationPage(

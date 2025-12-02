@@ -6,6 +6,19 @@ import { cn } from "@/lib/utils";
 import BlogCategories, { ALL_CATEGORY } from "./_components/BlogCategories";
 import FeaturedBlogPosts from "./_components/FeaturedBlogPosts";
 import { Suspense } from "react";
+import { Metadata } from "next";
+import { getHreflangAlternates } from "@/lib/seo-metadata";
+
+export async function generateMetadata(props: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await props.params;
+  const postPage = await fetchSanityData<{ title: string; subtitle: string }>(`*[_type == "blogPage" && language == $lang][0]{ title, subtitle }`, { lang });
+  
+  return {
+    title: postPage?.title || 'Blog',
+    description: postPage?.subtitle || 'Here we share our thoughts and insights on the markets.',
+    alternates: getHreflangAlternates('/blog', lang)
+  }
+}
 
 export default async function BlogPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params

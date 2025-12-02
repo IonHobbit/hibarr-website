@@ -13,15 +13,20 @@ import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.cl
 import { AboutPage as AboutPageType } from '@/types/sanity.types';
 import { generateSEOMetadata } from '@/lib/utils';
 
+import { getHreflangAlternates } from '@/lib/seo-metadata';
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
   const { seo } = await fetchRawSanityData<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata(seo, {
-    title: 'About Us',
-    description: 'About Us',
-  })
+  return {
+    ...generateSEOMetadata(seo, {
+      title: 'About Us',
+      description: 'About Us',
+    }),
+    alternates: getHreflangAlternates('/about', lang)
+  }
 }
 
 export default async function AboutPage(

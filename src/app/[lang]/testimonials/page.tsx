@@ -8,14 +8,19 @@ import { Metadata } from 'next';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
 import { Testimonial, TestimonialsPage as TestimonialsPageType } from '@/types/sanity.types';
 
+import { getHreflangAlternates } from '@/lib/seo-metadata';
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
   const { seo } = await fetchRawSanityData<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata(seo, {
-    title: 'Testimonials',
-  })
+  return {
+    ...generateSEOMetadata(seo, {
+      title: 'Testimonials',
+    }),
+    alternates: getHreflangAlternates('/testimonials', lang)
+  }
 }
 
 export default async function TestimonialsPage(
