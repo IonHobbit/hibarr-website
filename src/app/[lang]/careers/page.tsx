@@ -6,6 +6,7 @@ import React from 'react';
 import { makeGETRequest } from '@/lib/services/api.service';
 import { translate } from '@/lib/translation';
 import { Job } from '@/types/careers';
+import { CloudCog } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Careers',
@@ -25,7 +26,7 @@ export default async function CareersPage() {
 
   // Translate the page content
   const [careerOpportunities, exploreOpenRoles, noOpenRoles, backHome] = await Promise.all([
-    translate('Career Opportunities'),
+    translate('Our Open Positions'),
     translate('Explore open roles and apply to join our team.'),
     translate('No open roles right now.'),
     translate('Back to Home')
@@ -33,31 +34,34 @@ export default async function CareersPage() {
 
   return (
     <main>
-      <section className='section header-offset gap-4 py-6'>
-        <h1 className='text-4xl font-bold' data-token={careerOpportunities.token}>
-          {careerOpportunities.text}
-        </h1>
-        <p className='text-muted-foreground' data-token={exploreOpenRoles.token}>
-          {exploreOpenRoles.text}
-        </p>
-        {jobs.length === 0 ? (
-          <div className='flex flex-col items-center justify-center gap-4 min-h-[40vh] text-center'>
-            <p className='text-muted-foreground' data-token={noOpenRoles.token}>
-              {noOpenRoles.text}
+      <section className='section header-offset gap-4 py-6 pt-14'>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-10">
+          <div className="col-span-2 flex flex-col gap-4">
+            <h1 className='text-5xl font-bold' data-token={careerOpportunities.token}>
+              {careerOpportunities.text}
+            </h1>
+            <p className='text-muted-foreground' data-token={exploreOpenRoles.token}>
+              {exploreOpenRoles.text}
             </p>
-            <Button asChild>
-              <Link href='/' data-token={backHome.token}>
-                {backHome.text}
-              </Link>
-            </Button>
           </div>
-        ) : (
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-            {jobs.map((job) => (
-              <JobCard key={String(job.id)} job={job} />
-            ))}
+          <div className="col-span-3">
+            {jobs.length === 0 ? (
+              <div className='flex flex-col items-center justify-center gap-4 min-h-[40vh] text-center'>
+                <Button asChild>
+                  <Link href='/' data-token={backHome.token}>
+                    {backHome.text}
+                  </Link>
+                </Button>
+              </div>
+            ) : (
+              <div className='flex flex-col divide-y'>
+                {jobs.map((job) => (
+                  <JobCard key={String(job.id)} job={job} />
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </section>
     </main>
   )
