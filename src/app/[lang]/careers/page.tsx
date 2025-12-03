@@ -41,7 +41,7 @@ export default async function CareersPage() {
           </p>
         </div>
         <div className="col-span-3">
-          {jobs.length > 0 ? (
+          {jobs.length === 0 ? (
             <div className='flex flex-col items-center gap-4 min-h-[40vh] justify-center text-center'>
               <h1 data-token={noOpenRoles.token} className='text-3xl !font-semibold'>{noOpenRoles.text}</h1>
               <p className='text-muted-foreground' data-token={checkBackLater.token}>{checkBackLater.text}</p>
