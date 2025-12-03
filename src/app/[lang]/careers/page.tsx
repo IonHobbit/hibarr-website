@@ -1,6 +1,4 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import JobCard from './_components/JobCard';
 import React from 'react';
 import { makeGETRequest } from '@/lib/services/api.service';
@@ -24,12 +22,11 @@ export default async function CareersPage() {
   }
 
   // Translate the page content
-  const [careerOpportunities, exploreOpenRoles, noOpenRoles, checkBackLater, backHome] = await Promise.all([
+  const [careerOpportunities, exploreOpenRoles, noOpenRoles, checkBackLater] = await Promise.all([
     translate('Our Open Positions'),
     translate('Explore open roles and apply to join our team.'),
     translate('No open roles right now.'),
     translate('Check back later for new opportunities.'),
-    translate('Back to Home')
   ]);
 
   return (
@@ -45,14 +42,9 @@ export default async function CareersPage() {
         </div>
         <div className="col-span-3">
           {jobs.length > 0 ? (
-            <div className='flex flex-col items-center gap-4 min-h-[40vh] text-center'>
+            <div className='flex flex-col items-center gap-4 min-h-[40vh] justify-center text-center'>
               <h1 data-token={noOpenRoles.token} className='text-3xl !font-semibold'>{noOpenRoles.text}</h1>
               <p className='text-muted-foreground' data-token={checkBackLater.token}>{checkBackLater.text}</p>
-              <Button asChild>
-                <Link href='/' data-token={backHome.token}>
-                  {backHome.text}
-                </Link>
-              </Button>
             </div>
           ) : (
             <div className='flex flex-col divide-y'>
