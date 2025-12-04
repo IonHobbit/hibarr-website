@@ -15,7 +15,7 @@ export default async function CareersPage() {
   let jobs: Job[] = [];
   try {
     const resp = await makeGETRequest<Job[]>('/jobs');
-    jobs = resp?.data ?? [];
+    jobs = resp?.data?.filter((job) => job.published) ?? [];
   } catch {
     // Use mock data when API is unavailable (e.g., during build time)
     jobs = [] as Job[];
