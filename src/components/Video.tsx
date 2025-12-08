@@ -8,7 +8,7 @@ import dynamic from 'next/dynamic';
 
 const HlsVideo = dynamic(() => import('./HlsVideo'), {
   ssr: false,
-  loading: () => <div className="w-full h-full bg-black animate-pulse" />
+  loading: () => <div className="w-full h-full animate-pulse" />
 });
 
 interface IVideoProps {
