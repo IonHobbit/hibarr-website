@@ -17,15 +17,14 @@ export default function MetaPixel() {
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '1373104597703490');
-            fbq('track', 'PageView');
-            `,
+            fbq('init', '1416306029875300');
+            fbq('track', 'PageView');`,
         }}
       />
       <noscript>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img height="1" width="1" style={{ display: 'none' }}
-          src="https://www.facebook.com/tr?id=1373104597703490&ev=PageView&noscript=1"
+          src="https://www.facebook.com/tr?id=1416306029875300&ev=PageView&noscript=1"
           alt="Meta Pixel"
         />
       </noscript>
