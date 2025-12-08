@@ -2,12 +2,14 @@ import { Suspense } from "react";
 import VideoArchiveForm from "./_components/VideoArchiveForm";
 import { Metadata } from "next";
 import { getHreflangAlternates } from "@/lib/seo-metadata";
+import { generateSEOMetadata } from "@/lib/utils";
 
 export async function generateMetadata(props: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await props.params;
-  return {
-    alternates: getHreflangAlternates('/webinar-recording', lang)
-  }
+  return generateSEOMetadata({}, {
+    title: 'Webinar Recording | HIBARR',
+    description: 'Watch the recording of our exclusive North Cyprus investment webinar.',
+  }, lang)
 }
 
 export default async function VideoArchive() {

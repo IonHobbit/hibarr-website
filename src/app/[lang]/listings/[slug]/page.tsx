@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { generateSEOMetadata } from '@/lib/utils';
 import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import { PropertyResponse } from '@/types/property';
 import { getHreflangAlternates } from '@/lib/seo-metadata';
@@ -11,15 +12,27 @@ export async function generateMetadata(props: { params: Promise<{ slug: string; 
   const property = await fetchSanityData<PropertyResponse>(`
     *[_type == "property" && basicInfo.slug.current == "${decodedSlug}"][0] {
       basicInfo {
-        title
+        title,
+        images[] {
+          image,
+          isCover
+        }
       }
     }
   `)
 
-  return {
+  // Find cover image or first image
+  const coverImage = property?.basicInfo?.images?.find(img => img.isCover)?.image || property?.basicInfo?.images?.[0]?.image;
+
+  return generateSEOMetadata({
+    metaTitle: property?.basicInfo?.title,
+    openGraph: {
+      title: property?.basicInfo?.title,
+      image: coverImage
+    }
+  } as any, {
     title: property?.basicInfo?.title,
-    alternates: getHreflangAlternates(`/listings/${decodedSlug}`, lang)
-  }
+  }, lang)
 }
 
 export default async function PropertyPage(

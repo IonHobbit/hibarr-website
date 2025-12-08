@@ -35,10 +35,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   const description = post?.description || toPlainText(post?.content).slice(0, 160) || '';
 
-  return generateSEOMetadata(seo, {
+  return generateSEOMetadata({
+    ...seo,
+    openGraph: {
+      ...seo?.openGraph,
+      title: seo?.openGraph?.title || post.title,
+      description: seo?.openGraph?.description || description,
+      image: seo?.openGraph?.image || post.image,
+      // @ts-ignore - 'article' is not in the base type but supported by Next.js
+      type: 'article',
+      article: {
+        publishedTime: post.publishedAt,
+        authors: [post.author?.name || 'Hibarr Team'],
+        tags: post.tags?.map(t => t.title),
+      }
+    }
+  }, {
     title: post?.title,
     description: description,
-  });
+  }, lang);
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string, lang: Locale }> }) {
