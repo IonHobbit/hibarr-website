@@ -61,7 +61,7 @@ export function generateSEOMetadata(seo?: SeoMetaFields, defaults?: {
         height: 630,
         alt: metaTitle || 'HIBARR North Cyprus Real Estate',
       })),
-      type: (seo?.openGraph as any)?.type || 'website',
+      type: ((seo?.openGraph as { type?: string })?.type || 'website') as 'website' | 'article',
       locale: locale === 'en' ? 'en_US' : locale === 'de' ? 'de_DE' : locale === 'tr' ? 'tr_TR' : locale === 'ru' ? 'ru_RU' : locale,
     },
     twitter: {

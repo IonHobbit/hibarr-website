@@ -19,7 +19,6 @@ import Spacer, { SpacerBlock } from "@/app/[lang]/blog/[slug]/_components/Spacer
 import ContentTable, { TableBlock } from "@/app/[lang]/blog/[slug]/_components/ContentTable";
 import TextWithImage, { TextWithImageBlock } from "@/app/[lang]/blog/[slug]/_components/TextWithImage";
 
-import { getHreflangAlternates } from "@/lib/seo-metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; lang: string }> }) {
   const { slug, lang } = await params
@@ -42,7 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: seo?.openGraph?.title || post.title,
       description: seo?.openGraph?.description || description,
       image: seo?.openGraph?.image || post.image,
-      // @ts-ignore - 'article' is not in the base type but supported by Next.js
+      // @ts-expect-error - 'article' is not in the base type but supported by Next.js
       type: 'article',
       article: {
         publishedTime: post.publishedAt,

@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { generateSEOMetadata } from '@/lib/utils';
 import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import { PropertyResponse } from '@/types/property';
-import { getHreflangAlternates } from '@/lib/seo-metadata';
+import { SeoMetaFields } from '@/types/sanity.types';
 import PropertyDetails from './_components/PropertyDetails';
 
 export async function generateMetadata(props: { params: Promise<{ slug: string; lang: string }> }): Promise<Metadata> {
@@ -30,7 +30,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string; 
       title: property?.basicInfo?.title,
       image: coverImage
     }
-  } as any, {
+  } as SeoMetaFields, {
     title: property?.basicInfo?.title,
   }, lang)
 }
