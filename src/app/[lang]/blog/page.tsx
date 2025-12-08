@@ -18,7 +18,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: string }
   return {
     title: postPage?.title || 'Blog',
     description: postPage?.subtitle || 'Here we share our thoughts and insights on the markets.',
-    alternates: getHreflangAlternates('/blog', lang)
+    alternates: undefined
   }
 }
 
