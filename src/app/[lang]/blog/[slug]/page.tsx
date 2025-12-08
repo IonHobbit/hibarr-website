@@ -19,7 +19,6 @@ import Spacer, { SpacerBlock } from "@/app/[lang]/blog/[slug]/_components/Spacer
 import ContentTable, { TableBlock } from "@/app/[lang]/blog/[slug]/_components/ContentTable";
 import TextWithImage, { TextWithImageBlock } from "@/app/[lang]/blog/[slug]/_components/TextWithImage";
 
-import { getHreflangAlternates } from "@/lib/seo-metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; lang: string }> }) {
   const { slug, lang } = await params

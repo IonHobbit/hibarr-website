@@ -6,9 +6,40 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import ScrollToTop from '@/app/[lang]/_components/ScrollToTop';
 import Script from 'next/script';
+import { headers } from 'next/headers';
+import { Metadata } from 'next';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
+}
+
+export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await props.params;
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") || "";
+  
+  // If pathname is /en/about, we want route to be /about
+  // x-pathname is just request.nextUrl.pathname. 
+  
+  let route = pathname;
+  for (const locale of i18n.locales) {
+     if (route.startsWith(`/${locale}/`) || route === `/${locale}`) {
+        route = route.replace(`/${locale}`, "");
+        break; // Only replace the first occurrence
+     }
+  }
+  
+  // If route became empty string (e.g. from /en), make sure it is handled correctly by getHreflangAlternates
+  // getHreflangAlternates logic: 
+  // const cleanPath = path.startsWith('/') ? path : `/${path}` 
+  // if route is empty string, cleanPath becomes /.
+  // const route = cleanPath === '/' ? '' : cleanPath -> ''
+  // alternates = baseUrl/l + '' -> correct.
+
+  return {
+    alternates: getHreflangAlternates(route, lang),
+  };
 }
 
 export default async function RootLayout(
