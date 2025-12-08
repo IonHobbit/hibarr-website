@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { seoH1s } from '@/lib/seo-h1';
 import Video from '@/components/Video';
 import { Locale } from '@/lib/i18n-config';
 import { Metadata } from 'next';
@@ -6,27 +7,22 @@ import { Icon } from '@/components/icons';
 import FAQAccordion from '../_components/FAQAccordion';
 // import CalendlyEmbed from '@/components/CalendlyEmbed';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
-import { ConsultationPage as ConsultationPageType, HomePage } from '@/types/sanity.types';
+import { ConsultationPage as ConsultationPageType, HomePage, SeoMetaFields } from '@/types/sanity.types';
 import ConsultationForm from './_components/ConsultationForm';
 import { generateSEOMetadata } from '@/lib/utils';
 import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
 import { translate, translateBatch } from '@/lib/translation';
 import { interestedInOptions, messageOptions, periodOptions } from '@/lib/options';
 
-import { getHreflangAlternates } from '@/lib/seo-metadata';
+import { seoTitles } from '@/lib/seo-titles';
+import { seoDescriptions } from '@/data/seo-descriptions';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
   const { seo } = await fetchRawSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang });
 
-  return {
-    ...generateSEOMetadata(seo, {
-      title: 'Schedule a Free Kick Off Meeting',
-      description: 'We are the only company in North Cyprus that can offer 10 year payment plans, 0% interest, and no credit checks.',
-    }),
-    alternates: getHreflangAlternates('/consultation', lang)
-  }
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].consultation, metaDescription: seoDescriptions[lang].consultation } as SeoMetaFields)
 }
 
 export default async function ConsultationPage(
@@ -107,7 +103,7 @@ export default async function ConsultationPage(
         <div className="section grid grid-cols-1 md:grid-cols-2 place-items-center gap-10 z-10 mt-16 md:mt-0">
           <div className='flex flex-col gap-6'>
             <h1 className="text-5xl md:text-6xl text-primary-foreground">
-              {data?.title}
+              {seoH1s.consultation[lang]}
             </h1>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">
