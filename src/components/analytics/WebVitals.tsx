@@ -5,7 +5,7 @@ import { usePostHog } from 'posthog-js/react';
 
 declare global {
   interface Window {
-    dataLayer: any[];
+    dataLayer: Record<string, unknown>[];
   }
 }
 
