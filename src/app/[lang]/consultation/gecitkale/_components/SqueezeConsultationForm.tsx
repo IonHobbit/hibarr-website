@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import * as Yup from 'yup'
 import { ContactInfo } from '@/types/main'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { useMutation } from '@tanstack/react-query'
 import { persistUserInfo } from '@/lib/services/user.service'
@@ -14,6 +14,8 @@ import useUserInfo from '@/hooks/useUserInfo'
 import { ConsultationRegistrationRequest } from '@/types/webinar.type'
 import { makePOSTRequest } from '@/lib/services/api.service'
 import { Locale } from '@/lib/i18n-config'
+import CalendlyEmbed from '@/components/CalendlyEmbed'
+import { useState } from 'react'
 
 const PhoneInput = dynamic(() => import('@/components/ui/phone-input').then(mod => mod.PhoneInput), {
   loading: () => <Input placeholder="Loading..." />
@@ -53,9 +55,11 @@ type SqueezeConsultationFormProps = {
 }
 
 export default function SqueezeConsultationForm({ translations }: SqueezeConsultationFormProps) {
-  const router = useRouter()
   const { lang } = useParams()
   const userInfo = useUserInfo()
+
+  const baseCalendlyUrl = 'https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319'
+  const [calendlyUrl, setCalendlyUrl] = useState<string | null>(null)
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
@@ -81,9 +85,6 @@ export default function SqueezeConsultationForm({ translations }: SqueezeConsult
         ...contactInfo,
         language: values.language,
       })
-    },
-    onSuccess: () => {
-      router.push(`/${lang}/consultation/thank-you`)
     }
   })
 
@@ -109,6 +110,8 @@ export default function SqueezeConsultationForm({ translations }: SqueezeConsult
       investmentTimeline: Yup.string().required('Please select a timeline'),
     }),
     onSubmit: async () => {
+      const link = generateCalendlyPrefilledUrl();
+      setCalendlyUrl(link);
       mutate()
     }
   })
@@ -116,6 +119,20 @@ export default function SqueezeConsultationForm({ translations }: SqueezeConsult
   const isFormValid = values.firstName && values.lastName && values.email
     && values.interestReason && values.investmentTimeline
     && (values.interestReason !== 'other' || values.interestReasonOther)
+
+  const generateCalendlyPrefilledUrl = () => {
+    const url = new URL(baseCalendlyUrl)
+    url.searchParams.set('first_name', values.firstName)
+    url.searchParams.set('last_name', values.lastName)
+    url.searchParams.set('email', values.email)
+    url.searchParams.set('a1', values.phoneNumber)
+    url.searchParams.set('a3', values.interestReason)
+    return url.toString()
+  }
+
+  if (calendlyUrl) {
+    return <CalendlyEmbed url={calendlyUrl} />
+  }
 
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-6 w-full max-w-lg p-8 bg-white/95 backdrop-blur-sm rounded-lg shadow-2xl'>
