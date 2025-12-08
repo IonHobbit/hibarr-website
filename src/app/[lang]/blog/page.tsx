@@ -1,4 +1,6 @@
 import type { BlogPage } from "@/types/sanity.types";
+import { seoH1s } from "@/lib/seo-h1";
+import { Locale } from "@/lib/i18n-config";
 import BlogPosts from "./_components/BlogPosts";
 import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { BlogPostCardType, BlogPostCategoryType } from "@/types/blog";
@@ -7,7 +9,7 @@ import BlogCategories, { ALL_CATEGORY } from "./_components/BlogCategories";
 import FeaturedBlogPosts from "./_components/FeaturedBlogPosts";
 import { Suspense } from "react";
 
-export default async function BlogPage({ params }: { params: Promise<{ lang: string }> }) {
+export default async function BlogPage({ params }: { params: Promise<{ lang: Locale }> }) {
   const { lang } = await params
 
   const categories = await fetchSanityData<BlogPostCategoryType[]>(`*[_type == "blogPostCategory"]{
@@ -43,7 +45,7 @@ export default async function BlogPage({ params }: { params: Promise<{ lang: str
   }`, { lang })
 
 
-  const title = postPage?.title || 'Blog'
+
   const subtitle = postPage?.subtitle || 'Here we share our thoughts and insights on the markets.'
   const featuredPosts = postPage?.featuredPosts || []
 
@@ -66,7 +68,7 @@ export default async function BlogPage({ params }: { params: Promise<{ lang: str
       }
       <div id="posts" className={cn("section mt-20", featured.length > 0 && "mt-0")}>
         <div className="flex flex-col gap-1.5">
-          <h1 className="text-4xl font-bold">{title || 'Blog'}</h1>
+          <h1 className="text-4xl font-bold">{seoH1s.blog[lang]}</h1>
           <p>{subtitle || 'Here we share our thoughts and insights on the markets.'}</p>
         </div>
         <SuspendedBlogCategories categories={[ALL_CATEGORY, ...categories]} />

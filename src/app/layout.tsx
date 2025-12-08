@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import { Inter, Figtree } from "next/font/google";
 import { Locale } from "@/lib/i18n-config";
 import "./globals.css";
@@ -24,6 +24,12 @@ const inter = Inter({
   display: "swap",
   preload: true,
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
   title: {

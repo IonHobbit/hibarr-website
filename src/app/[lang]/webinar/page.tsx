@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button'
+import { seoH1s } from '@/lib/seo-h1'
 import { Locale } from '@/lib/i18n-config'
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client'
-import { HomePage, WebinarPage } from '@/types/sanity.types'
+import { HomePage, WebinarPage, SeoMetaFields } from '@/types/sanity.types'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { Fragment } from 'react'
@@ -16,14 +17,15 @@ import StatisticsSection from './_components/StatisticsSection'
 import { generateSEOMetadata } from '@/lib/utils'
 import Video from '@/components/Video'
 
+import { seoTitles } from '@/lib/seo-titles';
+import { seoDescriptions } from '@/data/seo-descriptions';
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
   const { seo } = await fetchRawSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata(seo, {
-    title: 'Webinar',
-  })
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].webinar, metaDescription: seoDescriptions[lang].webinar } as SeoMetaFields)
 }
 
 type ZoomRegistrationPageProps = {
@@ -58,7 +60,7 @@ export default async function ZoomRegistrationPage(
         <div className="max-w-5xl text-center flex flex-col gap-10 px-4 mt-20 md:mt-0">
           <div className='flex flex-col gap-2'>
             <h1 className="text-5xl md:text-7xl font-bold mb-4 text-background">
-              {webinarPage?.title}
+              {seoH1s.webinar[lang]}
             </h1>
             <p className="text-sm md:text-lg text-background">
               {webinarPage?.subtitle}

@@ -1,4 +1,5 @@
 import type { Locale } from '@/lib/i18n-config';
+import { seoH1s } from '@/lib/seo-h1';
 import { Metadata } from 'next';
 import { Fragment } from 'react';
 import FeaturedSection from '../_components/FeaturedSection';
@@ -10,18 +11,18 @@ import AboutRabih from './_components/AboutRabih';
 import CallToActionSection from './_components/CallToActionSection';
 import GallerySection from './_components/GallerySection';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
-import { AboutPage as AboutPageType } from '@/types/sanity.types';
+import { AboutPage as AboutPageType, SeoMetaFields } from '@/types/sanity.types';
 import { generateSEOMetadata } from '@/lib/utils';
+
+import { seoTitles } from '@/lib/seo-titles';
+import { seoDescriptions } from '@/data/seo-descriptions';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
   const { seo } = await fetchRawSanityData<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata(seo, {
-    title: 'About Us',
-    description: 'About Us',
-  })
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].about, metaDescription: seoDescriptions[lang].about } as SeoMetaFields)
 }
 
 export default async function AboutPage(
@@ -52,7 +53,7 @@ export default async function AboutPage(
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col gap-2'>
             <h1 className="text-5xl md:text-7xl font-bold mb-4 text-background uppercase">
-              {data?.title}
+              {seoH1s.about[lang]}
             </h1>
             <p className="text-md md:text-xl text-background">
               {data?.subtitle}

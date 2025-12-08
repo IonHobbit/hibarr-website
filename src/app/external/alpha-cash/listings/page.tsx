@@ -8,7 +8,7 @@ export default async function ExternalListingsPage() {
 const SuspendedListingsPage = () => {
   return (
     <Suspense fallback={null}>
-      <ListingsPage />
+      <ListingsPage params={Promise.resolve({ lang: 'en' })} />
     </Suspense>
   )
 }
