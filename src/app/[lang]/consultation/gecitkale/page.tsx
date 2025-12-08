@@ -9,7 +9,6 @@ import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.cl
 import { generateSEOMetadata } from '@/lib/utils';
 import { ConsultationPage as ConsultationPageType, SeoMetaFields } from '@/types/sanity.types';
 import { seoH1s } from '@/lib/seo-h1';
-import { Icon } from '@/components/icons';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
 	const { lang } = await props.params;
@@ -27,7 +26,7 @@ export default async function GecitkaleConsultationPage(
 
 
 	const data = await fetchSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
-	const formTitle = await translate('Book a free Real Estate Consultation');
+	const formTitle = await translate('Book a Free Consultation');
 
 
 	const [firstName, lastName, email, phoneNumber] = await translateBatch([
