@@ -25,7 +25,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchRawSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].webinar, metaDescription: seoDescriptions[lang].webinar } as SeoMetaFields)
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].webinar, metaDescription: seoDescriptions[lang].webinar } as SeoMetaFields, undefined, lang)
 }
 
 type ZoomRegistrationPageProps = {

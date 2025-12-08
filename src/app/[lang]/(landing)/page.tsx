@@ -17,7 +17,7 @@ import InvestorCommunitySection from './_components/InvestorCommunitySection';
 import WebinarSection from './_components/WebinarSection';
 import { Metadata } from 'next';
 import { generateSEOMetadata } from '@/lib/utils';
-import { getHreflangAlternates } from '@/lib/seo-metadata';
+
 
 import LandingWrapper from './_components/LandingWrapper';
 
@@ -33,7 +33,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchRawSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].home, metaDescription: seoDescriptions[lang].home } as SeoMetaFields)
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].home, metaDescription: seoDescriptions[lang].home } as SeoMetaFields, undefined, lang)
 }
 
 export const revalidate = 60;
