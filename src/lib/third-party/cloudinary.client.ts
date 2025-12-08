@@ -9,14 +9,16 @@ cloudinary.config({
 
 export type CloudinaryFile = ResourceApiResponse['resources'][number];
 
-// In-memory cache to prevent rate limits (default 500 requests/hour = ~8.3 requests/minute)
-// Cache entries expire based on MAX_CALLS_PER_HOUR (tunable via env)
+// In-memory cache to prevent rate limits
+// Cache entries expire based on MAX_CALLS_PER_HOUR (tunable via env, default 120 calls/hour)
 interface CacheEntry {
   data: CloudinaryFile[];
   timestamp: number;
 }
 
 const memoryCache = new Map<string, CacheEntry>();
+const MAX_CACHE_SIZE = 100;
+
 // Allow tuning the maximum calls per hour; default keeps us well under Cloudinary limits
 const MAX_CALLS_PER_HOUR = Number(process.env.CLOUDINARY_MAX_CALLS_PER_HOUR ?? 120); // ~1 call every 30s per folder
 const CACHE_TTL_SECONDS = Math.max(1, Math.floor(3600 / MAX_CALLS_PER_HOUR));
@@ -26,6 +28,18 @@ const CACHE_TTL_MS = CACHE_TTL_SECONDS * 1000;
 const CACHE_CONFIG = {
   revalidate: CACHE_TTL_SECONDS,
   tags: ['cloudinary']
+};
+
+const pruneCache = () => {
+  if (memoryCache.size <= MAX_CACHE_SIZE) return;
+
+  const sortedEntries = Array.from(memoryCache.entries())
+    .sort((a, b) => a[1].timestamp - b[1].timestamp);
+
+  // Remove enough oldest entries to get back under the limit
+  const excess = memoryCache.size - MAX_CACHE_SIZE;
+  const toRemove = Math.max(1, excess);
+  sortedEntries.slice(0, toRemove).forEach(([key]) => memoryCache.delete(key));
 };
 
 // Internal function that makes the actual API call
@@ -65,7 +79,7 @@ const fetchFiles = async (folder: string): Promise<CloudinaryFile[]> => {
 
     // Ensure in-memory cache is updated
     memoryCache.set(cacheKey, { data: result, timestamp: now });
-
+    pruneCache();
     return result;
   } catch (error) {
     console.error('Error fetching files from Cloudinary:', error);
