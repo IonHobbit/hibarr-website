@@ -50,7 +50,7 @@ export function middleware(request: NextRequest) {
     style-src 'self' 'unsafe-inline';
     img-src 'self' data: https://hibarr.de https://cdn.sanity.io https://res.cloudinary.com;
     font-src 'self' data:;
-    connect-src 'self' https://api.hibarr.de;
+    connect-src 'self' https://api.hibarr.de https://staging-api.hibarr.org;
     frame-src 'self' https://www.youtube.com https://calendly.com;
     object-src 'none';
     base-uri 'self';
