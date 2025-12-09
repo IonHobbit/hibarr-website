@@ -5,7 +5,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
 import ScrollToTop from '@/app/[lang]/_components/ScrollToTop';
-import { headers } from 'next/headers';
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
@@ -18,8 +17,6 @@ export default async function RootLayout(
   }
 ) {
   const { params, children } = props;
-  const headerList = await headers();
-  const nonce = headerList.get('x-nonce') || undefined;
 
   return (
 
