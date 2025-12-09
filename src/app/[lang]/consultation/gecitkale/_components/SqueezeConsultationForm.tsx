@@ -59,7 +59,7 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
   const { lang } = useParams()
   const userInfo = useUserInfo()
 
-  const baseCalendlyUrl = 'https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319'
+  const baseCalendlyUrl = 'https://calendly.com/rabihrabea/customer-kick-off-meeting?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319'
   const [calendlyUrl, setCalendlyUrl] = useState<string | null>(null)
 
   const { mutate, isPending } = useMutation({
@@ -127,7 +127,7 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
     url.searchParams.set('last_name', values.lastName)
     url.searchParams.set('email', values.email)
     url.searchParams.set('a1', values.phoneNumber)
-    url.searchParams.set('a3', values.interestReason)
+    url.searchParams.set('a2', `Interest reason: ${values.interestReason} ${values.interestReasonOther ? `Other: ${values.interestReasonOther}` : ''}`)
     return url.toString()
   }
 
@@ -136,7 +136,7 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
   }
 
   return (
-    <form onSubmit={handleSubmit} className='flex flex-col gap-6 w-full max-w-lg p-8 rounded-lg shadow-2xl'>
+    <form onSubmit={handleSubmit} className='flex flex-col gap-6 w-full p-8 rounded-lg'>
       <div className='flex flex-col gap-4'>
         <h2 className='text-2xl font-bold text-center'>{translations.formTitle}</h2>
 

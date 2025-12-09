@@ -79,18 +79,18 @@ export default async function GecitkaleConsultationPage(
 
 	const options = {
 		interestReasons: [
-			{ label: interestReasonLabels[0].text, value: 'pension_capital' },
-			{ label: interestReasonLabels[1].text, value: 'inflation_protection' },
-			{ label: interestReasonLabels[2].text, value: 'rental_income' },
-			{ label: interestReasonLabels[3].text, value: 'diversifying_eu' },
-			{ label: interestReasonLabels[4].text, value: 'attractive_pricing' },
-			{ label: interestReasonLabels[5].text, value: 'other' },
+			{ label: interestReasonLabels[0].text, value: 'Pension capital not growing' },
+			{ label: interestReasonLabels[1].text, value: 'Inflation protection' },
+			{ label: interestReasonLabels[2].text, value: 'Rental income' },
+			{ label: interestReasonLabels[3].text, value: 'Diversifying outside the EU' },
+			{ label: interestReasonLabels[4].text, value: 'Attractive pricing' },
+			{ label: interestReasonLabels[5].text, value: 'Other' },
 		],
 		investmentTimelines: [
-			{ label: investmentTimelineLabels[0].text, value: 'asap' },
-			{ label: investmentTimelineLabels[1].text, value: '3_months' },
-			{ label: investmentTimelineLabels[2].text, value: '6_12_months' },
-			{ label: investmentTimelineLabels[3].text, value: 'researching' },
+			{ label: investmentTimelineLabels[0].text, value: 'As soon as possible' },
+			{ label: investmentTimelineLabels[1].text, value: 'Within 3 months' },
+			{ label: investmentTimelineLabels[2].text, value: 'Within 6–12 months' },
+			{ label: investmentTimelineLabels[3].text, value: 'I\'m still researching' },
 		],
 	}
 
@@ -140,7 +140,7 @@ export default async function GecitkaleConsultationPage(
 						</div>
 					</div>
 				</div>
-				<div className='relative w-full rounded-lg overflow-hidden bg-secondary grid place-items-center'>
+				<div className='relative w-full max-w-lg rounded-lg overflow-hidden bg-secondary grid place-items-center'>
 					<SqueezeConsultationForm translations={translations} nonce={nonce} />
 				</div>
 			</div>
