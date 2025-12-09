@@ -52,9 +52,10 @@ type SqueezeConsultationFormProps = {
       submitButton: string
     }
   }
+  nonce?: string
 }
 
-export default function SqueezeConsultationForm({ translations }: SqueezeConsultationFormProps) {
+export default function SqueezeConsultationForm({ translations, nonce }: SqueezeConsultationFormProps) {
   const { lang } = useParams()
   const userInfo = useUserInfo()
 
@@ -131,11 +132,11 @@ export default function SqueezeConsultationForm({ translations }: SqueezeConsult
   }
 
   if (calendlyUrl) {
-    return <CalendlyEmbed url={calendlyUrl} />
+    return <CalendlyEmbed url={calendlyUrl} nonce={nonce} />
   }
 
   return (
-    <form onSubmit={handleSubmit} className='flex flex-col gap-6 w-full max-w-lg p-8 bg-white/95 backdrop-blur-sm rounded-lg shadow-2xl'>
+    <form onSubmit={handleSubmit} className='flex flex-col gap-6 w-full max-w-lg p-8 rounded-lg shadow-2xl'>
       <div className='flex flex-col gap-4'>
         <h2 className='text-2xl font-bold text-center'>{translations.formTitle}</h2>
 

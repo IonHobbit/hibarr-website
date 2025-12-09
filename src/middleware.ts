@@ -46,15 +46,16 @@ export function middleware(request: NextRequest) {
   // We try to be strict with scripts.
   const csp = `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' https://connect.facebook.net https://www.googletagmanager.com;
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' data: https://hibarr.de https://cdn.sanity.io https://res.cloudinary.com;
+    script-src 'self' 'nonce-${nonce}' https://connect.facebook.net https://www.googletagmanager.com https://assets.calendly.com https://cdn.bitrix24.de https://hibarrestate.bitrix24.de;
+    style-src 'self' 'unsafe-inline' https://hibarrestate.bitrix24.de;
+    img-src 'self' data: https://hibarr.de https://cdn.sanity.io https://res.cloudinary.com https://www.facebook.com;
     font-src 'self' data:;
-    connect-src 'self' https://api.hibarr.de https://staging-api.hibarr.org;
-    frame-src 'self' https://www.youtube.com https://calendly.com;
+    connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL} https://www.googletagmanager.com https://region1.google-analytics.com https://www.facebook.com https://www.facebook.com/tr;
+    frame-src 'self' https://www.youtube.com https://calendly.com https://www.google.com https://www.googletagmanager.com https://hibarrestate.bitrix24.de;
     object-src 'none';
     base-uri 'self';
     form-action 'self';
+    media-src 'self' https://vz-da4cd036-d13.b-cdn.net;
     frame-ancestors 'none';
     upgrade-insecure-requests;
   `.replace(/\s{2,}/g, ' ').trim();

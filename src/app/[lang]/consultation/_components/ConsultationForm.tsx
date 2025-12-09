@@ -81,9 +81,10 @@ type ConsultationFormProps = {
     }
   }
   showMessage: string
+  nonce?: string
 }
 
-export default function ConsultationForm({ translations, showMessage }: ConsultationFormProps) {
+export default function ConsultationForm({ translations, showMessage, nonce }: ConsultationFormProps) {
 
   const baseCalendlyUrl = 'https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319'
 
@@ -361,7 +362,7 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
   }
 
   if (calendlyUrl) {
-    return <CalendlyEmbed url={calendlyUrl} />
+    return <CalendlyEmbed url={calendlyUrl} nonce={nonce} />
   }
 
   return (

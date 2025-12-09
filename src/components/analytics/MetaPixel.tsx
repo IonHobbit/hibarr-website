@@ -1,12 +1,17 @@
 import Script from 'next/script'
 import React, { Fragment } from 'react'
 
-export default function MetaPixel() {
+type MetaPixelProps = {
+  nonce?: string
+}
+
+export default function MetaPixel({ nonce }: MetaPixelProps) {
   return (
     <Fragment>
       <Script
         id="meta-pixel"
         strategy="afterInteractive"
+        nonce={nonce}
         dangerouslySetInnerHTML={{
           __html: `
             !function(f,b,e,v,n,t,s)

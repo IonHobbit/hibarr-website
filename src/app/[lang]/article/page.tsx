@@ -10,6 +10,7 @@ import BitrixForm from './_components/BitrixForm';
 import { generateSEOMetadata } from '@/lib/utils';
 import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
 import Video from '@/components/Video';
+import { headers } from 'next/headers';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -28,6 +29,7 @@ export default async function ConsultationPage(
   }
 ) {
   const { lang } = await props.params;
+  const nonce = headers().get('x-nonce') || undefined;
 
 
 
@@ -66,7 +68,7 @@ export default async function ConsultationPage(
             </div>
           </div>
           <div className='relative w-full rounded-lg overflow-hidden bg-secondary grid place-items-center'>
-            <BitrixForm />
+            <BitrixForm nonce={nonce} />
             {/* <CalendlyEmbed url="https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319" /> */}
           </div>
         </div>

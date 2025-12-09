@@ -11,6 +11,7 @@ import ThemeProvider from "@/providers/ThemeProvider";
 import GA4 from "@/components/analytics/GTMHead";
 import GTMBody from "@/components/analytics/GTMBody";
 import { WebVitals } from "@/components/analytics/WebVitals";
+import { headers } from "next/headers";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -76,12 +77,14 @@ export default async function RootLayout(
 ) {
   const { params, children } = props;
   const { lang } = await params;
+  const headerList = await headers();
+  const nonce = headerList.get("x-nonce") || undefined;
 
   return (
     <html lang={lang} className="scroll-smooth">
       <head>
-        <GA4 />
-        <MetaPixel />
+        <GA4 nonce={nonce} />
+        <MetaPixel nonce={nonce} />
         {/* Preload critical resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

@@ -9,6 +9,7 @@ import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.cl
 import { generateSEOMetadata } from '@/lib/utils';
 import { ConsultationPage as ConsultationPageType, SeoMetaFields } from '@/types/sanity.types';
 import { seoH1s } from '@/lib/seo-h1';
+import { headers as nextHeaders } from 'next/headers';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
 	const { lang } = await props.params;
@@ -23,6 +24,8 @@ export default async function GecitkaleConsultationPage(
 	}
 ) {
 	const { lang } = await props.params;
+	const headerList = await nextHeaders();
+	const nonce = headerList.get('x-nonce') || undefined;
 
 
 	const data = await fetchSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
@@ -137,8 +140,8 @@ export default async function GecitkaleConsultationPage(
 						</div>
 					</div>
 				</div>
-				<div className="relative z-10 w-full flex justify-center items-center px-4 py-12">
-					<SqueezeConsultationForm translations={translations} />
+				<div className='relative w-full rounded-lg overflow-hidden bg-secondary grid place-items-center'>
+					<SqueezeConsultationForm translations={translations} nonce={nonce} />
 				</div>
 			</div>
 			<div className="absolute inset-0 bg-gradient-to-b from-primary via-primary/70 to-primary/50"></div>
