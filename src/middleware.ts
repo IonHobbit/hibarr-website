@@ -46,12 +46,12 @@ export function middleware(request: NextRequest) {
   // We try to be strict with scripts.
   const csp = `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' https://connect.facebook.net https://www.googletagmanager.com https://assets.calendly.com https://cdn.bitrix24.de https://hibarrestate.bitrix24.de;
-    style-src 'self' 'unsafe-inline' https://hibarrestate.bitrix24.de;
+    script-src 'self' 'nonce-${nonce}' https://connect.facebook.net https://www.googletagmanager.com https://assets.calendly.com https://cdn.bitrix24.de;
+    style-src 'self' 'unsafe-inline';
     img-src 'self' data: https://hibarr.de https://cdn.sanity.io https://res.cloudinary.com https://www.facebook.com;
     font-src 'self' data:;
     connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL} https://www.googletagmanager.com https://region1.google-analytics.com https://www.facebook.com https://www.facebook.com/tr;
-    frame-src 'self' https://www.youtube.com https://calendly.com https://www.google.com https://www.googletagmanager.com https://hibarrestate.bitrix24.de;
+    frame-src 'self' https://www.youtube.com https://calendly.com https://www.google.com https://www.googletagmanager.com;
     object-src 'none';
     base-uri 'self';
     form-action 'self';
