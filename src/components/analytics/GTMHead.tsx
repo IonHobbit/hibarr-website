@@ -1,12 +1,17 @@
 import Script from 'next/script'
 import React, { Fragment } from 'react'
 
-export default function GTMHead() {
+type GTMHeadProps = {
+  nonce?: string
+}
+
+export default function GTMHead({ nonce }: GTMHeadProps) {
   return (
     <Fragment>
       <Script
         id="gtm-head"
         strategy="afterInteractive"
+        nonce={nonce}
         dangerouslySetInnerHTML={{
           __html: `
             (function(w,d,s,l,i){w[l] = w[l] || [];w[l].push({'gtm.start':

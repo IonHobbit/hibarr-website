@@ -13,6 +13,7 @@ import { generateSEOMetadata } from '@/lib/utils';
 import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
 import { translate, translateBatch } from '@/lib/translation';
 import { interestedInOptions, messageOptions, periodOptions } from '@/lib/options';
+import { headers as nextHeaders } from 'next/headers';
 
 import { seoTitles } from '@/lib/seo-titles';
 import { seoDescriptions } from '@/data/seo-descriptions';
@@ -30,6 +31,9 @@ export default async function ConsultationPage(
     params: Promise<{ lang: Locale }>;
   }
 ) {
+  const headerList = await nextHeaders();
+  const nonce = headerList.get('x-nonce') || undefined;
+  
   const { lang } = await props.params;
 
   const data = await fetchSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
@@ -129,7 +133,7 @@ export default async function ConsultationPage(
             </div>
           </div>
           <div className='relative w-full rounded-lg overflow-hidden bg-secondary grid place-items-center'>
-            <ConsultationForm translations={translations} showMessage={showMessage.text} />
+            <ConsultationForm translations={translations} showMessage={showMessage.text} nonce={nonce} />
             {/* <CalendlyEmbed url="https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319" /> */}
           </div>
         </div>

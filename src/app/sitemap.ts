@@ -10,18 +10,22 @@ const languages = ['en', 'de', 'tr', 'ru']
 
 // Define static routes with their priorities
 const staticRoutes = [
-  { path: '', priority: 1.0 }, // homepage
-  { path: '/about', priority: 0.8 },
-  { path: '/blog', priority: 0.8 },
-  { path: '/webinar', priority: 0.8 },
-  { path: '/consultation', priority: 0.8 },
-  { path: '/facebook-group', priority: 0.8 },
-  // { path: '/partners/oscar-group', priority: 0.7 },
-  { path: '/partners/near-east-group', priority: 0.7 },
-  { path: '/our-packages', priority: 0.8 },
-  { path: '/listings', priority: 0.8 },
-  { path: '/testimonials', priority: 0.7 },
-  { path: '/webinar-recording', priority: 0.7 },
+  { path: '', priority: 1.0, changeFrequency: 'weekly' as const }, // homepage
+  { path: '/about', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/blog', priority: 0.8, changeFrequency: 'weekly' as const },
+  { path: '/webinar', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/consultation', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/facebook-group', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/partners/near-east-group', priority: 0.7, changeFrequency: 'monthly' as const },
+  { path: '/partners/news-central-corp', priority: 0.7, changeFrequency: 'monthly' as const },
+  { path: '/our-packages', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/listings', priority: 0.8, changeFrequency: 'daily' as const },
+  { path: '/testimonials', priority: 0.7, changeFrequency: 'monthly' as const },
+  { path: '/client-testimonials', priority: 0.7, changeFrequency: 'monthly' as const },
+  { path: '/webinar-recording', priority: 0.7, changeFrequency: 'monthly' as const },
+  { path: '/careers', priority: 0.7, changeFrequency: 'monthly' as const },
+  { path: '/ebook', priority: 0.7, changeFrequency: 'monthly' as const },
+  { path: '/privacy-policy', priority: 0.5, changeFrequency: 'yearly' as const },
   // { path: '/findr', priority: 0.8 }, // add later
 ]
 
@@ -36,16 +40,20 @@ const generateStaticRoutes = () => {
     for (const lang of languages) {
       alternates[lang] = `${baseUrl}/${lang}${route.path}`
     }
+    alternates['x-default'] = `${baseUrl}/en${route.path}`
 
-    routes.push({
-      url: `${baseUrl}${route.path}`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: route.priority,
-      alternates: {
-        languages: alternates
-      }
-    })
+    // Add entries for each language version
+    for (const lang of languages) {
+      routes.push({
+        url: `${baseUrl}/${lang}${route.path}`,
+        lastModified: new Date(),
+        changeFrequency: route.changeFrequency,
+        priority: route.priority,
+        alternates: {
+          languages: alternates
+        }
+      })
+    }
   }
 
   return routes
@@ -67,12 +75,29 @@ async function getBlogPosts() {
   }
 }
 
+// Function to fetch properties from Sanity
+async function getProperties() {
+  const query = groq`*[_type == "property"] {
+    "slug": basicInfo.slug.current,
+    _updatedAt
+  }`
+
+  try {
+    const properties = await fetchSanityData<{ slug: string; _updatedAt: string }[]>(query)
+    return properties
+  } catch (error) {
+    console.error('Error fetching properties:', error)
+    return []
+  }
+}
+
 // Main sitemap generation function
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = generateStaticRoutes()
   const blogPosts = await getBlogPosts()
+  const properties = await getProperties()
 
-  const blogRoutes: MetadataRoute.Sitemap = []
+  const dynamicRoutes: MetadataRoute.Sitemap = []
 
   // Process blog posts
   for (const post of blogPosts) {
@@ -83,18 +108,48 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       for (const lang of languages) {
         alternates[lang] = `${baseUrl}/${lang}/blog/${post.slug}`
       }
+      alternates['x-default'] = `${baseUrl}/en/blog/${post.slug}`
 
-      blogRoutes.push({
-        url: `${baseUrl}/blog/${post.slug}`,
-        lastModified: new Date(post._updatedAt),
-        changeFrequency: 'daily',
-        priority: 0.7,
-        alternates: {
-          languages: alternates
-        }
-      })
+      // Add entries for each language
+      for (const lang of languages) {
+        dynamicRoutes.push({
+          url: `${baseUrl}/${lang}/blog/${post.slug}`,
+          lastModified: new Date(post._updatedAt),
+          changeFrequency: 'monthly',
+          priority: 0.6,
+          alternates: {
+            languages: alternates
+          }
+        })
+      }
     }
   }
 
-  return [...staticRoutes, ...blogRoutes]
+  // Process properties
+  for (const property of properties) {
+    if (property.slug) {
+      const alternates: Record<string, string> = {}
+
+      // Create alternates for each language
+      for (const lang of languages) {
+        alternates[lang] = `${baseUrl}/${lang}/listings/${property.slug}`
+      }
+      alternates['x-default'] = `${baseUrl}/en/listings/${property.slug}`
+
+      // Add entries for each language
+      for (const lang of languages) {
+        dynamicRoutes.push({
+          url: `${baseUrl}/${lang}/listings/${property.slug}`,
+          lastModified: new Date(property._updatedAt),
+          changeFrequency: 'daily',
+          priority: 0.8,
+          alternates: {
+            languages: alternates
+          }
+        })
+      }
+    }
+  }
+
+  return [...staticRoutes, ...dynamicRoutes]
 }
