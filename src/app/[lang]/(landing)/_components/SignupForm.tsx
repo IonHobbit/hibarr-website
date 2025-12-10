@@ -4,16 +4,20 @@ import React from 'react'
 import * as Yup from 'yup';
 import { Input } from '@/components/ui/input';
 import { useFormik } from 'formik';
-import { ZapierSignupPayload } from '@/types/main';
 import { persistUserInfo } from '@/lib/services/user.service';
-import { callZapierWebhook } from '@/lib/zapier';
-import { PhoneInput } from '@/components/ui/phone-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import Image from 'next/image';
 import { HomePage } from '@/types/sanity.types';
 import { Button } from '@/components/ui/button';
 import useUserInfo from '@/hooks/useUserInfo';
+import { SignupRegistrationRequest } from '@/types/webinar.type';
+import { makePOSTRequest } from '@/lib/services/api.service';
+import { useMutation } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
+
+const PhoneInput = dynamic(() => import('@/components/ui/phone-input').then(mod => mod.PhoneInput), {
+  loading: () => <Input placeholder="Loading..." />
+})
 
 type SignupFormProps = {
   data: HomePage['freebieSignupSection'];
@@ -44,7 +48,7 @@ type SignupFormProps = {
 export default function SignupForm({ data, text }: SignupFormProps) {
   const userInfo = useUserInfo();
 
-  const { values, isValid, errors, touched, isSubmitting, submitCount, setFieldTouched, setFieldValue, handleChange, handleSubmit } = useFormik({
+  const { values, isValid, errors, touched, setFieldTouched, setFieldValue, handleChange, handleSubmit } = useFormik({
     initialValues: {
       ...userInfo,
       consent: false,
@@ -67,26 +71,36 @@ export default function SignupForm({ data, text }: SignupFormProps) {
           otherwise: (schema) => schema.optional()
         }),
     }),
-    onSubmit: async (values) => {
-      const userInfo = values;
-      const payload: ZapierSignupPayload = {
-        ...userInfo,
-        type: 'signup',
+    onSubmit: () => mutate(),
+  })
+
+
+  const { mutate, isPending, isSuccess } = useMutation({
+    mutationFn: async () => {
+      const contactInfo = values;
+      const payload: SignupRegistrationRequest = {
+        firstName: contactInfo.firstName,
+        lastName: contactInfo.lastName,
+        email: contactInfo.email,
+        phone: contactInfo.phoneNumber,
+        language: userInfo.lang,
+        utmInfo: {
+          utmSource: contactInfo.utm.source,
+          utmMedium: contactInfo.utm.medium,
+          utmCampaign: contactInfo.utm.campaign,
+          utmTerm: contactInfo.utm.term,
+          utmContent: contactInfo.utm.content,
+        },
         package: values.package as 'vip' | 'bank',
         isAlphaCashMember: values.isAlphaCashMember,
         alphaCashReferral: values.alphaCashReferral.replace('https://member.alphacashclub.com/shared/register?sponsor=', '')
-      };
-
-      // persist user info to storage
-      persistUserInfo(userInfo);
-
-      try {
-        await callZapierWebhook(payload);
-      } catch (error) {
-        console.error(error);
       }
+      await makePOSTRequest('/registration/signup', payload)
+      persistUserInfo(contactInfo);
     },
-  })
+    onSuccess: () => {
+    },
+  });
 
   const packages = [
     {
@@ -106,7 +120,7 @@ export default function SignupForm({ data, text }: SignupFormProps) {
     handleSubmit();
   }
 
-  if (submitCount > 0 && isValid) return (
+  if (isSuccess) return (
     <div className="flex flex-col gap-6 p-8 bg-background max-w-2xl h-full m-auto rounded-lg overflow-hidden">
       <h3 className="text-3xl md:text-4xl md:text-center">{text.registeredTitle}</h3>
       <p className="text-sm md:text-base text-center">{text.registeredDescription}</p>
@@ -162,7 +176,7 @@ export default function SignupForm({ data, text }: SignupFormProps) {
             error={errors.phoneNumber && touched.phoneNumber ? errors.phoneNumber : undefined}
             onBlur={() => setFieldTouched('phoneNumber', true)}
           />
-          <Select>
+          <Select required name="package" value={values.package} onValueChange={(value) => setFieldValue('package', value)}>
             <SelectTrigger title={text.form.package} className="w-full">
               <SelectValue placeholder={text.placeholders.package} />
             </SelectTrigger>
@@ -172,8 +186,8 @@ export default function SignupForm({ data, text }: SignupFormProps) {
               ))}
             </SelectContent>
           </Select>
-          <div className="flex items-end gap-4">
-            <Image src="/images/alphacashclub-logo.png" alt="Alpha Cash Logo" width={50} height={50} />
+          {/* <div className="flex items-end gap-4">
+            <Image src="https://res.cloudinary.com/hibarr/image/upload/alphacashclub-logo_no4zx5" alt="Alpha Cash Logo" width={50} height={50} />
             <div className="flex flex-col gap-1">
               <div className="flex items-start gap-2">
                 <Checkbox id="isAlphaCashMember" checked={values.isAlphaCashMember} onClick={() => setFieldValue('isAlphaCashMember', !values.isAlphaCashMember)} />
@@ -195,8 +209,9 @@ export default function SignupForm({ data, text }: SignupFormProps) {
               placeholder={text.alphaCashReferralLink}
             />
           )}
+          */}
 
-          <Button type="submit" disabled={!isValid} isLoading={isSubmitting}>{data?.form?.submit}</Button>
+          <Button type="submit" disabled={!isValid} isLoading={isPending}>{data?.form?.submit}</Button>
           <div className="flex items-start gap-2">
             <Checkbox id="consent" required checked={values.consent} onClick={() => setFieldValue('consent', !values.consent)} />
             <label htmlFor="consent" className="text-xs cursor-pointer">{data?.consent}</label>

@@ -1,8 +1,12 @@
 'use client';
 
-import Video from '@/components/Video'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { VideoRef } from '@/components/Video';
+import dynamic from 'next/dynamic';
+
+const Video = dynamic(() => import('@/components/Video'), {
+  loading: () => <div className="w-full aspect-video bg-muted animate-pulse rounded-lg" />
+})
 import React, { useRef } from 'react'
 import { generateImageUrl } from '@/lib/utils';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
@@ -30,7 +34,7 @@ export default function CaseStudies({ caseStudies }: CaseStudiesProps) {
             <Video
               ref={(el) => { videoRefs.current[index] = el as VideoRef }}
               src={caseStudy.videoUrl || ''}
-              poster={generateImageUrl(caseStudy.thumbnail as SanityImageSource).url()}
+              poster={caseStudy.thumbnail ? generateImageUrl(caseStudy.thumbnail as SanityImageSource).url() : undefined}
             />
           </CarouselItem>
         ))}

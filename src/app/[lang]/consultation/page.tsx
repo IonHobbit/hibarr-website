@@ -1,26 +1,28 @@
 import React, { Fragment } from 'react';
+import { seoH1s } from '@/lib/seo-h1';
+import Video from '@/components/Video';
 import { Locale } from '@/lib/i18n-config';
 import { Metadata } from 'next';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons';
 import FAQAccordion from '../_components/FAQAccordion';
 // import CalendlyEmbed from '@/components/CalendlyEmbed';
-import { client } from '@/lib/sanity/client';
-import { ConsultationPage as ConsultationPageType, HomePage } from '@/types/sanity.types';
+import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
+import { ConsultationPage as ConsultationPageType, HomePage, SeoMetaFields } from '@/types/sanity.types';
 import ConsultationForm from './_components/ConsultationForm';
 import { generateSEOMetadata } from '@/lib/utils';
 import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
 import { translate, translateBatch } from '@/lib/translation';
 import { interestedInOptions, messageOptions, periodOptions } from '@/lib/options';
 
+import { seoTitles } from '@/lib/seo-titles';
+import { seoDescriptions } from '@/data/seo-descriptions';
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
-  const { seo } = await client.fetch<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const { seo } = await fetchRawSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata(seo, {
-    title: 'Schedule a Free Kick Off Meeting',
-    description: 'We are the only company in North Cyprus that can offer 10 year payment plans, 0% interest, and no credit checks.',
-  })
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].consultation, metaDescription: seoDescriptions[lang].consultation } as SeoMetaFields)
 }
 
 export default async function ConsultationPage(
@@ -30,16 +32,17 @@ export default async function ConsultationPage(
 ) {
   const { lang } = await props.params;
 
-  const data = await client.fetch<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
-  const consultationProcessSection = await client.fetch<HomePage['consultationProcessSection']>(`*[_type == "homePage" && language == $lang][0].consultationProcessSection`, { lang }, { cache: 'no-store' });
+  const data = await fetchSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const consultationProcessSection = await fetchSanityData<HomePage['consultationProcessSection']>(`*[_type == "homePage" && language == $lang][0].consultationProcessSection`, { lang }, { cache: 'no-store' });
 
   const frequentlyAskedQuestions = await translate('Frequently Asked Questions');
-  const [registedTitle, registedDescription] = await translateBatch(['Thank you for your interest in our services!', 'We will schedule a consultation with you soon.']);
+
+  const [nameTitle, registedTitle, registedDescription] = await translateBatch(['My name is ...', 'Thank you for your interest in our services!', 'We will schedule a consultation with you soon.']);
   const [myPreferredLanguage, currentlyLivingIn] = await translateBatch(['My preferred language is ...', 'I am currently living in ...']);
   const [nextButton, backButton, submitButton] = await translateBatch(['Next', 'Back', 'Submit']);
   const [interestedIn, planningToBuy, budget, isThereAnyQuestions] = await translateBatch(['I am interested in ...', 'I am planning to buy ...', 'My ideal budget range is ...', 'Is there anything else you would like us to know before our meeting?']);
-  const translatedInterestedInOptions = await translateBatch(interestedInOptions);
-  const translatedPeriodOptions = await translateBatch(periodOptions);
+  const translatedInterestedInOptions = await Promise.all(interestedInOptions.map(async (option) => ({ ...option, label: (await translate(option.label)).text })));
+  const translatedPeriodOptions = await Promise.all(periodOptions.map(async (option) => ({ ...option, label: (await translate(option.label)).text })));
   const translatedMessageOptions = await translateBatch(messageOptions);
   const [firstName, lastName, email, phoneNumber] = await translateBatch(['First Name', 'Last Name', 'Email Address', 'Phone Number']);
   const [selectLanguagePlaceholder, questionPlaceholder] = await translateBatch(['Select language', 'For example: I am looking for a property in Istanbul, I am a first time buyer, etc.']);
@@ -54,6 +57,7 @@ export default async function ConsultationPage(
   }
 
   const headers = {
+    nameTitle: nameTitle.text,
     myPreferredLanguage: myPreferredLanguage.text,
     currentlyLivingIn: currentlyLivingIn.text,
     interestedIn: interestedIn.text,
@@ -69,8 +73,8 @@ export default async function ConsultationPage(
   }
 
   const options = {
-    interestedIn: translatedInterestedInOptions.map(option => option.text),
-    period: translatedPeriodOptions.map(option => option.text),
+    interestedIn: translatedInterestedInOptions,
+    period: translatedPeriodOptions,
     message: translatedMessageOptions.map(option => option.text),
   }
 
@@ -95,11 +99,11 @@ export default async function ConsultationPage(
 
   return (
     <Fragment>
-      <section id='root' className="relative grid place-items-center place-content-center min-h-screen bg-[url('/images/gallery/2.jpg')] bg-cover bg-center bg-no-repeat">
+      <section id='root' className="relative grid place-items-center place-content-center min-h-screen bg-[url('https://res.cloudinary.com/hibarr/image/upload/about-team-group-photo-exterior_ydobgc')] bg-cover bg-center bg-no-repeat">
         <div className="section grid grid-cols-1 md:grid-cols-2 place-items-center gap-10 z-10 mt-16 md:mt-0">
           <div className='flex flex-col gap-6'>
             <h1 className="text-5xl md:text-6xl text-primary-foreground">
-              {data?.title}
+              {seoH1s.consultation[lang]}
             </h1>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">
@@ -133,7 +137,18 @@ export default async function ConsultationPage(
       </section>
       <ConsultationProcessSection data={consultationProcessSection} />
       <section className="section">
-        <video src="https://vz-da4cd036-d13.b-cdn.net/50e75c2c-6c87-432d-bd6c-e7078c3e580f/play_720p.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover aspect-video rounded-lg overflow-hidden' />
+        <div className='w-full h-full'>
+          <Video
+            autoPlay
+            muted
+            loop
+            hls
+            src="https://vz-da4cd036-d13.b-cdn.net/50e75c2c-6c87-432d-bd6c-e7078c3e580f/playlist.m3u8"
+            fallbackMp4="https://vz-da4cd036-d13.b-cdn.net/50e75c2c-6c87-432d-bd6c-e7078c3e580f/play_720p.mp4"
+            containerClassName="relative group w-full aspect-video rounded-lg overflow-hidden bg-black"
+            videoClassName="w-full h-full object-cover"
+          />
+        </div>
       </section>
       <section id="faqs" className="section">
         <div className="bg-primary rounded-lg py-6 px-10 flex flex-col gap-6">

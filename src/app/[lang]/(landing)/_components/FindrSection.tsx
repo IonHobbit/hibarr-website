@@ -1,7 +1,7 @@
 'use client'
 
 import Expandable, { ExpandableItem } from "@/components/animata/carousel/expandable";
-import { client } from "@/lib/sanity/client";
+import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { PropertyKind } from "@/types/sanity.types";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -36,7 +36,7 @@ export default function FindrSection() {
   const { data: propertyKinds } = useQuery({
     queryKey: ['findr-items'],
     queryFn: () => {
-      return client.fetch<PropertyKind[]>(`*[_type == "propertyKind" && main == true]{
+      return fetchSanityData<PropertyKind[]>(`*[_type == "propertyKind" && main == true]{
         ...,
         "images": images[].asset->url,
         "slug": slug.current
@@ -44,8 +44,8 @@ export default function FindrSection() {
     }
   })
 
-  const list = [...(propertyKinds?.filter(item => item.images?.[0]).map(item => ({
-    image: item.images?.[0] || '',
+  const list = [...(propertyKinds?.filter(item => item.image).map(item => ({
+    image: item.image || '',
     title: item.name,
     slug: item.slug
   })) || []), ...items] as ExpandableItem[]

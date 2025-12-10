@@ -15,7 +15,7 @@ type PropertyType = {
   link: string;
 }
 
-type ZapierWebhookType = 'ugla' | 'webinar' | 'consultation' | 'property-enquiry' | 'signup' | 'waitlist';
+type ZapierWebhookType = 'ugla' | 'webinar' | 'consultation' | 'property-enquiry' | 'signup' | 'waitlist' | 'ebook';
 
 export type ContactInfo = {
   firstName: string;
@@ -86,6 +86,10 @@ type ZapierUglaPayload = Omit<ZapierPayload, 'phoneNumber'> & {
   type: 'ugla'
 }
 
+type ZapierEbookPayload = ZapierPayload & {
+  type: 'ebook'
+}
+
 type ZapierWebinarPayload = ZapierPayload & {
   type: 'webinar'
 }
@@ -103,7 +107,8 @@ type ZapierSignupPayload = ZapierPayload & {
 
 type ZapierConsultationPayload = ZapierPayload & {
   type: 'consultation'
-  clickID: string
+  clickID: string;
+  score: number;
   consultationInfo: {
     country: string
     interestedIn: string[]
@@ -164,6 +169,6 @@ type WebinarRegistrationForm = {
 
 export type {
   PropertyType, RegistrationFormType,
-  ZapierPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierWaitlistPayload, ZapierConsultationPayload, ZapierPropertyEnquiryPayload, ZapierSignupPayload,
-  PropertyListing, WebinarRegistrationForm
+  ZapierPayload, ZapierUglaPayload, ZapierWebinarPayload, ZapierWaitlistPayload, ZapierConsultationPayload, ZapierPropertyEnquiryPayload, ZapierSignupPayload, ZapierEbookPayload,
+  PropertyListing
 }

@@ -1,9 +1,9 @@
-import { client } from "../sanity/client"
+import { fetchRawSanityData, fetchSanityData } from "../third-party/sanity.client"
 import { Locale } from "../i18n-config"
 import { BlogPostType, BlogPostCardType } from "@/types/blog"
 
 export const fetchBlogPosts = async (lang: Locale, category: string): Promise<BlogPostCardType[]> => {
-  const blogPosts = await client.fetch(`*[_type == "blogPost" && published == true && publishedAt < now() && language == $lang ${category ? `&& category->slug.current == $category` : ''}] | order(publishedAt desc) {
+  const blogPosts = await fetchSanityData<BlogPostCardType[]>(`*[_type == "blogPost" && published == true && publishedAt < now() && language == $lang ${category ? `&& category->slug.current == $category` : ''}] | order(publishedAt desc) {
     _id,
     title,
     "slug": slug.current,
@@ -24,7 +24,111 @@ export const fetchBlogPosts = async (lang: Locale, category: string): Promise<Bl
 }
 
 export const fetchBlogPost = async (slug: string): Promise<BlogPostType> => {
-  const post = await client.fetch(`*[_type == "blogPost" && published == true && publishedAt < now() && slug.current == $slug][0]{
+  const post = await fetchRawSanityData<BlogPostType>(`*[_type == "blogPost" && published == true && publishedAt < now() && slug.current == $slug][0]{
+    ...,
+    "slug": slug.current,
+    "author": author->{
+      name,
+      "image": image.asset->url,
+    },
+    "image": image.asset->url,
+    "audio": audio.asset->url,
+    "category": category->{
+      title,
+      "slug": slug.current,
+    },
+    "tags": tags[]->{
+      _id,
+      title,
+      "slug": slug.current,
+    },
+    "faqs": faqs[]->{
+      question,
+      answer,
+    },
+    "content": content[]{
+      ...,
+      _type == "textWithImage" => {
+        _type,
+        heading,
+        body[]{ ..., markDefs[] },
+        "image": image{
+          asset->{ url, metadata { dimensions, lqip, palette } },
+          crop, hotspot, alt, caption
+        },
+        imagePosition,
+        verticalAlign,
+        gap,
+        imageSize,
+        imageRounded
+      },
+      _type == "table" => {
+        _type,
+        caption,
+        columns[]{ title, align, width },
+        rows[]{ cells[]{ text } },
+        options{ headerTone, inverseHeaderText, borders, dense, mobileStack }
+      },
+      _type == "spacer" => {
+        _type,
+        preset,
+        customHeight,
+      },
+      _type == "subheading" => {
+        _type,
+        label,
+        align,
+        variant,
+        tone,
+        size,
+        uppercase,
+      },
+      _type == "headingWithImage" => {
+        _type,
+        heading,
+        subheading,
+        height,
+        align,
+        textTone,
+        overlayOpacity,
+        imageOpacity,
+        "backgroundImage": backgroundImage{
+          asset->{ url, metadata{ dimensions, lqip, palette } },
+          crop,
+          hotspot
+        }
+      },
+      "file": file.asset->{
+        
+        url,
+        "originalFilename": originalFilename,
+        "mimeType": mimeType,
+        "size": size,
+      },
+      "coverImage": coverImage.asset->{
+        url,
+        "width": metadata.dimensions.width,
+        "height": metadata.dimensions.height,
+      },
+      "asset": asset-> {
+        ...,
+        url,
+      },
+      "images": images[]{
+        ...,
+        "image": image.asset->{
+          url,
+          "width": metadata.dimensions.width,
+          "height": metadata.dimensions.height,
+        },
+      },
+    },
+  }`, { slug })
+  return post
+}
+
+export const fetchRelatedBlogPosts = async (lang: Locale, blogPost: BlogPostType): Promise<BlogPostCardType[]> => {
+  const relatedPosts = await fetchRawSanityData<BlogPostCardType[]>(`*[_type == "blogPost" && published == true && publishedAt < now() && language == $lang && category->slug.current == $category && slug.current != $slug] | order(publishedAt desc) {
     ...,
     "slug": slug.current,
     "author": author->{
@@ -45,15 +149,83 @@ export const fetchBlogPost = async (slug: string): Promise<BlogPostType> => {
       question,
       answer,
     },
-  }`, { slug })
-  return post
-}
-
-export const fetchRelatedBlogPosts = async (lang: Locale, blogPost: BlogPostType): Promise<BlogPostCardType[]> => {
-  const relatedPosts = await client.fetch(`*[_type == "blogPost" && published == true && publishedAt < now() && language == $lang && category->slug.current == $category && slug.current != $slug] | order(publishedAt desc) {
-    _id,
-    title,
-    "slug": slug.current,
+    "content": content[]{
+      ...,
+      _type == "textWithImage" => {
+        _type,
+        heading,
+        body[]{ ..., markDefs[] },
+        "image": image{
+          asset->{ url, metadata { dimensions, lqip, palette } },
+          crop, hotspot, alt, caption
+        },
+        imagePosition,
+        verticalAlign,
+        gap,
+        imageSize,
+        imageRounded
+      },
+      _type == "table" => {
+        _type,
+        caption,
+        columns[]{ title, align, width },
+        rows[]{ cells[]{ text } },
+        options{ headerTone, inverseHeaderText, borders, dense, mobileStack }
+      },
+      _type == "spacer" => {
+        _type,
+        preset,
+        customHeight,
+      },
+      _type == "subheading" => {
+        _type,
+        label,
+        align,
+        variant,
+        tone,
+        size,
+        uppercase,
+      },
+      _type == "headingWithImage" => {
+        _type,
+        heading,
+        subheading,
+        height,
+        align,
+        textTone,
+        overlayOpacity,
+        imageOpacity,
+        "backgroundImage": backgroundImage{
+          asset->{ url, metadata{ dimensions, lqip, palette } },
+          crop,
+          hotspot
+        }
+      },
+      "file": file.asset->{
+        url,
+        "originalFilename": originalFilename,
+        "mimeType": mimeType,
+        "size": size,
+      },
+      "coverImage": coverImage.asset->{
+        url,
+        "width": metadata.dimensions.width,
+        "height": metadata.dimensions.height,
+      },
+      "image": image.asset->{
+        url,
+        "width": metadata.dimensions.width,
+        "height": metadata.dimensions.height,
+      },
+      "images": images[]{
+        ...,
+        "image": image.asset->{
+          url,
+          "width": metadata.dimensions.width,
+          "height": metadata.dimensions.height,
+        },
+      },
+    },
   }`, { lang, category: blogPost.category.slug, slug: blogPost.slug })
   return relatedPosts
 }

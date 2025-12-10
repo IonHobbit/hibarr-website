@@ -1,5 +1,5 @@
 import { HomePage } from "@/types/sanity.types";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/icons";
 
 type ConsultationProcessSection = {
   data: HomePage['consultationProcessSection'];

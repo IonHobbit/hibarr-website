@@ -13,37 +13,153 @@
  */
 
 // Source: schema.json
-export type SanityImagePaletteSwatch = {
-  _type: 'sanity.imagePaletteSwatch'
-  background?: string
-  foreground?: string
-  population?: number
+export type Gallery = {
+  _type: 'gallery'
   title?: string
+  images?: Array<{
+    image?: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      _type: 'image'
+    }
+    caption?: string
+    alt?: string
+    _key: string
+  }>
+  layout?: 'grid' | 'masonry' | 'carousel' | 'lightbox'
+  columns?: number
+  showCaptions?: boolean
+  enableLightbox?: boolean
 }
 
-export type SanityImagePalette = {
-  _type: 'sanity.imagePalette'
-  darkMuted?: SanityImagePaletteSwatch
-  lightVibrant?: SanityImagePaletteSwatch
-  darkVibrant?: SanityImagePaletteSwatch
-  vibrant?: SanityImagePaletteSwatch
-  dominant?: SanityImagePaletteSwatch
-  lightMuted?: SanityImagePaletteSwatch
-  muted?: SanityImagePaletteSwatch
+export type Audio = {
+  _type: 'audio'
+  file?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
+    }
+    media?: unknown
+    _type: 'file'
+  }
+  title?: string
+  artist?: string
+  description?: string
+  duration?: number
+  showPlayer?: boolean
+  autoplay?: boolean
+  loop?: boolean
+  showDownloadButton?: boolean
+  coverImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
 }
 
-export type SanityImageDimensions = {
-  _type: 'sanity.imageDimensions'
-  height?: number
-  width?: number
-  aspectRatio?: number
+export type Quote = {
+  _type: 'quote'
+  text?: string
+  author?: string
+  source?: string
+  url?: string
+  style?: 'default' | 'large' | 'pull' | 'blockquote'
 }
 
-export type Geopoint = {
-  _type: 'geopoint'
-  lat?: number
-  lng?: number
-  alt?: number
+export type Divider = {
+  _type: 'divider'
+  style?: 'solid' | 'dashed' | 'dotted' | 'double'
+  color?: 'default' | 'primary' | 'secondary' | 'accent' | 'muted'
+}
+
+export type PrivacyPolicy = {
+  _type: 'privacyPolicy'
+  _id: string
+  title: string
+  content: Array<{
+    _type: 'block' | 'divider'
+    [key: string]: string
+  }>
+  seo?: SeoMetaFields;
+  _updatedAt: string
+  language: string
+}
+
+export type Callout = {
+  _type: 'callout'
+  type?: 'info' | 'warning' | 'error' | 'success' | 'note' | 'tip'
+  title?: string
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+}
+
+export type Code = {
+  _type: 'code'
+  code?: string
+  language?:
+  | 'javascript'
+  | 'typescript'
+  | 'python'
+  | 'java'
+  | 'cpp'
+  | 'csharp'
+  | 'php'
+  | 'ruby'
+  | 'go'
+  | 'rust'
+  | 'swift'
+  | 'kotlin'
+  | 'html'
+  | 'css'
+  | 'scss'
+  | 'json'
+  | 'yaml'
+  | 'markdown'
+  | 'sql'
+  | 'shell'
+  | 'bash'
+  | 'text'
+  filename?: string
+  highlightedLines?: Array<number>
+}
+
+export type Youtube = {
+  _type: 'youtube'
+  url?: string
+  title?: string
+  caption?: string
 }
 
 export type Translations = {
@@ -146,72 +262,19 @@ export type PropertyKind = {
   name?: string
   slug?: Slug
   main?: boolean
-  images?: Array<
-    | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
-        media?: unknown
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        _type: 'image'
-        _key: string
-      }
-    | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
-        }
-        media?: unknown
-        _type: 'file'
-        _key: string
-      }
-  >
-  description?: Array<{
-    children?: Array<{
-      marks?: Array<string>
-      text?: string
-      _type: 'span'
-      _key: string
-    }>
-    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
-    listItem?: 'bullet' | 'number'
-    markDefs?: Array<{
-      href?: string
-      _type: 'link'
-      _key: string
-    }>
-    level?: number
-    _type: 'block'
-    _key: string
-  }>
-}
-
-export type SanityFileAsset = {
-  _id: string
-  _type: 'sanity.fileAsset'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  originalFilename?: string
-  label?: string
-  title?: string
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
   description?: string
-  altText?: string
-  sha1hash?: string
-  extension?: string
-  mimeType?: string
-  size?: number
-  assetId?: string
-  uploadId?: string
-  path?: string
-  url?: string
-  source?: SanityAssetSourceData
 }
 
 export type Property = {
@@ -353,6 +416,54 @@ export type BlogPostTag = {
   slug?: Slug
 }
 
+export type UtmDestinations = {
+  _id: string
+  _type: 'utmDestinations'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  url?: string
+  type?: 'internal' | 'external'
+}
+
+export type UtmMediums = {
+  _id: string
+  _type: 'utmMediums'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  source?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'utmSources'
+  }
+  medium?: string
+}
+
+export type UtmSources = {
+  _id: string
+  _type: 'utmSources'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  source?: string
+}
+
+export type Translation = {
+  _id: string
+  _type: 'translation'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  token?: string
+  text?: string
+  originalText?: string
+  sourceLang?: string
+  targetLang?: string
+}
+
 export type TranslationMetadata = {
   _id: string
   _type: 'translation.metadata'
@@ -370,78 +481,78 @@ export type TranslationMetadata = {
 export type InternationalizedArrayReferenceValue = {
   _type: 'internationalizedArrayReferenceValue'
   value?:
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'homePage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'aboutPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'testimonialsPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'webinarPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'navigation'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'consultationPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'bankPackagesPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'blogPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'waitlistPage'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'faq'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'caseStudy'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'blogPost'
-      }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'homePage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'aboutPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'testimonialsPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'webinarPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'navigation'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'consultationPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'bankPackagesPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'blogPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'waitlistPage'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'faq'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'caseStudy'
+  }
+  | {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'blogPost'
+  }
 }
 
 export type BlogPost = {
@@ -465,7 +576,65 @@ export type BlogPost = {
     _type: 'image'
   }
   description?: string
-  content?: Array<{
+  content?: Array<
+    | {
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }
+    | {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      _type: 'image'
+      _key: string
+    }
+    | ({
+      _key: string
+    } & Youtube)
+    | ({
+      _key: string
+    } & Callout)
+    | ({
+      _key: string
+    } & Divider)
+    | ({
+      _key: string
+    } & Audio)
+    | ({
+      _key: string
+    } & Gallery)
+  >
+  audio?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
+    }
+    media?: unknown
+    _type: 'file'
+  }
+  tableOfContents?: Array<{
     children?: Array<{
       marks?: Array<string>
       text?: string
@@ -550,12 +719,6 @@ export type Team = {
   leadership?: boolean
 }
 
-export type Slug = {
-  _type: 'slug'
-  current?: string
-  source?: string
-}
-
 export type CaseStudy = {
   _id: string
   _type: 'caseStudy'
@@ -563,6 +726,7 @@ export type CaseStudy = {
   _updatedAt: string
   _rev: string
   clientName?: string
+  slug?: string
   videoUrl?: string
   thumbnail?: {
     asset?: {
@@ -1180,12 +1344,30 @@ export type OpenGraph = {
   siteName?: string
 }
 
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top?: number
-  bottom?: number
-  left?: number
-  right?: number
+export type SanityImagePaletteSwatch = {
+  _type: 'sanity.imagePaletteSwatch'
+  background?: string
+  foreground?: string
+  population?: number
+  title?: string
+}
+
+export type SanityImagePalette = {
+  _type: 'sanity.imagePalette'
+  darkMuted?: SanityImagePaletteSwatch
+  lightVibrant?: SanityImagePaletteSwatch
+  darkVibrant?: SanityImagePaletteSwatch
+  vibrant?: SanityImagePaletteSwatch
+  dominant?: SanityImagePaletteSwatch
+  lightMuted?: SanityImagePaletteSwatch
+  muted?: SanityImagePaletteSwatch
+}
+
+export type SanityImageDimensions = {
+  _type: 'sanity.imageDimensions'
+  height?: number
+  width?: number
+  aspectRatio?: number
 }
 
 export type SanityImageHotspot = {
@@ -1194,6 +1376,36 @@ export type SanityImageHotspot = {
   y?: number
   height?: number
   width?: number
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top?: number
+  bottom?: number
+  left?: number
+  right?: number
+}
+
+export type SanityFileAsset = {
+  _id: string
+  _type: 'sanity.fileAsset'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  originalFilename?: string
+  label?: string
+  title?: string
+  description?: string
+  altText?: string
+  sha1hash?: string
+  extension?: string
+  mimeType?: string
+  size?: number
+  assetId?: string
+  uploadId?: string
+  path?: string
+  url?: string
+  source?: SanityAssetSourceData
 }
 
 export type SanityImageAsset = {
@@ -1219,13 +1431,6 @@ export type SanityImageAsset = {
   source?: SanityAssetSourceData
 }
 
-export type SanityAssetSourceData = {
-  _type: 'sanity.assetSourceData'
-  name?: string
-  id?: string
-  url?: string
-}
-
 export type SanityImageMetadata = {
   _type: 'sanity.imageMetadata'
   location?: Geopoint
@@ -1237,26 +1442,51 @@ export type SanityImageMetadata = {
   isOpaque?: boolean
 }
 
+export type Geopoint = {
+  _type: 'geopoint'
+  lat?: number
+  lng?: number
+  alt?: number
+}
+
+export type Slug = {
+  _type: 'slug'
+  current?: string
+  source?: string
+}
+
+export type SanityAssetSourceData = {
+  _type: 'sanity.assetSourceData'
+  name?: string
+  id?: string
+  url?: string
+}
+
 export type AllSanitySchemaTypes =
-  | SanityImagePaletteSwatch
-  | SanityImagePalette
-  | SanityImageDimensions
-  | Geopoint
+  | Gallery
+  | Audio
+  | Quote
+  | Divider
+  | Callout
+  | Code
+  | Youtube
   | Translations
   | Footer
   | Testimonial
   | PropertyFeature
   | PropertyKind
-  | SanityFileAsset
   | Property
   | PropertyAgent
   | BlogPostTag
+  | UtmDestinations
+  | UtmMediums
+  | UtmSources
+  | Translation
   | TranslationMetadata
   | InternationalizedArrayReferenceValue
   | BlogPost
   | BlogPostCategory
   | Team
-  | Slug
   | CaseStudy
   | Faq
   | WaitlistPage
@@ -1274,9 +1504,15 @@ export type AllSanitySchemaTypes =
   | SeoMetaFields
   | Twitter
   | OpenGraph
-  | SanityImageCrop
+  | SanityImagePaletteSwatch
+  | SanityImagePalette
+  | SanityImageDimensions
   | SanityImageHotspot
+  | SanityImageCrop
+  | SanityFileAsset
   | SanityImageAsset
-  | SanityAssetSourceData
   | SanityImageMetadata
+  | Geopoint
+  | Slug
+  | SanityAssetSourceData
 export declare const internalGroqTypeReferenceTo: unique symbol

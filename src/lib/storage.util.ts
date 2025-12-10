@@ -1,4 +1,5 @@
 export enum StorageKey {
+  DOWNLOADED_EBOOK = 'downloaded::ebook',
   REGISTERED_WEBINAR = 'webinar::registered',
   REGISTERED_WAITLIST = 'registered::waitlist',
   REGISTERED_ENQUIRY = 'registered::enquiry',

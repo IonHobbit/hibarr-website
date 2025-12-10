@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import HeaderItem from './HeaderItem'
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/icons";
 import { Sheet, SheetTrigger, SheetContent, SheetTitle, SheetDescription } from "./ui/sheet";
 import LanguageSwitcher from './LanguageSwitcher';
 import { Locale } from '@/lib/i18n-config';
@@ -22,7 +22,7 @@ export default function MobileNavigationMenu({ navigation, lang }: MobileNavigat
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <div className="flex md:hidden justify-end">
-          <button className="text-white">
+          <button className="text-white min-h-[48px] min-w-[48px] flex items-center justify-center">
             <Icon icon="heroicons:bars-2-solid" className="w-6 h-6" />
           </button>
         </div>

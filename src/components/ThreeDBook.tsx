@@ -1,10 +1,40 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+import { useParams } from 'next/navigation'
 
-export default function ThreeDBook() {
+interface ThreeDBookProps {
+  scale?: number
+}
+
+export default function ThreeDBook({ scale = 0.67 }: ThreeDBookProps) {
+  const params = useParams()
+  const lang = (params.lang as string) || 'en'
+
+  const englishCover = 'https://res.cloudinary.com/hibarr/image/upload/v1748844872/Ultimate-Cyprus-Real-Estate-Investment-Guide-front-1_zakdkj.webp'
+  const germanCover = 'https://res.cloudinary.com/hibarr/image/upload/v1760603287/Ultimate_Cyprus_Real_Estate_Investment_Guide_2025.png_wzokuz.webp'
+
+  const englishSpine = 'https://res.cloudinary.com/hibarr/image/upload/v1748844872/Ultimate-Cyprus-Real-Estate-Investment-Guide-spine-3-1_ajz4ow.webp'
+  const germanSpine = 'https://res.cloudinary.com/hibarr/image/upload/v1760697223/Ebook_side_german_ga6v3p.webp'
+
+  // Use German cover when language is German, otherwise use English cover
+  const frontCoverUrl = {
+    en: englishCover,
+    de: germanCover,
+  }[lang] || englishCover
+
+
+  const spineUrl = {
+    en: englishSpine,
+    de: germanSpine,
+  }[lang] || englishSpine
+
+  const bookSectionRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    const bookSection = document.querySelector('.book_three_d');
+    const bookSection = bookSectionRef.current;
+    if (!bookSection) return;
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -14,9 +44,7 @@ export default function ThreeDBook() {
       });
     });
 
-    if (bookSection) {
-      observer.observe(bookSection);
-    }
+    observer.observe(bookSection);
 
     return () => {
       if (bookSection) {
@@ -35,7 +63,15 @@ export default function ThreeDBook() {
           justify-content: center;
           align-items: center;
           -webkit-perspective: 1000px;
+          --book-scale: ${scale};
         }
+        
+        @media (max-width: 768px) {
+          .book_three_d {
+            --book-scale: 1;
+          }
+        }
+        
         .book-container {
           position: relative;
           transform-style: preserve-3d;
@@ -45,25 +81,25 @@ export default function ThreeDBook() {
           -webkit-transform-origin: center top;
           -webkit-animation: rotateBook 10s linear infinite;
         }
-        .book-container::after {
-          content: "";
-          position: absolute;
-          width: 100px;
-          height: 30px;
-          background: rgba(0,0,0,.3);
-          filter: blur(20px);
-          bottom: -20px;
-          left: 50%;
-          transform: translateX(20%) rotateY(90deg);
-          z-index: -17;
-        }
+        // .book-container::after {
+        //   content: "";
+        //   position: absolute;
+        //   width: calc(150px * var(--book-scale));
+        //   height: calc(45px * var(--book-scale));
+        //   background: rgba(0,0,0,.3);
+        //   filter: blur(20px);
+        //   bottom: calc(-30px * var(--book-scale));
+        //   left: 50%;
+        //   transform: translateX(20%) rotateY(90deg);
+        //   z-index: calc(-25 * var(--book-scale));
+        // }
         .book-container, .book {
           will-change: transform;
         }
         .book {
           position: relative;
-          width: 200px;
-          height: 300px;
+          width: calc(300px * var(--book-scale));
+          height: calc(450px * var(--book-scale));
           transform-style: preserve-3d;
           transform: rotateZ(-20deg);
         }
@@ -74,45 +110,45 @@ export default function ThreeDBook() {
         .front-cover {
           width: 100%;
           height: 100%;
-          transform: translateZ(17px);
-          background: url(https://res.cloudinary.com/hibarr/image/upload/v1748844872/Ultimate-Cyprus-Real-Estate-Investment-Guide-front-1_zakdkj.webp) center center/cover no-repeat;
+          transform: translateZ(calc(25px * var(--book-scale)));
+          background: url(${frontCoverUrl}) center center/cover no-repeat;
         }
         .back-cover {
           width: 100%;
           height: 100%;
-          transform: translateZ(-17px) rotateY(180deg);
+          transform: translateZ(calc(-25px * var(--book-scale))) rotateY(180deg);
           background: url(https://res.cloudinary.com/hibarr/image/upload/v1748844871/back-1_zwo4ds.webp) center center/cover no-repeat;
         }
         .spine {
-          width: 34px;
-          height: 300px;
-          transform: rotateY(90deg) translateZ(-17px) rotateX(180deg);
-          background: url(https://res.cloudinary.com/hibarr/image/upload/v1748844872/Ultimate-Cyprus-Real-Estate-Investment-Guide-spine-3-1_ajz4ow.webp) center center/cover no-repeat;
+          width: calc(51px * var(--book-scale));
+          height: calc(450px * var(--book-scale));
+          transform: rotateY(90deg) translateZ(calc(-25px * var(--book-scale))) rotateX(180deg);
+          background: url(${spineUrl}) center center/cover no-repeat;
         }
         .top-edge, .bottom-edge {
           width: 100%;
-          height: 34px;
+          height: calc(51px * var(--book-scale));
           background: url(https://s3-ap-southeast-2.amazonaws.com/mephystoprojects/alice/paper-horizontal.jpg) center center/cover no-repeat;
           border: none;
         }
         .top-edge {
-          transform: translateY(-16px) rotateX(90deg);
+          transform: translateY(calc(-24px * var(--book-scale))) rotateX(90deg);
         }
         .bottom-edge {
-          transform: translateY(282.5px) rotateX(-90deg);
+          transform: translateY(calc(423.5px * var(--book-scale))) rotateX(-90deg);
         }
         .front-edge {
-          width: 34px;
-          height: 300px;
+          width: calc(51px * var(--book-scale));
+          height: calc(450px * var(--book-scale));
           background: url(https://s3-ap-southeast-2.amazonaws.com/mephystoprojects/alice/paper.jpg) center center/cover no-repeat;
-          transform: translateX(183px) rotateY(90deg);
+          transform: translateX(calc(274px * var(--book-scale))) rotateY(90deg);
         }
         .string {
           position: absolute;
           width: 2px;
-          height: 150px;
+          height: calc(225px * var(--book-scale));
           background-color: transparent;
-          top: -150px;
+          top: calc(-225px * var(--book-scale));
           left: 50%;
           transform: translateX(-50%);
         }
@@ -128,7 +164,7 @@ export default function ThreeDBook() {
         }
       `}</style>
 
-      <div className="book_three_d">
+      <div className="book_three_d" ref={bookSectionRef}>
         <div className="book-container">
           <div className="string"></div>
           <div className="book">

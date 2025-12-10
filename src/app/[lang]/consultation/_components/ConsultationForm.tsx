@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useFormik } from 'formik'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -11,25 +11,33 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import * as Yup from 'yup'
 import useRegistrationCheck from '@/hooks/useRegistrationCheck'
 import CalendlyEmbed from '@/components/CalendlyEmbed'
-import { callZapierWebhook } from '@/lib/zapier'
-import { ContactInfo, ZapierConsultationPayload } from '@/types/main'
-import { CountryDropdown, Country } from '@/components/ui/country-dropdonw'
-import { countries } from 'country-data-list'
+import { ContactInfo } from '@/types/main'
+import { Country } from '@/components/ui/country-dropdonw'
 import { useParams } from 'next/navigation'
-import { budgetOptions, languageOptions } from '@/lib/options'
+import dynamic from 'next/dynamic'
+
+const CountryDropdown = dynamic(() => import('@/components/ui/country-dropdonw').then(mod => mod.CountryDropdown), {
+  loading: () => <div className="h-12 w-full bg-muted rounded animate-pulse" />
+})
+const PhoneInput = dynamic(() => import('@/components/ui/phone-input').then(mod => mod.PhoneInput), {
+  loading: () => <Input placeholder="Loading..." />
+})
+import { budgetOptions, interestedInOptions, languageOptions, periodOptions } from '@/lib/options'
 import { StorageKey } from '@/lib/storage.util'
 import storage from '@/lib/storage.util'
 import { useMutation } from '@tanstack/react-query'
 import router from 'next/router'
 import { persistUserInfo } from '@/lib/services/user.service'
-import { PhoneInput } from '@/components/ui/phone-input'
 import useUserInfo from '@/hooks/useUserInfo'
+import { ConsultationRegistrationRequest } from '@/types/webinar.type'
+import { makePOSTRequest } from '@/lib/services/api.service'
+import { Locale } from '@/lib/i18n-config'
 
 type FormValues = ContactInfo & {
   country: Country | null
   interestedIn: string[]
   message: string
-  language: string
+  language: Locale
   budget: string
   period: string
   clickID: string
@@ -49,6 +57,7 @@ type ConsultationFormProps = {
       phoneNumber: string
     }
     headers: {
+      nameTitle: string
       myPreferredLanguage: string
       currentlyLivingIn: string
       interestedIn: string
@@ -62,8 +71,8 @@ type ConsultationFormProps = {
       submitButton: string
     }
     options: {
-      interestedIn: string[]
-      period: string[]
+      interestedIn: { label: string, value: string, score: number }[]
+      period: { label: string, value: string, score: number }[]
       message: string[]
     }
     placeholders: {
@@ -86,53 +95,64 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
 
   const [step, setStep] = useState(0);
 
-  const makeConversion = async () => {
-    if (values.clickID) return;
-    try {
-      const response = await fetch('/api/meta/conversions', {
-        method: 'POST',
-        body: JSON.stringify({
-          email: values.email,
-          firstName: values.firstName,
-          lastName: values.lastName,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to make conversion');
-      }
-      const data = await response.json();
-      const clickID = data.data.clickID;
-      setFieldValue('clickID', clickID);
-      storage.set(StorageKey.CLICK_ID, clickID, { expiration: 1000 * 60 * 60 * 24 * 30 })
-    } catch (error) {
-      console.error('Error making conversion:', error);
-      // Continue with the form submission even if conversion fails
-    }
-  }
+  // const makeConversion = async () => {
+  //   if (values.clickID) return;
+  //   try {
+  //     const response = await fetch('/api/meta/conversions', {
+  //       method: 'POST',
+  //       body: JSON.stringify({
+  //         email: values.email,
+  //         firstName: values.firstName,
+  //         lastName: values.lastName,
+  //       }),
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error('Failed to make conversion');
+  //     }
+  //     const data = await response.json();
+  //     const clickID = data.data.clickID;
+  //     setFieldValue('clickID', clickID);
+  //     storage.set(StorageKey.CLICK_ID, clickID, { expiration: 1000 * 60 * 60 * 24 * 30 })
+  //   } catch (error) {
+  //     console.error('Error making conversion:', error);
+  //     // Continue with the form submission even if conversion fails
+  //   }
+  // }
 
   const alpha2 = lang !== 'en' ? lang : 'de'
-  const initialCountry = countries.all.find(country => country.alpha2.toLowerCase() === alpha2)
   const initialLanguage = languageOptions.find(option => option.value.toLowerCase() === lang)
+
+
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      try {
-        const payload: ZapierConsultationPayload = {
-          ...values,
-          clickID: values.clickID,
-          type: 'consultation',
-          consultationInfo: {
-            country: values.country?.name || '',
-            interestedIn: values.interestedIn,
-            budget: values.budget,
-            period: values.period,
-            language: languageOptions.find(option => option.value === values.language)?.label || 'English',
-          }
-        }
-        await callZapierWebhook(payload)
-      } catch (error) {
-        console.error('Error calling Zapier webhook:', error);
+      const score = calculateScore()
+      const contactInfo = values;
+      const payload: ConsultationRegistrationRequest = {
+        firstName: contactInfo.firstName,
+        lastName: contactInfo.lastName,
+        email: contactInfo.email,
+        phone: contactInfo.phoneNumber,
+        language: values.language,
+        utmInfo: {
+          utmSource: contactInfo.utm.source,
+          utmMedium: contactInfo.utm.medium,
+          utmCampaign: contactInfo.utm.campaign,
+          utmTerm: contactInfo.utm.term,
+          utmContent: contactInfo.utm.content,
+        },
+        score,
+        country: values.country?.name || '',
+        interestedIn: values.interestedIn,
+        budget: values.budget,
+        period: values.period,
+        message: values.message,
       }
+      await makePOSTRequest('/registration/consultation', payload)
+      persistUserInfo({
+        ...contactInfo,
+        language: values.language,
+      });
     },
     onSuccess: () => {
       storage.set(StorageKey.BOOKED_CONSULTATION, true, { expiration: 1000 * 60 * 60 * 24 * 30 })
@@ -144,13 +164,13 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
   const { values, setFieldValue, handleChange, handleSubmit } = useFormik<FormValues>({
     initialValues: {
       ...userInfo,
-      country: initialCountry || null,
+      country: null,
       interestedIn: [],
       budget: '',
       period: '',
       message: '',
       showMessage: 'No',
-      language: initialLanguage?.value || 'en',
+      language: initialLanguage?.value as Locale || 'en',
       clickID: storage.get(StorageKey.CLICK_ID) || '',
     },
     validationSchema: Yup.object().shape({
@@ -159,54 +179,125 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
       email: Yup.string().email('Invalid email address').required('Email is required'),
       phoneNumber: Yup.string(),
     }),
-    onSubmit: () => {
+    onSubmit: async () => {
       const link = generateCalendlyPrefilledUrl();
-      persistUserInfo({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phoneNumber: values.phoneNumber,
-        language: userInfo.language,
-        utm: userInfo.utm,
-      });
       setCalendlyUrl(link);
       mutate()
     }
   })
+
+  useEffect(() => {
+    if (!values.country) {
+      import('country-data-list').then((module) => {
+        const countries = module.countries
+        const initialCountry = countries.all.find(country => country.alpha2.toLowerCase() === alpha2)
+        if (initialCountry) {
+          setFieldValue('country', initialCountry)
+        }
+      })
+    }
+  }, [alpha2, setFieldValue, values.country])
 
   const generateCalendlyPrefilledUrl = () => {
     const url = new URL(baseCalendlyUrl)
     url.searchParams.set('first_name', values.firstName)
     url.searchParams.set('last_name', values.lastName)
     url.searchParams.set('email', values.email)
-    const compiledAnswers = [
-      values.country ? `Country:-${values.country}` : null,
-      values.interestedIn.length > 0 ? `Interested in:-${values.interestedIn.join(', ')}` : null,
-      values.budget ? `Budget:-${values.budget}` : null,
-      values.period ? `Period:-${values.period}` : null,
-      values.language ? `Language:-${values.language}` : null,
-      values.message ? `Message:-${values.message}` : null
-    ].filter(Boolean).join(';')
-    url.searchParams.set('a1', `********PLEASE-DO-NOT-CHANGE-THIS: ${compiledAnswers}********`)
+    url.searchParams.set('a1', values.phoneNumber)
+    url.searchParams.set('a3', values.message)
+    // const compiledAnswers = [
+    //   values.country ? `Country:-${values.country}` : null,
+    //   values.interestedIn.length > 0 ? `Interested in:-${values.interestedIn.join(', ')}` : null,
+    //   values.budget ? `Budget:-${values.budget}` : null,
+    //   values.period ? `Period:-${values.period}` : null,
+    //   values.language ? `Language:-${values.language}` : null,
+    //   values.message ? `Message:-${values.message}` : null
+    // ].filter(Boolean).join(';')
+    // url.searchParams.set('a1', `********PLEASE-DO-NOT-CHANGE-THIS: ${compiledAnswers}********`)
     return url.toString()
   }
 
   const handleInterestedInChange = (option: string) => {
-    if (values.interestedIn.includes(option)) {
-      setFieldValue('interestedIn', values.interestedIn.filter(o => o !== option))
+    if (option === 'Not sure yet' || option === 'I\'m just browsing') {
+      setFieldValue('interestedIn', [option])
+      return
     } else {
-      setFieldValue('interestedIn', [...values.interestedIn, option])
+      if (values.interestedIn.includes(option)) {
+        setFieldValue('interestedIn', values.interestedIn.filter(o => o !== option && o !== 'Not sure yet' && o !== 'I\'m just browsing'))
+      } else {
+        setFieldValue('interestedIn', [...values.interestedIn, option].filter(o => o !== 'Not sure yet' && o !== 'I\'m just browsing'))
+      }
     }
   }
 
+  const calculateScore = () => {
+    const totalInterestedInScore = values.interestedIn.reduce((acc, option) => acc + (interestedInOptions.find(o => o.value === option)?.score || 0), 0)
+    const score =
+      totalInterestedInScore +
+      (values.budget ? budgetOptions.find(o => o.value === values.budget)?.score || 0 : 0) +
+      (values.period ? periodOptions.find(o => o.value === values.period)?.score || 0 : 0) +
+      (values.showMessage === showMessage ? 1 : 0)
+    return score;
+  }
+
   const goToNextStep = () => {
-    if (step === 0) {
-      makeConversion()
-    }
+    // if (step === 0) {
+    //   makeConversion()
+    // }
     setStep(step + 1)
   }
 
   const steps = [
+    {
+      label: translations.headers.nameTitle,
+      component: <div className='flex flex-col gap-4'>
+        <div className='grid grid-cols-2 gap-4'>
+          <Input name='firstName' title={translations.form.firstName} required value={values.firstName} onChange={handleChange} placeholder='John' />
+          <Input name='lastName' title={translations.form.lastName} required value={values.lastName} onChange={handleChange} placeholder='Doe' />
+        </div>
+        <Input name='email' title={translations.form.email} required value={values.email} onChange={handleChange} placeholder='john.doe@example.com' />
+        <PhoneInput name='phoneNumber' title={translations.form.phoneNumber} value={values.phoneNumber} onChange={(value) => setFieldValue('phoneNumber', value)} placeholder='+905555555555' />
+      </div>
+    },
+    {
+      label: translations.headers.interestedIn,
+      component: <div className='flex flex-col gap-2 mt-2'>
+        {translations.options.interestedIn.map((option, index) => (
+          <div className='flex items-center gap-2' key={index}>
+            <Checkbox id={option.value} checked={values.interestedIn.includes(option.value)} onClick={() => handleInterestedInChange(option.value)} />
+            <label className='text-lg cursor-pointer' htmlFor={option.value}>{option.label}</label>
+          </div>
+        ))}
+      </div>
+    },
+    {
+      label: translations.headers.planningToBuy,
+      component:
+        <RadioGroup name='period' value={values.period} className='mt-3'>
+          <div className='grid grid-cols-2 grid-rows-4 gap-3'>
+            {translations.options.period.map((option, index) => (
+              <div className='flex items-center gap-2' key={index}>
+                <RadioGroupItem id={option.value} value={option.value} checked={values.period === option.value} onClick={() => setFieldValue('period', option.value)} />
+                <label className='text-lg cursor-pointer' htmlFor={option.value}>{option.label}</label>
+              </div>
+            ))}
+          </div>
+        </RadioGroup>
+    },
+    {
+      label: translations.headers.budget,
+      component:
+        <RadioGroup name='budget' value={values.budget}>
+          <div className='grid grid-cols-2 grid-rows-4 gap-2'>
+            {budgetOptions.map((option, index) => (
+              <div className='flex items-center gap-2' key={index}>
+                <RadioGroupItem id={option.value} value={option.value} checked={values.budget === option.value} onClick={() => setFieldValue('budget', option.value)} />
+                <label className='text-lg cursor-pointer' htmlFor={option.value}>{option.label}</label>
+              </div>
+            ))}
+          </div>
+        </RadioGroup>
+    },
     {
       label: translations.headers.myPreferredLanguage,
       component: (
@@ -230,56 +321,6 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
           </div>
         </div>
       )
-    },
-    {
-      label: translations.headers.interestedIn,
-      component: <div className='flex flex-col gap-2 mt-2'>
-        {translations.options.interestedIn.map((option, index) => (
-          <div className='flex items-center gap-2' key={index}>
-            <Checkbox id={option} checked={values.interestedIn.includes(option)} onClick={() => handleInterestedInChange(option)} />
-            <label className='text-lg cursor-pointer' htmlFor={option}>{option}</label>
-          </div>
-        ))}
-      </div>
-    },
-    {
-      label: translations.headers.planningToBuy,
-      component:
-        <RadioGroup name='period' value={values.period} className='mt-3'>
-          <div className='grid grid-cols-2 grid-rows-4 gap-3'>
-            {translations.options.period.map((option, index) => (
-              <div className='flex items-center gap-2' key={index}>
-                <RadioGroupItem id={option} value={option} checked={values.period === option} onClick={() => setFieldValue('period', option)} />
-                <label className='text-lg cursor-pointer' htmlFor={option}>{option}</label>
-              </div>
-            ))}
-          </div>
-        </RadioGroup>
-    },
-    {
-      // label: 'My name is ...',
-      component: <div className='flex flex-col gap-4'>
-        <div className='grid grid-cols-2 gap-4'>
-          <Input name='firstName' title={translations.form.firstName} required value={values.firstName} onChange={handleChange} placeholder='John' />
-          <Input name='lastName' title={translations.form.lastName} required value={values.lastName} onChange={handleChange} placeholder='Doe' />
-        </div>
-        <Input name='email' title={translations.form.email} required value={values.email} onChange={handleChange} placeholder='john.doe@example.com' />
-        <PhoneInput name='phoneNumber' title={translations.form.phoneNumber} value={values.phoneNumber} onChange={handleChange} placeholder='+905555555555' />
-      </div>
-    },
-    {
-      label: translations.headers.budget,
-      component:
-        <RadioGroup name='budget' value={values.budget}>
-          <div className='grid grid-cols-2 grid-rows-4 gap-2'>
-            {budgetOptions.map((option, index) => (
-              <div className='flex items-center gap-2' key={index}>
-                <RadioGroupItem id={option} value={option} checked={values.budget === option} onClick={() => setFieldValue('budget', option)} />
-                <label className='text-lg cursor-pointer' htmlFor={option}>{option}</label>
-              </div>
-            ))}
-          </div>
-        </RadioGroup>
     },
     {
       label: translations.headers.isThereAnyQuestions,

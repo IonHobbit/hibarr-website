@@ -1,0 +1,184 @@
+"use client";
+
+import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { SanityImageCrop, SanityImageHotspot } from "@/types/sanity.types";
+import type { ElementType } from "react";
+
+export type HeadingWithImageBlock = {
+  _type: "headingWithImage";
+  heading?: string;
+  subheading?: string;
+  backgroundImage?: {
+    asset?: {
+      url?: string;
+      metadata?: { lqip?: string } | null;
+    } | null;
+    crop?: SanityImageCrop | null;
+    hotspot?: SanityImageHotspot | null;
+  } | null;
+  height?: "sm" | "md" | "lg" | "full";
+  align?: "left" | "center" | "right";
+  textTone?: "light" | "dark";
+  overlayOpacity?: number; // 0-100
+  imageOpacity?: number; // 0-100
+  headingLevel?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+};
+
+type Props = HeadingWithImageBlock & {
+  className?: string;
+  // If this block is expected to be the first block often, allow priority override
+  priority?: boolean;
+};
+
+/**
+ * HeadingWithImage
+ * - Renders a hero-like section inline within content flow
+ * - Supports background image with hotspot-aware object-position, overlay, alignment, height variants
+ * - Accessible: uses heading as alt fallback if image alt is unavailable in CMS
+ */
+export default function HeadingWithImage({
+  heading,
+  subheading,
+  backgroundImage,
+  height = "md",
+  align = "center",
+  textTone = "light",
+  overlayOpacity = 40,
+  imageOpacity = 100,
+  headingLevel = "h2",
+  className,
+  priority = false,
+}: Props) {
+
+  // Semantic heading tag selection with default and sanitization
+  const validLevels = ["h1", "h2", "h3", "h4", "h5", "h6"] as const;
+  const level = (validLevels.find(v => v === headingLevel) ?? "h2");
+  const Tag = level as ElementType;
+  const hasHeading = Boolean(heading && heading.trim().length > 0);
+
+  // Clamp overlay opacity
+  const overlay = Math.max(0, Math.min(100, Number.isFinite(overlayOpacity as number) ? (overlayOpacity as number) : 40)) / 100;
+
+  // Text alignment and color
+  const textColor = textTone === "dark" ? "#0A0A0A" : "#ffffff";
+  const textAlign = align === "left" ? "left" : align === "right" ? "right" : "center";
+
+  // Compute object-position from hotspot if present
+  const objectPosition = backgroundImage?.hotspot
+    ? `${Math.round(((backgroundImage.hotspot.x ?? 0.5) * 100))}% ${Math.round(((backgroundImage.hotspot.y ?? 0.5) * 100))}%`
+    : "50% 50%";
+
+  // Heights: mobile vs desktop (lg: breakpoint)
+  const sizeMap = {
+    sm: { mobile: 80, desktop: 120 },
+    md: { mobile: 160, desktop: 240 },
+    lg: { mobile: 260, desktop: 400 },
+    full: { mobile: "70vh", desktop: "100vh" as const },
+  } as const;
+
+  const size = sizeMap[height] || sizeMap.md;
+  const mobileH = typeof size.mobile === "number" ? `${size.mobile}px` : size.mobile;
+  const desktopH = typeof size.desktop === "number" ? `${size.desktop}px` : size.desktop;
+  // Use target sizes as minimums so the section can expand if content is taller
+  const minHMobile = mobileH;
+  const minHDesktop = desktopH;
+
+  const hasImage = Boolean(backgroundImage?.asset?.url);
+  const brandBlueHex = "#053160";
+  const brandBlueRgb = "5,49,96";
+  const imgOpacity = Math.max(0, Math.min(100, Number.isFinite(imageOpacity as number) ? (imageOpacity as number) : 100)) / 100;
+
+  const ariaLabel = hasHeading ? undefined : (subheading && subheading.trim().length > 0 ? subheading : undefined);
+
+  return (
+    <section
+      aria-label={ariaLabel}
+      className={cn(
+        "relative w-full overflow-hidden rounded-lg",
+        className,
+      )}
+      style={{
+        color: textColor,
+        height: 'auto',
+        minHeight: minHMobile,
+      }}
+      data-testid="hwi-section"
+    >
+      {/* Background Image Layer */}
+      {hasImage ? (
+        <Image
+          src={backgroundImage!.asset!.url as string}
+          alt={hasHeading ? (heading as string) : (subheading || "")}
+          fill
+          priority={priority}
+          sizes="(max-width: 1024px) 100vw, 960px"
+          className="absolute inset-0 object-cover"
+          style={{ objectPosition, opacity: imgOpacity }}
+          placeholder={backgroundImage?.asset?.metadata?.lqip ? "blur" : undefined}
+          blurDataURL={backgroundImage?.asset?.metadata?.lqip || undefined}
+        />
+      ) : (
+        <div className="absolute inset-0" style={{ backgroundColor: brandBlueHex }} />
+      )}
+
+      {/* Overlay */}
+      {hasImage && overlay > 0 && (
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: `rgba(${brandBlueRgb},${overlay})` }}
+          aria-hidden
+        />
+      )}
+
+      {/* Content */}
+        <div
+        className={cn(
+          "relative h-full w-full grid px-4 py-6 lg:py-3",
+          align === "left" && "place-items-center lg:place-items-center",
+        )}
+        style={{
+          // Use CSS grid for vertical + horizontal placement
+          placeItems:
+            align === "left"
+              ? "center start"
+              : align === "right"
+                ? "center end"
+                : "center",
+        }}
+      >
+        <div
+          className="max-w-[70ch]"
+          style={{ textAlign: textAlign, color: textColor }}
+          data-testid="hwi-content"
+        >
+          {hasHeading ? (
+            <Tag className="m-0 font-semibold" style={{ fontSize: "clamp(28px,4vw,48px)", lineHeight: 1.1 }}>
+              {heading}
+            </Tag>
+          ) : null}
+          {subheading && (
+            <p
+              className="opacity-90"
+              style={{
+                fontSize: "clamp(16px,2.5vw,20px)",
+                marginTop: hasHeading ? 12 : 0,
+              }}
+            >
+              {subheading}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Ensure min-heights at desktop breakpoint; allow height to grow beyond if content requires */}
+      <style jsx>{`
+        @media (min-width: 1024px) {
+          section {
+            min-height: ${minHDesktop};
+          }
+        }
+      `}</style>
+    </section>
+  );
+}

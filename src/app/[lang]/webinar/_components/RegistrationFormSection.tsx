@@ -3,19 +3,23 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { WebinarPage } from "@/types/sanity.types";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@/components/icons";
 import { useFormik } from "formik";
 import Countdown from "./Countdown";
-import { WebinarRegistrationForm } from "@/types/main";
-import { registerWebinar } from "@/lib/backend";
 import { useMutation } from "@tanstack/react-query";
 import * as Yup from 'yup';
 import storage, { StorageKey } from "@/lib/storage.util";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { persistUserInfo } from "@/lib/services/user.service";
-import { PhoneInput } from "@/components/ui/phone-input";
 import useUserInfo from "@/hooks/useUserInfo";
 import useTranslation from "@/hooks/useTranslation";
+import dynamic from "next/dynamic";
+
+const PhoneInput = dynamic(() => import('@/components/ui/phone-input').then(mod => mod.PhoneInput), {
+  loading: () => <Input placeholder="Loading..." />
+})
+import { WebinarRegistrationRequest, WebinarRegistrationResponse } from "@/types/webinar.type";
+import { APIResponse, makePOSTRequest } from "@/lib/services/api.service";
 
 type RegistrationFormSectionProps = {
   data: WebinarPage;
@@ -32,38 +36,54 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
 
   const isRegistered = storage.get(StorageKey.REGISTERED_WEBINAR) ?? false;
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async () => {
+  const { mutate, error, isPending, isSuccess } = useMutation({
+    mutationFn: async (): Promise<APIResponse<WebinarRegistrationResponse>> => {
       const contactInfo = values;
-      try {
-        const payload: WebinarRegistrationForm = {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          phone: values.phoneNumber,
-          language: params.lang as string,
-          utmInfo: {
-            utmSource: searchParams.get("utm_source") || userInfo.utm.source,
-            utmMedium: searchParams.get("utm_medium") || userInfo.utm.medium,
-            utmCampaign:
-              searchParams.get("utm_campaign") || userInfo.utm.campaign,
-            utmTerm: searchParams.get("utm_term") || userInfo.utm.term,
-            utmContent: searchParams.get("utm_content") || userInfo.utm.content,
-          },
-        };
-        const response = await registerWebinar(payload);
-        console.log(response);
-        // persist user info to storage
-        persistUserInfo(contactInfo);
-      } catch (error) {
-        console.error("Error registering for webinar:", error);
+      const payload: WebinarRegistrationRequest = {
+        firstName: contactInfo.firstName,
+        lastName: contactInfo.lastName,
+        email: contactInfo.email,
+        phone: contactInfo.phoneNumber,
+        language: userInfo.lang,
+        utmInfo: {
+          utmSource: contactInfo.utm.source,
+          utmMedium: contactInfo.utm.medium,
+          utmCampaign: contactInfo.utm.campaign,
+          utmTerm: contactInfo.utm.term,
+          utmContent: contactInfo.utm.content,
+        },
+        meetingId: process.env.NEXT_PUBLIC_WEBINAR_MEETING_ID || ''
+      }
+
+      // persist user info to storage
+      persistUserInfo(contactInfo);
+
+      return await makePOSTRequest('/registration/webinar', payload);
+    },
+    onSuccess: (response) => {
+      // Set storage expiration to the next webinar date (or defaults to 5 days if date is invalid)
+      const now = Date.now();
+      let expiration = 1000 * 60 * 60 * 24 * 2; // fallback 5 days
+      if (data?.webinarInformationSection?.date) {
+        const webinarTime = new Date(data.webinarInformationSection.date).getTime();
+        // Only set positive expiration, otherwise fallback
+        if (!isNaN(webinarTime) && webinarTime > now) {
+          expiration = webinarTime - now;
+        }
+      }
+      storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration });
+
+      // Navigate after storage is set
+      if (response.data.isStartingSoon || response.data.hasAlreadyStarted) {
+        router.push(response.data.join_url);
+      } else {
+        router.push('/webinar/thank-you');
       }
     },
-    onSuccess: () => {
-      router.push('/webinar/thank-you');
-      storage.set(StorageKey.REGISTERED_WEBINAR, true, { expiration: 1000 * 60 * 60 * 24 * 5 })
-    },
   });
+
+  const translation = useTranslation(error?.message || '');
+  const errorMessage = translation.data?.text;
 
   const { values, handleChange, handleSubmit, isValid, errors, touched, setFieldTouched, setFieldValue } = useFormik({
     initialValues: userInfo,
@@ -76,9 +96,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
   });
 
   return (
-    <section id='register' className='bg-primary bg-[url("/images/webinar-registration-background.webp")] bg-cover bg-center flex flex-col bg-blend-soft-light'>
-     
-
+    <section id='register' className='bg-primary bg-[url("https://res.cloudinary.com/hibarr/image/upload/webinar-registration-background_m3p9kq")] bg-cover bg-center flex flex-col bg-blend-soft-light'>
       <div className="section h-full grow py-40">
         <div className="max-w-screen-md mx-auto flex md:hidden flex-col gap-4">
           <Countdown date={data.webinarInformationSection?.date || ''} timezone={data.webinarInformationSection?.timezone || ''} />
@@ -98,7 +116,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
             </div>
           </div>
           <div className="w-full order-1 md:order-2">
-            {isRegistered ?
+            {(isRegistered && !isSuccess) ?
               <div className="flex flex-col gap-4 p-6 bg-background rounded-lg justify-between h-max md:max-w-md mx-auto w-full">
                 <h3 className="text-xl md:text-3xl text-center">{registeredTitle?.text}</h3>
                 <p className="text-sm text-center">{registeredDescription?.text}</p>
@@ -141,6 +159,7 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
                   onBlur={() => setFieldTouched('phoneNumber', true)}
                   error={errors.phoneNumber && touched.phoneNumber ? errors.phoneNumber : undefined}
                 />
+                {errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
                 <Button type="submit" isLoading={isPending} disabled={isPending || !isValid}>{data.registrationSection?.form?.submitButton || 'Register'}</Button>
               </form>
             }

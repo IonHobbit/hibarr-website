@@ -4,9 +4,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { RegistrationFormType } from '@/types/main'
 import { BankPackagesPage } from '@/types/sanity.types';
 import { BankPackage } from './PackageCard';
-import { PACKAGE_TYPE } from '@/lib/mockdata';
+import { PACKAGE_TYPE } from '@/lib/constants';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { Icon } from '@/components/icons';
 import { Textarea } from '@/components/ui/textarea';
 import { roomTypeOptions } from '@/lib/options';
 

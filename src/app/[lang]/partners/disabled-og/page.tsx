@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react'
+import { Icon } from '@/components/icons'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import React, { Fragment } from 'react'
@@ -21,23 +21,23 @@ export default async function OscarGroup(
   const portfolioCompanies = [
     {
       name: 'Oscar Park Hotel',
-      image: '/images/partners/oscar-group/oscar-park-hotel.webp',
+      image: 'https://res.cloudinary.com/hibarr/image/upload/oscar-park-hotel_ejt5hk',
     },
     {
       name: 'Oscar Petrol',
-      image: '/images/partners/oscar-group/oscar-petrol.webp',
+      image: 'https://res.cloudinary.com/hibarr/image/upload/oscar-petrol_omjden',
     },
     {
       name: 'Vuni Hotel',
-      image: '/images/partners/oscar-group/vuni-hotel.webp',
+      image: 'https://res.cloudinary.com/hibarr/image/upload/vuni-hotel_zb1uy0',
     },
     {
       name: 'Oscar Car Hire',
-      image: '/images/partners/oscar-group/oscar-car-hire.webp',
+      image: 'https://res.cloudinary.com/hibarr/image/upload/oscar-car-hire_s28bsc',
     },
     {
       name: 'Oscar Resort Hotel',
-      image: '/images/partners/oscar-group/oscar-resort-hotel.webp',
+      image: 'https://res.cloudinary.com/hibarr/image/upload/oscar-resort-hotel_fklhu0',
     },
   ]
 
@@ -58,10 +58,10 @@ export default async function OscarGroup(
 
   return (
     <Fragment>
-      <section id='root' className="relative grid place-items-center place-content-center h-[60vh] bg-[url('/images/hibarr-oscar.jpg')] bg-cover bg-center bg-no-repeat bg-gradient-to-b from-primary via-primary/80 to-transparent">
+  <section id='root' className="relative grid place-items-center place-content-center h-[60vh] bg-[url('https://res.cloudinary.com/hibarr/image/upload/hibarr-oscar_kp05ng')] bg-cover bg-center bg-no-repeat bg-gradient-to-b from-primary via-primary/80 to-transparent">
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col items-center gap-6'>
-            <Image src="/images/partners/oscar-group/oscar-group-logo.png" alt="Oscar Group Logo" width={400} height={400} />
+            <Image src="https://res.cloudinary.com/hibarr/image/upload/oscar-group-logo_q5mshu" alt="Oscar Group Logo" width={400} height={400} />
 
             <p className="text-md md:text-2xl text-background">
               Excellence Starts with the Right Partner – <span className='font-bold'>Oscar Group.</span>
@@ -108,14 +108,18 @@ export default async function OscarGroup(
       <section className='bg-primary w-full p-6 py-10 md:min-h-[25vh] flex flex-col gap-10 items-center justify-center'>
         <div className='flex flex-col gap-4'>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Image src="/images/partners/oscar-group/oscar-group-logo.png" alt="Oscar Group Logo" width={380} height={380} />
+            <Image src="https://res.cloudinary.com/hibarr/image/upload/oscar-group-logo_q5mshu" alt="Oscar Group Logo" width={380} height={380} />
             <Icon icon="mdi:close" className='text-background text-6xl shrink-0' />
             <Image src="/logos/logo-full-white.svg" alt="Hibarr Logo" width={400} height={400} />
           </div>
           <p className='text-primary-foreground text-xl md:text-2xl text-center'>Elevated Experiences</p>
         </div>
         <div className="section py-0">
-          <Video src="https://vz-da4cd036-d13.b-cdn.net/15e01ed4-1b90-4168-9498-932b6c0be50c/play_720p.mp4" />
+          <Video
+            hls
+            src="https://vz-da4cd036-d13.b-cdn.net/15e01ed4-1b90-4168-9498-932b6c0be50c/playlist.m3u8"
+            fallbackMp4="https://vz-da4cd036-d13.b-cdn.net/15e01ed4-1b90-4168-9498-932b6c0be50c/play_720p.mp4"
+          />
         </div>
         <div className='section py-0'>
           <h3 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h3>

@@ -1,10 +1,10 @@
-import { client } from "@/lib/sanity/client";
+import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { useQuery } from "@tanstack/react-query";
 
 export default function useFeatures() {
   const { data, isLoading, error } = useQuery({
     queryKey: ['features'],
-    queryFn: () => client.fetch<{ id: string, name: string, type: string }[]>(`*[_type == "propertyFeature"] {
+    queryFn: () => fetchSanityData<{ id: string, name: string, type: string }[]>(`*[_type == "propertyFeature"] {
       "id": _id,
       name,
       type

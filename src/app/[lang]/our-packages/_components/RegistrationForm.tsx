@@ -1,7 +1,7 @@
 'use client'
 
 import { useFormik } from 'formik';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import BankxLawyerForm from './BankxLawyerForm';
@@ -14,7 +14,7 @@ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover
 import { BankPackage } from './PackageCard';
 import { BankPackagesPage } from '@/types/sanity.types';
 import ParentInformationForm from './ParentInformationForm';
-import { PACKAGE_TYPE } from '@/lib/mockdata';
+import { PACKAGE_TYPE } from '@/lib/constants';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import BankDetailsModal from './BankDetailsModal';

@@ -2,7 +2,7 @@
 
 import { Dialog, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { DialogContent } from '@/components/ui/dialog'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/icons'
 import React, { useState } from 'react'
 import { BankPackage } from './PackageCard'
 import { Button } from '@/components/ui/button'
@@ -24,9 +24,10 @@ export default function BankDetailsModal({ referenceID, activePackage, showBankT
   const lang = params.split('/')[1] || 'en' as Locale;
 
   const phoneNumbers: Record<Locale, string> = {
-    'en': '+905391097988', // Leyla
-    'de': '+905391138959', // Christoph
-    'tr': '+905391097988', // Leyla
+    'en': '+90531191823', // Office Phone
+    'de': '+90531191823', // Office Phone
+    'tr': '+90531191823', // Office Phone
+    'ru': '+90531191823', // Office Phone
   };
 
   const phoneNumber = phoneNumbers[lang as keyof typeof phoneNumbers];

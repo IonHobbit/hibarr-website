@@ -55,8 +55,30 @@
     var(--animation-direction, forwards) linear infinite;
 }
 
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+.touch-target {
+  min-height: 48px;
+  min-width: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 body {
-  font-family: var(--font-work-sans), Arial, Helvetica, sans-serif;
+  font-family:
+    var(--font-inter), Arial, Helvetica, sans-serif;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1,
@@ -65,8 +87,37 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-playfair-display), Inter, Helvetica, sans-serif;
+  font-family:
+    var(--font-figtree), Inter, Helvetica,
+    sans-serif;
   @apply font-bold;
+}
+
+/* Performance-focused image optimizations */
+img {
+  max-width: 100%;
+  height: auto;
+  content-visibility: auto;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Optimize for mobile */
+@media (max-width: 768px) {
+  .section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 :root {
@@ -168,14 +219,49 @@ h6 {
   }
 }
 
+/* Optimized animations */
 .animate-landing-couple {
   animation: landing-couple-animation 1s ease-in-out forwards;
+  will-change: transform;
 }
 
 .animate-landing-background {
   animation: landing-background-animation 8s ease-in-out forwards;
+  will-change: transform;
 }
 
 .animate-landing-cover {
   animation: landing-cover-animation 3s ease-in-out forwards;
+  will-change: transform;
+}
+
+/* Performance utilities */
+.content-visibility-auto {
+  content-visibility: auto;
+}
+
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Optimize for Core Web Vitals */
+.lcp-optimized {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* Reduce layout shift */
+.aspect-ratio-preserve {
+  aspect-ratio: attr(width) / attr(height);
+}
+
+/* Optimize for mobile performance */
+@media (max-width: 768px) {
+  .mobile-optimized {
+    contain: layout style paint;
+  }
 }

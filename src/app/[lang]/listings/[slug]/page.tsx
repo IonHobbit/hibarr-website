@@ -11,7 +11,7 @@ import ListingImages from './_components/ListingImages';
 import useListing from '@/hooks/useListing';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { Icon } from '@/components/icons';
 import { formatCurrency } from '@/lib/currency';
 import useSource from '@/hooks/useSource';
 
@@ -183,7 +183,7 @@ export default function PropertyPage(
               </div>
             </div>
             <div className="flex flex-col gap-4 md:col-span-2 relative w-full">
-              <EnquiryForm propertyId={property._id} />
+              <EnquiryForm property={property} />
             </div>
           </div>
         </div>

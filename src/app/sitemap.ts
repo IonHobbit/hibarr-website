@@ -1,4 +1,4 @@
-import { client } from '@/lib/sanity/client'
+import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import { MetadataRoute } from 'next'
 import { groq } from 'next-sanity'
 
@@ -6,7 +6,7 @@ import { groq } from 'next-sanity'
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://hibarr.de'
 
 // Define supported languages
-const languages = ['en', 'de', 'tr']
+const languages = ['en', 'de', 'tr', 'ru']
 
 // Define static routes with their priorities
 const staticRoutes = [
@@ -15,7 +15,7 @@ const staticRoutes = [
   { path: '/blog', priority: 0.8 },
   { path: '/webinar', priority: 0.8 },
   { path: '/consultation', priority: 0.8 },
-  { path: '/waitlist', priority: 0.8 },
+  { path: '/facebook-group', priority: 0.8 },
   // { path: '/partners/oscar-group', priority: 0.7 },
   { path: '/partners/near-east-group', priority: 0.7 },
   { path: '/our-packages', priority: 0.8 },
@@ -59,7 +59,7 @@ async function getBlogPosts() {
   }`
 
   try {
-    const posts = await client.fetch(query)
+    const posts = await fetchSanityData<{ slug: string; _updatedAt: string }[]>(query)
     return posts
   } catch (error) {
     console.error('Error fetching blog posts:', error)

@@ -12,7 +12,7 @@ export default function AboutSection({ data }: AboutSectionProps) {
     <section id='about' className='section'>
       <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-10">
         <div>
-          <Image src="/logos/logomark.svg" alt="Hibarr Logo" width={400} height={400} />
+          <Image src="/logos/logomark.svg" loading='lazy' alt="Hibarr Logo" width={400} height={400} />
         </div>
         <div className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
@@ -48,11 +48,27 @@ export default function AboutSection({ data }: AboutSectionProps) {
           <BounceCards
             enableHover={true}
             images={[
-              '/images/about/home/about-image.jpg',
-              '/images/about/home/about-hero.jpg',
-              '/images/about/home/about24.png',
-              '/images/about/home/about1.jpg',
-              '/images/about/home/about2.jpg']}
+              {
+                src: 'https://res.cloudinary.com/hibarr/image/upload/about-team-celebration-toast_f78qsc',
+                alt: 'Hibarr team celebration toast at an office event',
+              },
+              {
+                src: 'https://res.cloudinary.com/hibarr/image/upload/about-leadership-team-portrait_krhorc',
+                alt: 'Hibarr leadership team portrait',
+              },
+              {
+                src: 'https://res.cloudinary.com/hibarr/image/upload/about-team-meeting-boardroom_xfchbn',
+                alt: 'Team meeting in a boardroom discussing strategy',
+              },
+              {
+                src: 'https://res.cloudinary.com/hibarr/image/upload/about-leadership-handshake-partnership_oyew1j',
+                alt: 'Leadership handshake symbolizing partnership',
+              },
+              {
+                src: 'https://res.cloudinary.com/hibarr/image/upload/about-team-group-photo-exterior_ydobgc',
+                alt: 'Hibarr team group photo taken outdoors',
+              },
+            ]}
           />
         </div>
       </div>

@@ -4,7 +4,7 @@ import { CloudinaryFile, fetchFiles } from "@/lib/third-party/cloudinary.client"
 import { translate } from "@/lib/translation";
 
 export default async function FeaturedSection() {
-  const featured = await fetchFiles('Website/Features');
+  const featuredLogos = await fetchFiles('Website/Features');
   const title = await translate('Featured in')
 
   const renderLogo = (item: CloudinaryFile) => (
@@ -14,7 +14,8 @@ export default async function FeaturedSection() {
         alt={item.display_name}
         sizes="100%"
         fill
-        className="object-contain absolute"
+        loading='lazy'
+        className="object-contain absolute grayscale hover:grayscale-0 transition-all duration-300"
       />
     </div>
   )
@@ -24,7 +25,7 @@ export default async function FeaturedSection() {
       <h3 className='text-3xl text-center' data-token={title.token}>{title.text}</h3>
       <div className='relative w-full'>
         <InfiniteMovingCards
-          items={featured.map(item => renderLogo(item))}
+          items={featuredLogos.map(item => renderLogo(item))}
           speed="fast"
         />
       </div>

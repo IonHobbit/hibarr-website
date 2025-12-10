@@ -4,7 +4,7 @@ import { Locale } from "@/lib/i18n-config";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Icon } from "@iconify/react";
+import { Icon } from "@/components/icons";
 import { Navigation } from "@/types/sanity.types";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 
@@ -24,7 +24,7 @@ export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemPr
 
   if (item.hidden) return null;
 
-  if (item.hideOnHomePage && pathname === `/${lang}`) {
+  if (item.hideOnHomePage && (pathname === `/${lang}` || pathname === `/${lang}/`)) {
     return null;
   }
 
@@ -63,7 +63,7 @@ export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemPr
             onClick={onClick}
             href={`/${lang}${child.href}`}
             key={index}
-            className="text-primary-foreground ml-4 hover:text-primary-foreground/80 whitespace-nowrap">
+            className="text-primary-foreground ml-4 hover:text-primary-foreground/80 whitespace-nowrap min-h-[48px] flex items-center">
             {child.name}
           </Link>
         ))}

@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button'
+import { seoH1s } from '@/lib/seo-h1'
 import { Locale } from '@/lib/i18n-config'
-import { client } from '@/lib/sanity/client'
-import { HomePage, WebinarPage } from '@/types/sanity.types'
+import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client'
+import { HomePage, WebinarPage, SeoMetaFields } from '@/types/sanity.types'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { Fragment } from 'react'
@@ -14,15 +15,17 @@ import TwoForOneSection from './_components/TwoForOneSection'
 import BenefitsSection from './_components/BenefitsSection'
 import StatisticsSection from './_components/StatisticsSection'
 import { generateSEOMetadata } from '@/lib/utils'
+import Video from '@/components/Video'
+
+import { seoTitles } from '@/lib/seo-titles';
+import { seoDescriptions } from '@/data/seo-descriptions';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
-  const { seo } = await client.fetch<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const { seo } = await fetchRawSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata(seo, {
-    title: 'Webinar',
-  })
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].webinar, metaDescription: seoDescriptions[lang].webinar } as SeoMetaFields)
 }
 
 type ZoomRegistrationPageProps = {
@@ -34,20 +37,30 @@ export default async function ZoomRegistrationPage(
 ) {
   const { lang } = await props.params;
 
-  const homePage = await client.fetch<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
-  const webinarPage = await client.fetch<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const homePage = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const webinarPage = await fetchSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return (
     <Fragment>
-      <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center h-screen bg-gradient-to-b from-primary via-primary/80 to-transparent">
+      <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid grid-cols-1 place-items-center place-content-center min-h-screen bg-gradient-to-b from-primary via-primary/80 to-transparent">
         <div className='absolute inset-0 w-full h-full -z-10'>
-          <video src="https://vz-da4cd036-d13.b-cdn.net/31c737df-ff40-48a5-a2ab-e8fc0a829df5/play_720p.mp4" autoPlay muted loop playsInline className='w-full h-full object-cover' />
+          <Video
+            hls
+            src="https://vz-da4cd036-d13.b-cdn.net/31c737df-ff40-48a5-a2ab-e8fc0a829df5/playlist.m3u8"
+            fallbackMp4="https://vz-da4cd036-d13.b-cdn.net/31c737df-ff40-48a5-a2ab-e8fc0a829df5/play_720p.mp4"
+            autoPlay
+            muted
+            loop
+            poster='https://res.cloudinary.com/hibarr/image/upload/webinar-background-fallback_isy4me'
+            containerClassName="contents"
+            videoClassName="w-full h-full object-cover"
+          />
         </div>
 
-        <div className="max-w-5xl text-center flex flex-col gap-10 px-4">
+        <div className="max-w-5xl text-center flex flex-col gap-10 px-4 mt-20 md:mt-0">
           <div className='flex flex-col gap-2'>
             <h1 className="text-5xl md:text-7xl font-bold mb-4 text-background">
-              {webinarPage?.title}
+              {seoH1s.webinar[lang]}
             </h1>
             <p className="text-sm md:text-lg text-background">
               {webinarPage?.subtitle}

@@ -1,11 +1,14 @@
 'use client';
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import Image from "next/image";
+
+type BounceCardImage = string | { src: string; alt: string };
 
 interface BounceCardsProps {
   className?: string;
-  images?: string[];
+  images?: BounceCardImage[];
   containerWidth?: number;
   containerHeight?: number;
   animationDelay?: number;
@@ -32,17 +35,23 @@ export default function BounceCards({
   ],
   enableHover = false,
 }: BounceCardsProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    gsap.fromTo(
-      ".card",
-      { scale: 0 },
-      {
-        scale: 1,
-        stagger: animationStagger,
-        ease: easeType,
-        delay: animationDelay,
-      },
-    );
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".card",
+        { scale: 0 },
+        {
+          scale: 1,
+          stagger: animationStagger,
+          ease: easeType,
+          delay: animationDelay,
+        },
+      );
+    }, containerRef);
+
+    return () => ctx.revert();
   }, [animationDelay, animationStagger, easeType]);
 
   const getNoRotationTransform = (transformStr: string): string => {
@@ -127,31 +136,37 @@ export default function BounceCards({
 
   return (
     <div
+      ref={containerRef}
       className={`relative flex items-center justify-center ${className}`}
       style={{
         width: containerWidth,
         height: containerHeight,
       }}
     >
-      {images.map((src, idx) => (
-        <div
-          key={idx}
-          className={`card card-${idx} absolute w-[280px] aspect-square border-[3px] border-white rounded-[30px] overflow-hidden`}
-          style={{
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-            transform: transformStyles[idx] || "none",
-          }}
-          onMouseEnter={() => pushSiblings(idx)}
-          onMouseLeave={resetSiblings}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            className="w-full h-full object-cover"
-            src={src}
-            alt={`card-${idx}`}
-          />
-        </div>
-      ))}
+      {images.map((item, idx) => {
+        const src = typeof item === "string" ? item : item.src;
+        const alt = typeof item === "string" ? `card-${idx}` : item.alt;
+        return (
+          <div
+            key={idx}
+            className={`card card-${idx} absolute w-[280px] aspect-square border-[3px] border-white rounded-[30px] overflow-hidden`}
+            style={{
+              boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+              transform: transformStyles[idx] || "none",
+            }}
+            onMouseEnter={() => pushSiblings(idx)}
+            onMouseLeave={resetSiblings}
+          >
+            <Image
+              className="w-full h-full object-cover absolute"
+              fill
+              src={src}
+              loading="lazy"
+              alt={alt}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }

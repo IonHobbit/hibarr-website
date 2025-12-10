@@ -1,6 +1,6 @@
 import { FileInput } from '@/components/ui/file-input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { PACKAGE_TYPE } from '@/lib/mockdata';
+import { PACKAGE_TYPE } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { RegistrationFormType } from '@/types/main'
 import { BankPackagesPage } from '@/types/sanity.types';

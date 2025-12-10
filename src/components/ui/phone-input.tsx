@@ -37,20 +37,21 @@ type PhoneInputProps = Omit<
     title?: string;
     truncateTitle?: boolean;
     titleClassName?: string;
+    hideRequiredAsterisk?: boolean;
     onChange?: (value: RPNInput.Value) => void;
     error?: string;
   };
 
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
   React.forwardRef<React.ElementRef<typeof RPNInput.default>, PhoneInputProps>(
-    ({ className, onChange, value, title, truncateTitle, titleClassName, error, ...props }, ref) => {
+    ({ className, onChange, value, title, truncateTitle, titleClassName, error, hideRequiredAsterisk, ...props }, ref) => {
       const { lang } = useParams<{ lang: Locale }>();
 
       const defaultCountry = localeInfo[lang]?.countryCode || 'GB' as CountryCode;
 
       return (
         <div className={"relative flex flex-col items-start gap-1 w-full"}>
-          <InputTitle id={props.id} title={title} truncateTitle={truncateTitle} titleClassName={titleClassName} required={props.required} />
+          <InputTitle id={props.id} title={title} truncateTitle={truncateTitle} titleClassName={titleClassName} required={props.required} hideRequiredAsterisk={hideRequiredAsterisk} />
           <RPNInput.default
             ref={ref}
             className={cn("flex w-full", className)}
@@ -122,9 +123,10 @@ const CountrySelect = ({
         <Button
           type="button"
           variant="outline"
-          className="flex gap-1 rounded-e-none rounded-s h-12 border-r-0 px-3 focus:z-10"
+          className="rounded-e-none rounded-s h-12 border-r-0 px-3 focus:z-10"
           disabled={disabled}
         >
+          <div className="flex items-center gap-2">
           <FlagComponent
             country={selectedCountry}
             countryName={selectedCountry}
@@ -135,6 +137,7 @@ const CountrySelect = ({
               disabled ? "hidden" : "opacity-100",
             )}
           />
+          </div>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[300px] p-0" align="start">

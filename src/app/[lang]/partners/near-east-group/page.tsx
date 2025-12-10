@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react'
+import { Icon } from '@/components/icons'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import React, { Fragment } from 'react'
@@ -20,19 +20,19 @@ export default async function NearEastGroup(
   const portfolioCompanies = [
     {
       name: 'Near East University',
-      image: '/images/partners/near-east-group/near-east-university.png',
+      image: 'https://res.cloudinary.com/hibarr/image/upload/near-east-university_x9d7ss',
     },
     {
       name: 'Near East Bank',
-      image: '/images/partners/near-east-group/near-east-bank.png',
+      image: 'https://res.cloudinary.com/hibarr/image/upload/near-east-bank_sslkyi',
     },
     {
       name: 'Near East Technology',
-      image: '/images/partners/near-east-group/near-east-technology.png',
+      image: 'https://res.cloudinary.com/hibarr/image/upload/near-east-technology_rphsjv',
     },
     {
       name: 'Near East Investment',
-      image: '/images/partners/near-east-group/near-east-investment.png',
+      image: 'https://res.cloudinary.com/hibarr/image/upload/near-east-investment_u6bgx4',
     },
   ]
 
@@ -53,10 +53,10 @@ export default async function NearEastGroup(
 
   return (
     <Fragment>
-      <section id='root' className="relative grid place-items-center place-content-center h-[60vh] bg-[url('/images/partners/near-east-group/near-east-group-hero.jpg')] bg-cover bg-center">
+  <section id='root' className="relative grid place-items-center place-content-center h-[60vh] bg-[url('https://res.cloudinary.com/hibarr/image/upload/near-east-group-hero_cotcgf')] bg-cover bg-center">
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col items-center gap-6'>
-            <Image src="/images/partners/near-east-group/near-east-group-logo.png" alt="Near East Group Logo" width={280} height={280} />
+            <Image src="https://res.cloudinary.com/hibarr/image/upload/near-east-group-logo_js67p5" alt="Near East Group Logo" width={280} height={280} />
 
             <p className="text-md md:text-2xl text-background">
               Building Futures, One Property at a Time – <span className='font-bold'>Near East Group.</span>
@@ -107,14 +107,14 @@ export default async function NearEastGroup(
       <section className='bg-primary w-full p-6 py-10 md:min-h-[25vh] flex flex-col gap-10 items-center justify-center'>
         <div className='flex flex-col gap-4'>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Image src="/images/partners/near-east-group/near-east-group-logo.png" alt="Near East Group Logo" width={140} height={140} />
+            <Image src="https://res.cloudinary.com/hibarr/image/upload/near-east-group-logo_js67p5" alt="Near East Group Logo" width={140} height={140} />
             <Icon icon="mdi:close" className='text-background text-6xl shrink-0' />
             <Image src="/logos/logo-full-white.svg" alt="Hibarr Logo" width={400} height={160} />
           </div>
           <p className='text-primary-foreground text-xl md:text-2xl text-center'>Transforming Futures, Delivering Excellence</p>
         </div>
         <div className="section py-0">
-          <iframe className='w-full h-full object-cover aspect-video rounded-lg overflow-hidden' src="https://www.youtube-nocookie.com/embed/KDPnXIJBDdQ?si=YeSXujsHWIAGxTNR" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+          <iframe className='w-full h-full object-cover aspect-video rounded-lg overflow-hidden' src="https://www.youtube-nocookie.com/embed/KDPnXIJBDdQ?si=YeSXujsHWIAGxTNR" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen loading="lazy"></iframe>
         </div>
         <div className='section py-0'>
           <h3 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h3>

@@ -1,7 +1,12 @@
 import storage, { StorageKey } from "@/lib/storage.util";
 import { ContactInfo } from "@/types/main";
+import posthog from "posthog-js";
 
 export const persistUserInfo = (userInfo: ContactInfo) => {
+  posthog.identify(userInfo.email, {
+    firstName: userInfo.firstName,
+    lastName: userInfo.lastName,
+  });
   storage.set(StorageKey.USER_INFO, userInfo, {
     expiration: 1000 * 60 * 60 * 24 * 2, // 2 days
   });

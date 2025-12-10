@@ -1,4 +1,4 @@
-import { uploadFile } from "@/lib/bunny";
+import { uploadFile } from "@/lib/third-party/bunny.client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
