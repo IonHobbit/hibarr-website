@@ -29,8 +29,8 @@ export default async function ConsultationPage(
   }
 ) {
   const { lang } = await props.params;
-  const nonce = headers().get('x-nonce') || undefined;
-
+  const headerList = await headers();
+  const nonce = headerList.get('x-nonce') || undefined;
 
 
   const data = await fetchSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });

@@ -89,7 +89,7 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
     }
   })
 
-  const { values, setFieldValue, handleChange, handleSubmit, errors, touched } = useFormik<FormValues>({
+  const { values, setFieldValue, handleChange, handleSubmit } = useFormik<FormValues>({
     initialValues: {
       ...userInfo,
       language: lang as Locale || 'en',

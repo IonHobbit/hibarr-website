@@ -18,7 +18,7 @@ export default function CalendlyEmbed({ url, nonce }: CalendlyEmbedProps) {
       script.setAttribute("nonce", nonce);
     }
     document.head.appendChild(script);
-  }, []);
+  }, [nonce]);
 
   return (
     <div
