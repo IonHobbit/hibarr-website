@@ -138,8 +138,6 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-6 w-full p-8 rounded-lg'>
       <div className='flex flex-col gap-4'>
-        <h2 className='text-2xl font-bold text-center'>{translations.formTitle}</h2>
-
         <div className='grid grid-cols-2 gap-4'>
           <Input
             name='firstName'
