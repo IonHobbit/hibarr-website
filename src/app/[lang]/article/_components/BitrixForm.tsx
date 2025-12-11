@@ -2,7 +2,11 @@
 
 import { useEffect, useState, useRef } from 'react'
 
-export default function BitrixForm() {
+type BitrixFormProps = {
+  nonce?: string
+}
+
+export default function BitrixForm({ nonce }: BitrixFormProps) {
   const [mounted, setMounted] = useState(false)
   const [scriptError, setScriptError] = useState(false)
   const scriptRef = useRef<HTMLScriptElement | null>(null)
@@ -30,6 +34,9 @@ export default function BitrixForm() {
         script.async = true
         script.defer = true
         script.src = 'https://cdn.bitrix24.de/b26123245/crm/form/loader_128.js'
+        if (nonce) {
+          script.nonce = nonce
+        }
 
         script.onerror = (error) => {
           console.warn('Bitrix24 form script failed to load:', error)
