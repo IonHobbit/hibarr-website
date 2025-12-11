@@ -1,7 +1,5 @@
 'use client'
 
-import NextImage from 'next/image';
-
 import Link from 'next/link'
 import { Icon } from '@/components/icons';
 import { Button } from '@/components/ui/button'
@@ -33,14 +31,6 @@ export default function LandingSection({ data, lang }: LandingSectionProps) {
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center h-screen  bg-gradient-to-b from-primary via-primary/80 to-transparent">
       <div className='absolute inset-0 w-full h-full -z-10 bg-black'>
-        <NextImage 
-          src="https://res.cloudinary.com/hibarr/image/upload/landing-background-fallback_fitt21" 
-          alt="Luxury Real Estate North Cyprus"
-          fill
-          priority
-          className="object-cover opacity-60"
-          sizes="100vw"
-        />
         <Video
           hls
           src={landingVideoHls}
