@@ -205,7 +205,9 @@ export default function WaveReveal({
         className,
       )}
     >
-      {nodes}
+      <span aria-hidden="true" className="contents">
+        {nodes}
+      </span>
       <div className="sr-only">{text}</div>
     </div>
   );

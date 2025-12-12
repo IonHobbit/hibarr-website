@@ -17,7 +17,6 @@ import InvestorCommunitySection from './_components/InvestorCommunitySection';
 import WebinarSection from './_components/WebinarSection';
 import { Metadata } from 'next';
 import { generateSEOMetadata } from '@/lib/utils';
-import { getHreflangAlternates } from '@/lib/seo-metadata';
 
 import LandingWrapper from './_components/LandingWrapper';
 
