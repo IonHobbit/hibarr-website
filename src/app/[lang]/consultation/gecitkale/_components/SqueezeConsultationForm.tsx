@@ -101,7 +101,7 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
       firstName: Yup.string().required('First name is required'),
       lastName: Yup.string().required('Last name is required'),
       email: Yup.string().email('Invalid email address').required('Email is required'),
-      phoneNumber: Yup.string(),
+      phoneNumber: Yup.string().required('Phone number is required'),
       interestReason: Yup.string().required('Please select an interest reason'),
       interestReasonOther: Yup.string().when('interestReason', {
         is: 'other',
@@ -168,6 +168,7 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
 
         <PhoneInput
           name='phoneNumber'
+          required
           title={translations.form.phoneNumber}
           value={values.phoneNumber}
           onChange={(value) => setFieldValue('phoneNumber', value)}
