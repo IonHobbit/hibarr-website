@@ -36,7 +36,7 @@ export default function MobileNavigationMenu({ navigation, lang }: MobileNavigat
           </Link>
           <LanguageSwitcher />
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 overflow-y-auto">
           {navigation?.map((item) => (
             <HeaderItem key={item._key} item={item} lang={lang} mobile onClick={() => setOpen(false)} />
           ))}
