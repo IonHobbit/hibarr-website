@@ -169,6 +169,19 @@ const createAnimatedNodes = (args: ReducedValue, word: string, index: number): R
   };
 };
 
+/**
+ * Animate the provided text with a staggered "wave" reveal effect and include a screen-reader-only copy.
+ *
+ * @param text - The string to animate; when falsy the component renders `null`.
+ * @param direction - Animation direction, either `"up"` or `"down"`; defaults to `"down"`.
+ * @param mode - Granularity of the animation: `"letter"` to animate individual characters or `"word"` to animate whole words; defaults to `"letter"`.
+ * @param className - Additional CSS classes applied to the outer container.
+ * @param duration - CSS duration value for the reveal animations (e.g., `"2000ms"`); defaults to `"2000ms"`.
+ * @param delay - Base delay in milliseconds applied per item to stagger animation start times; defaults to `0`.
+ * @param blur - When `true`, applies a blur effect during the reveal; defaults to `true`.
+ * @param letterClassName - Additional class names applied to each letter or word element.
+ * @returns A React element containing the animated nodes and a visually-hidden copy of the original text, or `null` if `text` is falsy.
+ */
 export default function WaveReveal({
   text,
   direction = "down",
@@ -205,7 +218,9 @@ export default function WaveReveal({
         className,
       )}
     >
-      {nodes}
+      <span aria-hidden="true" className="contents">
+        {nodes}
+      </span>
       <div className="sr-only">{text}</div>
     </div>
   );

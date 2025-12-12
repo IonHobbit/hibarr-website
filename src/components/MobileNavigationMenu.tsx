@@ -15,6 +15,13 @@ type MobileNavigationMenuProps = {
   lang: Locale;
 }
 
+/**
+ * Render a mobile-only sliding navigation sheet containing the site logo, language switcher, and navigation items.
+ *
+ * @param navigation - The list of navigation items to display in the menu.
+ * @param lang - Current locale used for the root link and passed to navigation items.
+ * @returns The mobile navigation menu element with a left-side drawer that closes when an item is selected.
+ */
 export default function MobileNavigationMenu({ navigation, lang }: MobileNavigationMenuProps) {
   const [open, setOpen] = useState(false);
 
@@ -36,7 +43,7 @@ export default function MobileNavigationMenu({ navigation, lang }: MobileNavigat
           </Link>
           <LanguageSwitcher />
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 overflow-y-auto">
           {navigation?.map((item) => (
             <HeaderItem key={item._key} item={item} lang={lang} mobile onClick={() => setOpen(false)} />
           ))}
