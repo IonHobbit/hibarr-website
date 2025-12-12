@@ -94,7 +94,7 @@ export function middleware(request: NextRequest) {
   response.headers.set('X-XSS-Protection', '1; mode=block');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=(), usb=()');
-  response.headers.set('Content-Security-Policy', csp);
+  // response.headers.set('Content-Security-Policy', csp);
 
   // Also set the nonce in a response header so it can be read by the client if needed
   response.headers.set('x-nonce', nonce);
