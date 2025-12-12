@@ -26,6 +26,24 @@ const DEFAULT_TRANSFORM_STYLES = [
   "rotate(2deg) translate(170px)",
 ];
 
+/**
+ * Render a stack of animated, transformable image cards with optional hover push interactions.
+ *
+ * The component animates cards into view on mount, applies initial transforms provided by
+ * `transformStyles`, and — when `enableHover` is true — pushes sibling cards horizontally
+ * and resets them on hover enter/leave using GSAP.
+ *
+ * @param className - Additional CSS classes added to the root container
+ * @param images - Array of image entries; each entry is either a string URL or an object `{ src, alt }`
+ * @param containerWidth - Inline width (pixels) of the root container
+ * @param containerHeight - Inline height (pixels) of the root container
+ * @param animationDelay - Delay (seconds) before the initial entry animation starts
+ * @param animationStagger - Stagger (seconds) applied between card entry animations
+ * @param easeType - GSAP easing string used for the initial entry animation
+ * @param transformStyles - Initial CSS transform strings applied to each card (e.g., `"rotate(10deg) translate(20px)"`)
+ * @param enableHover - When true, hovering a card pushes its siblings outward and resets on mouse leave
+ * @returns The rendered JSX element containing the animated card stack
+ */
 export default function BounceCards({
   className = "",
   images = [],
