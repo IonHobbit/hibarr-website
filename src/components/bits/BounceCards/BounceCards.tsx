@@ -81,6 +81,7 @@ export default function BounceCards({
       gsap.killTweensOf(selector);
 
       const current = transformStates[i];
+      if (!current) return;
 
       if (i === hoveredIdx) {
         // No rotation for hovered card
