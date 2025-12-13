@@ -21,13 +21,14 @@ interface IVideoProps {
   fallbackMp4?: string; // optional MP4 fallback when using HLS
   containerClassName?: string; // override wrapper container classes
   videoClassName?: string; // override video element classes
+  preload?: 'auto' | 'metadata' | 'none';
 }
 
 export interface VideoRef {
   pause: () => void;
 }
 
-const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted, loop, hls, fallbackMp4, containerClassName, videoClassName }, ref) => {
+const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted, loop, hls, fallbackMp4, containerClassName, videoClassName, preload }, ref) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const [isMuted, setIsMuted] = useState(false);
@@ -141,6 +142,9 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
   // Auto-detect HLS if not explicitly provided
   const isHls = (typeof hls === 'boolean') ? hls : /\.m3u8(\?.*)?$/i.test(src);
 
+  // Default to 'none' if not autoPlaying to save bandwidth/resources, unless explicitly overridden
+  const effectivePreload = preload ?? (autoPlay ? 'auto' : 'none');
+
   return (
     <div className={wrapperClass}>
       {!autoPlay && !muted &&
@@ -201,12 +205,13 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
           muted={muted}
           loop={loop}
           fallbackMp4={fallbackMp4}
+          preload={effectivePreload}
           className={videoClassName ?? "object-contain !h-full w-full"}
         />
       ) : (
         <video
           poster={poster}
-          preload='auto'
+          preload={effectivePreload}
           className={videoClassName ?? "object-contain !h-full w-full"}
           controls={false}
           autoPlay={autoPlay}

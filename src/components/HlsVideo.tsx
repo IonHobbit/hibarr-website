@@ -12,6 +12,7 @@ interface HlsVideoProps {
     muted?: boolean;
     loop?: boolean;
     fallbackMp4?: string; // optional MP4 fallback
+    preload?: 'auto' | 'metadata' | 'none';
 }
 
 const HlsVideo = ({
@@ -21,8 +22,9 @@ const HlsVideo = ({
     autoPlay = false,
     muted = false,
     loop = false,
-    fallbackMp4
-}: HlsVideoProps, forwardedRef: React.Ref<HTMLVideoElement>) => {
+    fallbackMp4,
+    preload = 'auto'
+    }: HlsVideoProps, forwardedRef: React.Ref<HTMLVideoElement>) => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
 
     // Expose underlying video element to parent via ref
@@ -76,6 +78,7 @@ const HlsVideo = ({
         };
 
         let detachNativeError: (() => void) | undefined;
+        let startLoadHandler: (() => void) | undefined;
 
         try {
             const isIos = /iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -90,7 +93,19 @@ const HlsVideo = ({
                     enableWorker: true,
                     lowLatencyMode: true,
                     backBufferLength: 60,
+                    autoStartLoad: autoPlay || (video.preload !== 'none'),
                 });
+
+                if (!autoPlay && video.preload === 'none') {
+                    startLoadHandler = () => {
+                        if (hls && !fallbackUsed) {
+                            console.debug('[HLS] Starting load on play');
+                            hls.startLoad();
+                        }
+                    };
+                    video.addEventListener('play', startLoadHandler);
+                }
+
                 hls.on(Hls.Events.MEDIA_ATTACHED, () => {
                     console.debug('[HLS] Media attached');
                 });
@@ -98,7 +113,11 @@ const HlsVideo = ({
                     console.debug('[HLS] Manifest parsed');
                 });
                 hls.on(Hls.Events.ERROR, (event, data) => {
-                    console.error('[HLS] Error event', data.type, data.details, data);
+                    if (data.fatal) {
+                         // Only log fatal errors, non-fatal are common and noisy
+                         console.error('[HLS] Fatal Error event', data.type, data.details, data);
+                    }
+                    
                     if (data.type === Hls.ErrorTypes.NETWORK_ERROR && (
                         data.details === Hls.ErrorDetails.MANIFEST_LOAD_ERROR ||
                         data.details === Hls.ErrorDetails.MANIFEST_LOAD_TIMEOUT ||
@@ -130,12 +149,21 @@ const HlsVideo = ({
                 fallbackToMp4('no-hls-support');
             }
 
-            // Startup timeout: if no metadata within 5s, fallback.
-            startupTimer = setTimeout(() => {
-                if (!fallbackUsed && !video.duration) {
-                    fallbackToMp4('startup-timeout');
-                }
-            }, 5000);
+            // Startup timeout: if no metadata within 5s, fallback. 
+            // Only strictly enforce this if we are auto-playing or preloading.
+            // If preload is none, we shouldn't fallback just because it hasn't loaded yet.
+            if (autoPlay || (video.preload !== 'none')) {
+                startupTimer = setTimeout(() => {
+                    if (!fallbackUsed && !video.duration && !video.currentTime) {
+                        // Check currentTime as well, sometimes duration is stuck but video plays
+                         console.warn('[HLS] Startup timeout reached - checking status');
+                         // Only fallback if truly stuck? For now keeping original logic but less aggressive
+                        if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE || video.readyState === 0) {
+                             fallbackToMp4('startup-timeout');
+                        }
+                    }
+                }, 8000); // 5s might be too tight for slow connections
+            }
 
             const onLoadedMetadata = () => {
                 console.debug('[HLS] loadedmetadata');
@@ -152,6 +180,7 @@ const HlsVideo = ({
                 if (hls) hls.destroy();
                 video.removeEventListener('loadedmetadata', onLoadedMetadata);
                 if (detachNativeError) detachNativeError();
+                if (startLoadHandler) video.removeEventListener('play', startLoadHandler);
             };
         } catch (err) {
             console.error('[HLS] Unexpected setup error', err);
@@ -168,7 +197,7 @@ const HlsVideo = ({
             muted={muted}
             loop={loop}
             playsInline
-            preload="auto"
+            preload={preload}
         />
     );
 }
