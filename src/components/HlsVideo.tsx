@@ -150,6 +150,10 @@ const HlsVideo = ({
                 if (hls) hls.destroy();
                 video.removeEventListener('loadedmetadata', onLoadedMetadata);
                 if (detachNativeError) detachNativeError();
+
+                // Cleanup video source to release memory
+                video.removeAttribute('src');
+                video.load();
             };
         } catch (err) {
             console.error('[HLS] Unexpected setup error', err);
