@@ -56,9 +56,10 @@ export default function BounceCards({
   enableHover = false,
 }: BounceCardsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const ctx = useRef<gsap.Context | null>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    ctx.current = gsap.context(() => {
       gsap.fromTo(
         ".card",
         { scale: 0 },
@@ -71,7 +72,7 @@ export default function BounceCards({
       );
     }, containerRef);
 
-    return () => ctx.revert();
+    return () => ctx.current?.revert();
   }, [animationDelay, animationStagger, easeType]);
 
   const [transformStates, setTransformStates] = useState<
@@ -94,51 +95,55 @@ export default function BounceCards({
   const pushSiblings = (hoveredIdx: number) => {
     if (!enableHover || transformStates.length === 0) return;
 
-    images.forEach((_, i) => {
-      const selector = `.card-${i}`;
-      gsap.killTweensOf(selector);
+    ctx.current?.add(() => {
+      images.forEach((_, i) => {
+        const selector = `.card-${i}`;
+        gsap.killTweensOf(selector);
 
-      const current = transformStates[i];
-      if (!current) return;
+        const current = transformStates[i];
+        if (!current) return;
 
-      if (i === hoveredIdx) {
-        // No rotation for hovered card
-        gsap.to(selector, {
-          transform: `rotate(0deg) translate(${current.distance}px)`,
-          duration: 0.4,
-          ease: "back.out(1.4)",
-          overwrite: "auto",
-        });
-      } else {
-        const offsetX = i < hoveredIdx ? -160 : 160;
-        const newDistance = current.distance + offsetX;
+        if (i === hoveredIdx) {
+          // No rotation for hovered card
+          gsap.to(selector, {
+            transform: `rotate(0deg) translate(${current.distance}px)`,
+            duration: 0.4,
+            ease: "back.out(1.4)",
+            overwrite: "auto",
+          });
+        } else {
+          const offsetX = i < hoveredIdx ? -160 : 160;
+          const newDistance = current.distance + offsetX;
 
-        // Push siblings while maintaining angle
-        gsap.to(selector, {
-          transform: `rotate(${current.angle}deg) translate(${newDistance}px)`,
-          duration: 0.4,
-          ease: "back.out(1.4)",
-          delay: Math.abs(hoveredIdx - i) * 0.05,
-          overwrite: "auto",
-        });
-      }
+          // Push siblings while maintaining angle
+          gsap.to(selector, {
+            transform: `rotate(${current.angle}deg) translate(${newDistance}px)`,
+            duration: 0.4,
+            ease: "back.out(1.4)",
+            delay: Math.abs(hoveredIdx - i) * 0.05,
+            overwrite: "auto",
+          });
+        }
+      });
     });
   };
 
   const resetSiblings = () => {
     if (!enableHover || transformStates.length === 0) return;
 
-    images.forEach((_, i) => {
-      const selector = `.card-${i}`;
-      gsap.killTweensOf(selector);
+    ctx.current?.add(() => {
+      images.forEach((_, i) => {
+        const selector = `.card-${i}`;
+        gsap.killTweensOf(selector);
 
-      const current = transformStates[i];
+        const current = transformStates[i];
 
-      gsap.to(selector, {
-        transform: `rotate(${current.angle}deg) translate(${current.distance}px)`,
-        duration: 0.4,
-        ease: "back.out(1.4)",
-        overwrite: "auto",
+        gsap.to(selector, {
+          transform: `rotate(${current.angle}deg) translate(${current.distance}px)`,
+          duration: 0.4,
+          ease: "back.out(1.4)",
+          overwrite: "auto",
+        });
       });
     });
   };
