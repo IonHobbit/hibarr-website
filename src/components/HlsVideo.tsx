@@ -78,7 +78,9 @@ const HlsVideo = ({
         let detachNativeError: (() => void) | undefined;
 
         try {
-            if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            const isIos = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+            
+            if (isIos || video.canPlayType('application/vnd.apple.mpegurl')) {
                 console.debug('[HLS] Using native HLS');
                 video.src = src;
                 detachNativeError = attachNativeErrorHandlers();
@@ -150,10 +152,6 @@ const HlsVideo = ({
                 if (hls) hls.destroy();
                 video.removeEventListener('loadedmetadata', onLoadedMetadata);
                 if (detachNativeError) detachNativeError();
-
-                // Cleanup video source to release memory
-                video.removeAttribute('src');
-                video.load();
             };
         } catch (err) {
             console.error('[HLS] Unexpected setup error', err);
