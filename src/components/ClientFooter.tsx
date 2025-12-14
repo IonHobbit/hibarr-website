@@ -72,7 +72,11 @@ export default function ClientFooter({ lang, footerData }: ClientFooterProps) {
             <Link href={`/${lang}`}>
               <Image src="/logos/logo-blue.png" alt="HIBARR Estates Logo" className="object-contain w-auto h-auto" width={140} height={20} />
             </Link>
-            <p className="text-xs md:text-sm text-foreground font-light" dangerouslySetInnerHTML={{ __html: footerContent[lang].copyright.replace('{currentYear}', currentYear.toString()) }} />
+            <p className="text-xs md:text-sm text-foreground font-light">
+              {footerContent[lang].copyrightPrefix.replace('{currentYear}', currentYear.toString())}
+              <span className="font-semibold"> XEGARA Trading Ltd.</span>
+              {footerContent[lang].copyrightSuffix}
+            </p>
             <div className="flex items-center gap-4 text-xs text-muted-foreground">
               <Link href={`/${lang}/privacy-policy`} className="hover:text-foreground transition-colors">
                 {footerContent[lang].privacyPolicy}
