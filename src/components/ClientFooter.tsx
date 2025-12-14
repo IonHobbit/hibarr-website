@@ -22,6 +22,8 @@ export default function ClientFooter({ lang, footerData }: ClientFooterProps) {
   const hiddenPaths = ['/calendar']
   const isHiddenPath = hiddenPaths.some(path => pathname.includes(path))
 
+  const content = footerContent[lang] ?? footerContent.en;
+
   const socialLinks = [
     {
       href: footerData.socialMedia?.facebook || '',
@@ -73,16 +75,16 @@ export default function ClientFooter({ lang, footerData }: ClientFooterProps) {
               <Image src="/logos/logo-blue.png" alt="HIBARR Estates Logo" className="object-contain w-auto h-auto" width={140} height={20} />
             </Link>
             <p className="text-xs md:text-sm text-foreground font-light">
-              {footerContent[lang].copyrightPrefix.replace('{currentYear}', currentYear.toString())}
+              {content.copyrightPrefix.replace('{currentYear}', currentYear.toString())}
               <span className="font-semibold"> XEGARA Trading Ltd.</span>
-              {footerContent[lang].copyrightSuffix}
+              {content.copyrightSuffix}
             </p>
             <div className="flex items-center gap-4 text-xs text-muted-foreground">
               <Link href={`/${lang}/privacy-policy`} className="hover:text-foreground transition-colors">
-                {footerContent[lang].privacyPolicy}
+                {content.privacyPolicy}
               </Link>
               <Link href={`/${lang}/careers`} className="hover:text-foreground transition-colors">
-                {footerContent[lang].careers}
+                {content.careers}
               </Link>
             </div>
             <div className="flex items-center gap-4">
@@ -95,7 +97,7 @@ export default function ClientFooter({ lang, footerData }: ClientFooterProps) {
           </div>
           <div className="flex flex-col lg:flex-row lg:items-center gap-6">
             <div className="flex flex-col gap-3 lg:items-end max-w-xs">
-              <p className="text-lg font-semibold">{footerContent[lang].contactUs}</p>
+              <p className="text-lg font-semibold">{content.contactUs}</p>
               {contactInfo.map((item, index) => (
                 <div key={index} className="flex flex-row-reverse lg:flex-row justify-end lg:justify-start items-center gap-2.5">
                   <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-sm md:text-base lg:text-right">
