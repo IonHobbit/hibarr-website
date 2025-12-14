@@ -47,6 +47,7 @@ type SqueezeConsultationFormProps = {
     }
     placeholders: {
       interestReasonOther: string
+      chooseOne: string
     }
     buttons: {
       submitButton: string
@@ -183,7 +184,7 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
             onValueChange={(value) => setFieldValue('interestReason', value)}
           >
             <SelectTrigger className='w-full'>
-              <SelectValue placeholder="Choose one" />
+              <SelectValue placeholder={translations.placeholders.chooseOne} />
             </SelectTrigger>
             <SelectContent>
               {translations.options.interestReasons.map((option, index) => (
@@ -210,7 +211,7 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
             onValueChange={(value) => setFieldValue('investmentTimeline', value)}
           >
             <SelectTrigger className='w-full'>
-              <SelectValue placeholder="Choose one" />
+              <SelectValue placeholder={translations.placeholders.chooseOne} />
             </SelectTrigger>
             <SelectContent>
               {translations.options.investmentTimelines.map((option, index) => (
