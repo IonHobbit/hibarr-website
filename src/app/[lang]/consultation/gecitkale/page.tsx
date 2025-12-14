@@ -66,9 +66,10 @@ export default async function GecitkaleConsultationPage(
     'I\'m still researching'
   ]);
 
-  const [submitButton, otherPlaceholder] = await translateBatch([
+  const [submitButton, otherPlaceholder, chooseOnePlaceholder] = await translateBatch([
     'Schedule Consultation',
-    'Please specify'
+    'Please specify',
+    'Choose one'
   ]);
 
   const form = {
@@ -102,6 +103,7 @@ export default async function GecitkaleConsultationPage(
 
   const placeholders = {
     interestReasonOther: otherPlaceholder.text,
+    chooseOne: chooseOnePlaceholder.text,
   }
 
   const buttons = {
