@@ -16,7 +16,7 @@ export default async function RootLayout(
     params: Promise<{ lang: Locale }>;
   }
 ) {
-  const { params, children } = props;
+  const { params } = props;
 
   return (
 
@@ -29,9 +29,9 @@ export default async function RootLayout(
         <Suspense fallback={null}>
           <Header params={params} />
         </Suspense>
-        <main className='min-h-screen overflow-x-hidden w-full'>
+        {/* <main className='min-h-screen overflow-x-hidden w-full'>
           {children}
-        </main>
+        </main> */}
         <Suspense fallback={null}>
           <ScrollToTop />
         </Suspense>
