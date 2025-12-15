@@ -13,6 +13,7 @@ import { seoH1s } from '@/lib/seo-h1';
 type LandingSectionProps = {
   data: HomePage;
   lang: Locale;
+  disableMedia?: boolean;
 }
 
 export default function LandingSection({ data, lang }: LandingSectionProps) {
