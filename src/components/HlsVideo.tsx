@@ -80,25 +80,49 @@ const HlsVideo = ({
         try {
             const isIos = /iPhone|iPad|iPod/i.test(navigator.userAgent);
             
+            // iOS Safari natively supports HLS - always use native for iOS to avoid memory issues
             if (isIos || video.canPlayType('application/vnd.apple.mpegurl')) {
-                console.debug('[HLS] Using native HLS');
+                // Use native HLS for iOS - don't load hls.js library
                 video.src = src;
+                video.setAttribute('playsinline', 'true');
+                video.setAttribute('webkit-playsinline', 'true');
                 detachNativeError = attachNativeErrorHandlers();
-            } else if (Hls.isSupported()) {
-                console.debug('[HLS] Using hls.js for', src);
+                
+                // For iOS, use native HLS only - skip hls.js entirely
+                if (isIos) {
+                    const onLoadedMetadata = () => {
+                        clearStartupTimer();
+                    };
+                    video.addEventListener('loadedmetadata', onLoadedMetadata);
+
+                    if (autoPlay) {
+                        video.play().catch(() => {
+                            // Autoplay may be blocked, that's okay
+                        });
+                    }
+
+                    return () => {
+                        clearStartupTimer();
+                        video.removeEventListener('loadedmetadata', onLoadedMetadata);
+                        if (detachNativeError) detachNativeError();
+                    };
+                }
+            }
+            
+            // For non-iOS devices, use hls.js if supported
+            if (Hls.isSupported()) {
                 hls = new Hls({
                     enableWorker: true,
                     lowLatencyMode: true,
                     backBufferLength: 60,
                 });
                 hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-                    console.debug('[HLS] Media attached');
+                    // Media attached
                 });
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    console.debug('[HLS] Manifest parsed');
+                    // Manifest parsed
                 });
                 hls.on(Hls.Events.ERROR, (event, data) => {
-                    console.error('[HLS] Error event', data.type, data.details, data);
                     if (data.type === Hls.ErrorTypes.NETWORK_ERROR && (
                         data.details === Hls.ErrorDetails.MANIFEST_LOAD_ERROR ||
                         data.details === Hls.ErrorDetails.MANIFEST_LOAD_TIMEOUT ||
@@ -112,11 +136,9 @@ const HlsVideo = ({
                         switch (data.type) {
                             case Hls.ErrorTypes.NETWORK_ERROR:
                                 // Initiate a retry for network errors
-                                console.warn('[HLS] Fatal NETWORK_ERROR -> retrying startLoad');
                                 hls?.startLoad();
                                 break;
                             case Hls.ErrorTypes.MEDIA_ERROR:
-                                console.warn('[HLS] Fatal MEDIA_ERROR -> attempting recoverMediaError');
                                 hls?.recoverMediaError();
                                 break;
                             default:
@@ -138,13 +160,14 @@ const HlsVideo = ({
             }, 5000);
 
             const onLoadedMetadata = () => {
-                console.debug('[HLS] loadedmetadata');
                 clearStartupTimer();
             };
             video.addEventListener('loadedmetadata', onLoadedMetadata);
 
             if (autoPlay) {
-                video.play().catch(err => console.debug('[HLS] Autoplay rejected (maybe policy) -> will rely on user gesture', err));
+                video.play().catch(() => {
+                    // Autoplay rejected - will rely on user gesture
+                });
             }
 
             return () => {
@@ -159,6 +182,10 @@ const HlsVideo = ({
         }
     }, [src, autoPlay, fallbackMp4]);
 
+    // Use metadata preload for iOS to reduce memory usage
+    const isIos = typeof window !== 'undefined' && /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const preloadValue = isIos ? 'metadata' : 'auto';
+
     return (
         <video
             ref={videoRef}
@@ -168,7 +195,7 @@ const HlsVideo = ({
             muted={muted}
             loop={loop}
             playsInline
-            preload="auto"
+            preload={preloadValue}
         />
     );
 }

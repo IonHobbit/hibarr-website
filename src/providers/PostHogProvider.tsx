@@ -8,13 +8,30 @@ import { usePathname, useSearchParams } from "next/navigation"
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
-      posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-        api_host: "/ingest",
-        ui_host: "https://eu.posthog.com",
-        capture_pageview: false, // We capture pageviews manually
-        capture_pageleave: true, // Enable pageleave capture
-        debug: false,
-      })
+      // Delay PostHog initialization slightly to reduce initial load impact on iOS
+      const initTimer = setTimeout(() => {
+        try {
+          // Detect mobile devices for optimization
+          const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+          
+          posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+            api_host: "/ingest",
+            ui_host: "https://eu.posthog.com",
+            capture_pageview: false, // We capture pageviews manually
+            capture_pageleave: true, // Enable pageleave capture
+            debug: false,
+            // Optimize for mobile performance - reduce batch size for mobile devices
+            ...(isMobile && { batch_size: 5 }),
+          })
+        } catch (error) {
+          // Silently fail if PostHog initialization fails to prevent crashes
+          if (process.env.NODE_ENV === 'development') {
+            console.error('PostHog initialization failed:', error);
+          }
+        }
+      }, 100); // Small delay to let critical content load first
+
+      return () => clearTimeout(initTimer);
     }
   }, [])
 
