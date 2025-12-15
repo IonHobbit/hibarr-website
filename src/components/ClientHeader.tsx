@@ -35,7 +35,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
   return (
     <header className={cn("absolute top-0 z-20 w-full h-[75px] flex items-center", isExcludedPath ? "bg-transparent mt-2 px-4" : "bg-gradient-to-b from-primary/90 to-transparent")}>
       <nav className={cn("section py-6 px-4 sm:px-6 lg:px-8", isExcludedPath ? "bg-primary rounded-lg py-3" : "")}>
-        {process.env.NODE_ENV === 'development' && <p className='absolute top-0 left-0 text-xs text-white'>version: {version}</p>}
+        <p className='absolute top-0 left-0 text-xs text-white'>version: {version}</p>
         <div className="flex justify-between gap-2 items-center">
           <Link href={`/${lang}`} className='shrink-0'>
             <Image src="/logos/logo.png" alt="Hibarr Estates Logo" loading='eager' className="object-contain h-auto" width={140} height={20} />
