@@ -14,9 +14,10 @@ import { CaseStudy } from '@/types/sanity.types';
 
 type CaseStudiesProps = {
   caseStudies: CaseStudy[];
+  disableMedia?: boolean;
 }
 
-export default function CaseStudies({ caseStudies }: CaseStudiesProps) {
+export default function CaseStudies({ caseStudies, disableMedia }: CaseStudiesProps) {
 
   const videoRefs = useRef<VideoRef[]>([]);
 
@@ -31,11 +32,22 @@ export default function CaseStudies({ caseStudies }: CaseStudiesProps) {
       <CarouselContent>
         {caseStudies.map((caseStudy, index) => (
           <CarouselItem key={index}>
-            <Video
-              ref={(el) => { videoRefs.current[index] = el as VideoRef }}
-              src={caseStudy.videoUrl || ''}
-              poster={caseStudy.thumbnail ? generateImageUrl(caseStudy.thumbnail as SanityImageSource).url() : undefined}
-            />
+            {disableMedia ? (
+              <div
+                className="w-full aspect-video rounded-lg bg-muted bg-cover bg-center"
+                style={{
+                  backgroundImage: caseStudy.thumbnail
+                    ? `url('${generateImageUrl(caseStudy.thumbnail as SanityImageSource).url()}')`
+                    : undefined,
+                }}
+              />
+            ) : (
+              <Video
+                ref={(el) => { videoRefs.current[index] = el as VideoRef }}
+                src={caseStudy.videoUrl || ''}
+                poster={caseStudy.thumbnail ? generateImageUrl(caseStudy.thumbnail as SanityImageSource).url() : undefined}
+              />
+            )}
           </CarouselItem>
         ))}
       </CarouselContent>
