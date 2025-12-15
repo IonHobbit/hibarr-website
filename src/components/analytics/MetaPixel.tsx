@@ -10,7 +10,7 @@ export default function MetaPixel({ nonce }: MetaPixelProps) {
     <Fragment>
       <Script
         id="meta-pixel"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         nonce={nonce}
         dangerouslySetInnerHTML={{
           __html: `
