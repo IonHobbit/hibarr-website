@@ -87,6 +87,27 @@ export function middleware(request: NextRequest) {
     response.headers.set('x-locale', locale);
   }
 
+  // Debug toggles (useful for isolating iOS "page crashed / load failed")
+  //
+  // - ?noanalytics=1 disables GTM/GA/MetaPixel/PostHog/WebVitals
+  // - ?nomedia=1 disables heavy media (videos)
+  //
+  // Use ?noanalytics=0 or ?nomedia=0 to clear.
+  const noAnalytics = request.nextUrl.searchParams.get('noanalytics');
+  const noMedia = request.nextUrl.searchParams.get('nomedia');
+
+  if (noAnalytics === '1') {
+    response.cookies.set('hibarr_noanalytics', '1', { path: '/', maxAge: 60 * 10, sameSite: 'lax' });
+  } else if (noAnalytics === '0') {
+    response.cookies.delete('hibarr_noanalytics');
+  }
+
+  if (noMedia === '1') {
+    response.cookies.set('hibarr_nomedia', '1', { path: '/', maxAge: 60 * 10, sameSite: 'lax' });
+  } else if (noMedia === '0') {
+    response.cookies.delete('hibarr_nomedia');
+  }
+
   // Set Security Headers
   response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
   response.headers.set('X-Content-Type-Options', 'nosniff');

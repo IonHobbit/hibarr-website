@@ -20,6 +20,7 @@ import LandingWrapper from './_components/LandingWrapper';
 import { seoTitles } from '@/lib/seo-titles';
 import { seoDescriptions } from '@/data/seo-descriptions';
 import { fetchFiles, CloudinaryFile } from '@/lib/third-party/cloudinary.client';
+import { cookies } from 'next/headers';
 
 type HomePageProps = {
   params: Promise<{ lang: Locale }>;
@@ -38,6 +39,9 @@ export const revalidate = 60;
 export default async function Home(props: HomePageProps) {
   const { lang } = await props.params;
 
+  const cookieStore = await cookies();
+  const disableMedia = cookieStore.get('hibarr_nomedia')?.value === '1';
+
   const [data, testimonials, partners] = await Promise.all([
     fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }),
     fetchSanityData<Testimonial[]>(`*[_type == "testimonial" && type == $type] | order(date desc)[0...3]`, { type: 'client' }),
@@ -46,7 +50,7 @@ export default async function Home(props: HomePageProps) {
 
   return (
     <Fragment>
-      <LandingWrapper data={data} lang={lang} />
+      <LandingWrapper data={data} lang={lang} disableMedia={disableMedia} />
       <FeaturedSection />
       {/* <div className='section'>
         <div className='bg-primary rounded-lg p-4 py-8 md:py-4 md:px-2 max-w-screen-sm xl:max-w-screen-xl mx-auto'>
@@ -59,10 +63,10 @@ export default async function Home(props: HomePageProps) {
       <PartnersSection partnersTitle={data?.partnersSection?.title} partners={partners} />
       <ConsultationProcessSection data={data.consultationProcessSection} />
       <WebinarSection />
-      <WhyCyprus data={data.whyCyprusSection} />
-      <CaseStudiesSection data={data.caseStudiesSection} lang={lang} />
+      <WhyCyprus data={data.whyCyprusSection} disableMedia={disableMedia} />
+      <CaseStudiesSection data={data.caseStudiesSection} lang={lang} disableMedia={disableMedia} />
       <InvestorCommunitySection data={data.investorCommunitySection} />
-      <MeetRabih data={data.meetRabihSection} />
+      <MeetRabih data={data.meetRabihSection} disableMedia={disableMedia} />
       <LeadershipTeamSection data={data.leadershipTeamSection} />
       <CallToActionSection data={data.callToActionSection} />
       {/* <FreebieSignupSection data={data.freebieSignupSection} /> */}
