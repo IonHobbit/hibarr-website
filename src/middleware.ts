@@ -44,21 +44,21 @@ export function middleware(request: NextRequest) {
   // Define CSP
   // Note: We use 'unsafe-inline' for styles because many CSS-in-JS libraries and Next.js require it.
   // We try to be strict with scripts.
-  const csp = `
-    default-src 'self';
-    script-src 'self' 'nonce-${nonce}' https://connect.facebook.net https://www.googletagmanager.com https://assets.calendly.com https://cdn.bitrix24.de;
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' data: https://hibarr.de https://cdn.sanity.io https://res.cloudinary.com https://www.facebook.com;
-    font-src 'self' data:;
-    connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL} https://www.googletagmanager.com https://region1.google-analytics.com https://www.facebook.com https://www.facebook.com/tr;
-    frame-src 'self' https://www.youtube.com https://calendly.com https://www.google.com https://www.googletagmanager.com;
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-    media-src 'self' https://vz-da4cd036-d13.b-cdn.net;
-    frame-ancestors 'none';
-    upgrade-insecure-requests;
-  `.replace(/\s{2,}/g, ' ').trim();
+  // const csp = `
+  //   default-src 'self';
+  //   script-src 'self' 'nonce-${nonce}' https://connect.facebook.net https://www.googletagmanager.com https://assets.calendly.com https://cdn.bitrix24.de;
+  //   style-src 'self' 'unsafe-inline';
+  //   img-src 'self' data: https://hibarr.de https://cdn.sanity.io https://res.cloudinary.com https://www.facebook.com;
+  //   font-src 'self' data:;
+  //   connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL} https://www.googletagmanager.com https://region1.google-analytics.com https://www.facebook.com https://www.facebook.com/tr;
+  //   frame-src 'self' https://www.youtube.com https://calendly.com https://www.google.com https://www.googletagmanager.com;
+  //   object-src 'none';
+  //   base-uri 'self';
+  //   form-action 'self';
+  //   media-src 'self' https://vz-da4cd036-d13.b-cdn.net;
+  //   frame-ancestors 'none';
+  //   upgrade-insecure-requests;
+  // `.replace(/\s{2,}/g, ' ').trim();
 
   // Check if the pathname already starts with a language code
   const pathnameHasLocale = languages.some(

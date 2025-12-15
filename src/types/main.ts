@@ -152,20 +152,20 @@ type PropertyListing = {
     lastName: string;
   };
 };
-type WebinarRegistrationForm = {
-  firstName: string,
-  lastName: string,
-  email: string,
-  phone: string,
-  language: string,
-  utmInfo: {
-    utmSource: string,
-    utmMedium: string,
-    utmCampaign: string,
-    utmTerm: string,
-    utmContent: string
-  }
-}
+// type WebinarRegistrationForm = {
+//   firstName: string,
+//   lastName: string,
+//   email: string,
+//   phone: string,
+//   language: string,
+//   utmInfo: {
+//     utmSource: string,
+//     utmMedium: string,
+//     utmCampaign: string,
+//     utmTerm: string,
+//     utmContent: string
+//   }
+// }
 
 export type {
   PropertyType, RegistrationFormType,
