@@ -10,6 +10,9 @@ import { generateSEOMetadata } from '@/lib/utils';
 import { ConsultationPage as ConsultationPageType, SeoMetaFields } from '@/types/sanity.types';
 import { seoH1s } from '@/lib/seo-h1';
 import { headers as nextHeaders } from 'next/headers';
+import { gecitkaleConsultationContent } from '@/lib/content/gecitkale-consultation';
+import { Icon } from '@/components/icons';
+import Image from 'next/image';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -27,132 +30,71 @@ export default async function GecitkaleConsultationPage(
   const headerList = await nextHeaders();
   const nonce = headerList.get('x-nonce') || undefined;
 
-
-  const data = await fetchSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
-  const formTitle = await translate('Book a Free Consultation');
-
-
-  const [firstName, lastName, email, phoneNumber] = await translateBatch([
-    'First Name',
-    'Last Name',
-    'Email Address',
-    'Phone Number'
-  ]);
-
-  const [interestReasonHeader, investmentTimelineHeader] = await translateBatch([
-    'What made you interested in this opportunity today?',
-    'How soon are you looking to invest?'
-  ]);
-
-  const offerings = await translateBatch([
-    '£600 per month',
-    '0% interest',
-    'No credit checks',
-  ]);
-
-  const interestReasonLabels = await translateBatch([
-    'Pension capital not growing',
-    'Inflation protection',
-    'Rental income',
-    'Diversifying outside the EU',
-    'Attractive pricing',
-    'Other'
-  ]);
-
-  const investmentTimelineLabels = await translateBatch([
-    'As soon as possible',
-    'Within 3 months',
-    'Within 6–12 months',
-    'I\'m still researching'
-  ]);
-
-  const [submitButton, otherPlaceholder, chooseOnePlaceholder] = await translateBatch([
-    'Schedule Consultation',
-    'Please specify',
-    'Choose one'
-  ]);
-
-  const form = {
-    firstName: firstName.text,
-    lastName: lastName.text,
-    email: email.text,
-    phoneNumber: phoneNumber.text,
-  }
-
-  const headers = {
-    interestReason: interestReasonHeader.text,
-    investmentTimeline: investmentTimelineHeader.text,
-  }
-
-  const options = {
-    interestReasons: [
-      { label: interestReasonLabels[0].text, value: 'Pension capital not growing' },
-      { label: interestReasonLabels[1].text, value: 'Inflation protection' },
-      { label: interestReasonLabels[2].text, value: 'Rental income' },
-      { label: interestReasonLabels[3].text, value: 'Diversifying outside the EU' },
-      { label: interestReasonLabels[4].text, value: 'Attractive pricing' },
-      { label: interestReasonLabels[5].text, value: 'Other' },
-    ],
-    investmentTimelines: [
-      { label: investmentTimelineLabels[0].text, value: 'As soon as possible' },
-      { label: investmentTimelineLabels[1].text, value: 'Within 3 months' },
-      { label: investmentTimelineLabels[2].text, value: 'Within 6–12 months' },
-      { label: investmentTimelineLabels[3].text, value: 'I\'m still researching' },
-    ],
-  }
-
-  const placeholders = {
-    interestReasonOther: otherPlaceholder.text,
-    chooseOne: chooseOnePlaceholder.text,
-  }
-
-  const buttons = {
-    submitButton: submitButton.text,
-  }
-
-  const translations = {
-    formTitle: formTitle.text,
-    form,
-    headers,
-    options,
-    placeholders,
-    buttons,
-  }
+  const content = gecitkaleConsultationContent[lang] ?? gecitkaleConsultationContent.en;
 
   return (
-    <section className="relative grid place-items-center min-h-screen bg-[url('https://res.cloudinary.com/hibarr/image/upload/v1765222618/16-min_jqxljs.png')] bg-cover bg-center bg-no-repeat">
-      <div className="section grid grid-cols-1 md:grid-cols-2 place-items-center gap-10 z-10 mt-16 md:mt-0">
-        <div className='flex flex-col gap-6'>
-          <h1 className="text-5xl md:text-6xl text-primary-foreground">
-            {seoH1s.gecitkaleConsultation[lang]}
-          </h1>
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-2">
-              <h3 className="text-2xl text-primary-foreground">{data?.subtitle}</h3>
-              <p className="text-primary-foreground">
-                {data?.offerInformation?.label}
-              </p>
+    <section className='flex flex-col gap-10'>
+      <section className="relative grid place-items-start min-h-[95dvh] pb-10 overflow-hidden bg-[url('https://res.cloudinary.com/hibarr/image/upload/v1765222618/16-min_jqxljs.png')] bg-cover bg-center bg-no-repeat">
+        <div className="section !max-w-screen-2xl grid grid-cols-1 md:grid-cols-2 gap-10 z-10 mt-16 md:mt-20">
+          <div className='flex flex-col gap-6'>
+            <Image src="/logos/logo.png" alt="Hibarr Estates Logo" loading='eager' className="object-contain h-auto" width={140} height={30} />
+            <h1 className="text-5xl md:text-6xl text-primary-foreground">
+              {(content.title)}
+            </h1>
+            <p className="text-primary-foreground text-3xl">
+              {(content.subtitle)}
+            </p>
+            <div className="hidden md:flex flex-col p-6 bg-white/10 rounded-lg border border-white/10 backdrop-blur-lg">
+              <ul className="list-disc list-inside flex flex-col gap-6">
+                {(content.features).map((feature, index) => (
+                  <li key={index} className="text-primary-foreground text-2xl">
+                    {feature}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="flex flex-col gap-4">
-              {offerings.map((offering, index) => (
-                <ul key={index} className="list-disc list-inside">
-                  <li className="text-base text-primary-foreground">{offering.text}</li>
-                </ul>
+          </div>
+          <div className='relative w-full max-w-lg mx-auto rounded-lg overflow-hidden bg-secondary grid place-items-center'>
+            <SqueezeConsultationForm nonce={nonce} />
+          </div>
+        </div>
+        <div className='section !max-w-screen-2xl z-10 grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden'>
+          <div className="rounded-lg border border-white/10 overflow-hidden relative min-h-60">
+            <Image alt={content.imageAlt.project} src="https://res.cloudinary.com/hibarr/image/upload/v1765821711/2_evtbnz.png" fill sizes='100%' className='w-full h-full object-cover scale-x-[-1]' />
+          </div>
+          <div className="flex flex-col p-4 bg-white/10 rounded-lg border border-white/10 backdrop-blur-lg">
+            <ul className="list-disc list-inside flex flex-col gap-2">
+              {(content.features).map((feature, index) => (
+                <li key={index} className="text-primary-foreground text-lg">
+                  {feature}
+                </li>
               ))}
+            </ul>
+          </div>
+        </div>
+        <div className='bg-white w-full z-10 overflow-hidden'>
+          <div className="section !max-w-screen-2xl mt-auto grid grid-cols-1 pb-0 md:pb-10 place-items-center md:grid-cols-2 z-10">
+            <div className='order-2 md:order-1 md:translate-y-20'>
+              <Image src="https://res.cloudinary.com/hibarr/image/upload/v1765820506/Rabih_zx3wdo.png" alt={content.imageAlt.rabih} width={450} height={450} />
             </div>
-            <div className="flex flex-col gap-2">
-              <h3 className="text-2xl text-primary-foreground">{data?.closerInformation?.title}</h3>
-              <p className="text-primary-foreground">
-                {data?.closerInformation?.subtitle}
+            <div className='p-6 md:p-8 flex flex-col gap-6'>
+              <h3 className='text-3xl md:text-4xl text-primary'>{content.aboutRabih.title}</h3>
+              <p className='text-primary text-lg md:text-xl'>
+                {content.aboutRabih.description}
               </p>
+              <div className="flex flex-col gap-6">
+                {(content.trust).map((trust, index) => (
+                  <div key={index} className="flex items-center gap-2.5">
+                    <Icon icon="game-icons:check-mark" className="text-accent text-lg md:text-2xl shrink-0" />
+                    <p className="text-primary text-lg md:text-xl">{trust}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-        <div className='relative w-full max-w-lg rounded-lg overflow-hidden bg-secondary grid place-items-center'>
-          <SqueezeConsultationForm translations={translations} nonce={nonce} />
-        </div>
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-primary via-primary/70 to-primary/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-primary via-primary/70 to-primary/50"></div>
+      </section>
     </section>
   );
 }

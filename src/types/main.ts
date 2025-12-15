@@ -1,3 +1,5 @@
+import { Locale } from "@/lib/i18n-config";
+
 type PropertyType = {
   id: string;
   name: string;
@@ -166,6 +168,12 @@ type PropertyListing = {
 //     utmContent: string
 //   }
 // }
+
+export type Content = {
+  [key in Locale]: {
+    [key: string]: string
+  }
+}
 
 export type {
   PropertyType, RegistrationFormType,

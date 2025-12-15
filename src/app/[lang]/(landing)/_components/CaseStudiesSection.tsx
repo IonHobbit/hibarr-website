@@ -6,9 +6,10 @@ import { Locale } from "@/lib/i18n-config";
 type CaseStudiesSectionProps = {
   data: HomePage['caseStudiesSection'];
   lang: Locale;
+  disableMedia?: boolean;
 }
 
-export default async function CaseStudiesSection({ data, lang }: CaseStudiesSectionProps) {
+export default async function CaseStudiesSection({ data, lang, disableMedia }: CaseStudiesSectionProps) {
   const caseStudies = await fetchSanityData<CaseStudy[]>(`*[_type == "caseStudy" && language == $lang]`, { lang });
 
   return (
@@ -24,7 +25,7 @@ export default async function CaseStudiesSection({ data, lang }: CaseStudiesSect
         </div>
       )}
       <div className="max-w-screen-md mx-auto w-full overflow-hidden md:overflow-visible">
-        <CaseStudies caseStudies={caseStudies} />
+        <CaseStudies caseStudies={caseStudies} disableMedia={disableMedia} />
       </div>
     </section>
   )

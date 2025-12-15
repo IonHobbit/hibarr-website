@@ -1,4 +1,25 @@
 import type { NextConfig } from "next";
+import { execSync } from 'node:child_process';
+
+const getGitSha = () => {
+  const fromEnv =
+    process.env.VERCEL_GIT_COMMIT_SHA ||
+    process.env.NEXT_PUBLIC_GIT_SHA ||
+    process.env.GIT_COMMIT_SHA ||
+    process.env.COMMIT_REF;
+
+  if (fromEnv) return fromEnv.trim();
+
+  try {
+    return execSync('git rev-parse HEAD', { stdio: ['ignore', 'pipe', 'ignore'] })
+      .toString()
+      .trim();
+  } catch {
+    return '';
+  }
+};
+
+const gitSha = getGitSha();
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -6,6 +27,10 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   generateEtags: false,
+
+  env: {
+    NEXT_PUBLIC_GIT_SHA: gitSha,
+  },
 
   // Image optimization
   images: {
