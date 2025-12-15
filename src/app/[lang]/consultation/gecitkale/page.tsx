@@ -35,7 +35,7 @@ export default async function GecitkaleConsultationPage(
   return (
     <section className='flex flex-col gap-10'>
       <section className="relative grid place-items-start min-h-[95dvh] pb-10 overflow-hidden bg-[url('https://res.cloudinary.com/hibarr/image/upload/v1765222618/16-min_jqxljs.png')] bg-cover bg-center bg-no-repeat">
-        <div className="section grid grid-cols-1 md:grid-cols-2 gap-10 z-10 mt-16 md:mt-20">
+        <div className="section !max-w-screen-2xl grid grid-cols-1 md:grid-cols-2 gap-10 z-10 mt-16 md:mt-20">
           <div className='flex flex-col gap-6'>
             <Image src="/logos/logo.png" alt="Hibarr Estates Logo" loading='eager' className="object-contain h-auto" width={140} height={30} />
             <h1 className="text-5xl md:text-6xl text-primary-foreground">
@@ -58,7 +58,7 @@ export default async function GecitkaleConsultationPage(
             <SqueezeConsultationForm nonce={nonce} />
           </div>
         </div>
-        <div className='section z-10 grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden'>
+        <div className='section !max-w-screen-2xl z-10 grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden'>
           <div className="rounded-lg border border-white/10 overflow-hidden relative min-h-60">
             <Image alt={content.imageAlt.project} src="https://res.cloudinary.com/hibarr/image/upload/v1765821711/2_evtbnz.png" fill sizes='100%' className='w-full h-full object-cover scale-x-[-1]' />
           </div>
@@ -73,16 +73,20 @@ export default async function GecitkaleConsultationPage(
           </div>
         </div>
         <div className='bg-white w-full z-10 overflow-hidden'>
-          <div className="section mt-auto grid grid-cols-1 place-items-center md:grid-cols-2 z-10">
-            <div className='mx-auto translate-y-20'>
-              <Image src="https://res.cloudinary.com/hibarr/image/upload/v1765820506/Rabih_zx3wdo.png" alt={content.imageAlt.rabih} width={350} height={350} />
+          <div className="section !max-w-screen-2xl mt-auto grid grid-cols-1 pb-0 md:pb-10 place-items-center md:grid-cols-2 z-10">
+            <div className='order-2 md:order-1 md:translate-y-20'>
+              <Image src="https://res.cloudinary.com/hibarr/image/upload/v1765820506/Rabih_zx3wdo.png" alt={content.imageAlt.rabih} width={450} height={450} />
             </div>
-            <div className='p-6 md:p-8 rounded-t-2xl bg-white h-max'>
+            <div className='p-6 md:p-8 flex flex-col gap-6'>
+              <h3 className='text-3xl md:text-4xl text-primary'>{content.aboutRabih.title}</h3>
+              <p className='text-primary text-lg md:text-xl'>
+                {content.aboutRabih.description}
+              </p>
               <div className="flex flex-col gap-6">
                 {(content.trust).map((trust, index) => (
                   <div key={index} className="flex items-center gap-2.5">
                     <Icon icon="game-icons:check-mark" className="text-accent text-lg md:text-2xl shrink-0" />
-                    <p className="text-primary text-base md:text-xl">{trust}</p>
+                    <p className="text-primary text-lg md:text-xl">{trust}</p>
                   </div>
                 ))}
               </div>

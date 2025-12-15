@@ -42,6 +42,10 @@ type GecitkaleConsultationContent = {
       project: string;
     }
     trust: string[];
+    aboutRabih: {
+      title: string;
+      description: string;
+    };
   }
 }
 
@@ -101,6 +105,10 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     imageAlt: {
       rabih: 'Picture of HIBARR Founder Rabih Rabih',
       project: 'Picture of CIELO Vista Resort Project'
+    },
+    aboutRabih: {
+      title: 'About Rabih Rabea',
+      description: 'Rabih Rabea is the visionary founder and CEO of HIBARR, a leading company in the exclusive financial sector in Northern Cyprus. With over two decades of experience in the financial industry, Rabih has developed a profound understanding of the market, earning a reputation for expertise and innovative leadership.',
     },
     trust: [
       'More than 25 years of industry experience',
@@ -164,6 +172,10 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
       rabih: 'Bild von HIBARR Gründer Rabih Rabih',
       project: 'Bild des CIELO Vista Resort Projekts'
     },
+    aboutRabih: {
+      title: 'Über Rabih Rabea',
+      description: 'Rabih Rabea ist der visionäre Gründer und CEO von HIBARR, einem führenden Unternehmen im exklusiven Finanzsektor in Nordzypern. Mit über zwei Jahrzehnten Erfahrung in der Finanzbranche hat Rabih ein tiefgreifendes Verständnis des Marktes entwickelt und sich einen Ruf für Expertise und innovative Führung erworben.',
+    },
     trust: [
       'Mehr als 25 Jahre Branchenerfahrung',
       'Über 1.000 zufriedene Kunden',
@@ -226,6 +238,10 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
       rabih: 'HIBARR Kurucusu Rabih Rabih\'in resmi',
       project: 'CIELO Vista Resort Projesi\'nin resmi'
     },
+    aboutRabih: {
+      title: 'Rabih Rabea Hakkında',
+      description: 'Rabih Rabea, Kuzey Kıbrıs\'taki özel finans sektöründe lider bir şirket olan HIBARR\'ın vizyoner kurucusu ve CEO\'sudur. Finans sektöründe yirmi yılı aşkın deneyime sahip olan Rabih, pazara derin bir anlayış geliştirmiş ve uzmanlık ve yenilikçi liderlik konusunda bir üne kavuşmuştur.',
+    },
     trust: [
       '25 yıldan fazla sektör deneyimi',
       '1.000\'den fazla memnun müşteri',
@@ -287,6 +303,10 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     imageAlt: {
       rabih: 'Фотография основателя HIBARR Рабиха Рабиха',
       project: 'Фотография проекта CIELO Vista Resort'
+    },
+    aboutRabih: {
+      title: 'О Рабихе Рабее',
+      description: 'Рабих Рабеа является дальновидным основателем и генеральным директором HIBARR, ведущей компании в эксклюзивном финансовом секторе на Северном Кипре. Обладая более чем двадцатилетним опытом работы в финансовой индустрии, Рабих развил глубокое понимание рынка, заслужив репутацию эксперта и инновационного лидера.',
     },
     trust: [
       'Более 25 лет опыта в отрасли',
