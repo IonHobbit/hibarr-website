@@ -10,6 +10,7 @@ import LanguageSwitcher from './LanguageSwitcher'
 import MobileNavigationMenu from './MobileNavigationMenu'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { version } from '@/lib/content'
 
 type ClientHeaderProps = {
   lang: Locale
@@ -21,7 +22,6 @@ type NavItem = NonNullable<Navigation['items']>[number];
 export default function ClientHeader({ lang, navigationData }: ClientHeaderProps) {
 
   const pathname = usePathname();
-  const version = '1.0.0';
 
   const excludedPaths = ['/our-packages', '/listings/', 'webinar-recording', '/thank-you', '/blog', '/findr', '/partners/news-central-corp', '/ebook', 'careers']
   const hiddenPaths = ['/calendar']
