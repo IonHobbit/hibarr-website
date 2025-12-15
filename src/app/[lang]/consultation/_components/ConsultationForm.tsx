@@ -355,7 +355,7 @@ export default function ConsultationForm({ translations, showMessage, nonce }: C
   }
 
   if (isRegistered) {
-    return <div className='flex flex-col gap-4 justify-center items-center min-h-[20vh] w-full p-8 transition-all duration-300'>
+    return <div className='flex flex-col gap-4 justify-center items-center min-h-[20dvh] w-full p-8 transition-all duration-300'>
       <h4 className='text-2xl font-medium text-center'>{translations.registered.title}</h4>
       <p className='text-lg text-center'>{translations.registered.description}</p>
     </div>
@@ -366,7 +366,7 @@ export default function ConsultationForm({ translations, showMessage, nonce }: C
   }
 
   return (
-    <form className='flex flex-col gap-4 justify-between min-h-[50vh] md:min-h-[45vh] overflow-y-auto w-full p-8 transition-all duration-300'>
+    <form className='flex flex-col gap-4 justify-between min-h-[50dvh] md:min-h-[45dvh] overflow-y-auto w-full p-8 transition-all duration-300'>
       <div className="flex flex-col gap-6">
         <div className="flex items-center gap-2">
           {steps.map((_, index) => (

@@ -72,12 +72,12 @@ export default function BitrixForm({ nonce }: BitrixFormProps) {
         scriptRef.current.parentNode.removeChild(scriptRef.current)
       }
     }
-  }, [mounted])
+  }, [mounted, nonce])
 
   if (!mounted) {
     return (
       <div 
-        className="w-full h-full min-h-[50vh] md:min-h-[45vh] p-8"
+        className="w-full h-full min-h-[50dvh] md:min-h-[45dvh] p-8"
         suppressHydrationWarning
       />
     )
@@ -85,7 +85,7 @@ export default function BitrixForm({ nonce }: BitrixFormProps) {
 
   if (scriptError) {
     return (
-      <div className="w-full h-full min-h-[50vh] md:min-h-[45vh] p-8 flex flex-col items-center justify-center text-center">
+      <div className="w-full h-full min-h-[50dvh] md:min-h-[45dvh] p-8 flex flex-col items-center justify-center text-center">
         <h3 className="text-xl font-medium mb-4">Form Loading Error</h3>
         <p className="text-muted-foreground mb-4">
           We&apos;re having trouble loading the form. This might be due to your browser&apos;s privacy settings or an ad blocker.
@@ -103,7 +103,7 @@ export default function BitrixForm({ nonce }: BitrixFormProps) {
   return (
     <div 
       ref={containerRef}
-      className="w-full h-full min-h-[50vh] md:min-h-[45vh] p-8"
+      className="w-full h-full min-h-[50dvh] md:min-h-[45dvh] p-8"
       suppressHydrationWarning
       style={{ isolation: 'isolate' }}
     />

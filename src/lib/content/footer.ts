@@ -1,10 +1,4 @@
-import { Locale } from "../i18n-config";
-
-type Content = {
-  [key in Locale]: {
-    [key: string]: string
-  }
-}
+import { Content } from "@/types/main";
 
 export const footerContent: Content = {
   en: {

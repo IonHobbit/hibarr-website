@@ -9,7 +9,7 @@ import Countdown from "./Countdown";
 import { useMutation } from "@tanstack/react-query";
 import * as Yup from 'yup';
 import storage, { StorageKey } from "@/lib/storage.util";
-import { useRouter, useParams, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { persistUserInfo } from "@/lib/services/user.service";
 import useUserInfo from "@/hooks/useUserInfo";
 import useTranslation from "@/hooks/useTranslation";
@@ -27,8 +27,6 @@ type RegistrationFormSectionProps = {
 
 export default function RegistrationFormSection({ data }: RegistrationFormSectionProps) {
   const router = useRouter();
-  const params = useParams();
-  const searchParams = useSearchParams();
   const userInfo = useUserInfo();
 
   const { data: registeredTitle } = useTranslation('Thank you for registering!')

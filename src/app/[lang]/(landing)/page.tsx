@@ -9,19 +9,18 @@ import LeadershipTeamSection from './_components/LeadershipTeamSection';
 import CallToActionSection from './_components/CallToActionSection';
 import FeaturedSection from '../_components/FeaturedSection';
 import TestimonialsSection from '@/app/[lang]/_components/TestimonialsSection';
-
-import { fetchRawSanityData, fetchSanityData } from "@/lib/third-party/sanity.client";
-import { HomePage, SeoMetaFields } from '@/types/sanity.types';
+import { fetchSanityData } from "@/lib/third-party/sanity.client";
+import { HomePage, SeoMetaFields, Testimonial } from '@/types/sanity.types';
 import ConsultationProcessSection from './_components/ConsultationProcessSection';
 import InvestorCommunitySection from './_components/InvestorCommunitySection';
 import WebinarSection from './_components/WebinarSection';
 import { Metadata } from 'next';
 import { generateSEOMetadata } from '@/lib/utils';
-
 import LandingWrapper from './_components/LandingWrapper';
-
 import { seoTitles } from '@/lib/seo-titles';
 import { seoDescriptions } from '@/data/seo-descriptions';
+import { fetchFiles, CloudinaryFile } from '@/lib/third-party/cloudinary.client';
+import { cookies } from 'next/headers';
 
 type HomePageProps = {
   params: Promise<{ lang: Locale }>;
@@ -30,7 +29,7 @@ type HomePageProps = {
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
-  const { seo } = await fetchRawSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
+  const { seo } = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
 
   return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].home, metaDescription: seoDescriptions[lang].home } as SeoMetaFields)
 }
@@ -40,11 +39,18 @@ export const revalidate = 60;
 export default async function Home(props: HomePageProps) {
   const { lang } = await props.params;
 
-  const data = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
+  const cookieStore = await cookies();
+  const disableMedia = cookieStore.get('hibarr_nomedia')?.value === '1';
+
+  const [data, testimonials, partners] = await Promise.all([
+    fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }),
+    fetchSanityData<Testimonial[]>(`*[_type == "testimonial" && type == $type] | order(date desc)[0...3]`, { type: 'client' }),
+    fetchFiles('Website/Partners') as Promise<CloudinaryFile[]>,
+  ]);
 
   return (
     <Fragment>
-      <LandingWrapper data={data} lang={lang} />
+      <LandingWrapper data={data} lang={lang} disableMedia={disableMedia} />
       <FeaturedSection />
       {/* <div className='section'>
         <div className='bg-primary rounded-lg p-4 py-8 md:py-4 md:px-2 max-w-screen-sm xl:max-w-screen-xl mx-auto'>
@@ -53,14 +59,14 @@ export default async function Home(props: HomePageProps) {
       </div> */}
       <AboutSection data={data} />
       {/* <FindrSection /> */}
-      <TestimonialsSection lang={lang} />
-      <PartnersSection lang={lang} />
+      <TestimonialsSection lang={lang} data={data} testimonials={testimonials} />
+      <PartnersSection partnersTitle={data?.partnersSection?.title} partners={partners} />
       <ConsultationProcessSection data={data.consultationProcessSection} />
       <WebinarSection />
-      <WhyCyprus data={data.whyCyprusSection} />
-      <CaseStudiesSection data={data.caseStudiesSection} lang={lang} />
+      <WhyCyprus data={data.whyCyprusSection} disableMedia={disableMedia} />
+      <CaseStudiesSection data={data.caseStudiesSection} lang={lang} disableMedia={disableMedia} />
       <InvestorCommunitySection data={data.investorCommunitySection} />
-      <MeetRabih data={data.meetRabihSection} />
+      <MeetRabih data={data.meetRabihSection} disableMedia={disableMedia} />
       <LeadershipTeamSection data={data.leadershipTeamSection} />
       <CallToActionSection data={data.callToActionSection} />
       {/* <FreebieSignupSection data={data.freebieSignupSection} /> */}

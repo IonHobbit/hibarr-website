@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 export const InfiniteMovingCards = ({
   items,

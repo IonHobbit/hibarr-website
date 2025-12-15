@@ -62,7 +62,7 @@ export default function FreebieSignupSection({ data }: FreebieSignupSectionProps
   }
 
   return (
-    <section id='freebie' className={cn('bg-primary flex flex-col transition-all duration-300', isRegistered ? 'min-h-[30vh]' : 'min-h-[60vh]')}>
+    <section id='freebie' className={cn('bg-primary flex flex-col transition-all duration-300', isRegistered ? 'min-h-[30dvh]' : 'min-h-[60dvh]')}>
       <div className="section h-full grow max-w-screen-lg">
         {isRegistered ?
           <div className="flex flex-col gap-6 p-8 bg-background max-w-2xl h-full m-auto rounded-lg overflow-hidden">

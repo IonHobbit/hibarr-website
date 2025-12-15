@@ -26,8 +26,8 @@ export default function ErrorPage() {
       </div>
       <Image src='/logos/logo.png' alt='logo' width={300} height={58} />
       <div className="flex flex-col items-center gap-3">
-        <h1 className='text-4xl text-primary-foreground'>Looks like something went wrong</h1>
-        <p className='text-primary-foreground'>Please try refreshing the page or <Link href='mailto:it@hibarr.de' className='text-accent hover:underline'>contact support.</Link></p>
+        <h1 className='text-4xl text-primary-foreground text-center'>Looks like something went wrong</h1>
+        <p className='text-primary-foreground text-center'>Please try refreshing the page or <Link href='mailto:it@hibarr.de' className='text-accent hover:underline'>contact support.</Link></p>
         <Button variant='accent' className='text-primary-foreground' onClick={refresh}>Refresh page</Button>
       </div>
     </div>
