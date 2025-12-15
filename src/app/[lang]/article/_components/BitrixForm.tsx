@@ -72,7 +72,7 @@ export default function BitrixForm({ nonce }: BitrixFormProps) {
         scriptRef.current.parentNode.removeChild(scriptRef.current)
       }
     }
-  }, [mounted])
+  }, [mounted, nonce])
 
   if (!mounted) {
     return (
