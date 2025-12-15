@@ -24,7 +24,7 @@ export default async function ListingsPage(
 
   return (
     <Fragment>
-      <section id='root' className="pt-40 pb-20 xl:pt-32 relative grid place-items-center place-content-center min-h-[40vh] bg-[url('https://res.cloudinary.com/hibarr/image/upload/listings-hero_z1qom9')] bg-cover bg-center bg-no-repeat">
+      <section id='root' className="pt-40 pb-20 xl:pt-32 relative grid place-items-center place-content-center min-h-[40dvh] bg-[url('https://res.cloudinary.com/hibarr/image/upload/listings-hero_z1qom9')] bg-cover bg-center bg-no-repeat">
         <div className="max-w-screen-sm xl:max-w-screen-xl mx-auto z-10 flex flex-col gap-8 items-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white text-center drop-shadow-md">
             {seoH1s.listings[lang]}

@@ -48,7 +48,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   if (!post) {
     return (
-      <div className="section mt-20 flex flex-col items-center justify-center gap-4 h-[80vh]">
+      <div className="section mt-20 flex flex-col items-center justify-center gap-4 h-[80dvh]">
         <h1 className="text-4xl font-bold text-center">Post not found</h1>
         <Link href="/blog" className="text-primary underline underline-offset-4">Back to blog</Link>
       </div>

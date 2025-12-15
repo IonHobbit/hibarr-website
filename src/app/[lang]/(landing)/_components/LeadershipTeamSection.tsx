@@ -12,7 +12,7 @@ export default async function LeadershipTeamSection({ data }: LeadershipTeamSect
   const leadershipTeam = await fetchSanityData<Team[]>(`*[_type == "team" && leadership == true] | order(order asc)`);
 
   return (
-    <section id='leadership-team' className='min-h-[50vh] bg-gray-50/50'>
+    <section id='leadership-team' className='min-h-[50dvh] bg-gray-50/50'>
       <div className="section">
         <div className="max-w-screen-md mx-auto flex flex-col gap-2">
           <h3 className="text-3xl md:text-4xl text-center">{data?.title}</h3>

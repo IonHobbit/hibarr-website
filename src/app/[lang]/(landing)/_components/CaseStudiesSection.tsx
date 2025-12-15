@@ -12,7 +12,7 @@ export default async function CaseStudiesSection({ data, lang }: CaseStudiesSect
   const caseStudies = await fetchSanityData<CaseStudy[]>(`*[_type == "caseStudy" && language == $lang]`, { lang });
 
   return (
-    <section id='case-studies' className='section md:min-h-[50vh]'>
+    <section id='case-studies' className='section md:min-h-[50dvh]'>
       {(data?.title || data?.description) && (
         <div className="max-w-screen-md mx-auto flex flex-col gap-2">
           {data?.title && (
