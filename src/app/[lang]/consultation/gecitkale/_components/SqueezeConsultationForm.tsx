@@ -16,6 +16,7 @@ import { makePOSTRequest } from '@/lib/services/api.service'
 import { Locale } from '@/lib/i18n-config'
 import CalendlyEmbed from '@/components/CalendlyEmbed'
 import { useState } from 'react'
+import { gecitkaleConsultationContent } from '@/lib/content/gecitkale-consultation'
 
 const PhoneInput = dynamic(() => import('@/components/ui/phone-input').then(mod => mod.PhoneInput), {
   loading: () => <Input placeholder="Loading..." />
@@ -29,36 +30,14 @@ type FormValues = ContactInfo & {
 }
 
 type SqueezeConsultationFormProps = {
-  translations: {
-    formTitle: string
-    form: {
-      firstName: string
-      lastName: string
-      email: string
-      phoneNumber: string
-    }
-    headers: {
-      interestReason: string
-      investmentTimeline: string
-    }
-    options: {
-      interestReasons: { label: string, value: string }[]
-      investmentTimelines: { label: string, value: string }[]
-    }
-    placeholders: {
-      interestReasonOther: string
-      chooseOne: string
-    }
-    buttons: {
-      submitButton: string
-    }
-  }
   nonce?: string
 }
 
-export default function SqueezeConsultationForm({ translations, nonce }: SqueezeConsultationFormProps) {
+export default function SqueezeConsultationForm({ nonce }: SqueezeConsultationFormProps) {
   const { lang } = useParams()
   const userInfo = useUserInfo()
+
+  const content = gecitkaleConsultationContent[lang as Locale] ?? gecitkaleConsultationContent.en;
 
   const baseCalendlyUrl = 'https://calendly.com/rabihrabea/customer-kick-off-meeting?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319'
   const [calendlyUrl, setCalendlyUrl] = useState<string | null>(null)
@@ -99,17 +78,17 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
       investmentTimeline: '',
     },
     validationSchema: Yup.object().shape({
-      firstName: Yup.string().required('First name is required'),
-      lastName: Yup.string().required('Last name is required'),
-      email: Yup.string().email('Invalid email address').required('Email is required'),
-      phoneNumber: Yup.string().required('Phone number is required'),
-      interestReason: Yup.string().required('Please select an interest reason'),
+      firstName: Yup.string().required(content.form.validationMessages.firstName),
+      lastName: Yup.string().required(content.form.validationMessages.lastName),
+      email: Yup.string().email(content.form.validationMessages.emailInvalid).required(content.form.validationMessages.email),
+      phoneNumber: Yup.string().required(content.form.validationMessages.phoneNumber),
+      interestReason: Yup.string().required(content.form.validationMessages.interestReason),
       interestReasonOther: Yup.string().when('interestReason', {
         is: 'other',
-        then: (schema) => schema.required('Please specify your reason'),
+        then: (schema) => schema.required(content.form.validationMessages.interestReasonOther),
         otherwise: (schema) => schema.notRequired(),
       }),
-      investmentTimeline: Yup.string().required('Please select a timeline'),
+      investmentTimeline: Yup.string().required(content.form.validationMessages.investmentTimeline),
     }),
     onSubmit: async () => {
       const link = generateCalendlyPrefilledUrl();
@@ -137,12 +116,13 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
   }
 
   return (
-    <form onSubmit={handleSubmit} className='flex flex-col gap-6 w-full p-8 rounded-lg'>
+    <form onSubmit={handleSubmit} className='flex flex-col gap-6 w-full p-6 md:p-8 rounded-lg'>
       <div className='flex flex-col gap-4'>
+        <h2 className='text-2xl font-bold text-center'>{content.form.title}</h2>
         <div className='grid grid-cols-2 gap-4'>
           <Input
             name='firstName'
-            title={translations.form.firstName}
+            title={content.form.fields.firstName}
             required
             value={values.firstName}
             onChange={handleChange}
@@ -150,7 +130,7 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
           />
           <Input
             name='lastName'
-            title={translations.form.lastName}
+            title={content.form.fields.lastName}
             required
             value={values.lastName}
             onChange={handleChange}
@@ -160,7 +140,7 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
 
         <Input
           name='email'
-          title={translations.form.email}
+          title={content.form.fields.email}
           required
           value={values.email}
           onChange={handleChange}
@@ -170,24 +150,24 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
         <PhoneInput
           name='phoneNumber'
           required
-          title={translations.form.phoneNumber}
+          title={content.form.fields.phoneNumber}
           value={values.phoneNumber}
           onChange={(value) => setFieldValue('phoneNumber', value)}
           placeholder='+905555555555'
         />
 
         <div className='flex flex-col gap-2'>
-          <label className='text-sm font-medium'>{translations.headers.interestReason}</label>
+          <label className='text-sm font-medium'>{content.form.fields.interestReason}</label>
           <Select
             name='interestReason'
             value={values.interestReason}
             onValueChange={(value) => setFieldValue('interestReason', value)}
           >
             <SelectTrigger className='w-full'>
-              <SelectValue placeholder={translations.placeholders.chooseOne} />
+              <SelectValue placeholder={content.form.placeholders.chooseOne} />
             </SelectTrigger>
             <SelectContent>
-              {translations.options.interestReasons.map((option, index) => (
+              {content.form.options.interestReasons.map((option, index) => (
                 <SelectItem key={index} value={option.value}>{option.label}</SelectItem>
               ))}
             </SelectContent>
@@ -199,22 +179,22 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
             name='interestReasonOther'
             value={values.interestReasonOther}
             onChange={handleChange}
-            placeholder={translations.placeholders.interestReasonOther}
+            placeholder={content.form.placeholders.interestReasonOther}
           />
         )}
 
         <div className='flex flex-col gap-2'>
-          <label className='text-sm font-medium'>{translations.headers.investmentTimeline}</label>
+          <label className='text-sm font-medium'>{content.form.fields.investmentTimeline}</label>
           <Select
             name='investmentTimeline'
             value={values.investmentTimeline}
             onValueChange={(value) => setFieldValue('investmentTimeline', value)}
           >
             <SelectTrigger className='w-full'>
-              <SelectValue placeholder={translations.placeholders.chooseOne} />
+              <SelectValue placeholder={content.form.placeholders.chooseOne} />
             </SelectTrigger>
             <SelectContent>
-              {translations.options.investmentTimelines.map((option, index) => (
+              {content.form.options.investmentTimelines.map((option, index) => (
                 <SelectItem key={index} value={option.value}>{option.label}</SelectItem>
               ))}
             </SelectContent>
@@ -224,12 +204,15 @@ export default function SqueezeConsultationForm({ translations, nonce }: Squeeze
 
       <Button
         type='submit'
+        size='lg'
+        variant='accent'
         isLoading={isPending}
         disabled={!isFormValid || isPending}
         className='w-full'
       >
-        {translations.buttons.submitButton}
+        {content.form.submitButton}
       </Button>
+      <p className='text-base text-center text-primary'>{content.form.dataPrivacy}</p>
     </form>
   )
 }

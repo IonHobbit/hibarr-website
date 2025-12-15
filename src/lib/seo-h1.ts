@@ -8,10 +8,10 @@ export const seoH1s: Record<string, Record<Locale, string>> = {
 		ru: "Владейте доступной роскошью на Северном Кипре",
 	},
 	about: {
-		en: "About HIBARR - Your Trusted Partner in North Cyprus Real Estate",
-		de: "Über HIBARR - Ihr vertrauenswürdiger Partner für Immobilien in Nordzypern",
-		tr: "HIBARR Hakkında - Kuzey Kıbrıs Emlak Sektöründeki Güvenilir Ortağınız",
-		ru: "О HIBARR - Ваш надежный партнер по недвижимости на Северном Кипре",
+		en: "Your Trusted Partner in North Cyprus Real Estate",
+		de: "Ihr vertrauenswürdiger Partner für Immobilien in Nordzypern",
+		tr: "Kuzey Kıbrıs Emlak Sektöründeki Güvenilir Ortağınız",
+		ru: "Ваш надежный партнер по недвижимости на Северном Кипре",
 	},
 	packages: {
 		en: "Exclusive North Cyprus Property Investment Packages",
@@ -44,10 +44,10 @@ export const seoH1s: Record<string, Record<Locale, string>> = {
 		ru: "Запишитесь на бесплатную консультацию по недвижимости",
 	},
 	gecitkaleConsultation: {
-		en: "Book a Free Consultation",
-		de: "Buchen Sie eine kostenlose Beratung",
-		tr: "Ücretsiz Danışmanlığı Randevusu Alın",
-		ru: "Запишитесь на бесплатную консультацию",
+		en: "Invest now at pre-sales prices",
+		de: "Jetzt investieren bei Vorverkaufspreisen",
+		tr: "Şimdi ön satış fiyatlarıyla yatırım yapın",
+		ru: "Инвестируйте сейчас по ценам предпродажи",
 	},
 	blog: {
 		en: "North Cyprus Real Estate Insights & News",
