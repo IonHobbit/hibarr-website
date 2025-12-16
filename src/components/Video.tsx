@@ -6,10 +6,10 @@ import { Icon } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 
-const HlsVideo = dynamic(() => import('./HlsVideo'), {
-  ssr: false,
-  loading: () => <div className="w-full h-full animate-pulse" />
-});
+// const HlsVideo = dynamic(() => import('./HlsVideo'), {
+//   ssr: false,
+//   loading: () => <div className="w-full h-full animate-pulse" />
+// });
 
 interface IVideoProps {
   src: string;
@@ -28,7 +28,7 @@ export interface VideoRef {
   pause: () => void;
 }
 
-const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted, loop, hls, fallbackMp4, containerClassName, videoClassName, preload }, ref) => {
+const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted, loop, hls = false, fallbackMp4, containerClassName, videoClassName, preload }, ref) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const [isMuted, setIsMuted] = useState(false);
@@ -216,18 +216,19 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
           Your browser does not support the video tag.
         </video>
       ) : isHls ? (
-        <HlsVideo
-          key={src}
-          ref={videoRef}
-          src={src}
-          poster={poster}
-          autoPlay={autoPlay}
-          muted={muted}
-          loop={loop}
-          fallbackMp4={fallbackMp4}
-          preload={effectivePreload}
-          className={videoClassName ?? "object-contain !h-full w-full"}
-        />
+        null
+        // <HlsVideo
+        //   key={src}
+        //   ref={videoRef}
+        //   src={src}
+        //   poster={poster}
+        //   autoPlay={autoPlay}
+        //   muted={muted}
+        //   loop={loop}
+        //   fallbackMp4={fallbackMp4}
+        //   preload={effectivePreload}
+        //   className={videoClassName ?? "object-contain !h-full w-full"}
+        // />
       ) : (
         <video
           poster={poster}
