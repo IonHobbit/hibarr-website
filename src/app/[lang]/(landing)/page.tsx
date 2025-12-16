@@ -3,8 +3,6 @@ import type { Locale } from '@/lib/i18n-config';
 import AboutSection from './_components/AboutSection';
 import PartnersSection from '../_components/PartnersSection';
 import WhyCyprus from './_components/WhyCyprus';
-import CaseStudiesSection from './_components/CaseStudiesSection';
-import MeetRabih from './_components/MeetRabih';
 import LeadershipTeamSection from './_components/LeadershipTeamSection';
 import CallToActionSection from './_components/CallToActionSection';
 import FeaturedSection from '../_components/FeaturedSection';
@@ -64,9 +62,9 @@ export default async function Home(props: HomePageProps) {
       <ConsultationProcessSection data={data.consultationProcessSection} />
       <WebinarSection />
       <WhyCyprus data={data.whyCyprusSection} disableMedia={disableMedia} />
-      <CaseStudiesSection data={data.caseStudiesSection} lang={lang} disableMedia={disableMedia} />
+      {/* <CaseStudiesSection data={data.caseStudiesSection} lang={lang} disableMedia={disableMedia} /> */}
       <InvestorCommunitySection data={data.investorCommunitySection} />
-      <MeetRabih data={data.meetRabihSection} disableMedia={disableMedia} />
+      {/* <MeetRabih data={data.meetRabihSection} disableMedia={disableMedia} /> */}
       <LeadershipTeamSection data={data.leadershipTeamSection} />
       <CallToActionSection data={data.callToActionSection} />
       {/* <FreebieSignupSection data={data.freebieSignupSection} /> */}
