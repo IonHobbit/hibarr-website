@@ -19,6 +19,7 @@ import Video from '@/components/Video'
 
 import { seoTitles } from '@/lib/seo-titles';
 import { seoDescriptions } from '@/data/seo-descriptions';
+import { CloudinaryFile, fetchFiles } from '@/lib/third-party/cloudinary.client'
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -39,6 +40,7 @@ export default async function ZoomRegistrationPage(
 
   const homePage = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
   const webinarPage = await fetchSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const features = await fetchFiles('Website/Features') as unknown as CloudinaryFile[];
 
   return (
     <Fragment>
@@ -75,7 +77,7 @@ export default async function ZoomRegistrationPage(
           </div>
         </div>
       </section>
-      <FeaturedSection />
+      <FeaturedSection lang={lang} featuredLogos={features} />
       <BenefitsSection data={webinarPage?.benefitsSection} />
       <TwoForOneSection data={webinarPage?.benefitsSection} />
       <AboutHostSection data={webinarPage?.aboutHostSection} />
