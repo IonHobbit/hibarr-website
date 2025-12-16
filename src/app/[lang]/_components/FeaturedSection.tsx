@@ -14,6 +14,8 @@ export default function FeaturedSection({ lang, featuredLogos }: FeaturedSection
   const content = featuredContent[lang] ?? featuredContent.en;
   const finalFeaturedLogos = featuredLogos ?? content.logos;
 
+  if (finalFeaturedLogos.length === 0) return null;
+
   return (
     <section id='featured' className='section'>
       <h3 className='text-3xl text-center'>{content.title}</h3>
