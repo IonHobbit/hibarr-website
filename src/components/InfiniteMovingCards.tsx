@@ -19,6 +19,24 @@ export const InfiniteMovingCards = ({ items }: { items: CloudinaryFile[]; }) => 
     pauseOnHover: true,
     pauseOnFocus: true,
     centerMode: true,
+    responsive: [
+      {
+        breakpoint: 768, // md breakpoint
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          centerMode: true,
+        }
+      },
+      {
+        breakpoint: 1024, // lg breakpoint
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          centerMode: true,
+        }
+      }
+    ]
   }
 
   // Don't render anything until mounted (prevents hydration mismatch)
