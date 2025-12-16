@@ -63,8 +63,8 @@ export default async function Home(props: HomePageProps) {
       <PartnersSection partnersTitle={data?.partnersSection?.title} partners={partners} />
       <ConsultationProcessSection data={data.consultationProcessSection} />
       <WebinarSection />
-      <WhyCyprus data={data.whyCyprusSection} disableMedia={disableMedia} />
-      <CaseStudiesSection data={data.caseStudiesSection} lang={lang} disableMedia={disableMedia} />
+      {/* <WhyCyprus data={data.whyCyprusSection} disableMedia={disableMedia} /> */}
+      {/* <CaseStudiesSection data={data.caseStudiesSection} lang={lang} disableMedia={disableMedia} /> */}
       <InvestorCommunitySection data={data.investorCommunitySection} />
       {/* <MeetRabih data={data.meetRabihSection} disableMedia={disableMedia} /> */}
       <LeadershipTeamSection data={data.leadershipTeamSection} />
