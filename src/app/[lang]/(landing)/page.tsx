@@ -60,7 +60,7 @@ export default async function Home(props: HomePageProps) {
       <AboutSection data={data} />
       {/* <FindrSection /> */}
       <TestimonialsSection lang={lang} data={data} testimonials={testimonials} />
-      <PartnersSection partnersTitle={data?.partnersSection?.title} partners={partners} />
+      <PartnersSection lang={lang} partners={partners} />
       <ConsultationProcessSection data={data.consultationProcessSection} />
       <WebinarSection />
       <WhyCyprus data={data.whyCyprusSection} />
