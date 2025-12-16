@@ -36,6 +36,8 @@ export default async function EbookPage(
   const webinarPage = await fetchSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang });
   const features = await fetchFiles('Website/Features') as unknown as CloudinaryFile[];
 
+  const finalFeatures = features.map(feature => feature.secure_url);
+
   const [getTheUltimateCyprusInvestmentGuide, discoverTheInsiderSecrets, hiddenPropertyDeals, stepByStepBuyingProcess, taxLoopholes, boostIncome] = await translateBatch(['Get the Ultimate Cyprus Investment Guide', 'Discover the insider secrets top investors use to maximize profits in North Cyprus! This exclusive guide reveals:', 'Hidden property deals & how to access them before the public', 'Step-by-step buying process to avoid costly mistakes', 'Tax loopholes & financial strategies to keep more money in your pocket', 'How to legally pay less & boost income'])
 
   const [whatYoullLearn, provenStrategies, expertInsights, actionableTips, everythingYouNeed, whatOurReadersAreSaying] = await translateBatch(['What You\'ll Learn', 'Proven Strategies', 'Expert Insights', 'Actionable Tips', 'Everything you need to transform your business and achieve lasting success', 'What Our Readers Are Saying']);
@@ -106,7 +108,7 @@ export default async function EbookPage(
         </div>
         <ThreeDBook />
       </div>
-      <FeaturedSection lang={lang} featuredLogos={features} />
+      <FeaturedSection lang={lang} featuredLogos={finalFeatures} />
       <section className="py-20 px-4 bg-gray-50">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">{whatYoullLearn.text}</h2>

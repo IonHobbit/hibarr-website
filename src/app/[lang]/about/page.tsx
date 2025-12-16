@@ -35,6 +35,7 @@ export default async function AboutPage(
 
   const data = await fetchSanityData<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
   const features = await fetchFiles('Website/Features') as unknown as CloudinaryFile[];
+  const finalFeatures = features.map(feature => feature.secure_url);
 
   return (
     <Fragment>
@@ -64,7 +65,7 @@ export default async function AboutPage(
         </div>
         <div className='absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/40 to-transparent'></div>
       </section>
-      <FeaturedSection lang={lang} featuredLogos={features} />
+      <FeaturedSection lang={lang} featuredLogos={finalFeatures} />
       <MissionVisionSection data={data.missionVisionSection} />
       <AboutRabih data={data.aboutRabihSection} />
       <PartnersSection lang={lang} />

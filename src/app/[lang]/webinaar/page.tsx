@@ -40,6 +40,8 @@ export default async function ZoomRegistrationPage(
   const webinarPage = await fetchSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
   const features = await fetchFiles('Website/Features') as unknown as CloudinaryFile[];
 
+  const finalFeatures = features.map(feature => feature.secure_url);
+
   return (
     <Fragment>
       <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid grid-cols-1 place-items-center place-content-center min-h-screen bg-gradient-to-b from-primary via-primary/80 to-transparent">
@@ -75,7 +77,7 @@ export default async function ZoomRegistrationPage(
           </div>
         </div>
       </section>
-      <FeaturedSection lang={lang} featuredLogos={features} />
+      <FeaturedSection lang={lang} featuredLogos={finalFeatures} />
       <BenefitsSection data={webinarPage?.benefitsSection} />
       <TwoForOneSection data={webinarPage?.benefitsSection} />
       <AboutHostSection data={webinarPage?.aboutHostSection} />

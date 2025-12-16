@@ -7,7 +7,7 @@ import { ImageCarousel } from "@/components/ImageCarousel";
 
 type FeaturedSectionProps = {
   lang: Locale;
-  featuredLogos: CloudinaryFile[];
+  featuredLogos: string[];
 }
 
 export default function FeaturedSection({ lang, featuredLogos }: FeaturedSectionProps) {
