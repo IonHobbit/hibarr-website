@@ -42,10 +42,10 @@ export default async function Home(props: HomePageProps) {
   // const cookieStore = await cookies();
   // const disableMedia = cookieStore.get('hibarr_nomedia')?.value === '1';
 
-  const [data, testimonials, partners, features] = await Promise.all([
+  const [data, features] = await Promise.all([
     fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }),
-    fetchSanityData<Testimonial[]>(`*[_type == "testimonial" && type == $type] | order(date desc)[0...3]`, { type: 'client' }),
-    fetchFiles('Website/Partners') as Promise<CloudinaryFile[]>,
+    // fetchSanityData<Testimonial[]>(`*[_type == "testimonial" && type == $type] | order(date desc)[0...3]`, { type: 'client' }),
+    // fetchFiles('Website/Partners') as Promise<CloudinaryFile[]>,
     fetchFiles('Website/Features') as Promise<CloudinaryFile[]>,
   ]);
 
