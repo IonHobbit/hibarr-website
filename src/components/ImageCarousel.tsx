@@ -48,27 +48,27 @@ export const ImageCarousel = ({ items }: { items: string[]; }) => {
   }
 
   // Render simple horizontal scroll for iOS devices
-  if (isIOS) {
-    return (
-      <div className="w-full overflow-x-auto">
-        <div className="flex gap-8 px-4 py-4">
-          {items.map((item, index) => (
-            <div key={index} className="relative w-32 h-16 flex-shrink-0">
-              <Image
-                src={item}
-                alt={item || ''}
-                fill
-                sizes='128px'
-                className='object-contain grayscale'
-                loading="lazy"
-                quality={75}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  // if (isIOS) {
+  //   return (
+  //     <div className="w-full overflow-x-auto">
+  //       <div className="flex gap-8 px-4 py-4">
+  //         {items.map((item, index) => (
+  //           <div key={index} className="relative w-32 h-16 flex-shrink-0">
+  //             <Image
+  //               src={item}
+  //               alt={item || ''}
+  //               fill
+  //               sizes='128px'
+  //               className='object-contain grayscale'
+  //               loading="lazy"
+  //               quality={75}
+  //             />
+  //           </div>
+  //         ))}
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <Slider {...settings}>
