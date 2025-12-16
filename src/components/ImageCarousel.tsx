@@ -1,10 +1,13 @@
 "use client";
 
 import { CloudinaryFile } from "@/lib/third-party/cloudinary.client";
+import { useDeviceDetection } from "@/hooks/useDeviceDetection";
 import Image from "next/image";
 import Slider, { Settings } from "react-slick";
 
-export const InfiniteMovingCards = ({ items }: { items: CloudinaryFile[]; }) => {
+export const ImageCarousel = ({ items }: { items: CloudinaryFile[]; }) => {
+  const { isIOS } = useDeviceDetection();
+
   const settings: Settings = {
     infinite: true,
     autoplay: true,
@@ -42,6 +45,29 @@ export const InfiniteMovingCards = ({ items }: { items: CloudinaryFile[]; }) => 
   // Don't render anything until mounted (prevents hydration mismatch)
   if (!items || items.length === 0) {
     return null;
+  }
+
+  // Render simple horizontal scroll for iOS devices
+  if (isIOS) {
+    return (
+      <div className="w-full overflow-x-auto">
+        <div className="flex gap-8 px-4 py-4">
+          {items.map((item, index) => (
+            <div key={index} className="relative w-32 h-16 flex-shrink-0">
+              <Image
+                src={item.secure_url}
+                alt={item.display_name}
+                fill
+                sizes='128px'
+                className='object-contain grayscale'
+                loading="lazy"
+                quality={75}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   return (
