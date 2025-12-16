@@ -9,7 +9,7 @@ type PartnersSectionProps = {
 
 export default async function PartnersSection({ lang, partnerUrls }: PartnersSectionProps) {
   const content = partnersContent[lang ?? 'en'] ?? partnersContent.en;
-  const finalPartners = partnerUrls ?? [];
+  const finalPartners = partnerUrls ?? content.logos;
 
   if (finalPartners.length === 0) return null;
 

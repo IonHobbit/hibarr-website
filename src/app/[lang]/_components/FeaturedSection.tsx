@@ -7,18 +7,19 @@ import { ImageCarousel } from "@/components/ImageCarousel";
 
 type FeaturedSectionProps = {
   lang: Locale;
-  featuredLogos: string[];
+  featuredLogos?: string[];
 }
 
 export default function FeaturedSection({ lang, featuredLogos }: FeaturedSectionProps) {
-  const content = featuredContent[lang] ?? featuredContent.en
+  const content = featuredContent[lang] ?? featuredContent.en;
+  const finalFeaturedLogos = featuredLogos ?? content.logos;
 
   return (
     <section id='featured' className='section'>
       <h3 className='text-3xl text-center'>{content.title}</h3>
       <div className='relative w-full'>
         <ImageCarousel
-          items={featuredLogos}
+          items={finalFeaturedLogos}
         />
       </div>
     </section>
