@@ -5,7 +5,7 @@ import { Icon } from '@/components/icons';
 import { Button } from '@/components/ui/button'
 import { HomePage } from '@/types/sanity.types';
 import { useFeatureFlagVariantKey } from 'posthog-js/react';
-import Video from '@/components/Video';
+// import Video from '@/components/Video';
 
 import { Locale } from '@/lib/i18n-config';
 import { seoH1s } from '@/lib/seo-h1';
@@ -21,20 +21,21 @@ export default function LandingSection({ data, lang }: LandingSectionProps) {
   const baseLandingVideoMp4 = 'https://vz-da4cd036-d13.b-cdn.net/15ac0674-e562-4448-9853-a4992db2b7ab/play_720p.mp4';
   const v2LandingVideoMp4 = 'https://vz-da4cd036-d13.b-cdn.net/6ef32e69-1060-4df5-b792-b1179b6c6650/play.mp4';
 
-  const baseLandingVideoHls = 'https://vz-da4cd036-d13.b-cdn.net/15ac0674-e562-4448-9853-a4992db2b7ab/playlist.m3u8';
-  const v2LandingVideoHls = 'https://vz-da4cd036-d13.b-cdn.net/6ef32e69-1060-4df5-b792-b1179b6c6650/playlist.m3u8';
+  // const baseLandingVideoHls = 'https://vz-da4cd036-d13.b-cdn.net/15ac0674-e562-4448-9853-a4992db2b7ab/playlist.m3u8';
+  // const v2LandingVideoHls = 'https://vz-da4cd036-d13.b-cdn.net/6ef32e69-1060-4df5-b792-b1179b6c6650/playlist.m3u8';
 
   const variantKey = useFeatureFlagVariantKey('v2-landing-video');
 
   const landingVideoMp4 = variantKey === 'v2' ? v2LandingVideoMp4 : baseLandingVideoMp4;
-  const landingVideoHls = variantKey === 'v2' ? v2LandingVideoHls : baseLandingVideoHls;
+  // const landingVideoHls = variantKey === 'v2' ? v2LandingVideoHls : baseLandingVideoHls;
 
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center h-screen  bg-gradient-to-b from-primary via-primary/80 to-transparent">
       <div className='absolute inset-0 w-full h-full -z-10 bg-black'>
-        <Video
+        <video src={landingVideoMp4} autoPlay muted loop playsInline className='w-full h-full object-cover' poster='https://res.cloudinary.com/hibarr/image/upload/landing-background-fallback_fitt21' />
+        {/* <Video
           hls
-          src={landingVideoHls}
+          src={landingVideoMp4}
           fallbackMp4={landingVideoMp4}
           muted
           autoPlay
@@ -42,7 +43,7 @@ export default function LandingSection({ data, lang }: LandingSectionProps) {
           poster='https://res.cloudinary.com/hibarr/image/upload/landing-background-fallback_fitt21'
           containerClassName="contents"
           videoClassName="w-full h-full object-cover"
-        />
+        /> */}
       </div>
 
       <div className="lg:max-w-6xl w-full text-center flex flex-col gap-10">
