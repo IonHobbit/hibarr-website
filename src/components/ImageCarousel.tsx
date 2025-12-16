@@ -1,11 +1,11 @@
 "use client";
 
-import { CloudinaryFile } from "@/lib/third-party/cloudinary.client";
+// import { CloudinaryFile } from "@/lib/third-party/cloudinary.client";
 import { useDeviceDetection } from "@/hooks/useDeviceDetection";
 import Image from "next/image";
 import Slider, { Settings } from "react-slick";
 
-export const ImageCarousel = ({ items }: { items: CloudinaryFile[]; }) => {
+export const ImageCarousel = ({ items }: { items: string[]; }) => {
   const { isIOS } = useDeviceDetection();
 
   const settings: Settings = {
@@ -55,8 +55,8 @@ export const ImageCarousel = ({ items }: { items: CloudinaryFile[]; }) => {
           {items.map((item, index) => (
             <div key={index} className="relative w-32 h-16 flex-shrink-0">
               <Image
-                src={item.secure_url}
-                alt={item.display_name}
+                src={item}
+                alt={item || ''}
                 fill
                 sizes='128px'
                 className='object-contain grayscale'
@@ -76,8 +76,8 @@ export const ImageCarousel = ({ items }: { items: CloudinaryFile[]; }) => {
         <div key={index} className="relative w-32 h-16 px-4 focus:outline-none">
           <Image
             key={index}
-            src={item.secure_url}
-            alt={item.display_name}
+            src={item}
+            alt={item || ''}
             fill
             sizes='100%'
             className='object-contain grayscale hover:grayscale-0 transition-all duration-300 px-4'
