@@ -19,31 +19,44 @@ export const InfiniteMovingCards = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [start, setStart] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Ensure we're mounted before starting animations (prevents SSR issues)
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
-    if (containerRef.current) {
-      if (direction === "left") {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "forwards"
-        );
-      } else {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "reverse"
-        );
-      }
+    if (!isMounted || !containerRef.current) return;
 
-      if (speed === "fast") {
-        containerRef.current.style.setProperty("--animation-duration", "20s");
-      } else if (speed === "normal") {
-        containerRef.current.style.setProperty("--animation-duration", "40s");
-      } else {
-        containerRef.current.style.setProperty("--animation-duration", "80s");
-      }
-      setStart(true);
+    try {
+      const container = containerRef.current;
+      
+      // Set animation direction
+      const animationDirection = direction === "left" ? "forwards" : "reverse";
+      container.style.setProperty("--animation-direction", animationDirection);
+
+      // Set animation duration based on speed
+      const durationMap = {
+        fast: "20s",
+        normal: "40s",
+        slow: "80s",
+      };
+      container.style.setProperty("--animation-duration", durationMap[speed]);
+
+      // Use requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        setStart(true);
+      });
+    } catch (error) {
+      console.error("Error initializing InfiniteMovingCards:", error);
     }
-  }, [direction, speed]);
+  }, [direction, speed, isMounted]);
+
+  // Don't render anything until mounted (prevents hydration mismatch)
+  if (!isMounted || !items || items.length === 0) {
+    return null;
+  }
 
   return (
     <div
@@ -55,8 +68,8 @@ export const InfiniteMovingCards = ({
     >
       <ul
         className={cn(
-          " flex min-w-full shrink-0 w-full flex-nowrap gap-10",
-          start && "animate-scroll ",
+          "flex min-w-full shrink-0 w-full flex-nowrap gap-10",
+          start && "animate-scroll",
           pauseOnHover && "hover:[animation-play-state:paused]"
         )}
       >
