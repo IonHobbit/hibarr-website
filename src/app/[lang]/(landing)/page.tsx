@@ -48,8 +48,7 @@ export default async function Home(props: HomePageProps) {
     fetchFiles('Website/Features') as Promise<CloudinaryFile[]>,
   ]);
 
-  // const finalFeatures = features.map(feature => feature.secure_url);
-  const finalFeatures = ['https://res.cloudinary.com/hibarr/image/upload/v1748593885/dwnamexBW-1_abd3e2.png', 'https://res.cloudinary.com/hibarr/image/upload/v1748593886/ambasedeusBW-300x134-1_ejpsyy.png'];
+  const finalFeatures = features.map(feature => feature.secure_url);
 
   return (
     <Fragment>

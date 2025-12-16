@@ -1,7 +1,7 @@
 import { ImageCarousel } from '@/components/ImageCarousel';
 import { partnersContent } from '@/lib/content/sections/partners';
 import { Locale } from '@/lib/i18n-config';
-import { CloudinaryFile } from '@/lib/third-party/cloudinary.client';
+import { CloudinaryFile, fetchFiles } from '@/lib/third-party/cloudinary.client';
 
 type PartnersSectionProps = {
   lang?: Locale;
@@ -9,16 +9,12 @@ type PartnersSectionProps = {
 }
 
 export default async function PartnersSection({ lang, partners }: PartnersSectionProps) {
-  // const [resolvedPartners] = await Promise.all([
-  //   partners ?? fetchFiles('Website/Partners'),
-  // ]);
+  const [resolvedPartners] = await Promise.all([
+    partners ?? fetchFiles('Website/Partners'),
+  ]);
 
   const content = partnersContent[lang ?? 'en'] ?? partnersContent.en;
-  // const finalPartners = partners?.map(partner => partner.secure_url) ?? [];
-  const finalPartners = ['https://res.cloudinary.com/hibarr/image/upload/v1748593885/dwnamexBW-1_abd3e2.png', 'https://res.cloudinary.com/hibarr/image/upload/v1748593886/ambasedeusBW-300x134-1_ejpsyy.png', 'https://res.cloudinary.com/hibarr/image/upload/v1748593886/ambasedeusBW-300x134-1_ejpsyy.png', 'https://res.cloudinary.com/hibarr/image/upload/v1748593886/ambasedeusBW-300x134-1_ejpsyy.png', 'https://res.cloudinary.com/hibarr/image/upload/v1748593886/ambasedeusBW-300x134-1_ejpsyy.png', 'https://res.cloudinary.com/hibarr/image/upload/v1748593886/ambasedeusBW-300x134-1_ejpsyy.png',
-    'https://res.cloudinary.com/hibarr/image/upload/v1748593886/ambasedeusBW-300x134-1_ejpsyy.png',
-    'https://res.cloudinary.com/hibarr/image/upload/v1748593886/ambasedeusBW-300x134-1_ejpsyy.png',
-  ];
+  const finalPartners = resolvedPartners?.map(partner => partner.secure_url) ?? [];
 
   if (finalPartners.length === 0) return null;
 
