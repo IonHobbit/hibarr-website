@@ -1,6 +1,6 @@
 "use client";
 
-// import { CloudinaryFile } from "@/lib/third-party/cloudinary.client";
+
 import { useDeviceDetection } from "@/hooks/useDeviceDetection";
 import Image from "next/image";
 import Slider, { Settings } from "react-slick";

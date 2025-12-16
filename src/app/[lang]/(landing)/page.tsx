@@ -17,7 +17,7 @@ import { generateSEOMetadata } from '@/lib/utils';
 import LandingWrapper from './_components/LandingWrapper';
 import { seoTitles } from '@/lib/seo-titles';
 import { seoDescriptions } from '@/data/seo-descriptions';
-import { fetchFiles, CloudinaryFile } from '@/lib/third-party/cloudinary.client';
+
 import CaseStudiesSection from './_components/CaseStudiesSection';
 import MeetRabih from './_components/MeetRabih';
 
@@ -41,14 +41,31 @@ export default async function Home(props: HomePageProps) {
   // const cookieStore = await cookies();
   // const disableMedia = cookieStore.get('hibarr_nomedia')?.value === '1';
 
-  const [data, testimonials, partners, features] = await Promise.all([
+  const [data, testimonials] = await Promise.all([
     fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }),
     fetchSanityData<Testimonial[]>(`*[_type == "testimonial" && type == $type] | order(date desc)[0...3]`, { type: 'client' }),
-    fetchFiles('Website/Partners') as Promise<CloudinaryFile[]>,
-    fetchFiles('Website/Features') as Promise<CloudinaryFile[]>,
   ]);
 
-  const finalFeatures = features.map(feature => feature.secure_url);
+  const finalFeatures = [
+    "https://res.cloudinary.com/hibarr/image/upload/v1758785140/whatswhat-logo_xyq9sw.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/erfolg-magazin-logo_nthlb6.webp",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/gruender-de-logo-black_ndnwry.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/forbes-logo_vwad88.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/wallstreet-online-logo-black-300x91-1_gelaga.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/Black-Netflix-Text-Logo_ehsqkh.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/suddeutsche-zeitung-logo_sqjx2p.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/bellevue-logo-black_ej8bvy.png"
+  ];
+  const finalPartners = [
+    "https://res.cloudinary.com/hibarr/image/upload/v1748596118/near-east-bank_hwucb3.svg",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748595884/iktisatbank-logo_srk805.svg",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748595778/logo_j5fy0u.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748593886/ambasedeusBW-300x134-1_ejpsyy.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748593885/dwnamexBW-1_abd3e2.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748593885/grand-pasha-logo-BW-1-300x216-1_q0rlxv.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748593884/cratos-BW_esybo9.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748593883/creditwestBW_bblkpz.png"
+  ];
 
   return (
     <Fragment>
@@ -62,7 +79,7 @@ export default async function Home(props: HomePageProps) {
       <AboutSection data={data} />
       {/* <FindrSection /> */}
       <TestimonialsSection lang={lang} data={data} testimonials={testimonials} />
-      <PartnersSection lang={lang} partners={partners} />
+      <PartnersSection lang={lang} partnerUrls={finalPartners} />
       <ConsultationProcessSection data={data.consultationProcessSection} />
       <WebinarSection />
       <WhyCyprus data={data.whyCyprusSection} />

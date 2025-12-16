@@ -16,7 +16,7 @@ import { generateSEOMetadata } from '@/lib/utils';
 
 import { seoTitles } from '@/lib/seo-titles';
 import { seoDescriptions } from '@/data/seo-descriptions';
-import { CloudinaryFile, fetchFiles } from '@/lib/third-party/cloudinary.client';
+
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -34,8 +34,26 @@ export default async function AboutPage(
   const { lang } = await props.params;
 
   const data = await fetchSanityData<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
-  const features = await fetchFiles('Website/Features') as unknown as CloudinaryFile[];
-  const finalFeatures = features.map(feature => feature.secure_url);
+  const finalFeatures = [
+    "https://res.cloudinary.com/hibarr/image/upload/v1758785140/whatswhat-logo_xyq9sw.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/erfolg-magazin-logo_nthlb6.webp",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/gruender-de-logo-black_ndnwry.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/forbes-logo_vwad88.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/wallstreet-online-logo-black-300x91-1_gelaga.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/Black-Netflix-Text-Logo_ehsqkh.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/suddeutsche-zeitung-logo_sqjx2p.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/bellevue-logo-black_ej8bvy.png"
+  ];
+  const finalPartners = [
+    "https://res.cloudinary.com/hibarr/image/upload/v1748596118/near-east-bank_hwucb3.svg",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748595884/iktisatbank-logo_srk805.svg",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748595778/logo_j5fy0u.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748593886/ambasedeusBW-300x134-1_ejpsyy.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748593885/dwnamexBW-1_abd3e2.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748593885/grand-pasha-logo-BW-1-300x216-1_q0rlxv.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748593884/cratos-BW_esybo9.png",
+    "https://res.cloudinary.com/hibarr/image/upload/v1748593883/creditwestBW_bblkpz.png"
+  ];
 
   return (
     <Fragment>
@@ -68,7 +86,7 @@ export default async function AboutPage(
       <FeaturedSection lang={lang} featuredLogos={finalFeatures} />
       <MissionVisionSection data={data.missionVisionSection} />
       <AboutRabih data={data.aboutRabihSection} />
-      <PartnersSection lang={lang} />
+      <PartnersSection lang={lang} partnerUrls={finalPartners} />
       <TestimonialsSection lang={lang} showImage />
       <GallerySection data={data.gallerySection} />
       <CallToActionSection data={data.callToActionSection} />

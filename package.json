@@ -30,7 +30,6 @@
     "@tanstack/react-query-devtools": "^5.81.2",
     "axios": "^1.11.0",
     "class-variance-authority": "^0.7.1",
-    "cloudinary": "^2.6.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "country-data-list": "^1.4.1",

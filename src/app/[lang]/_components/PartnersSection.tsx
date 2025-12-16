@@ -1,20 +1,15 @@
 import { ImageCarousel } from '@/components/ImageCarousel';
 import { partnersContent } from '@/lib/content/sections/partners';
 import { Locale } from '@/lib/i18n-config';
-import { CloudinaryFile, fetchFiles } from '@/lib/third-party/cloudinary.client';
 
 type PartnersSectionProps = {
   lang?: Locale;
-  partners?: CloudinaryFile[];
+  partnerUrls?: string[];
 }
 
-export default async function PartnersSection({ lang, partners }: PartnersSectionProps) {
-  const [resolvedPartners] = await Promise.all([
-    partners ?? fetchFiles('Website/Partners'),
-  ]);
-
+export default async function PartnersSection({ lang, partnerUrls }: PartnersSectionProps) {
   const content = partnersContent[lang ?? 'en'] ?? partnersContent.en;
-  const finalPartners = resolvedPartners?.map(partner => partner.secure_url) ?? [];
+  const finalPartners = partnerUrls ?? [];
 
   if (finalPartners.length === 0) return null;
 
