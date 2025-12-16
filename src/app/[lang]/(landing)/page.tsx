@@ -5,7 +5,7 @@ import AboutSection from './_components/AboutSection';
 // import WhyCyprus from './_components/WhyCyprus';
 // import LeadershipTeamSection from './_components/LeadershipTeamSection';
 // import CallToActionSection from './_components/CallToActionSection';
-// import FeaturedSection from '../_components/FeaturedSection';
+import FeaturedSection from '../_components/FeaturedSection';
 // import TestimonialsSection from '@/app/[lang]/_components/TestimonialsSection';
 import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { HomePage, SeoMetaFields, Testimonial } from '@/types/sanity.types';
@@ -42,16 +42,17 @@ export default async function Home(props: HomePageProps) {
   // const cookieStore = await cookies();
   // const disableMedia = cookieStore.get('hibarr_nomedia')?.value === '1';
 
-  const [data, testimonials, partners] = await Promise.all([
+  const [data, testimonials, partners, features] = await Promise.all([
     fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }),
     fetchSanityData<Testimonial[]>(`*[_type == "testimonial" && type == $type] | order(date desc)[0...3]`, { type: 'client' }),
     fetchFiles('Website/Partners') as Promise<CloudinaryFile[]>,
+    fetchFiles('Website/Features') as Promise<CloudinaryFile[]>,
   ]);
 
   return (
     <Fragment>
       <LandingWrapper data={data} lang={lang} />
-      {/* <FeaturedSection /> */}
+      <FeaturedSection lang={lang} featuredLogos={features} />
       {/* <div className='section'>
         <div className='bg-primary rounded-lg p-4 py-8 md:py-4 md:px-2 max-w-screen-sm xl:max-w-screen-xl mx-auto'>
           <SearchBar />

@@ -1,11 +1,18 @@
+'use client'
+
 import Image from "next/image"
 import { InfiniteMovingCards } from "@/components/InfiniteMovingCards"
-import { CloudinaryFile, fetchFiles } from "@/lib/third-party/cloudinary.client";
-import { translate } from "@/lib/translation";
+import { CloudinaryFile } from "@/lib/third-party/cloudinary.client";
+import { Locale } from "@/lib/i18n-config";
+import { featuredContent } from "@/lib/content/sections/featured";
 
-export default async function FeaturedSection() {
-  const featuredLogos = await fetchFiles('Website/Features');
-  const title = await translate('Featured in')
+type FeaturedSectionProps = {
+  lang: Locale;
+  featuredLogos: CloudinaryFile[];
+}
+
+export default function FeaturedSection({ lang, featuredLogos }: FeaturedSectionProps) {
+  const content = featuredContent[lang] ?? featuredContent.en
 
   const renderLogo = (item: CloudinaryFile) => (
     <div className="flex items-center justify-center relative w-40 h-20">
@@ -22,7 +29,7 @@ export default async function FeaturedSection() {
 
   return (
     <section id='featured' className='section'>
-      <h3 className='text-3xl text-center' data-token={title.token}>{title.text}</h3>
+      <h3 className='text-3xl text-center'>{content.title}</h3>
       <div className='relative w-full'>
         <InfiniteMovingCards
           items={featuredLogos.map(item => renderLogo(item))}
