@@ -5,7 +5,6 @@ import { Icon } from '@/components/icons';
 import { Button } from '@/components/ui/button'
 import { HomePage } from '@/types/sanity.types';
 import { useFeatureFlagVariantKey } from 'posthog-js/react';
-// import Video from '@/components/Video';
 
 import { Locale } from '@/lib/i18n-config';
 import { seoH1s } from '@/lib/seo-h1';
@@ -33,17 +32,6 @@ export default function LandingSection({ data, lang }: LandingSectionProps) {
     <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center h-screen  bg-gradient-to-b from-primary via-primary/80 to-transparent">
       <div className='absolute inset-0 w-full h-full -z-10 bg-black'>
         <video src={landingVideoMp4} autoPlay muted loop playsInline className='w-full h-full object-cover' poster='https://res.cloudinary.com/hibarr/image/upload/landing-background-fallback_fitt21' />
-        {/* <Video
-          hls
-          src={landingVideoMp4}
-          fallbackMp4={landingVideoMp4}
-          muted
-          autoPlay
-          loop
-          poster='https://res.cloudinary.com/hibarr/image/upload/landing-background-fallback_fitt21'
-          containerClassName="contents"
-          videoClassName="w-full h-full object-cover"
-        /> */}
       </div>
 
       <div className="lg:max-w-6xl w-full text-center flex flex-col gap-10">

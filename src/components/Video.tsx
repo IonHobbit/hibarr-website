@@ -4,7 +4,7 @@ import React, { Fragment, useEffect, useRef, useState, forwardRef, useImperative
 import { clsx } from 'clsx';
 import { Icon } from '@/components/icons';
 import { cn } from '@/lib/utils';
-import dynamic from 'next/dynamic';
+import HlsVideo from './HlsVideo';
 
 // const HlsVideo = dynamic(() => import('./HlsVideo'), {
 //   ssr: false,
@@ -216,19 +216,18 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
           Your browser does not support the video tag.
         </video>
       ) : isHls ? (
-        null
-        // <HlsVideo
-        //   key={src}
-        //   ref={videoRef}
-        //   src={src}
-        //   poster={poster}
-        //   autoPlay={autoPlay}
-        //   muted={muted}
-        //   loop={loop}
-        //   fallbackMp4={fallbackMp4}
-        //   preload={effectivePreload}
-        //   className={videoClassName ?? "object-contain !h-full w-full"}
-        // />
+        <HlsVideo
+          key={src}
+          ref={videoRef}
+          src={src}
+          poster={poster}
+          autoPlay={autoPlay}
+          muted={muted}
+          loop={loop}
+          fallbackMp4={fallbackMp4}
+          preload={effectivePreload}
+          className={videoClassName ?? "object-contain !h-full w-full"}
+        />
       ) : (
         <video
           poster={poster}

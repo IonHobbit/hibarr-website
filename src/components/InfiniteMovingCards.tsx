@@ -31,7 +31,7 @@ export const InfiniteMovingCards = ({
 
     try {
       const container = containerRef.current;
-      
+
       // Set animation direction
       const animationDirection = direction === "left" ? "forwards" : "reverse";
       container.style.setProperty("--animation-direction", animationDirection);
@@ -73,7 +73,7 @@ export const InfiniteMovingCards = ({
           pauseOnHover && "hover:[animation-play-state:paused]"
         )}
       >
-        {items.map((item, idx) => (
+        {/* {items.map((item, idx) => (
           <li
             key={`original-${idx}`}
             className="relative flex-shrink-0 flex items-center w-max"
@@ -89,7 +89,7 @@ export const InfiniteMovingCards = ({
           >
             {item}
           </li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );
