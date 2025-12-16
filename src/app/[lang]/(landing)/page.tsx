@@ -14,7 +14,7 @@ import InvestorCommunitySection from './_components/InvestorCommunitySection';
 import WebinarSection from './_components/WebinarSection';
 import { Metadata } from 'next';
 import { generateSEOMetadata } from '@/lib/utils';
-// import LandingWrapper from './_components/LandingWrapper';
+import LandingWrapper from './_components/LandingWrapper';
 import { seoTitles } from '@/lib/seo-titles';
 import { seoDescriptions } from '@/data/seo-descriptions';
 import { fetchFiles, CloudinaryFile } from '@/lib/third-party/cloudinary.client';
@@ -48,7 +48,7 @@ export default async function Home(props: HomePageProps) {
 
   return (
     <Fragment>
-      {/* <LandingWrapper data={data} lang={lang} disableMedia={disableMedia} /> */}
+      <LandingWrapper data={data} lang={lang} />
       {/* <FeaturedSection /> */}
       {/* <div className='section'>
         <div className='bg-primary rounded-lg p-4 py-8 md:py-4 md:px-2 max-w-screen-sm xl:max-w-screen-xl mx-auto'>
