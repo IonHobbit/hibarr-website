@@ -20,7 +20,7 @@ import { seoDescriptions } from '@/data/seo-descriptions';
 import { fetchFiles, CloudinaryFile } from '@/lib/third-party/cloudinary.client';
 import { cookies } from 'next/headers';
 import CaseStudiesSection from './_components/CaseStudiesSection';
-import MeetRabih from './_components/MeetRabih';
+// import MeetRabih from './_components/MeetRabih';
 
 type HomePageProps = {
   params: Promise<{ lang: Locale }>;
@@ -66,7 +66,7 @@ export default async function Home(props: HomePageProps) {
       <WhyCyprus data={data.whyCyprusSection} disableMedia={disableMedia} />
       <CaseStudiesSection data={data.caseStudiesSection} lang={lang} disableMedia={disableMedia} />
       <InvestorCommunitySection data={data.investorCommunitySection} />
-      <MeetRabih data={data.meetRabihSection} disableMedia={disableMedia} />
+      {/* <MeetRabih data={data.meetRabihSection} disableMedia={disableMedia} /> */}
       <LeadershipTeamSection data={data.leadershipTeamSection} />
       <CallToActionSection data={data.callToActionSection} />
       {/* <FreebieSignupSection data={data.freebieSignupSection} /> */}

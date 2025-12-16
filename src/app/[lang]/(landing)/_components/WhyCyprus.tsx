@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from "@/components/ui/button";
 import { HomePage } from "@/types/sanity.types";
 import Video from "@/components/Video";
