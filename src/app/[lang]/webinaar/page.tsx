@@ -15,6 +15,7 @@ import BenefitsSection from './_components/BenefitsSection'
 import StatisticsSection from './_components/StatisticsSection'
 import { generateSEOMetadata } from '@/lib/utils'
 import Video from '@/components/Video'
+import cloudinaryClient from '@/lib/third-party/cloudinary.client'
 
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
@@ -36,18 +37,11 @@ export default async function ZoomRegistrationPage(
 ) {
   const { lang } = await props.params;
 
-  const homePage = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
-  const webinarPage = await fetchSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
-  const finalFeatures = [
-    "https://res.cloudinary.com/hibarr/image/upload/v1758785140/whatswhat-logo_xyq9sw.png",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/erfolg-magazin-logo_nthlb6.webp",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/gruender-de-logo-black_ndnwry.png",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/forbes-logo_vwad88.png",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/wallstreet-online-logo-black-300x91-1_gelaga.png",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/Black-Netflix-Text-Logo_ehsqkh.png",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/suddeutsche-zeitung-logo_sqjx2p.png",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/bellevue-logo-black_ej8bvy.png"
-  ];
+  const [homePage, webinarPage, featuredLogos] = await Promise.all([
+    fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' }),
+    fetchSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' }),
+    cloudinaryClient.fetchFiles('Website/Features'),
+  ]);
 
   return (
     <Fragment>
@@ -84,7 +78,7 @@ export default async function ZoomRegistrationPage(
           </div>
         </div>
       </section>
-      <FeaturedSection lang={lang} featuredLogos={finalFeatures} />
+      <FeaturedSection lang={lang} featuredLogos={featuredLogos.map(logo => logo.secure_url)} />
       <BenefitsSection data={webinarPage?.benefitsSection} />
       <TwoForOneSection data={webinarPage?.benefitsSection} />
       <AboutHostSection data={webinarPage?.aboutHostSection} />

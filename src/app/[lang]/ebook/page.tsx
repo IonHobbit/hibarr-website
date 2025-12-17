@@ -11,6 +11,7 @@ import { Award, BookOpen, Quote, Star, Users } from 'lucide-react'
 import FAQAccordion from '../_components/FAQAccordion'
 import EbookSignupForm from './_components/EbookSignupForm'
 import { translateBatch } from '@/lib/translation'
+import cloudinaryClient from '@/lib/third-party/cloudinary.client'
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -32,18 +33,11 @@ export default async function EbookPage(
 ) {
   const { lang } = await props.params;
 
-  const aboutPage = await fetchSanityData<AboutPage>(`*[_type == "aboutPage" && language == $lang][0]`, { lang });
-  const webinarPage = await fetchSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang });
-  const finalFeatures = [
-    "https://res.cloudinary.com/hibarr/image/upload/v1758785140/whatswhat-logo_xyq9sw.png",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/erfolg-magazin-logo_nthlb6.webp",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/gruender-de-logo-black_ndnwry.png",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/forbes-logo_vwad88.png",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/wallstreet-online-logo-black-300x91-1_gelaga.png",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/Black-Netflix-Text-Logo_ehsqkh.png",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/suddeutsche-zeitung-logo_sqjx2p.png",
-    "https://res.cloudinary.com/hibarr/image/upload/v1750747645/bellevue-logo-black_ej8bvy.png"
-  ];
+  const [aboutPage, webinarPage, featuredLogos] = await Promise.all([
+    fetchSanityData<AboutPage>(`*[_type == "aboutPage" && language == $lang][0]`, { lang }),
+    fetchSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }),
+    cloudinaryClient.fetchFiles('Website/Features'),
+  ]);
 
   const [getTheUltimateCyprusInvestmentGuide, discoverTheInsiderSecrets, hiddenPropertyDeals, stepByStepBuyingProcess, taxLoopholes, boostIncome] = await translateBatch(['Get the Ultimate Cyprus Investment Guide', 'Discover the insider secrets top investors use to maximize profits in North Cyprus! This exclusive guide reveals:', 'Hidden property deals & how to access them before the public', 'Step-by-step buying process to avoid costly mistakes', 'Tax loopholes & financial strategies to keep more money in your pocket', 'How to legally pay less & boost income'])
 
@@ -115,7 +109,7 @@ export default async function EbookPage(
         </div>
         <ThreeDBook />
       </div>
-      <FeaturedSection lang={lang} featuredLogos={finalFeatures} />
+      <FeaturedSection lang={lang} featuredLogos={featuredLogos.map(logo => logo.secure_url)} />
       <section className="py-20 px-4 bg-gray-50">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">{whatYoullLearn.text}</h2>
