@@ -13,12 +13,12 @@ type FeaturedSectionProps = {
 export default function FeaturedSection({ lang, featuredLogos }: FeaturedSectionProps) {
   const content = featuredContent[lang] ?? featuredContent.en;
 
-  if (featuredLogos?.length === 0) return null;
+  if (!featuredLogos || featuredLogos.length === 0) return null;
 
   return (
     <section id='featured' className='section'>
       <h3 className='text-3xl text-center'>{content.title}</h3>
-      <div className='relative w-full'>
+      <div className='relative w-full'>F
         <InfiniteMovingCards
           items={featuredLogos}
         />

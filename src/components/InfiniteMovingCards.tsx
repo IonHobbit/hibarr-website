@@ -22,31 +22,45 @@ export const InfiniteMovingCards = ({
 }: InfiniteMovingCardsProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [start, setStart] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Add mounting guard
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
-    if (containerRef.current) {
-      if (direction === "left") {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "forwards"
-        );
-      } else {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "reverse"
-        );
-      }
+    if (!isMounted || !containerRef.current) return;
 
-      if (speed === "fast") {
-        containerRef.current.style.setProperty("--animation-duration", "10s");
-      } else if (speed === "normal") {
-        containerRef.current.style.setProperty("--animation-duration", "40s");
-      } else {
-        containerRef.current.style.setProperty("--animation-duration", "80s");
+    try {
+      if (containerRef.current) {
+        if (direction === "left") {
+          containerRef.current.style.setProperty(
+            "--animation-direction",
+            "forwards"
+          );
+        } else {
+          containerRef.current.style.setProperty(
+            "--animation-direction",
+            "reverse"
+          );
+        }
+
+        if (speed === "fast") {
+          containerRef.current.style.setProperty("--animation-duration", "10s");
+        } else if (speed === "normal") {
+          containerRef.current.style.setProperty("--animation-duration", "40s");
+        } else {
+          containerRef.current.style.setProperty("--animation-duration", "80s");
+        }
+        setStart(true);
       }
-      setStart(true);
+    } catch (error) {
+      console.error("Error initializing InfiniteMovingCards:", error);
     }
-  }, [direction, speed]);
+  }, [direction, speed, isMounted]);
+
+  if (!isMounted || !items || items.length === 0) return null;
 
   return (
     <div
@@ -72,7 +86,7 @@ export const InfiniteMovingCards = ({
               <Image
                 src={item}
                 alt={item || ''}
-                sizes="100%"
+                sizes="160px"
                 fill
                 loading='lazy'
                 className="object-contain absolute grayscale hover:grayscale-0 transition-all duration-300"
@@ -90,7 +104,7 @@ export const InfiniteMovingCards = ({
               <Image
                 src={item}
                 alt={item || ''}
-                sizes="100%"
+                sizes="160px"
                 fill
                 loading='lazy'
                 className="object-contain absolute grayscale hover:grayscale-0 transition-all duration-300"
