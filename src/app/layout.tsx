@@ -4,9 +4,6 @@ import { Locale } from "@/lib/i18n-config";
 import "./globals.css";
 import "flag-icons/css/flag-icons.min.css";
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { PostHogProvider } from "@/providers/PostHogProvider";
 import MetaPixel from "@/components/analytics/MetaPixel";

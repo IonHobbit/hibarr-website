@@ -27,7 +27,7 @@ import { localeInfo } from "@/lib/i18n-config";
 import { CountryCode } from "libphonenumber-js/min";
 import { useParams } from "next/navigation";
 import { Locale } from "@/lib/i18n-config";
-import useTranslation from "@/hooks/useTranslation";
+import { placeholderContent } from "@/lib/content/forms/placeholders";
 
 type PhoneInputProps = Omit<
   React.ComponentProps<"input">,
@@ -84,14 +84,15 @@ const InputComponent = React.forwardRef<
   HTMLInputElement,
   React.ComponentProps<"input">
 >(({ className, ...props }, ref) => {
-  const { data: placeholder } = useTranslation('Enter your phone number');
+  const { lang } = useParams<{ lang: Locale }>();
+  const content = placeholderContent[lang] ?? placeholderContent.en;
 
   return (
     <Input
       className={cn("rounded-s-none w-full", className)}
       {...props}
       hideTitle
-      placeholder={placeholder?.text || 'Enter your phone number'}
+      placeholder={content.enterPhoneNumber}
       ref={ref}
     />
   )
@@ -116,6 +117,9 @@ const CountrySelect = ({
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
   const [searchValue, setSearchValue] = React.useState("");
   const [isOpen, setIsOpen] = React.useState(false);
+  const { lang } = useParams<{ lang: Locale }>();
+
+  const content = placeholderContent[lang] ?? placeholderContent.en;
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen} modal>
@@ -127,16 +131,16 @@ const CountrySelect = ({
           disabled={disabled}
         >
           <div className="flex items-center gap-2">
-          <FlagComponent
-            country={selectedCountry}
-            countryName={selectedCountry}
-          />
-          <ChevronsUpDown
-            className={cn(
-              "-mr-1 size-4 opacity-50 text-gray-500",
-              disabled ? "hidden" : "opacity-100",
-            )}
-          />
+            <FlagComponent
+              country={selectedCountry}
+              countryName={selectedCountry}
+            />
+            <ChevronsUpDown
+              className={cn(
+                "-mr-1 size-4 opacity-50 text-gray-500",
+                disabled ? "hidden" : "opacity-100",
+              )}
+            />
           </div>
         </Button>
       </PopoverTrigger>
@@ -157,11 +161,11 @@ const CountrySelect = ({
                 }
               }, 0);
             }}
-            placeholder="Search country..."
+            placeholder={content.searchCountry}
           />
           <CommandList>
             <ScrollArea ref={scrollAreaRef} className="h-72">
-              <CommandEmpty>No country found.</CommandEmpty>
+              <CommandEmpty>{content.noCountryFound}</CommandEmpty>
               <CommandGroup>
                 {countryList.map(({ value, label }) =>
                   value ? (
