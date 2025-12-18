@@ -1,7 +1,9 @@
+'use client'
+
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { HomePage } from '@/types/sanity.types';
-// import BounceCards from '@/components/bits/BounceCards/BounceCards';
+import BounceCards from '@/components/bits/BounceCards/BounceCards';
 
 type AboutSectionProps = {
   data: HomePage;
@@ -45,8 +47,7 @@ export default function AboutSection({ data }: AboutSectionProps) {
           </Button>
         </div>
         <div>
-          <Image src="https://res.cloudinary.com/hibarr/image/upload/about-team-celebration-toast_f78qsc" loading='lazy' alt="Hibarr team celebration toast at an office event" width={800} height={800} />
-          {/* <BounceCards
+          <BounceCards
             enableHover={true}
             images={[
               {
@@ -70,7 +71,7 @@ export default function AboutSection({ data }: AboutSectionProps) {
                 alt: 'Hibarr team group photo taken outdoors',
               },
             ]}
-          /> */}
+          />
         </div>
       </div>
     </section>

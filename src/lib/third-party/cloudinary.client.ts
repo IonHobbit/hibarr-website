@@ -87,4 +87,8 @@ const fetchFiles = async (folder: string): Promise<CloudinaryFile[]> => {
   }
 }
 
-export { fetchFiles }
+const cloudinaryClient = {
+  fetchFiles,
+}
+
+export default cloudinaryClient 

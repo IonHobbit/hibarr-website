@@ -15,6 +15,8 @@ import BenefitsSection from './_components/BenefitsSection'
 import StatisticsSection from './_components/StatisticsSection'
 import { generateSEOMetadata } from '@/lib/utils'
 import Video from '@/components/Video'
+import cloudinaryClient from '@/lib/third-party/cloudinary.client'
+
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -35,8 +37,11 @@ export default async function ZoomRegistrationPage(
 ) {
   const { lang } = await props.params;
 
-  const homePage = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
-  const webinarPage = await fetchSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
+  const [homePage, webinarPage, featuredLogos] = await Promise.all([
+    fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }, { cache: 'no-store' }),
+    fetchSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' }),
+    cloudinaryClient.fetchFiles('Website/Features'),
+  ]);
 
   return (
     <Fragment>
@@ -73,7 +78,7 @@ export default async function ZoomRegistrationPage(
           </div>
         </div>
       </section>
-      <FeaturedSection />
+      <FeaturedSection lang={lang} featuredLogos={featuredLogos.map(logo => logo.secure_url)} />
       <BenefitsSection data={webinarPage?.benefitsSection} />
       <TwoForOneSection data={webinarPage?.benefitsSection} />
       <AboutHostSection data={webinarPage?.aboutHostSection} />

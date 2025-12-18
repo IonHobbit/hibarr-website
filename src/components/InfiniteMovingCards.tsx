@@ -1,8 +1,17 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+type InfiniteMovingCardsProps = {
+  items: string[];
+  direction?: "left" | "right";
+  speed?: "fast" | "normal" | "slow";
+  pauseOnHover?: boolean;
+  className?: string;
+}
 
 export const InfiniteMovingCards = ({
   items,
@@ -10,40 +19,48 @@ export const InfiniteMovingCards = ({
   speed = "fast",
   pauseOnHover = true,
   className,
-}: {
-  items: ReactNode[];
-  direction?: "left" | "right";
-  speed?: "fast" | "normal" | "slow";
-  pauseOnHover?: boolean;
-  className?: string;
-}) => {
+}: InfiniteMovingCardsProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [start, setStart] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Add mounting guard
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
-    if (containerRef.current) {
-      if (direction === "left") {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "forwards"
-        );
-      } else {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "reverse"
-        );
-      }
+    if (!isMounted || !containerRef.current) return;
 
-      if (speed === "fast") {
-        containerRef.current.style.setProperty("--animation-duration", "20s");
-      } else if (speed === "normal") {
-        containerRef.current.style.setProperty("--animation-duration", "40s");
-      } else {
-        containerRef.current.style.setProperty("--animation-duration", "80s");
+    try {
+      if (containerRef.current) {
+        if (direction === "left") {
+          containerRef.current.style.setProperty(
+            "--animation-direction",
+            "forwards"
+          );
+        } else {
+          containerRef.current.style.setProperty(
+            "--animation-direction",
+            "reverse"
+          );
+        }
+
+        if (speed === "fast") {
+          containerRef.current.style.setProperty("--animation-duration", "10s");
+        } else if (speed === "normal") {
+          containerRef.current.style.setProperty("--animation-duration", "40s");
+        } else {
+          containerRef.current.style.setProperty("--animation-duration", "80s");
+        }
+        setStart(true);
       }
-      setStart(true);
+    } catch (error) {
+      console.error("Error initializing InfiniteMovingCards:", error);
     }
-  }, [direction, speed]);
+  }, [direction, speed, isMounted]);
+
+  if (!isMounted || !items || items.length === 0) return null;
 
   return (
     <div
@@ -65,7 +82,16 @@ export const InfiniteMovingCards = ({
             key={`original-${idx}`}
             className="relative flex-shrink-0 flex items-center w-max"
           >
-            {item}
+            <div className="flex items-center justify-center relative w-40 h-20">
+              <Image
+                src={item}
+                alt={'Partner/Feature Logo'}
+                sizes="160px"
+                fill
+                loading='lazy'
+                className="object-contain absolute grayscale hover:grayscale-0 transition-all duration-300"
+              />
+            </div>
           </li>
         ))}
         {items.map((item, idx) => (
@@ -74,7 +100,16 @@ export const InfiniteMovingCards = ({
             className="relative flex-shrink-0 flex items-center w-max"
             aria-hidden="true"
           >
-            {item}
+            <div className="flex items-center justify-center relative w-40 h-20">
+              <Image
+                src={item}
+                alt={'Partner/Feature Logo'}
+                sizes="160px"
+                fill
+                loading='lazy'
+                className="object-contain absolute grayscale hover:grayscale-0 transition-all duration-300"
+              />
+            </div>
           </li>
         ))}
       </ul>

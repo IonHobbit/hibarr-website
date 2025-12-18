@@ -17,6 +17,7 @@ import { Locale } from '@/lib/i18n-config'
 import CalendlyEmbed from '@/components/CalendlyEmbed'
 import { useState } from 'react'
 import { gecitkaleConsultationContent } from '@/lib/content/gecitkale-consultation'
+import { Checkbox } from '@/components/ui/checkbox'
 
 const PhoneInput = dynamic(() => import('@/components/ui/phone-input').then(mod => mod.PhoneInput), {
   loading: () => <Input placeholder="Loading..." />
@@ -34,8 +35,10 @@ type SqueezeConsultationFormProps = {
 }
 
 export default function SqueezeConsultationForm({ nonce }: SqueezeConsultationFormProps) {
-  const { lang } = useParams()
-  const userInfo = useUserInfo()
+  const { lang } = useParams();
+  const userInfo = useUserInfo();
+
+  const [agreedToDataPrivacy, setAgreedToDataPrivacy] = useState(false);
 
   const content = gecitkaleConsultationContent[lang as Locale] ?? gecitkaleConsultationContent.en;
 
@@ -118,7 +121,10 @@ export default function SqueezeConsultationForm({ nonce }: SqueezeConsultationFo
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-6 w-full p-6 md:p-8 rounded-lg'>
       <div className='flex flex-col gap-4'>
-        <h2 className='text-2xl font-bold text-center'>{content.form.title}</h2>
+        <div className="flex flex-col gap-2">
+          <h2 className='text-2xl font-bold text-center'>{content.form.title}</h2>
+          <p className='text-sm text-center'>{content.form.subtitle}</p>
+        </div>
         <div className='grid grid-cols-2 gap-4'>
           <Input
             name='firstName'
@@ -202,17 +208,27 @@ export default function SqueezeConsultationForm({ nonce }: SqueezeConsultationFo
         </div>
       </div>
 
+      <div className="flex items-center gap-2">
+        <Checkbox
+          required
+          id='dataPrivacy'
+          name='dataPrivacy'
+          checked={agreedToDataPrivacy}
+          onClick={() => setAgreedToDataPrivacy(!agreedToDataPrivacy)}
+        />
+        <label htmlFor="dataPrivacy" className="text-sm cursor-pointer">{content.form.dataPrivacy}</label>
+      </div>
+
       <Button
         type='submit'
         size='lg'
         variant='accent'
         isLoading={isPending}
-        disabled={!isFormValid || isPending}
+        disabled={!isFormValid || isPending || !agreedToDataPrivacy}
         className='w-full'
       >
         {content.form.submitButton}
       </Button>
-      <p className='text-base text-center text-primary'>{content.form.dataPrivacy}</p>
     </form>
   )
 }

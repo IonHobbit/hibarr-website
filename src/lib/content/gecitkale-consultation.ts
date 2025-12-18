@@ -7,6 +7,7 @@ type GecitkaleConsultationContent = {
     features: string[];
     form: {
       title: string;
+      subtitle: string;
       fields: {
         firstName: string;
         lastName: string;
@@ -61,6 +62,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     ],
     form: {
       title: 'Request a consultation now',
+      subtitle: 'Your details will be used exclusively to plan and prepare your consultation for the Cielo Vista project. Your data will not be passed on to third parties for advertising purposes',
       fields: {
         firstName: 'First Name',
         lastName: 'Last Name',
@@ -99,8 +101,8 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
         interestReasonOther: 'Please specify your reason',
         investmentTimeline: 'Please select a timeline',
       },
-      submitButton: 'Book now',
-      dataPrivacy: '100% privacy: Your data will not be shared',
+      submitButton: 'Pick a time',
+      dataPrivacy: 'I agree that HIBARR may contact me by phone and email to prepare my consultation and regarding the Cielo Vista project. I have read the Privacy Policy.',
     },
     imageAlt: {
       rabih: 'Picture of HIBARR Founder Rabih Rabih',
@@ -117,8 +119,8 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     ]
   },
   de: {
-    title: 'Jetzt investieren bei Vorverkaufspreisen',
-    subtitle: 'Günstige Resort-Stil-Immobilien in Nordzypern',
+    title: 'Jetzt investieren zu Vorverkaufspreisen',
+    subtitle: 'Erschwingliche Resort-Immobilien in Nordzypern',
     features: [
       'Von €12,300 abzahlbarer Anzahlung',
       '€680/Monat - 0% Zinsen (48 Monate)',
@@ -127,6 +129,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     ],
     form: {
       title: 'Jetzt eine Beratungsanfrage stellen',
+      subtitle: 'Ihre Angaben werden ausschließlich zur Planung und Vorbereitung Ihrer Beratung für das Projekt Cielo Vista verwendet. Ihre Daten werden nicht zu Werbezwecken an Dritte weitergegeben.',
       fields: {
         firstName: 'Vorname',
         lastName: 'Nachname',
@@ -165,8 +168,8 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
         interestReasonOther: 'Bitte geben Sie Ihren Grund an',
         investmentTimeline: 'Bitte wählen Sie einen Zeitrahmen',
       },
-      submitButton: 'Jetzt eine Beratungsanfrage stellen',
-      dataPrivacy: '100% Privatsphäre: Ihre Daten werden nicht geteilt',
+      submitButton: 'Zeit wählen',
+      dataPrivacy: 'Ich erkläre mich damit einverstanden, dass HIBARR mich zur Vorbereitung meiner Beratung sowie in Bezug auf das Projekt Cielo Vista telefonisch und per E-Mail kontaktieren darf. Die Datenschutzerklärung habe ich gelesen.',
     },
     imageAlt: {
       rabih: 'Bild von HIBARR Gründer Rabih Rabih',
@@ -193,6 +196,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     ],
     form: {
       title: 'Şimdi ön satış fiyatlarıyla yatırım yapın',
+      subtitle: 'Verileriniz yalnızca Cielo Vista projesi için planlama ve hazırlık için kullanılacaktır. Verileriniz reklam amaçlı üçüncü taraflara aktarılmayacaktır',
       fields: {
         firstName: 'Adı',
         lastName: 'Soyadı',
@@ -231,8 +235,8 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
         interestReasonOther: 'Lütfen nedeninizi belirtiniz',
         investmentTimeline: 'Lütfen bir zaman çerçevesi seçiniz',
       },
-      submitButton: 'Şimdi ön satış fiyatlarıyla yatırım yapın',
-      dataPrivacy: '%100 gizlilik: Verileriniz paylaşılmayacak',
+      submitButton: 'Zaman seç',
+      dataPrivacy: 'HIBARR\'a telefon ve e-posta ile ulaşabileceğimi ve Cielo Vista projesine ilişkin benimle görüşmeyi planlamam ve bu konuda benimle iletişime geçebileceğimi onaylıyorum. Gizlilik Politikası\'nı okudum.',
     },
     imageAlt: {
       rabih: 'HIBARR Kurucusu Rabih Rabih\'in resmi',
@@ -259,6 +263,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     ],
     form: {
       title: 'Запишитесь на бесплатную консультацию по недвижимости',
+      subtitle: 'Ваши данные будут использоваться исключительно для планирования и подготовки вашей консультации по проекту Cielo Vista. Ваши данные не будут переданы третьим лицам для рекламных целей',
       fields: {
         firstName: 'Имя',
         lastName: 'Фамилия',
@@ -297,8 +302,8 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
         interestReasonOther: 'Пожалуйста, укажите вашу причину',
         investmentTimeline: 'Пожалуйста, выберите временные рамки',
       },
-      submitButton: 'Записаться на консультацию',
-      dataPrivacy: '100% конфиденциальность: Ваши данные не будут переданы',
+      submitButton: 'Выбрать время',
+      dataPrivacy: 'HIBARR\'a телефоном и электронной почтой связаться с мной для подготовки моей консультации и в отношении проекта Cielo Vista. Я прочитал политику конфиденциальности.',
     },
     imageAlt: {
       rabih: 'Фотография основателя HIBARR Рабиха Рабиха',
