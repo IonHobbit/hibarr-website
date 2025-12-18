@@ -85,7 +85,7 @@ export const InfiniteMovingCards = ({
             <div className="flex items-center justify-center relative w-40 h-20">
               <Image
                 src={item}
-                alt={item || ''}
+                alt={'Partner/Feature Logo'}
                 sizes="160px"
                 fill
                 loading='lazy'
@@ -103,7 +103,7 @@ export const InfiniteMovingCards = ({
             <div className="flex items-center justify-center relative w-40 h-20">
               <Image
                 src={item}
-                alt={item || ''}
+                alt={'Partner/Feature Logo'}
                 sizes="160px"
                 fill
                 loading='lazy'
