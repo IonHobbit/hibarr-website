@@ -18,7 +18,7 @@ export default function TeamMemberCard({ member }: TeamMemberCardProps) {
 	if (!member.role) return null;
 
 	return (
-		<div key={member.name} className="flex flex-col gap-2 border p-4 bg-white w-full basis-full md:basis-[23.5%] md:min-w-[240px]">
+		<div key={member.name} className="flex flex-col gap-2 border p-4 bg-white w-full basis-full md:basis-[23.5%] min-w-[284px] md:min-w-[240px]">
 			<div className="relative w-full h-80 md:h-52">
 				<Image src={generateImageUrl(member.image as SanityImageSource).url() || ''} alt={member.name || ''} fill sizes="100%" className="object-cover object-top w-full h-full" loading='lazy' />
 			</div>
