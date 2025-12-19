@@ -13,9 +13,9 @@ type TeamMemberCardProps = {
 
 export default function TeamMemberCard({ member }: TeamMemberCardProps) {
 
-	if (!member.role) return null;
-
 	const translatedRole = useTranslation(member.role ?? '');
+
+	if (!member.role) return null;
 
 	return (
 		<div key={member.name} className="flex flex-col gap-2 border p-4 bg-white w-full basis-full md:basis-[23.5%] md:min-w-[240px]">
