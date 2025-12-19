@@ -1,10 +1,16 @@
 'use client'
 
+import { gecitkaleConsultationContent } from '@/lib/content/gecitkale-consultation'
+import { Locale } from '@/lib/i18n-config'
 import Image from 'next/image'
+import { useParams } from 'next/navigation'
 import React from 'react'
 import Slider, { Settings } from 'react-slick'
 
 export default function CieloVistaImageSlider() {
+  const { lang } = useParams<{ lang: Locale }>();
+  const content = gecitkaleConsultationContent[lang] ?? gecitkaleConsultationContent.en;
+
   const settings: Settings = {
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -15,15 +21,7 @@ export default function CieloVistaImageSlider() {
     dots: false,
   }
 
-  const images = [
-    'https://res.cloudinary.com/hibarr/image/upload/v1766086575/15_vallsy.webp',
-    'https://res.cloudinary.com/hibarr/image/upload/v1766086572/16_ur1gbs.webp',
-    'https://res.cloudinary.com/hibarr/image/upload/v1766086548/8_a8k0eg.webp',
-    'https://res.cloudinary.com/hibarr/image/upload/v1766086548/13_kpecma.webp',
-    'https://res.cloudinary.com/hibarr/image/upload/v1766086547/2_aav7h5.webp',
-    'https://res.cloudinary.com/hibarr/image/upload/v1766086547/11_fjsddq.webp',
-    'https://res.cloudinary.com/hibarr/image/upload/v1766086546/4_tsfsqt.webp',
-  ]
+  const images = content.images;
 
   return (
     <div className="rounded-lg border border-white/10 overflow-hidden h-60 md:h-80">

@@ -38,6 +38,7 @@ type GecitkaleConsultationContent = {
       submitButton: string;
       dataPrivacy: string;
     }
+    images: string[];
     imageAlt: {
       rabih: string;
       project: string;
@@ -50,6 +51,16 @@ type GecitkaleConsultationContent = {
   }
 }
 
+const images = [
+  'https://res.cloudinary.com/hibarr/image/upload/v1766086575/15_vallsy.webp',
+  'https://res.cloudinary.com/hibarr/image/upload/v1766086572/16_ur1gbs.webp',
+  'https://res.cloudinary.com/hibarr/image/upload/v1766086548/8_a8k0eg.webp',
+  'https://res.cloudinary.com/hibarr/image/upload/v1766086548/13_kpecma.webp',
+  'https://res.cloudinary.com/hibarr/image/upload/v1766086547/2_aav7h5.webp',
+  'https://res.cloudinary.com/hibarr/image/upload/v1766086547/11_fjsddq.webp',
+  'https://res.cloudinary.com/hibarr/image/upload/v1766086546/4_tsfsqt.webp',
+]
+
 export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
   en: {
     title: 'Invest now at pre-sales prices',
@@ -60,6 +71,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
       'No broker commission',
       'Full privacy - outside of the EU'
     ],
+    images: images,
     form: {
       title: 'Request a consultation now',
       subtitle: 'Your details will be used exclusively to plan and prepare your consultation for the Cielo Vista project. Your data will not be passed on to third parties for advertising purposes',
@@ -127,6 +139,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
       'Keine Maklermission',
       'Vollständige Privatsphäre - außerhalb der EU'
     ],
+    images: images,
     form: {
       title: 'Jetzt eine Beratungsanfrage stellen',
       subtitle: 'Ihre Angaben werden ausschließlich zur Planung und Vorbereitung Ihrer Beratung für das Projekt Cielo Vista verwendet. Ihre Daten werden nicht zu Werbezwecken an Dritte weitergegeben.',
@@ -194,6 +207,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
       'Maklermit götürmez',
       'Tam gizlilik - Avrupa Birliği dışında'
     ],
+    images: images,
     form: {
       title: 'Şimdi ön satış fiyatlarıyla yatırım yapın',
       subtitle: 'Verileriniz yalnızca Cielo Vista projesi için planlama ve hazırlık için kullanılacaktır. Verileriniz reklam amaçlı üçüncü taraflara aktarılmayacaktır',
@@ -261,6 +275,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
       'Без комиссии брокера',
       'Полная конфиденциальность - вне ЕС'
     ],
+    images: images,
     form: {
       title: 'Запишитесь на бесплатную консультацию по недвижимости',
       subtitle: 'Ваши данные будут использоваться исключительно для планирования и подготовки вашей консультации по проекту Cielo Vista. Ваши данные не будут переданы третьим лицам для рекламных целей',
