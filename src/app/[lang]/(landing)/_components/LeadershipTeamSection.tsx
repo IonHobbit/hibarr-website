@@ -1,8 +1,5 @@
 import { fetchSanityData } from "@/lib/third-party/sanity.client";
 import { HomePage, Team } from "@/types/sanity.types";
-import Image from "next/image";
-import { generateImageUrl } from "@/lib/utils";
-import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { teamContent } from "@/lib/content/team";
 import { Locale } from "@/lib/i18n-config";
 import TeamMemberCard from "./TeamMemberCard";

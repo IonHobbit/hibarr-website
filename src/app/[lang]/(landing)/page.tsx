@@ -62,7 +62,7 @@ export default async function Home(props: HomePageProps) {
       </div> */}
       <AboutSection data={data} />
       {/* <FindrSection /> */}
-      <TestimonialsSection lang={lang} data={data} testimonials={testimonials} />
+      <TestimonialsSection lang={lang} data={data} testimonials={testimonials} /> 
       <PartnersSection lang={lang} partnerLogos={partnerLogos.map(logo => logo.secure_url)} />
       <ConsultationProcessSection data={data.consultationProcessSection} />
       <WebinarSection />
