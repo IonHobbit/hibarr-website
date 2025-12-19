@@ -4,10 +4,9 @@ import Video from "@/components/Video";
 
 type MeetRabihProps = {
   data: HomePage['meetRabihSection'];
-  disableMedia?: boolean;
 }
 
-export default function MeetRabih({ data, disableMedia }: MeetRabihProps) {
+export default function MeetRabih({ data }: MeetRabihProps) {
   return (
     <section id='meet-rabih' className='section min-h-[50dvh]'>
       <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-10">
@@ -22,19 +21,12 @@ export default function MeetRabih({ data, disableMedia }: MeetRabihProps) {
             {data?.CTA?.label}
           </Button>
         </div>
-        {disableMedia ? (
-          <div
-            className="w-full aspect-video rounded-lg bg-cover bg-center"
-            style={{ backgroundImage: "url('https://res.cloudinary.com/hibarr/image/upload/about-rabih-thumbnail_igbyvs')" }}
-          />
-        ) : (
-          <Video
-            hls
-            src="https://vz-da4cd036-d13.b-cdn.net/56b164f5-3dcc-4a0b-8640-7310d9110a4f/playlist.m3u8"
-            fallbackMp4="https://vz-da4cd036-d13.b-cdn.net/56b164f5-3dcc-4a0b-8640-7310d9110a4f/play_720p.mp4"
-            poster="https://res.cloudinary.com/hibarr/image/upload/about-rabih-thumbnail_igbyvs"
-          />
-        )}
+        <Video
+          hls
+          src="https://vz-da4cd036-d13.b-cdn.net/56b164f5-3dcc-4a0b-8640-7310d9110a4f/playlist.m3u8"
+          fallbackMp4="https://vz-da4cd036-d13.b-cdn.net/56b164f5-3dcc-4a0b-8640-7310d9110a4f/play_720p.mp4"
+          poster="https://res.cloudinary.com/hibarr/image/upload/about-rabih-thumbnail_igbyvs"
+        />
       </div>
     </section>
   )

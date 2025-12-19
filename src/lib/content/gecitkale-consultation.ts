@@ -1,6 +1,6 @@
 import { Locale } from "../i18n-config";
 
-type GecitkaleConsultationContent = {
+export type GecitkaleConsultationContent = {
   [key in Locale]: {
     title: string;
     subtitle: string;
@@ -38,6 +38,8 @@ type GecitkaleConsultationContent = {
       submitButton: string;
       dataPrivacy: string;
     }
+    caseStudiesTitle: string;
+    caseStudiesDescription: string;
     images: string[];
     imageAlt: {
       rabih: string;
@@ -66,8 +68,8 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     title: 'Invest now at pre-sales prices',
     subtitle: 'Affordable resort-style real estate in North Cyprus',
     features: [
-      'From €12,300 down payment',
-      '€680/month - 0% interest (48 months)',
+      'From £10,750 down payment',
+      '£600/month - 0% interest (48 months)',
       'No broker commission',
       'Full privacy - outside of the EU'
     ],
@@ -120,6 +122,8 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
       rabih: 'Picture of HIBARR Founder Rabih Rabih',
       project: 'Picture of CIELO Vista Resort Project'
     },
+    caseStudiesTitle: 'Case Studies',
+    caseStudiesDescription: 'See how our clients have benefited from investing in our projects',
     aboutRabih: {
       title: 'About Rabih Rabea',
       description: 'Rabih Rabea is the visionary founder and CEO of HIBARR, a leading company in the exclusive financial sector in Northern Cyprus. With over two decades of experience in the financial industry, Rabih has developed a profound understanding of the market, earning a reputation for expertise and innovative leadership.',
@@ -134,11 +138,13 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     title: 'Jetzt investieren zu Vorverkaufspreisen',
     subtitle: 'Erschwingliche Resort-Immobilien in Nordzypern',
     features: [
-      'Von €12,300 abzahlbarer Anzahlung',
-      '€680/Monat - 0% Zinsen (48 Monate)',
+      'Von €10,750 abzahlbarer Anzahlung',
+      '£600/Monat - 0% Zinsen (48 Monate)',
       'Keine Maklermission',
       'Vollständige Privatsphäre - außerhalb der EU'
     ],
+    caseStudiesTitle: 'Fallstudien',
+    caseStudiesDescription: 'Erfahren Sie, wie unsere Kunden von Investitionen in unsere Projekte profitiert haben.',
     images: images,
     form: {
       title: 'Jetzt eine Beratungsanfrage stellen',
@@ -202,11 +208,13 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     title: 'Şimdi ön satış fiyatlarıyla yatırım yapın',
     subtitle: 'Kuzey Kıbrıs\'ta uygun fiyatlı resort-stilinde gerçek bir emlak',
     features: [
-      '€12,300\'den başlayan azalışlı peşinat',
-      '€680/ay - 0% faiz (48 ay)',
+      '£10,750\'den başlayan azalışlı peşinat',
+      '£600/ay - 0% faiz (48 ay)',
       'Maklermit götürmez',
       'Tam gizlilik - Avrupa Birliği dışında'
     ],
+    caseStudiesTitle: 'Vaka Çalışmaları',
+    caseStudiesDescription: 'Müşterilerimizin projelerimize yatırım yaparak nasıl fayda sağladığını keşfedin.',  
     images: images,
     form: {
       title: 'Şimdi ön satış fiyatlarıyla yatırım yapın',
@@ -270,12 +278,14 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     title: 'Запишитесь на бесплатную консультацию по недвижимости',
     subtitle: 'Доступная недвижимость в Северном Кипре по ценам предпродажи',
     features: [
-      'От €12,300 начального взноса',
-      '€680/месяц - 0% процентов (48 месяцев)',
+      'От £10,750 начального взноса',
+      '£600/месяц - 0% процентов (48 месяцев)',
       'Без комиссии брокера',
       'Полная конфиденциальность - вне ЕС'
     ],
     images: images,
+    caseStudiesTitle: 'Кейсы',
+    caseStudiesDescription: 'Узнайте, как наши клиенты получили выгоду, инвестируя в наши проекты.',
     form: {
       title: 'Запишитесь на бесплатную консультацию по недвижимости',
       subtitle: 'Ваши данные будут использоваться исключительно для планирования и подготовки вашей консультации по проекту Cielo Vista. Ваши данные не будут переданы третьим лицам для рекламных целей',
@@ -318,7 +328,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
         investmentTimeline: 'Пожалуйста, выберите временные рамки',
       },
       submitButton: 'Выбрать время',
-      dataPrivacy: 'HIBARR\'a телефоном и электронной почтой связаться с мной для подготовки моей консультации и в отношении проекта Cielo Vista. Я прочитал политику конфиденциальности.',
+      dataPrivacy: 'Я согласен(на), что HIBARR может связаться со мной по телефону и электронной почте для подготовки моей консультации и в отношении проекта Cielo Vista. Я прочитал(а) политику конфиденциальности.',
     },
     imageAlt: {
       rabih: 'Фотография основателя HIBARR Рабиха Рабиха',

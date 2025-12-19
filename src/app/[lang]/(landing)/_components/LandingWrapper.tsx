@@ -11,10 +11,9 @@ import { Locale } from '@/lib/i18n-config'
 type LandingWrapperProps = {
   data: HomePage
   lang: Locale
-  disableMedia?: boolean
 }
 
-export default function LandingWrapper({ data, lang, disableMedia }: LandingWrapperProps) {
+export default function LandingWrapper({ data, lang }: LandingWrapperProps) {
   // const posthog = PostHogClient();
   // const distinctId = getUserDistinctId();
   // const landingSectionFlagKey = await posthog.getFeatureFlag('landing-section', distinctId)
@@ -37,5 +36,5 @@ export default function LandingWrapper({ data, lang, disableMedia }: LandingWrap
   //   return <LandingSection data={data} />
   // }
 
-  return <LandingSection data={data} lang={lang} disableMedia={disableMedia} />
+  return <LandingSection data={data} lang={lang} />
 }

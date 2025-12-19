@@ -4,11 +4,11 @@ import { partnersContent } from '@/lib/content/sections/partners';
 import { Locale } from '@/lib/i18n-config';
 
 type PartnersSectionProps = {
-  lang?: Locale;
+  lang: Locale;
   partnerLogos: string[];
 }
 
-export default async function PartnersSection({ lang, partnerLogos }: PartnersSectionProps) {
+export default function PartnersSection({ lang, partnerLogos }: PartnersSectionProps) {
   const content = partnersContent[lang ?? 'en'] ?? partnersContent.en;
 
   if (partnerLogos?.length === 0) return null;

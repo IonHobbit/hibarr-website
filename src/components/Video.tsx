@@ -93,10 +93,11 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
         const percentage = (videoElement.currentTime / videoElement.duration) * 100;
         setPercentageWatched(percentage);
       },
+      error: () => setIsLoading(false),
       waiting: () => setIsLoading(true),
       canplay: () => setIsLoading(false),
       loadstart: () => setIsLoading(true),
-      loadeddata: () => setIsLoading(false)
+      loadeddata: () => setIsLoading(false),
     };
 
     // Add event listeners
@@ -142,11 +143,6 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
   // Auto-detect HLS if not explicitly provided
   const isHls = (typeof hls === 'boolean') ? hls : /\.m3u8(\?.*)?$/i.test(src);
 
-  // On iOS (Safari + Chrome use WebKit), native HLS autoplay is a common crash/reload trigger.
-  // If a fallback MP4 is available, prefer it to reduce memory/decoder pressure.
-  const isIos = typeof navigator !== 'undefined' && /iPhone|iPad|iPod/i.test(navigator.userAgent);
-  const preferMp4OnIos = isIos && isHls && !!fallbackMp4;
-
   // Default to 'none' if not autoPlaying to save bandwidth/resources, unless explicitly overridden
   const effectivePreload = preload ?? (autoPlay ? 'auto' : 'none');
 
@@ -160,11 +156,11 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
               onClick={togglePlay}
               className={cn('rounded-full flex-shrink-0 bg-white size-16 z-20 grid place-items-center cursor-pointer opacity-0 group-hover:opacity-100 transition-all ease-linear', (!isPlaying || isLoading) && 'opacity-100')}
             >
-              {isLoading ? (
+              {/* {isLoading ? (
                 <Icon icon="ri:loader-4-line" className="size-8 text-black animate-spin" />
-              ) : (
-                <Icon icon={isPlaying ? 'ri:pause-mini-fill' : 'ri:play-mini-fill'} className="size-8 text-black" />
-              )}
+              ) : ( */}
+              <Icon icon={isPlaying ? 'ri:pause-mini-fill' : 'ri:play-mini-fill'} className="size-8 text-black" />
+              {/* )} */}
             </div>
           </div>
           <div className={clsx(
@@ -200,22 +196,7 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
           </div>
         </Fragment>
       }
-      {preferMp4OnIos ? (
-        <video
-          poster={poster}
-          preload={effectivePreload}
-          className={videoClassName ?? "object-contain !h-full w-full"}
-          controls={false}
-          autoPlay={autoPlay}
-          muted={muted}
-          loop={loop}
-          playsInline
-          ref={videoRef}
-        >
-          <source src={fallbackMp4!} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      ) : isHls ? (
+      {isHls ? (
         <HlsVideo
           key={src}
           ref={videoRef}
