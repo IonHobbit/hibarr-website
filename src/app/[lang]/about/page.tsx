@@ -34,11 +34,16 @@ export default async function AboutPage(
 ) {
   const { lang } = await props.params;
 
-  const [data, featuredLogos, partnerLogos] = await Promise.all([
+  const [dataResult, featuredLogosResult, partnerLogosResult] = await Promise.allSettled([
     fetchSanityData<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang }, { cache: 'no-store' }),
     cloudinaryClient.fetchFiles('Website/Features'),
     cloudinaryClient.fetchFiles('Website/Partners'),
   ]);
+
+  const data = dataResult.status === 'fulfilled' ? dataResult.value : {} as AboutPageType;
+  const featuredLogos = featuredLogosResult.status === 'fulfilled' ? featuredLogosResult.value : [];
+  const partnerLogos = partnerLogosResult.status === 'fulfilled' ? partnerLogosResult.value : [];
+
 
   return (
     <Fragment>

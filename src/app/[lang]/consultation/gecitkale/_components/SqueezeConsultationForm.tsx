@@ -214,7 +214,7 @@ export default function SqueezeConsultationForm({ nonce }: SqueezeConsultationFo
           id='dataPrivacy'
           name='dataPrivacy'
           checked={agreedToDataPrivacy}
-          onClick={() => setAgreedToDataPrivacy(!agreedToDataPrivacy)}
+          onCheckedChange={() => setAgreedToDataPrivacy(!agreedToDataPrivacy)}
         />
         <label htmlFor="dataPrivacy" className="text-sm cursor-pointer">{content.form.dataPrivacy}</label>
       </div>
