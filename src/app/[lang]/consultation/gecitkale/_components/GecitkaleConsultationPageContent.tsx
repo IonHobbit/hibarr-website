@@ -25,7 +25,7 @@ export default function GecitkaleConsultationPageContent({ content, nonce, caseS
 
 	const pageVariantKey = useFeatureFlagVariantKey('gecitkale-consultation');
 
-	console.log(pageVariantKey);	
+	const sortedCaseStudies = caseStudies.sort((a,b) => a.slug?.split('-')?.at(-1)?.localeCompare(b.slug?.split('-')?.at(-1) || '') || 0);
 
 	if (pageVariantKey === PageContentVariant.PLAIN) {
 		return (
@@ -45,7 +45,7 @@ export default function GecitkaleConsultationPageContent({ content, nonce, caseS
 
 	return (
 		<section className='flex flex-col gap-10'>
-			<section className="relative grid place-items-start min-h-[95dvh] pb-10 overflow-hidden bg-[url('https://res.cloudinary.com/hibarr/image/upload/v1765222618/16-min_jqxljs.png')] bg-cover bg-bottom bg-no-repeat">
+			<section className="relative grid place-items-start min-h-[95dvh] overflow-hidden bg-[url('https://res.cloudinary.com/hibarr/image/upload/v1765222618/16-min_jqxljs.png')] bg-cover bg-bottom bg-no-repeat">
 				<div className='min-h-[75dvh] section section !max-w-screen-2xl z-10 lg:mt-10'>
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
 						<div className='flex flex-col gap-6'>
@@ -113,10 +113,9 @@ export default function GecitkaleConsultationPageContent({ content, nonce, caseS
 						<p className="text-center md:text-lg text-muted-foreground">{content.caseStudiesDescription}</p>
 					</div>
 					<div className="max-w-screen-md mx-auto w-full overflow-hiddens md:overflow-visible">
-						<CaseStudies caseStudies={caseStudies} />
+						<CaseStudies caseStudies={sortedCaseStudies} />
 					</div>
 				</div>
-
 				<div className="absolute inset-0 bg-gradient-to-b from-primary via-primary/30 to-primary/10"></div>
 			</section>
 		</section>
