@@ -25,7 +25,7 @@ export default function GecitkaleConsultationPageContent({ content, nonce, caseS
 
 	const pageVariantKey = useFeatureFlagVariantKey('gecitkale-consultation');
 
-	console.log(pageVariantKey);	
+	const sortedCaseStudies = caseStudies.sort((a,b) => a.slug?.split('-')?.at(-1)?.localeCompare(b.slug?.split('-')?.at(-1) || '') || 0);
 
 	if (pageVariantKey === PageContentVariant.PLAIN) {
 		return (
@@ -113,10 +113,9 @@ export default function GecitkaleConsultationPageContent({ content, nonce, caseS
 						<p className="text-center md:text-lg text-muted-foreground">{content.caseStudiesDescription}</p>
 					</div>
 					<div className="max-w-screen-md mx-auto w-full overflow-hiddens md:overflow-visible">
-						<CaseStudies caseStudies={caseStudies} />
+						<CaseStudies caseStudies={sortedCaseStudies} />
 					</div>
 				</div>
-
 				<div className="absolute inset-0 bg-gradient-to-b from-primary via-primary/30 to-primary/10"></div>
 			</section>
 		</section>
