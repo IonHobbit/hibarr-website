@@ -79,13 +79,16 @@ export default function ClientFooter({ lang, footerData }: ClientFooterProps) {
               <span className="font-semibold"> XEGARA Trading Ltd.</span>
               {content.copyrightSuffix}
             </p>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <div className="flex items-center gap-4 text-base text-muted-foreground">
+              <Link href={`/${lang}/privacy-policy`} className="hover:text-foreground transition-colors">
+                {content.legalNotice}
+              </Link>
               <Link href={`/${lang}/privacy-policy`} className="hover:text-foreground transition-colors">
                 {content.privacyPolicy}
               </Link>
-              <Link href={`/${lang}/careers`} className="hover:text-foreground transition-colors">
+              {/* <Link href={`/${lang}/careers`} className="hover:text-foreground transition-colors">
                 {content.careers}
-              </Link>
+              </Link> */}
             </div>
             <div className="flex items-center gap-4">
               {socialLinks.map((link) => (

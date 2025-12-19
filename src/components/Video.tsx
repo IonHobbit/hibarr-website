@@ -4,12 +4,12 @@ import React, { Fragment, useEffect, useRef, useState, forwardRef, useImperative
 import { clsx } from 'clsx';
 import { Icon } from '@/components/icons';
 import { cn } from '@/lib/utils';
-import dynamic from 'next/dynamic';
+import HlsVideo from './HlsVideo';
 
-const HlsVideo = dynamic(() => import('./HlsVideo'), {
-  ssr: false,
-  loading: () => <div className="w-full h-full animate-pulse" />
-});
+// const HlsVideo = dynamic(() => import('./HlsVideo'), {
+//   ssr: false,
+//   loading: () => <div className="w-full h-full animate-pulse" />
+// });
 
 interface IVideoProps {
   src: string;
@@ -28,7 +28,7 @@ export interface VideoRef {
   pause: () => void;
 }
 
-const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted, loop, hls, fallbackMp4, containerClassName, videoClassName, preload }, ref) => {
+const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted, loop, hls = false, fallbackMp4, containerClassName, videoClassName, preload }, ref) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const [isMuted, setIsMuted] = useState(false);
