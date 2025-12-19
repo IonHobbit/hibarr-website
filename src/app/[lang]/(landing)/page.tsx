@@ -20,7 +20,7 @@ import { seoDescriptions } from '@/data/seo-descriptions';
 
 import CaseStudiesSection from './_components/CaseStudiesSection';
 import MeetRabih from './_components/MeetRabih';
-import cloudinaryClient from '@/lib/third-party/cloudinary.client';
+import cloudinaryClient, { CloudinaryFile } from '@/lib/third-party/cloudinary.client';
 
 type HomePageProps = {
   params: Promise<{ lang: Locale }>;
@@ -39,12 +39,17 @@ export const revalidate = 60;
 export default async function Home(props: HomePageProps) {
   const { lang } = await props.params;
 
-  const [data, testimonials, featuredLogos, partnerLogos] = await Promise.all([
+  const [dataResult, testimonialsResult, featuredLogosResult, partnerLogosResult] = await Promise.allSettled([
     fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang }),
     fetchSanityData<Testimonial[]>(`*[_type == "testimonial" && type == $type] | order(date desc)[0...3]`, { type: 'client' }),
     cloudinaryClient.fetchFiles('Website/Features'),
     cloudinaryClient.fetchFiles('Website/Partners'),
   ]);
+
+  const data = dataResult.status === 'fulfilled' ? dataResult.value : {} as HomePage;
+  const testimonials = testimonialsResult.status === 'fulfilled' ? testimonialsResult.value : [] as Testimonial[];
+  const featuredLogos = featuredLogosResult.status === 'fulfilled' ? featuredLogosResult.value : [] as CloudinaryFile[];
+  const partnerLogos = partnerLogosResult.status === 'fulfilled' ? partnerLogosResult.value : [] as CloudinaryFile[];
 
   return (
     <Fragment>
@@ -65,7 +70,7 @@ export default async function Home(props: HomePageProps) {
       <CaseStudiesSection data={data.caseStudiesSection} lang={lang} />
       <InvestorCommunitySection data={data.investorCommunitySection} />
       <MeetRabih data={data.meetRabihSection} />
-      <LeadershipTeamSection data={data.leadershipTeamSection} />
+      <LeadershipTeamSection lang={lang} data={data.leadershipTeamSection} />
       <CallToActionSection data={data.callToActionSection} />
       {/* <FreebieSignupSection data={data.freebieSignupSection} /> */}
       {/* <SignupSection data={data.freebieSignupSection} /> */}

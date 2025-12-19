@@ -3,13 +3,20 @@ import { HomePage, Team } from "@/types/sanity.types";
 import Image from "next/image";
 import { generateImageUrl } from "@/lib/utils";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import { teamContent } from "@/lib/content/team";
+import { Locale } from "@/lib/i18n-config";
+import TeamMemberCard from "./TeamMemberCard";
 
 type LeadershipTeamSectionProps = {
+  lang: Locale;
   data: HomePage['leadershipTeamSection'];
 }
 
-export default async function LeadershipTeamSection({ data }: LeadershipTeamSectionProps) {
+export default async function LeadershipTeamSection({ lang, data }: LeadershipTeamSectionProps) {
   const leadershipTeam = await fetchSanityData<Team[]>(`*[_type == "team" && leadership == true] | order(order asc)`);
+  const restOfTeam = await fetchSanityData<Team[]>(`*[_type == "team" && leadership != true] | order(order asc)`);
+
+  const content = teamContent[lang ?? 'en'] ?? teamContent.en;
 
   return (
     <section id='leadership-team' className='min-h-[50dvh] bg-gray-50/50'>
@@ -21,15 +28,20 @@ export default async function LeadershipTeamSection({ data }: LeadershipTeamSect
         <div className="max-w-screen-lg mx-auto">
           <div className="grid grid-cols-1 md:flex flex-wrap justify-center gap-4">
             {leadershipTeam.map((member) => (
-              <div key={member.name} className="flex flex-col gap-2 border p-4 bg-white basis-full md:basis-[23.5%]">
-                <div className="relative w-full h-80 md:h-52">
-                  <Image src={generateImageUrl(member.image as SanityImageSource).url() || ''} alt={member.name || ''} fill sizes="100%" className="object-cover object-top w-full h-full" loading='lazy' />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <h4 className="text-lg md:text-xl">{member.name}</h4>
-                  <p className="text-muted-foreground text-sm md:text-base">{member.role}</p>
-                </div>
-              </div>
+              <TeamMemberCard key={member.name} member={member} />
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="section">
+        <div className="max-w-screen-md mx-auto flex flex-col gap-2">
+          <h3 className="text-3xl md:text-4xl text-center">{content.legalTeamTitle}</h3>
+          {/* <p className="text-center md:text-lg text-muted-foreground">{data?.description}</p> */}
+        </div>
+        <div className="max-w-screen-lg mx-auto">
+          <div className="grid grid-cols-1 md:flex flex-wrap justify-center gap-4">
+            {restOfTeam.map((member) => (
+              <TeamMemberCard key={member.name} member={member} />
             ))}
           </div>
         </div>
