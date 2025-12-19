@@ -110,7 +110,7 @@ export default function SqueezeConsultationForm({ nonce }: SqueezeConsultationFo
     url.searchParams.set('last_name', values.lastName)
     url.searchParams.set('email', values.email)
     url.searchParams.set('a1', values.phoneNumber)
-    url.searchParams.set('a2', `Interest reason: ${values.interestReason} ${values.interestReasonOther ? `Other: ${values.interestReasonOther}` : ''}`)
+    url.searchParams.set('a2', `Interest reason: ${values.interestReason} ${values.interestReasonOther ? `Other: ${values.interestReasonOther}` : ''} ${values.investmentTimeline ? `Investment timeline: ${values.investmentTimeline}` : ''}`)
     return url.toString()
   }
 

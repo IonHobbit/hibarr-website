@@ -18,7 +18,7 @@ export default function FeaturedSection({ lang, featuredLogos }: FeaturedSection
   return (
     <section id='featured' className='section'>
       <h3 className='text-3xl text-center'>{content.title}</h3>
-      <div className='relative w-full'>F
+      <div className='relative w-full'>
         <InfiniteMovingCards
           items={featuredLogos}
         />
