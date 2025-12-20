@@ -58,7 +58,7 @@ export default async function OscarGroup(
 
   return (
     <Fragment>
-  <section id='root' className="relative grid place-items-center place-content-center h-[60vh] bg-[url('https://res.cloudinary.com/hibarr/image/upload/hibarr-oscar_kp05ng')] bg-cover bg-center bg-no-repeat bg-gradient-to-b from-primary via-primary/80 to-transparent">
+  <section id='root' className="relative grid place-items-center place-content-center h-[60dvh] bg-[url('https://res.cloudinary.com/hibarr/image/upload/hibarr-oscar_kp05ng')] bg-cover bg-center bg-no-repeat bg-gradient-to-b from-primary via-primary/80 to-transparent">
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col items-center gap-6'>
             <Image src="https://res.cloudinary.com/hibarr/image/upload/oscar-group-logo_q5mshu" alt="Oscar Group Logo" width={400} height={400} />
@@ -105,7 +105,7 @@ export default async function OscarGroup(
           </div>
         </div>
       </section>
-      <section className='bg-primary w-full p-6 py-10 md:min-h-[25vh] flex flex-col gap-10 items-center justify-center'>
+      <section className='bg-primary w-full p-6 py-10 md:min-h-[25dvh] flex flex-col gap-10 items-center justify-center'>
         <div className='flex flex-col gap-4'>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Image src="https://res.cloudinary.com/hibarr/image/upload/oscar-group-logo_q5mshu" alt="Oscar Group Logo" width={380} height={380} />

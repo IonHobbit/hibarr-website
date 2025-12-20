@@ -24,7 +24,7 @@ export default async function ExposeTestimonialsPage() {
           <h3 className='text-4xl font-bold text-primary-foreground'>Testimonials</h3>
           <p className='text-primary-foreground'>Hear from our clients</p>
         </div>
-        <div className="w-[80vw] md:w-[70vw] h-[70vh] relative overflow-y-auto text-center px-3 lg:px-8 bg-secondary rounded-lg z-10">
+        <div className="w-[80vw] md:w-[70vw] h-[70dvh] relative overflow-y-auto text-center px-3 lg:px-8 bg-secondary rounded-lg z-10">
           <Suspense fallback={<div className="p-4">Loading testimonials...</div>}>
             <CaseStudiesSection data={{ title: '', description: '' }} lang='en' />
           </Suspense>

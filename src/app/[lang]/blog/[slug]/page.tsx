@@ -19,9 +19,8 @@ import Spacer, { SpacerBlock } from "@/app/[lang]/blog/[slug]/_components/Spacer
 import ContentTable, { TableBlock } from "@/app/[lang]/blog/[slug]/_components/ContentTable";
 import TextWithImage, { TextWithImageBlock } from "@/app/[lang]/blog/[slug]/_components/TextWithImage";
 
-
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; lang: string }> }) {
-  const { slug, lang } = await params
+  const { slug } = await params
   const post = await fetchBlogPost(slug)
   const seo = post?.seo
 
@@ -62,7 +61,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   if (!post) {
     return (
-      <div className="section mt-20 flex flex-col items-center justify-center gap-4 h-[80vh]">
+      <div className="section mt-20 flex flex-col items-center justify-center gap-4 h-[80dvh]">
         <h1 className="text-4xl font-bold text-center">Post not found</h1>
         <Link href="/blog" className="text-primary underline underline-offset-4">Back to blog</Link>
       </div>

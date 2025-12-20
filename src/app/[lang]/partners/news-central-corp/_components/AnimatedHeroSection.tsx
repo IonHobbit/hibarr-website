@@ -50,7 +50,7 @@ export default function AnimatedHeroSection({ logo, title, subtitle, primaryColo
   return (
     <motion.section 
       id='root' 
-      className="relative grid place-items-center place-content-center h-[50vh] bg-black"
+      className="relative grid place-items-center place-content-center h-[50dvh] bg-black"
       initial="hidden"
       animate="visible"
       variants={containerVariants}

@@ -4,12 +4,12 @@ import React, { Fragment, useEffect, useRef, useState, forwardRef, useImperative
 import { clsx } from 'clsx';
 import { Icon } from '@/components/icons';
 import { cn } from '@/lib/utils';
-import dynamic from 'next/dynamic';
+import HlsVideo from './HlsVideo';
 
-const HlsVideo = dynamic(() => import('./HlsVideo'), {
-  ssr: false,
-  loading: () => <div className="w-full h-full animate-pulse" />
-});
+// const HlsVideo = dynamic(() => import('./HlsVideo'), {
+//   ssr: false,
+//   loading: () => <div className="w-full h-full animate-pulse" />
+// });
 
 interface IVideoProps {
   src: string;
@@ -21,13 +21,14 @@ interface IVideoProps {
   fallbackMp4?: string; // optional MP4 fallback when using HLS
   containerClassName?: string; // override wrapper container classes
   videoClassName?: string; // override video element classes
+  preload?: 'auto' | 'metadata' | 'none';
 }
 
 export interface VideoRef {
   pause: () => void;
 }
 
-const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted, loop, hls, fallbackMp4, containerClassName, videoClassName }, ref) => {
+const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted, loop, hls = false, fallbackMp4, containerClassName, videoClassName, preload }, ref) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const [isMuted, setIsMuted] = useState(false);
@@ -92,10 +93,11 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
         const percentage = (videoElement.currentTime / videoElement.duration) * 100;
         setPercentageWatched(percentage);
       },
+      error: () => setIsLoading(false),
       waiting: () => setIsLoading(true),
       canplay: () => setIsLoading(false),
       loadstart: () => setIsLoading(true),
-      loadeddata: () => setIsLoading(false)
+      loadeddata: () => setIsLoading(false),
     };
 
     // Add event listeners
@@ -141,6 +143,9 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
   // Auto-detect HLS if not explicitly provided
   const isHls = (typeof hls === 'boolean') ? hls : /\.m3u8(\?.*)?$/i.test(src);
 
+  // Default to 'none' if not autoPlaying to save bandwidth/resources, unless explicitly overridden
+  const effectivePreload = preload ?? (autoPlay ? 'auto' : 'none');
+
   return (
     <div className={wrapperClass}>
       {!autoPlay && !muted &&
@@ -151,11 +156,11 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
               onClick={togglePlay}
               className={cn('rounded-full flex-shrink-0 bg-white size-16 z-20 grid place-items-center cursor-pointer opacity-0 group-hover:opacity-100 transition-all ease-linear', (!isPlaying || isLoading) && 'opacity-100')}
             >
-              {isLoading ? (
+              {/* {isLoading ? (
                 <Icon icon="ri:loader-4-line" className="size-8 text-black animate-spin" />
-              ) : (
-                <Icon icon={isPlaying ? 'ri:pause-mini-fill' : 'ri:play-mini-fill'} className="size-8 text-black" />
-              )}
+              ) : ( */}
+              <Icon icon={isPlaying ? 'ri:pause-mini-fill' : 'ri:play-mini-fill'} className="size-8 text-black" />
+              {/* )} */}
             </div>
           </div>
           <div className={clsx(
@@ -201,12 +206,13 @@ const Video = forwardRef<VideoRef, IVideoProps>(({ src, poster, autoPlay, muted,
           muted={muted}
           loop={loop}
           fallbackMp4={fallbackMp4}
+          preload={effectivePreload}
           className={videoClassName ?? "object-contain !h-full w-full"}
         />
       ) : (
         <video
           poster={poster}
-          preload='auto'
+          preload={effectivePreload}
           className={videoClassName ?? "object-contain !h-full w-full"}
           controls={false}
           autoPlay={autoPlay}

@@ -2,7 +2,11 @@
 
 import { useEffect, useState, useRef } from 'react'
 
-export default function BitrixForm() {
+type BitrixFormProps = {
+  nonce?: string
+}
+
+export default function BitrixForm({ nonce }: BitrixFormProps) {
   const [mounted, setMounted] = useState(false)
   const [scriptError, setScriptError] = useState(false)
   const scriptRef = useRef<HTMLScriptElement | null>(null)
@@ -30,6 +34,9 @@ export default function BitrixForm() {
         script.async = true
         script.defer = true
         script.src = 'https://cdn.bitrix24.de/b26123245/crm/form/loader_128.js'
+        if (nonce) {
+          script.nonce = nonce
+        }
 
         script.onerror = (error) => {
           console.warn('Bitrix24 form script failed to load:', error)
@@ -65,12 +72,12 @@ export default function BitrixForm() {
         scriptRef.current.parentNode.removeChild(scriptRef.current)
       }
     }
-  }, [mounted])
+  }, [mounted, nonce])
 
   if (!mounted) {
     return (
       <div 
-        className="w-full h-full min-h-[50vh] md:min-h-[45vh] p-8"
+        className="w-full h-full min-h-[50dvh] md:min-h-[45dvh] p-8"
         suppressHydrationWarning
       />
     )
@@ -78,7 +85,7 @@ export default function BitrixForm() {
 
   if (scriptError) {
     return (
-      <div className="w-full h-full min-h-[50vh] md:min-h-[45vh] p-8 flex flex-col items-center justify-center text-center">
+      <div className="w-full h-full min-h-[50dvh] md:min-h-[45dvh] p-8 flex flex-col items-center justify-center text-center">
         <h3 className="text-xl font-medium mb-4">Form Loading Error</h3>
         <p className="text-muted-foreground mb-4">
           We&apos;re having trouble loading the form. This might be due to your browser&apos;s privacy settings or an ad blocker.
@@ -96,7 +103,7 @@ export default function BitrixForm() {
   return (
     <div 
       ref={containerRef}
-      className="w-full h-full min-h-[50vh] md:min-h-[45vh] p-8"
+      className="w-full h-full min-h-[50dvh] md:min-h-[45dvh] p-8"
       suppressHydrationWarning
       style={{ isolation: 'isolate' }}
     />
