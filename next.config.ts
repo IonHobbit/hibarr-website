@@ -62,15 +62,7 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
-      {
-        source: '/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
+
       {
         source: '/:path*.{jpg,jpeg,png,gif,webp,svg,ico}',
         headers: [
