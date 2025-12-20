@@ -1,6 +1,5 @@
 'use client';
 
-import useTranslation from '@/hooks/useTranslation';
 import { generateImageUrl } from '@/lib/utils';
 import { Team } from '@/types/sanity.types';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
@@ -13,8 +12,6 @@ type TeamMemberCardProps = {
 
 export default function TeamMemberCard({ member }: TeamMemberCardProps) {
 
-	const translatedRole = useTranslation(member.role ?? '');
-
 	if (!member.role) return null;
 
 	return (
@@ -24,7 +21,7 @@ export default function TeamMemberCard({ member }: TeamMemberCardProps) {
 			</div>
 			<div className="flex flex-col gap-1">
 				<h4 className="text-lg md:text-xl">{member.name}</h4>
-				<p className="text-muted-foreground text-sm md:text-base">{translatedRole.data?.text ?? member.role}</p>
+				<p className="text-muted-foreground text-sm md:text-base">{member.role}</p>
 			</div>
 		</div>
 	)
