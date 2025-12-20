@@ -49,7 +49,7 @@ export default function PrivacyPolicyContent({ privacyPolicyData, lastUpdated }:
             {/* Render the content using PortableText */}
             <div className="max-w-none space-y-6">
               <PortableText
-                value={privacyPolicyData.content}
+                value={privacyPolicyData.content || []}
                 components={{
                   block: {
                     normal: ({ children }) => (
