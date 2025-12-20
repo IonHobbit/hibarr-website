@@ -14,7 +14,7 @@ type AboutHostSectionProps = {
 
 export default function AboutHostSection({ data, statistics }: AboutHostSectionProps) {
   return (
-    <section id='about-rabih' className='section md:h-[60vh]'>
+    <section id='about-rabih' className='section md:h-[60dvh]'>
       <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-10 h-full">
         <div className="flex flex-col gap-6 md:col-span-1">
           <div className="flex flex-col gap-2">

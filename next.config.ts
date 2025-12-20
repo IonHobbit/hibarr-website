@@ -1,4 +1,25 @@
 import type { NextConfig } from "next";
+import { execSync } from 'node:child_process';
+
+const getGitSha = () => {
+  const fromEnv =
+    process.env.VERCEL_GIT_COMMIT_SHA ||
+    process.env.NEXT_PUBLIC_GIT_SHA ||
+    process.env.GIT_COMMIT_SHA ||
+    process.env.COMMIT_REF;
+
+  if (fromEnv) return fromEnv.trim();
+
+  try {
+    return execSync('git rev-parse HEAD', { stdio: ['ignore', 'pipe', 'ignore'] })
+      .toString()
+      .trim();
+  } catch {
+    return '';
+  }
+};
+
+const gitSha = getGitSha();
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -6,7 +27,11 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   generateEtags: false,
-  
+
+  env: {
+    NEXT_PUBLIC_GIT_SHA: gitSha,
+  },
+
   // Image optimization
   images: {
     remotePatterns: [
@@ -58,6 +83,38 @@ const nextConfig: NextConfig = {
         source: '/ingest/decide',
         destination: 'https://eu.i.posthog.com/decide',
       },
+    ];
+  },
+  async headers() {
+    return [
+
+      {
+        source: '/:path*.{jpg,jpeg,png,gif,webp,svg,ico}',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=604800, immutable',
+          },
+        ],
+      },
+      {
+        source: '/:path*.{woff,woff2,ttf,otf}',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/(Next|next).xml',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, stale-while-revalidate',
+          },
+        ],
+      }
     ];
   },
   // This is required to support PostHog trailing slash API requests

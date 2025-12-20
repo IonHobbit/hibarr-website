@@ -43,7 +43,7 @@ export default async function SignupSection({ data }: SignupSectionProps) {
   }
 
   return (
-    <section id='signup' className={cn('bg-primary flex flex-col transition-all duration-300 min-h-[30vh]')}>
+    <section id='signup' className={cn('bg-primary flex flex-col transition-all duration-300 min-h-[30dvh]')}>
       <div className="section h-full grow max-w-screen-sm">
         <SignupForm data={data} text={text} />
       </div>

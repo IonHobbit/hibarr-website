@@ -63,7 +63,7 @@ export default function HeaderItem({ item, lang, mobile, onClick }: HeaderItemPr
             onClick={onClick}
             href={`/${lang}${child.href}`}
             key={index}
-            className="text-primary-foreground ml-4 hover:text-primary-foreground/80 whitespace-nowrap">
+            className="text-primary-foreground ml-4 hover:text-primary-foreground/80 whitespace-nowrap min-h-[48px] flex items-center">
             {child.name}
           </Link>
         ))}

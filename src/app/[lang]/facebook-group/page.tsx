@@ -1,22 +1,22 @@
 import { Locale } from '@/lib/i18n-config'
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client'
 import { generateSEOMetadata } from '@/lib/utils'
-import type { WaitlistPage } from '@/types/sanity.types'
+import type { WaitlistPage, SeoMetaFields } from '@/types/sanity.types'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import WaitlistForm from './_components/WaitlistForm'
 import { translate } from '@/lib/translation'
 import WhyJoinSectionRawText from './_components/WhyJoinSectionRawText'
 
+import { seoTitles } from '@/lib/seo-titles';
+import { seoDescriptions } from '@/data/seo-descriptions'
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 
   const { seo } = await fetchRawSanityData<WaitlistPage>(`*[_type == "waitlistPage" && language == $lang][0]{seo}`, { lang })
 
-  return generateSEOMetadata(seo, {
-    title: 'Join the #1 Private Group for North Cyprus Real Estate Buyers & Investors',
-    keywords: [],
-  })
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].facebookGroup, metaDescription: seoDescriptions[lang].facebookGroup } as SeoMetaFields)
 }
 
 export default async function FacebookGroupPage(
@@ -42,7 +42,7 @@ export default async function FacebookGroupPage(
   return (
     <section id='hero' className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8 grid place-items-center place-content-center min-h-screen bg-gradient-to-b from-primary via-primary/80 to-transparent">
       <div className='absolute inset-0 w-full h-full -z-10'>
-  <Image src="https://res.cloudinary.com/hibarr/image/upload/webinar-registration-background_m3p9kq" alt="Waitlist Hero" fill className='w-full h-full object-cover absolute' />
+        <Image src="https://res.cloudinary.com/hibarr/image/upload/webinar-registration-background_m3p9kq" alt="Waitlist Hero" fill className='w-full h-full object-cover absolute' />
       </div>
 
       <div className="section grid grid-cols-1 lg:grid-cols-2 place-items-center gap-10 my-28">

@@ -51,7 +51,7 @@ export default function GallerySection({ data }: GallerySectionProps) {
                 </div>
               </div>
             </DialogTrigger>
-            <DialogContent className='min-h-[70vh] p-1'>
+            <DialogContent className='min-h-[70dvh] p-1'>
               <div className='flex flex-col gap-4'>
                 <DialogTitle className='hidden'>{item.alt}</DialogTitle>
                 <div className='relative w-full h-full overflow-hidden rounded-md'>

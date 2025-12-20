@@ -81,9 +81,10 @@ type ConsultationFormProps = {
     }
   }
   showMessage: string
+  nonce?: string
 }
 
-export default function ConsultationForm({ translations, showMessage }: ConsultationFormProps) {
+export default function ConsultationForm({ translations, showMessage, nonce }: ConsultationFormProps) {
 
   const baseCalendlyUrl = 'https://calendly.com/rabihrabea/appointmentbooking?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=D6A319'
 
@@ -354,18 +355,18 @@ export default function ConsultationForm({ translations, showMessage }: Consulta
   }
 
   if (isRegistered) {
-    return <div className='flex flex-col gap-4 justify-center items-center min-h-[20vh] w-full p-8 transition-all duration-300'>
+    return <div className='flex flex-col gap-4 justify-center items-center min-h-[20dvh] w-full p-8 transition-all duration-300'>
       <h4 className='text-2xl font-medium text-center'>{translations.registered.title}</h4>
       <p className='text-lg text-center'>{translations.registered.description}</p>
     </div>
   }
 
   if (calendlyUrl) {
-    return <CalendlyEmbed url={calendlyUrl} />
+    return <CalendlyEmbed url={calendlyUrl} nonce={nonce} />
   }
 
   return (
-    <form className='flex flex-col gap-4 justify-between min-h-[50vh] md:min-h-[45vh] overflow-y-auto w-full p-8 transition-all duration-300'>
+    <form className='flex flex-col gap-4 justify-between min-h-[50dvh] md:min-h-[45dvh] overflow-y-auto w-full p-8 transition-all duration-300'>
       <div className="flex flex-col gap-6">
         <div className="flex items-center gap-2">
           {steps.map((_, index) => (

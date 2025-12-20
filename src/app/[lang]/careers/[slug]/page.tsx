@@ -4,6 +4,7 @@ import ApplicationForm from './_components/ApplicationForm';
 import { makeGETRequest } from '@/lib/services/api.service';
 import { translate } from '@/lib/translation';
 import { Job } from '@/types/careers';
+import Link from 'next/link';
 
 export default async function CareerPage({ params }: { params: Promise<{ slug: string, lang?: string }> }) {
   const { slug } = await params;
@@ -24,18 +25,21 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
   if (!job) return notFound();
 
   // Translate the page content
-  const [responsibilities, requirements, minimumExperience, applyForThisRole] = await Promise.all([
+  const [responsibilities, requirements, minimumExperience, applyForThisRole, backToCareers] = await Promise.all([
     translate('Responsibilities'),
     translate('Requirements'),
     translate('Minimum Experience'),
-    translate('Apply for this role')
+    translate('Apply for this role'),
+    translate('Back to Open Positions')
   ]);
+  
 
   return (
     <main>
       <section className='section header-offset'>
           <div className='grid grid-cols-1 md:grid-cols-5 gap-6'>
             <aside className='md:col-span-2 bg-secondary rounded-lg flex flex-col gap-4'>
+              <Link href='/careers' className='text-muted-foreground hover:text-primary transition-colors'>{backToCareers.text}</Link>
               <h1 className='text-3xl font-bold mb-2'>{job.title}</h1>
               <p className='text-muted-foreground mb-2'>{job.department} • {job.location} • {job.type}</p>
               <p className='mb-4'>{job.description}</p>
