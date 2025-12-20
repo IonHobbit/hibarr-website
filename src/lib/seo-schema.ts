@@ -1,4 +1,4 @@
-import { WithContext, Organization, Product, Review, FAQPage, VideoObject, FinancialService } from 'schema-dts';
+import { WithContext, Organization, Product, Review, FAQPage, VideoObject, RealEstateAgent } from 'schema-dts';
 import { Property, CaseStudy } from '@/types/sanity.types';
 import imageUrlBuilder from '@sanity/image-url';
 import { client } from '@/lib/third-party/sanity.client';
@@ -19,10 +19,9 @@ export const generateOrganizationSchema = (): WithContext<Organization> => {
         logo: 'https://hibarr.de/logos/logo-blue.png',
         email: 'info@hibarr.de',
         sameAs: [
-            'https://www.facebook.com/hibarr',
-            'https://www.instagram.com/hibarr',
-            'https://www.linkedin.com/company/hibarr',
-            'https://twitter.com/hibarr',
+            'https://www.facebook.com/profile.php?id=61574067689864',
+            'https://www.instagram.com/hibarrestate',
+            'https://www.linkedin.com/company/hibarr-trading-ltd/',
         ],
         contactPoint: {
             '@type': 'ContactPoint',
@@ -35,11 +34,11 @@ export const generateOrganizationSchema = (): WithContext<Organization> => {
     };
 };
 
-export const generateLocalBusinessSchema = (): WithContext<FinancialService> => {
+export const generateLocalBusinessSchema = (): WithContext<RealEstateAgent> => {
     return {
         '@context': 'https://schema.org',
-        '@type': 'FinancialService', // Replaced RealEstateAgent
-        name: 'HIBARR Trading Ltd',
+        '@type': 'RealEstateAgent', // Or generic LocalBusiness
+        name: 'HIBARR Real Estate',
         image: 'https://hibarr.de/logos/logo-blue.png',
         '@id': 'https://hibarr.de',
         url: 'https://hibarr.de',
