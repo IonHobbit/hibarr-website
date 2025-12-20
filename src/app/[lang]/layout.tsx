@@ -5,7 +5,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
 import ScrollToTop from '@/app/[lang]/_components/ScrollToTop';
-import Script from 'next/script';
 import { generateOrganizationSchema, generateLocalBusinessSchema } from '@/lib/seo-schema';
 
 export async function generateStaticParams() {
