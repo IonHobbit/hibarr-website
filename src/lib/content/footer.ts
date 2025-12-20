@@ -12,7 +12,7 @@ export const footerContent: Content = {
   de: {
     contactUs: 'Kontaktiere uns',
     careers: 'Karriere',
-    privacyPolicy: 'Datenschutz',
+    privacyPolicy: 'Datenschutzrichtlinie',
     legalNotice: 'Impressum',
     copyrightPrefix: '© Copyright {currentYear}',
     copyrightSuffix: ' Alle Rechte vorbehalten',

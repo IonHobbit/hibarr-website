@@ -138,7 +138,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     title: 'Jetzt investieren zu Vorverkaufspreisen',
     subtitle: 'Erschwingliche Resort-Immobilien in Nordzypern',
     features: [
-      'Von €10,750 abzahlbarer Anzahlung',
+      'Von £10,750 abzahlbarer Anzahlung',
       '£600/Monat - 0% Zinsen (48 Monate)',
       'Keine Maklermission',
       'Vollständige Privatsphäre - außerhalb der EU'
