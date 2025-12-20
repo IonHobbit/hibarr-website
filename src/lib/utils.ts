@@ -59,7 +59,7 @@ export function generateSEOMetadata(seo?: SeoMetaFields, defaults?: {
         url,
         width: 1200,
         height: 630,
-        alt: metaTitle || 'HIBARR North Cyprus Real Estate',
+        alt: metaTitle || 'HIBARR Trading Ltd',
       })),
       type: ((seo?.openGraph as { type?: string })?.type || 'website') as 'website' | 'article',
       locale: locale === 'en' ? 'en_US' : locale === 'de' ? 'de_DE' : locale === 'tr' ? 'tr_TR' : locale === 'ru' ? 'ru_RU' : locale,
