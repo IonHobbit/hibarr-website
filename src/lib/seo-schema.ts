@@ -54,7 +54,7 @@ export const generateLocalBusinessSchema = (): WithContext<RealEstateAgent> => {
         },
         geo: {
             '@type': 'GeoCoordinates',
-            latitude: 35.3333, // Replace with actual coords
+            latitude: 35.3333,
             longitude: 33.3167,
         },
         openingHoursSpecification: {
@@ -75,6 +75,11 @@ export const generateLocalBusinessSchema = (): WithContext<RealEstateAgent> => {
 
 export const generateProductSchema = (listing: Property): WithContext<Product> => {
     const info = listing.basicInfo || {};
+    const saleType = info.saleType;
+
+    const condition = saleType === 'off-plan'
+        ? 'https://schema.org/NewCondition'
+        : 'https://schema.org/UsedCondition';
 
     return {
         '@context': 'https://schema.org',
@@ -93,7 +98,7 @@ export const generateProductSchema = (listing: Property): WithContext<Product> =
             priceCurrency: info.price?.currency || 'GBP',
             price: info.price?.amount,
             availability: 'https://schema.org/InStock',
-            itemCondition: 'https://schema.org/NewCondition',
+            itemCondition: condition,
         },
     };
 };
@@ -142,3 +147,4 @@ export const generateVideoSchema = (video: CaseStudy): WithContext<VideoObject> 
         embedUrl: video.videoUrl || '',
     };
 };
+
