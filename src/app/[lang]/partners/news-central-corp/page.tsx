@@ -8,7 +8,7 @@ const AnimatedHeroSection = dynamic(() => import('./_components/AnimatedHeroSect
 })
 
 const AnimatedAboutSection = dynamic(() => import('./_components/AnimatedAboutSection'), {
-  loading: () => <div className="min-h-[50vh] bg-white" />
+  loading: () => <div className="min-h-[50dvh] bg-white" />
 })
 
 const AnimatedWhySection = dynamic(() => import('./_components/AnimatedWhySection'), {
@@ -16,7 +16,7 @@ const AnimatedWhySection = dynamic(() => import('./_components/AnimatedWhySectio
 })
 
 const AnimatedPartnershipSection = dynamic(() => import('./_components/AnimatedPartnershipSection'), {
-  loading: () => <div className="min-h-[25vh] bg-black" />
+  loading: () => <div className="min-h-[25dvh] bg-black" />
 })
 
 export const metadata: Metadata = {

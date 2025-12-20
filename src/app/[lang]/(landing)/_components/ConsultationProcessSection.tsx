@@ -1,3 +1,5 @@
+'use client'
+
 import { HomePage } from "@/types/sanity.types";
 import { Icon } from "@/components/icons";
 

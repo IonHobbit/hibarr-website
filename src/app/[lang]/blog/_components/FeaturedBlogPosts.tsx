@@ -26,7 +26,7 @@ export default function FeaturedBlogPosts({ featuredPosts }: FeaturedBlogPostsPr
   }, [featuredPosts]);
 
   return (
-    <div className="h-[80vh] p-2">
+    <div className="h-[80dvh] p-2">
       <div className="h-full w-full relative bg-primary rounded-lg overflow-hidden">
         <div className="absolute inset-0 bg-black/70 z-10" />
         <div className="absolute left-1/2 -translate-x-1/2 max-w-screen-xl mx-auto w-full flex flex-wrap items-end gap-4 justify-between bottom-20 z-10 p-6">

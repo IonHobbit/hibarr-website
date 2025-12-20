@@ -98,7 +98,7 @@ export default function AnimatedPartnershipSection({
 
   return (
     <motion.section
-      className='bg-black w-full p-6 py-10 md:min-h-[25vh] flex flex-col gap-20 items-center justify-center'
+      className='bg-black w-full p-6 py-10 md:min-h-[25dvh] flex flex-col gap-20 items-center justify-center'
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}

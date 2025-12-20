@@ -6,11 +6,14 @@ import { HomePage } from '@/types/sanity.types'
 // import AnimatedLandingSection from './AnimatedLandingSection'
 // import { useFeatureFlagVariantKey } from 'posthog-js/react'
 
+import { Locale } from '@/lib/i18n-config'
+
 type LandingWrapperProps = {
   data: HomePage
+  lang: Locale
 }
 
-export default function LandingWrapper({ data }: LandingWrapperProps) {
+export default function LandingWrapper({ data, lang }: LandingWrapperProps) {
   // const posthog = PostHogClient();
   // const distinctId = getUserDistinctId();
   // const landingSectionFlagKey = await posthog.getFeatureFlag('landing-section', distinctId)
@@ -33,5 +36,5 @@ export default function LandingWrapper({ data }: LandingWrapperProps) {
   //   return <LandingSection data={data} />
   // }
 
-  return <LandingSection data={data} />
+  return <LandingSection data={data} lang={lang} />
 }

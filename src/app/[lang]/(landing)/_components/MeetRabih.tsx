@@ -8,7 +8,7 @@ type MeetRabihProps = {
 
 export default function MeetRabih({ data }: MeetRabihProps) {
   return (
-    <section id='meet-rabih' className='section min-h-[50vh]'>
+    <section id='meet-rabih' className='section min-h-[50dvh]'>
       <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-10">
         <div className="flex flex-col gap-6 w-full">
           <div className="flex flex-col gap-2">

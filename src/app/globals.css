@@ -53,6 +53,9 @@
 
   --animate-scroll: scroll var(--animation-duration, 40s)
     var(--animation-direction, forwards) linear infinite;
+  
+  /* Performance optimizations for infinite scroll */
+  --scroll-performance: translate3d(0, 0, 0) rotate(0) scale(1);
 }
 
 /* Performance optimizations */
@@ -62,6 +65,15 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+.touch-target {
+  min-height: 48px;
+  min-width: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 body {
@@ -88,7 +100,6 @@ h6 {
 img {
   max-width: 100%;
   height: auto;
-  content-visibility: auto;
 }
 
 /* Optimize animations */
@@ -255,4 +266,22 @@ img {
   .mobile-optimized {
     contain: layout style paint;
   }
+}
+
+/* Scroller optimizations for InfiniteMovingCards */
+.scroller {
+  contain: layout style;
+  will-change: contents;
+}
+
+.scroller ul {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.animate-scroll {
+  animation: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+  transform: translate3d(0, 0, 0);
 }

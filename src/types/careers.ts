@@ -9,4 +9,5 @@ export type Job = {
   responsibilities?: string[];
   requirements?: string[];
   minWorkExperience?: string;
+  published: boolean;
 }
