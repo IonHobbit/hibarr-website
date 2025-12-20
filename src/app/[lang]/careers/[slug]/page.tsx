@@ -120,7 +120,7 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
               </div>
             </div>
           </div>
-        </div>
+
       </section>
     </main>
   )
