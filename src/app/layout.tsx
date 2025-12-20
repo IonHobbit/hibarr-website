@@ -4,6 +4,9 @@ import { Locale } from "@/lib/i18n-config";
 import "./globals.css";
 import "flag-icons/css/flag-icons.min.css";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { PostHogProvider } from "@/providers/PostHogProvider";
 import MetaPixel from "@/components/analytics/MetaPixel";
@@ -11,6 +14,7 @@ import ThemeProvider from "@/providers/ThemeProvider";
 import GA4 from "@/components/analytics/GTMHead";
 import GTMBody from "@/components/analytics/GTMBody";
 import { WebVitals } from "@/components/analytics/WebVitals";
+import { cookies, headers } from "next/headers";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -76,12 +80,21 @@ export default async function RootLayout(
 ) {
   const { params, children } = props;
   const { lang } = await params;
+  const headerList = await headers();
+  const nonce = headerList.get("x-nonce") || undefined;
+
+  const cookieStore = await cookies();
+  const analyticsDisabled = cookieStore.get('hibarr_noanalytics')?.value === '1';
 
   return (
     <html lang={lang} className="scroll-smooth">
       <head>
-        <GA4 />
-        <MetaPixel />
+        {!analyticsDisabled && (
+          <>
+            <GA4 nonce={nonce} />
+            <MetaPixel nonce={nonce} />
+          </>
+        )}
         {/* Preload critical resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -94,14 +107,20 @@ export default async function RootLayout(
       <body
         className={`${inter.variable} ${figtree.variable} antialiased relative w-screen overflow-x-hidden`}
       >
-        <GTMBody />
+        {!analyticsDisabled && <GTMBody />}
         <ThemeProvider>
-          <PostHogProvider>
-            <WebVitals />
+          {analyticsDisabled ? (
             <ReactQueryProvider>
               {children}
             </ReactQueryProvider>
-          </PostHogProvider>
+          ) : (
+            <PostHogProvider>
+              <WebVitals />
+              <ReactQueryProvider>
+                {children}
+              </ReactQueryProvider>
+            </PostHogProvider>
+          )}
         </ThemeProvider>
       </body>
     </html>

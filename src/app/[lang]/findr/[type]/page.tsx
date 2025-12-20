@@ -1,4 +1,3 @@
-import WaveReveal from '@/components/animata/text/wave-reveal';
 import { Locale } from '@/lib/i18n-config';
 import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import { cn } from '@/lib/utils';
@@ -16,12 +15,12 @@ export default async function FindrPage({ params }: { params: Promise<{ lang: Lo
   return (
     <div className='mt-18 section px-4 gap-4'>
       <div className="flex flex-col gap-2">
-        <WaveReveal
+        {/* <WaveReveal
           duration="1000ms"
           className="items-start justify-start font-bold text-xl sm:text-2xl md:text-6xl"
           text={data.name || ''}
           direction="up"
-        />
+        /> */}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
         {/* <PortableText value={data.description || []} /> */}

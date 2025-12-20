@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Icon } from "@/components/icons";
 import { Footer as FooterType } from "@/types/sanity.types";
 import { usePathname } from "next/navigation";
+import { footerContent } from "@/lib/content/footer";
 
 type ClientFooterProps = {
   lang: Locale
@@ -20,6 +21,8 @@ export default function ClientFooter({ lang, footerData }: ClientFooterProps) {
 
   const hiddenPaths = ['/calendar']
   const isHiddenPath = hiddenPaths.some(path => pathname.includes(path))
+
+  const content = footerContent[lang] ?? footerContent.en;
 
   const socialLinks = [
     {
@@ -71,14 +74,21 @@ export default function ClientFooter({ lang, footerData }: ClientFooterProps) {
             <Link href={`/${lang}`}>
               <Image src="/logos/logo-blue.png" alt="HIBARR Estates Logo" className="object-contain w-auto h-auto" width={140} height={20} />
             </Link>
-            <p className="text-xs md:text-sm text-foreground font-light">© Copyright {currentYear} <span className="font-semibold">XEGARA Trading Ltd.</span> all rights reserved</p>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <p className="text-xs md:text-sm text-foreground font-light">
+              {content.copyrightPrefix.replace('{currentYear}', currentYear.toString())}
+              <span className="font-semibold"> XEGARA Trading Ltd.</span>
+              {content.copyrightSuffix}
+            </p>
+            <div className="flex items-center gap-4 text-base text-muted-foreground">
               <Link href={`/${lang}/privacy-policy`} className="hover:text-foreground transition-colors">
-                Privacy Policy
+                {content.legalNotice}
               </Link>
-              <Link href={`/${lang}/careers`} className="hover:text-foreground transition-colors">
-                Careers
+              <Link href={`/${lang}/privacy-policy`} className="hover:text-foreground transition-colors">
+                {content.privacyPolicy}
               </Link>
+              {/* <Link href={`/${lang}/careers`} className="hover:text-foreground transition-colors">
+                {content.careers}
+              </Link> */}
             </div>
             <div className="flex items-center gap-4">
               {socialLinks.map((link) => (
@@ -90,7 +100,7 @@ export default function ClientFooter({ lang, footerData }: ClientFooterProps) {
           </div>
           <div className="flex flex-col lg:flex-row lg:items-center gap-6">
             <div className="flex flex-col gap-3 lg:items-end max-w-xs">
-              <p className="text-lg font-semibold">Contact Us</p>
+              <p className="text-lg font-semibold">{content.contactUs}</p>
               {contactInfo.map((item, index) => (
                 <div key={index} className="flex flex-row-reverse lg:flex-row justify-end lg:justify-start items-center gap-2.5">
                   <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-sm md:text-base lg:text-right">

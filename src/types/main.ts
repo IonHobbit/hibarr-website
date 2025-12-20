@@ -1,3 +1,5 @@
+import { Locale } from "@/lib/i18n-config";
+
 type PropertyType = {
   id: string;
   name: string;
@@ -152,6 +154,26 @@ type PropertyListing = {
     lastName: string;
   };
 };
+// type WebinarRegistrationForm = {
+//   firstName: string,
+//   lastName: string,
+//   email: string,
+//   phone: string,
+//   language: string,
+//   utmInfo: {
+//     utmSource: string,
+//     utmMedium: string,
+//     utmCampaign: string,
+//     utmTerm: string,
+//     utmContent: string
+//   }
+// }
+
+export type Content = {
+  [key in Locale]: {
+    [key: string]: string
+  }
+}
 
 export type {
   PropertyType, RegistrationFormType,

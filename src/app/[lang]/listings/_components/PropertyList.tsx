@@ -58,9 +58,9 @@ export default function PropertyList() {
 
   return (
     <section className="section h-full grow">
-      <div className="min-h-[80vh]">
+      <div className="min-h-[80dvh]">
         {listings?.length === 0 && (
-          <div className="flex flex-col gap-1 items-center justify-center h-[40vh] grow max-w-screen-sm mx-auto">
+          <div className="flex flex-col gap-1 items-center justify-center h-[40dvh] grow max-w-screen-sm mx-auto">
             <h1 className="text-2xl font-bold">No {joinWith(propertyTypeList, 'or')} listings found</h1>
             <p className="text-sm text-muted-foreground text-center">
               {location.filter(Boolean).length > 0 ? `in ${joinWith(location, 'or')}` : ''}
@@ -72,13 +72,13 @@ export default function PropertyList() {
           </div>
         )}
         {error && (
-          <div className="flex flex-col gap-2 items-center justify-center h-[80vh]">
+          <div className="flex flex-col gap-2 items-center justify-center h-[80dvh]">
             <h3 className="text-3xl font-bold max-w-md text-center">Looks like something went wrong loading the listings</h3>
             <p className="text-lg text-muted-foreground hover:underline cursor-pointer" onClick={() => refetch()}>Please try again</p>
           </div>
         )}
         {((!listings && !error) || isPending) && (
-          <div className="flex items-center justify-center h-[80vh]">
+          <div className="flex items-center justify-center h-[80dvh]">
             <Icon icon="mdi:loading" className="size-8 animate-spin" />
           </div>
         )}
