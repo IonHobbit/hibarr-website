@@ -22,6 +22,7 @@ export default function TeamMemberCard({ member }: TeamMemberCardProps) {
 			<div className="flex flex-col gap-1">
 				<h4 className="text-lg md:text-xl">{member.name}</h4>
 				<p className="text-muted-foreground text-sm md:text-base">{member.role}</p>
+				<p className="text-muted-foreground font-medium text-xs md:text-sm">{member.qualification}</p>
 			</div>
 		</div>
 	)
