@@ -4,11 +4,16 @@ import Image from 'next/image'
 import React, { Fragment } from 'react'
 import FAQAccordion from '../../_components/FAQAccordion'
 import { Locale } from '@/lib/i18n-config'
+import { getHreflangAlternates } from '@/lib/seo-metadata'
 import Video from '@/components/Video'
 
-export const metadata: Metadata = {
-  title: 'Oscar Group',
-  description: 'Excellence Starts with the Right Partner – Oscar Group.',
+export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await params;
+  return {
+    title: 'Oscar Group',
+    description: 'Excellence Starts with the Right Partner – Oscar Group.',
+    alternates: getHreflangAlternates('/partners/disabled-og', lang)
+  }
 }
 
 export default async function OscarGroup(

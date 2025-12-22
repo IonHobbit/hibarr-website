@@ -8,6 +8,7 @@ import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.cl
 import { ConsultationPage as ConsultationPageType, HomePage } from '@/types/sanity.types';
 import BitrixForm from './_components/BitrixForm';
 import { generateSEOMetadata } from '@/lib/utils';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
 import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
 import Video from '@/components/Video';
 import { headers } from 'next/headers';
@@ -20,6 +21,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
   return generateSEOMetadata(seo, {
     title: 'Schedule a Free Kick Off hdshhs Meeting',
     description: 'We are the only company in North Cyprus that can offer 10 year payment plans, 0% interest, and no credit checks.',
+    alternates: getHreflangAlternates('/article', lang)
   })
 }
 

@@ -3,7 +3,15 @@ import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import { cn } from '@/lib/utils';
 import { PropertyKind } from '@/types/sanity.types';
 import Image from 'next/image';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
+import { Metadata } from 'next';
 
+export async function generateMetadata({ params }: { params: Promise<{ lang: Locale, type: string }> }): Promise<Metadata> {
+  const { lang, type } = await params;
+  return {
+    alternates: getHreflangAlternates(`/findr/${type}`, lang)
+  }
+}
 export default async function FindrPage({ params }: { params: Promise<{ lang: Locale, type: string }> }) {
   const { type } = await params;
 
