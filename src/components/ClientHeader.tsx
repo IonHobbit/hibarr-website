@@ -40,7 +40,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
         )}
         <div className="flex justify-between gap-2 items-center">
           <Link href={`/${lang}`} className='shrink-0'>
-            <Image src="/logos/logo.png" alt="HIBARR Estates - North Cyprus Real Estate Investment Agency" loading='eager' className="object-contain h-auto" width={140} height={20} />
+            <Image src="/logos/logo.png" alt="HIBARR - North Cyprus Financial Investment Agency" loading='eager' className="object-contain h-auto" width={140} height={20} />
           </Link>
           <div className="hidden md:flex space-x-8 items-center w-full justify-center overflow-x-auto">
             {(navigationData?.items || []).map((item: NavItem, index: number) => (

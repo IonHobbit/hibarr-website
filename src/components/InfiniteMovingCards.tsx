@@ -79,7 +79,7 @@ export const InfiniteMovingCards = ({
       >
         {items.map((item, idx) => {
            const src = typeof item === 'string' ? item : item.src;
-           const alt = typeof item === 'string' ? 'Partner/Feature Logo' : item.alt;
+           const alt = typeof item === 'string' ? 'Carousel Image' : item.alt;
            return (
             <li
               key={`original-${idx}`}
@@ -100,7 +100,7 @@ export const InfiniteMovingCards = ({
         })}
         {items.map((item, idx) => {
            const src = typeof item === 'string' ? item : item.src;
-           const alt = typeof item === 'string' ? 'Partner/Feature Logo' : item.alt;
+           const alt = typeof item === 'string' ? 'Carousel Image' : item.alt;
            return (
             <li
               key={`duplicate-${idx}`}
