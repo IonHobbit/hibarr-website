@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 type InfiniteMovingCardsProps = {
-  items: string[];
+  items: (string | { src: string; alt: string })[];
   direction?: "left" | "right";
   speed?: "fast" | "normal" | "slow";
   pauseOnHover?: boolean;
@@ -77,41 +77,49 @@ export const InfiniteMovingCards = ({
           pauseOnHover && "hover:[animation-play-state:paused]"
         )}
       >
-        {items.map((item, idx) => (
-          <li
-            key={`original-${idx}`}
-            className="relative flex-shrink-0 flex items-center w-max"
-          >
-            <div className="flex items-center justify-center relative w-40 h-20">
-              <Image
-                src={item}
-                alt={'Partner/Feature Logo'}
-                sizes="160px"
-                fill
-                loading='lazy'
-                className="object-contain absolute grayscale hover:grayscale-0 transition-all duration-300"
-              />
-            </div>
-          </li>
-        ))}
-        {items.map((item, idx) => (
-          <li
-            key={`duplicate-${idx}`}
-            className="relative flex-shrink-0 flex items-center w-max"
-            aria-hidden="true"
-          >
-            <div className="flex items-center justify-center relative w-40 h-20">
-              <Image
-                src={item}
-                alt={'Partner/Feature Logo'}
-                sizes="160px"
-                fill
-                loading='lazy'
-                className="object-contain absolute grayscale hover:grayscale-0 transition-all duration-300"
-              />
-            </div>
-          </li>
-        ))}
+        {items.map((item, idx) => {
+           const src = typeof item === 'string' ? item : item.src;
+           const alt = typeof item === 'string' ? 'Carousel Image' : item.alt;
+           return (
+            <li
+              key={`original-${idx}`}
+              className="relative flex-shrink-0 flex items-center w-max"
+            >
+              <div className="flex items-center justify-center relative w-40 h-20">
+                <Image
+                  src={src}
+                  alt={alt}
+                  sizes="160px"
+                  fill
+                  loading='lazy'
+                  className="object-contain absolute grayscale hover:grayscale-0 transition-all duration-300"
+                />
+              </div>
+            </li>
+          )
+        })}
+        {items.map((item, idx) => {
+           const src = typeof item === 'string' ? item : item.src;
+           const alt = typeof item === 'string' ? 'Carousel Image' : item.alt;
+           return (
+            <li
+              key={`duplicate-${idx}`}
+              className="relative flex-shrink-0 flex items-center w-max"
+              aria-hidden="true"
+            >
+              <div className="flex items-center justify-center relative w-40 h-20">
+                <Image
+                  src={src}
+                  alt={alt}
+                  sizes="160px"
+                  fill
+                  loading='lazy'
+                  className="object-contain absolute grayscale hover:grayscale-0 transition-all duration-300"
+                />
+              </div>
+            </li>
+          )
+        })}
       </ul>
     </div>
   );

@@ -5,7 +5,7 @@ import { Locale } from '@/lib/i18n-config';
 
 type PartnersSectionProps = {
   lang: Locale;
-  partnerLogos: string[];
+  partnerLogos: (string | { src: string; alt: string })[];
 }
 
 export default function PartnersSection({ lang, partnerLogos }: PartnersSectionProps) {

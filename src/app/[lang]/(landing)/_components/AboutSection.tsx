@@ -14,7 +14,7 @@ export default function AboutSection({ data }: AboutSectionProps) {
     <section id='about' className='section'>
       <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-10">
         <div>
-          <Image src="/logos/logomark.svg" loading='lazy' alt="Hibarr Logo" width={400} height={400} />
+          <Image src="/logos/logomark.svg" loading='lazy' alt="HIBARR Logomark" width={400} height={400} />
         </div>
         <div className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
