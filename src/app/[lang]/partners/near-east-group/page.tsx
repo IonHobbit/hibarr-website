@@ -4,6 +4,7 @@ import Image from 'next/image'
 import React, { Fragment } from 'react'
 import FAQAccordion from '../../_components/FAQAccordion'
 import { Locale } from '@/lib/i18n-config'
+import { EXPANDED_CONTENT } from '@/data/expanded-content'
 
 export const metadata: Metadata = {
   title: 'Near East Group',
@@ -16,6 +17,7 @@ export default async function NearEastGroup(
   }
 ) {
   const { lang } = await props.params;
+  const content = EXPANDED_CONTENT[lang]?.partners?.nearEastGroup || EXPANDED_CONTENT['en'].partners.nearEastGroup;
 
   const portfolioCompanies = [
     {
@@ -72,12 +74,24 @@ export default async function NearEastGroup(
               About Near East Group
             </h2>
             <p className='text-md md:text-lg'>
-              The Near East Group is a leading conglomerate based in Cyprus, renowned for its commitment to excellence, innovation, and community development. With a diverse portfolio spanning education, healthcare, banking, and more, the Near East Group has established itself as a cornerstone of progress in the region.
+              {content.about}
             </p>
             <h3 className='text-xl md:text-2xl'>Our Legacy</h3>
             <p className='text-md md:text-lg'>
-              Founded with a vision to create a better future, the Near East Group has grown into a multifaceted organization that touches the lives of thousands every day. Our journey began with the establishment of <span className='font-semibold'>Near East University</span>, one of the most prestigious higher education institutions in the Eastern Mediterranean. Today, we continue to expand our reach, delivering world-class services across various sectors.
+              {content.history}
             </p>
+            <div className='flex flex-col gap-4 mt-4'>
+              <h3 className='text-xl md:text-2xl'>Why Trust Near East Group?</h3>
+              <ul className='list-disc pl-5 space-y-2'>
+                {content.trustSignals.map((signal, i) => (
+                  <li key={i} className='text-md md:text-lg'>{signal}</li>
+                ))}
+              </ul>
+            </div>
+            <div className='flex flex-col gap-4 mt-4'>
+               <h3 className='text-xl md:text-2xl'>Benefits for Investors</h3>
+               <p className='text-md md:text-lg'>{content.investorBenefits}</p>
+            </div>
           </div>
           <div className='flex flex-col gap-6'>
             <h3 className='text-xl md:text-2xl'>Discover the Diverse Portfolio of Near East Group</h3>
@@ -118,7 +132,7 @@ export default async function NearEastGroup(
         </div>
         <div className='section py-0'>
           <h3 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h3>
-          <FAQAccordion lang={lang} />
+          <FAQAccordion lang={lang} items={content.faqs} />
         </div>
       </section>
     </Fragment >

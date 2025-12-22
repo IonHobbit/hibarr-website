@@ -13,11 +13,11 @@ import GallerySection from './_components/GallerySection';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
 import { AboutPage as AboutPageType, SeoMetaFields } from '@/types/sanity.types';
 import { generateSEOMetadata } from '@/lib/utils';
+import { EXPANDED_CONTENT } from '@/data/expanded-content'; 
 
 import { seoTitles } from '@/lib/seo-titles';
 import { seoDescriptions } from '@/data/seo-descriptions';
 import cloudinaryClient from '@/lib/third-party/cloudinary.client';
-
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -26,6 +26,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].about, metaDescription: seoDescriptions[lang].about } as SeoMetaFields)
 }
+
 
 export default async function AboutPage(
   props: {
@@ -44,6 +45,7 @@ export default async function AboutPage(
   const featuredLogos = featuredLogosResult.status === 'fulfilled' ? featuredLogosResult.value : [];
   const partnerLogos = partnerLogosResult.status === 'fulfilled' ? partnerLogosResult.value : [];
 
+  const enrichedRabih = EXPANDED_CONTENT[lang]?.leadership?.rabih || EXPANDED_CONTENT['en'].leadership.rabih;
 
   return (
     <Fragment>
@@ -75,9 +77,10 @@ export default async function AboutPage(
       </section>
       <FeaturedSection lang={lang} featuredLogos={featuredLogos.map(logo => logo.secure_url)} />
       <MissionVisionSection data={data.missionVisionSection} />
-      <AboutRabih data={data.aboutRabihSection} />
+      <AboutRabih data={data.aboutRabihSection} enrichedContent={enrichedRabih} />
       <PartnersSection lang={lang} partnerLogos={partnerLogos.map(logo => logo.secure_url)} />
       <TestimonialsSection lang={lang} showImage />
+
       <GallerySection data={data.gallerySection} />
       <CallToActionSection data={data.callToActionSection} />
     </Fragment>

@@ -7,6 +7,7 @@ import { Locale } from '@/lib/i18n-config';
 import { cn, formatDate, generateImageUrl } from '@/lib/utils'
 import Image from 'next/image'
 import { fetchSanityData } from '@/lib/third-party/sanity.client'
+import { EXPANDED_CONTENT } from '@/data/expanded-content'
 
 type TestimonialsSectionProps = {
   lang: Locale;
@@ -16,13 +17,22 @@ type TestimonialsSectionProps = {
   testimonials?: Testimonial[];
 }
 
+type DisplayTestimonial = Partial<Testimonial> & {
+  image?: string;
+  role?: string;
+}
+
 export default async function TestimonialsSection({ lang, type = 'client', showImage = false, data, testimonials }: TestimonialsSectionProps) {
   const resolvedData = data ?? await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
-  const resolvedTestimonials = testimonials ?? await fetchSanityData<Testimonial[]>(`*[_type == "testimonial" && type == $type] | order(date desc)[0...3]`, { type });
+  
+  // Use expanded content if available
+  const localTestimonials = EXPANDED_CONTENT[lang]?.testimonials || EXPANDED_CONTENT['en'].testimonials;
+  
+  const displayTestimonials = localTestimonials.length > 0 
+    ? localTestimonials 
+    : (testimonials ?? await fetchSanityData<Testimonial[]>(`*[_type == "testimonial" && type == $type] | order(date desc)[0...3]`, { type }))?.filter(t => t.type === type) ?? [];
 
-  const filteredTestimonials = resolvedTestimonials?.filter(testimonial => testimonial.type === type) ?? [];
-
-  if (filteredTestimonials.length === 0) return null;
+  if (displayTestimonials.length === 0) return null;
 
   return (
     <section id='testimonials' className='section pt-20'>
@@ -34,28 +44,36 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
           <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl text-primary absolute -top-16 left-10' />
           <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl rotate-180 text-primary absolute -top-16 right-10' />
         </div>
-        <Carousel opts={{ loop: true }} className='max-h-52'>
+        <Carousel opts={{ loop: true }} className='max-h-80'>
           <CarouselContent>
-            {filteredTestimonials.map((testimonial, index) => (
-              <CarouselItem key={index}>
-                <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'flex-col items-center', 'flex gap-4 p-4 relative')}>
-                  {showImage && testimonial.clientImage && (
-                    <div className='w-32 h-32 rounded overflow-hidden relative shrink-0'>
-                      <Image src={generateImageUrl(testimonial.clientImage).url()} alt={testimonial.clientName || ''} className='w-full h-full object-cover' fill loading='lazy' />
-                    </div>
-                  )}
-                  <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'items-center', 'flex flex-col gap-2')}>
-                    <p className={cn(showImage && testimonial.clientImage ? 'text-left' : 'text-center', 'text-base md:text-lg font-medium line-clamp-5')}>{testimonial.comment}</p>
-                    <div className={cn(showImage && testimonial.clientImage ? 'items-start' : 'items-center', 'flex flex-col gap-0.5')}>
-                      <p className='text-lg text-primary font-medium'>{testimonial.clientName}</p>
-                      {testimonial.date && (
-                        <p className='text-sm text-muted-foreground'>{formatDate(testimonial.date)}</p>
-                      )}
+            {displayTestimonials.map((testimonial: DisplayTestimonial, index: number) => {
+               // Handle different image sources (Sanity object vs string URL)
+               const imageUrl = testimonial.image 
+                ? testimonial.image 
+                : (testimonial.clientImage ? generateImageUrl(testimonial.clientImage).url() : null);
+
+               return (
+                <CarouselItem key={index}>
+                  <div className={cn(showImage && imageUrl ? 'items-start' : 'flex-col items-center', 'flex gap-4 p-4 relative')}>
+                    {showImage && imageUrl && (
+                      <div className='w-32 h-32 rounded overflow-hidden relative shrink-0'>
+                        <Image src={imageUrl} alt={testimonial.clientName || ''} className='w-full h-full object-cover' fill loading='lazy' />
+                      </div>
+                    )}
+                    <div className={cn(showImage && imageUrl ? 'items-start' : 'items-center', 'flex flex-col gap-2')}>
+                      <p className={cn(showImage && imageUrl ? 'text-left' : 'text-center', 'text-base md:text-lg font-medium line-clamp-6')}>{testimonial.comment}</p>
+                      <div className={cn(showImage && imageUrl ? 'items-start' : 'items-center', 'flex flex-col gap-0.5')}>
+                        <p className='text-lg text-primary font-medium'>{testimonial.clientName}</p>
+                        {testimonial.role && <p className='text-sm text-muted-foreground font-medium'>{testimonial.role}</p>}
+                        {testimonial.date && (
+                          <p className='text-sm text-muted-foreground'>{formatDate(testimonial.date)}</p>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CarouselItem>
-            ))}
+                </CarouselItem>
+              )
+            })}
           </CarouselContent>
           <CarouselPrevious className='border-none translate-x-16 md:translate-x-0 translate-y-[450%] md:translate-y-0 bg-primary hover:bg-primary/80 cursor-pointer disabled:opacity-0' />
           <CarouselNext className='border-none -translate-x-16 md:translate-x-0 translate-y-[450%] md:translate-y-0 bg-primary hover:bg-primary/80 cursor-pointer disabled:opacity-0' />
