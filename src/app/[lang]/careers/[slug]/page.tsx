@@ -5,6 +5,30 @@ import { makeGETRequest } from '@/lib/services/api.service';
 import { translate } from '@/lib/translation';
 import { Job } from '@/types/careers';
 import Link from 'next/link';
+import { Metadata } from 'next';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
+import { Locale } from '@/lib/i18n-config';
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string, lang: Locale }> }): Promise<Metadata> {
+  const { slug, lang } = await params;
+  const decoded = decodeURIComponent(slug);
+  
+  // fetch jobs to get title (using same logic as page)
+  let jobs: Job[] = [];
+  try {
+    const resp = await makeGETRequest<Job[]>('/jobs');
+    jobs = resp?.data ?? [];
+  } catch {
+    jobs = [] as Job[];
+  }
+  const job = jobs.find((j) => String(j.slug) === decoded || String(j.id) === decoded);
+
+  return {
+    title: job?.title || 'Career Opportunity',
+    description: job?.description?.slice(0, 160) || 'Join our team at Hibarr',
+    alternates: getHreflangAlternates(`/careers/${decoded}`, lang)
+  }
+}
 
 export default async function CareerPage({ params }: { params: Promise<{ slug: string, lang?: string }> }) {
   const { slug } = await params;

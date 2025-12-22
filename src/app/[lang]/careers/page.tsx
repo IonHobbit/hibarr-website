@@ -5,9 +5,16 @@ import { makeGETRequest } from '@/lib/services/api.service';
 import { translate } from '@/lib/translation';
 import { Job } from '@/types/careers';
 
-export const metadata: Metadata = {
-  title: 'Careers',
-  description: 'Career opportunities at Hibarr',
+import { getHreflangAlternates } from '@/lib/seo-metadata';
+import { Locale } from '@/lib/i18n-config';
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await params;
+  return {
+    title: 'Careers',
+    description: 'Career opportunities at Hibarr',
+    alternates: getHreflangAlternates('/careers', lang)
+  }
 }
 
 export default async function CareersPage() {

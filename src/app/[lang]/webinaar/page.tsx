@@ -13,6 +13,7 @@ import RegistrationFormSection from './_components/RegistrationFormSection'
 import TwoForOneSection from './_components/TwoForOneSection'
 import BenefitsSection from './_components/BenefitsSection'
 import StatisticsSection from './_components/StatisticsSection'
+import { getHreflangAlternates } from '@/lib/seo-metadata'
 import { generateSEOMetadata } from '@/lib/utils'
 import Video from '@/components/Video'
 import cloudinaryClient from '@/lib/third-party/cloudinary.client'
@@ -25,6 +26,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   return generateSEOMetadata(seo, {
     title: 'Webinar',
+    alternates: getHreflangAlternates('/webinaar', lang)
   })
 }
 

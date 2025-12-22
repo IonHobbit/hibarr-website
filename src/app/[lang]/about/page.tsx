@@ -1,4 +1,5 @@
 import type { Locale } from '@/lib/i18n-config';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
 import { seoH1s } from '@/lib/seo-h1';
 import { Metadata } from 'next';
 import { Fragment } from 'react';
@@ -24,7 +25,9 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchRawSanityData<AboutPageType>(`*[_type == "aboutPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].about, metaDescription: seoDescriptions[lang].about } as SeoMetaFields)
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].about, metaDescription: seoDescriptions[lang].about } as SeoMetaFields, {
+    alternates: getHreflangAlternates('/about', lang)
+  })
 }
 
 export default async function AboutPage(

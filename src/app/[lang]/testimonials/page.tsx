@@ -4,6 +4,7 @@ import { Icon } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import type { Locale } from '@/lib/i18n-config';
 import { formatDate, generateSEOMetadata } from '@/lib/utils';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
 import { Metadata } from 'next';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
 import { Testimonial, TestimonialsPage as TestimonialsPageType, SeoMetaFields } from '@/types/sanity.types';
@@ -17,7 +18,9 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchRawSanityData<TestimonialsPageType>(`*[_type == "testimonialsPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].testimonials, metaDescription: seoDescriptions[lang].testimonials } as SeoMetaFields)
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].testimonials, metaDescription: seoDescriptions[lang].testimonials } as SeoMetaFields, {
+    alternates: getHreflangAlternates('/testimonials', lang)
+  })
 }
 
 export default async function TestimonialsPage(

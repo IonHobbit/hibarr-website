@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { Fragment, Suspense } from 'react';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
 import { SuspendedSearchBar } from './_components/SearchBar';
 import PropertyList from './_components/PropertyList';
 import { seoTitles } from '@/lib/seo-titles';
@@ -11,7 +12,9 @@ import { generateSEOMetadata } from '@/lib/utils';
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
-  return generateSEOMetadata({ metaTitle: seoTitles[lang].listings, metaDescription: seoDescriptions[lang].listings } as SeoMetaFields)
+  return generateSEOMetadata({ metaTitle: seoTitles[lang].listings, metaDescription: seoDescriptions[lang].listings } as SeoMetaFields, {
+    alternates: getHreflangAlternates('/listings', lang)
+  })
 }
 
 

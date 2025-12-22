@@ -2,8 +2,18 @@ import WebinarThankYouFunnel from './_components/WebinarThankYouFunnel';
 import EbookThankYouFunnel from './_components/EbookThankYouFunnel';
 import ConsultationThankYouFunnel from './_components/ConsultationThankYouFunnel';
 import FacebookGroupThankYouFunnel from './_components/FacebookGroupThankYouFunnel';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
+import { Metadata } from 'next';
+import { Locale } from '@/lib/i18n-config';
 
-export default async function ThankYouPage({ params }: { params: Promise<{ funnel: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ lang: Locale, funnel: string }> }): Promise<Metadata> {
+  const { lang, funnel } = await params;
+  return {
+    title: 'Thank You',
+    alternates: getHreflangAlternates(`/${funnel}/thank-you`, lang)
+  }
+}
+export default async function ThankYouPage({ params }: { params: Promise<{ funnel: string, lang: Locale }> }) {
   const { funnel } = await params;
 
   if (!funnel) {

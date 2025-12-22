@@ -1,6 +1,7 @@
 import { Locale } from '@/lib/i18n-config'
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client'
 import { generateSEOMetadata } from '@/lib/utils'
+import { getHreflangAlternates } from '@/lib/seo-metadata'
 import type { WaitlistPage, SeoMetaFields } from '@/types/sanity.types'
 import { Metadata } from 'next'
 import Image from 'next/image'
@@ -16,7 +17,9 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchRawSanityData<WaitlistPage>(`*[_type == "waitlistPage" && language == $lang][0]{seo}`, { lang })
 
-  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].facebookGroup, metaDescription: seoDescriptions[lang].facebookGroup } as SeoMetaFields)
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].facebookGroup, metaDescription: seoDescriptions[lang].facebookGroup } as SeoMetaFields, {
+    alternates: getHreflangAlternates('/facebook-group', lang)
+  })
 }
 
 export default async function FacebookGroupPage(
