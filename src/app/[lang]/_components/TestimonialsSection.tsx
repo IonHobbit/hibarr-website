@@ -29,7 +29,7 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
       <div className="flex flex-col items-center justify-center gap-4 min-h-[40dvh] w-full overflow-hidden md:overflow-visible max-w-screen-sm md:max-w-screen-md mx-auto">
         <div className="relative w-full mx-auto">
           <div className="flex items-end justify-center w-full gap-2">
-            <h3 className="text-3xl md:text-4xl text-center">{resolvedData?.testimonialsSection?.title}</h3>
+            <h2 className="text-3xl md:text-4xl text-center">{resolvedData?.testimonialsSection?.title}</h2>
           </div>
           <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl text-primary absolute -top-16 left-10' />
           <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl rotate-180 text-primary absolute -top-16 right-10' />

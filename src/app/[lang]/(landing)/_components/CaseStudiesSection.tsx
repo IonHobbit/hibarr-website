@@ -17,7 +17,7 @@ export default async function CaseStudiesSection({ data, lang, disableMedia }: C
       {(data?.title || data?.description) && (
         <div className="max-w-screen-md mx-auto flex flex-col gap-2">
           {data?.title && (
-            <h3 className="text-3xl md:text-4xl font-bold text-center">{data?.title}</h3>
+            <h2 className="text-3xl md:text-4xl font-bold text-center">{data?.title}</h2>
           )}
           {data?.description && (
             <p className="text-center md:text-lg text-muted-foreground">{data?.description}</p>
