@@ -70,6 +70,7 @@ export default function EbookSignupForm() {
       phoneNumber: userInfo?.phoneNumber || '',
     },
     onSubmit: async () => {
+      if (isPending) return;
       mutate();
     },
   })
