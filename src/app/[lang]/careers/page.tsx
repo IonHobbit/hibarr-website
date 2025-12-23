@@ -85,7 +85,7 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
                             className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full"
                             style={{ backgroundColor: job.icon_color || '#0F3057' }}
                           >
-                             <Image src={`/icons/job-icons/${job.icon}`} alt="" width={32} height={32} className="h-8 w-8" />
+                             <Image src={job.icon} alt="" width={32} height={32} className="h-8 w-8" />
                           </div>
                         ) : (
                           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-600">
