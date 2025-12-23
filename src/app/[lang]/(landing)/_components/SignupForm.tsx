@@ -71,7 +71,10 @@ export default function SignupForm({ data, text }: SignupFormProps) {
           otherwise: (schema) => schema.optional()
         }),
     }),
-    onSubmit: () => mutate(),
+    onSubmit: () => {
+      if (isPending) return;
+      mutate()
+    },
   })
 
 

@@ -30,6 +30,7 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
   const { data: errorMessage } = useTranslation('An error occurred');
 
   async function onSubmit(e: React.FormEvent) {
+    if (isSubmitting) return;
     e.preventDefault();
     setIsSubmitting(true);
     setMessage(null);
@@ -111,7 +112,7 @@ export default function ApplicationForm({ jobId }: { jobId: string }) {
         </div>
       </div>
       <div>
-        <Button type='submit' isLoading={isSubmitting}>{submitText?.text || 'Submit Application'}</Button>
+        <Button type='submit' isLoading={isSubmitting} disabled={isSubmitting}>{submitText?.text || 'Submit Application'}</Button>
       </div>
       {message && <p className='text-sm mt-2'>{message}</p>}
     </form>

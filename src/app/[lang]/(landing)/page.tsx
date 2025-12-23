@@ -54,7 +54,10 @@ export default async function Home(props: HomePageProps) {
   return (
     <Fragment>
       <LandingWrapper data={data} lang={lang} />
-      <FeaturedSection lang={lang} featuredLogos={featuredLogos.map(logo => logo.secure_url)} />
+      <FeaturedSection lang={lang} featuredLogos={featuredLogos.map(logo => ({ 
+        src: logo.secure_url.replace('/upload/', '/upload/f_auto,q_auto/'), 
+        alt: logo.public_id.split('/').pop()?.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Featured Logo' 
+      }))} />
       {/* <div className='section'>
         <div className='bg-primary rounded-lg p-4 py-8 md:py-4 md:px-2 max-w-screen-sm xl:max-w-screen-xl mx-auto'>
           <SearchBar />
@@ -63,7 +66,10 @@ export default async function Home(props: HomePageProps) {
       <AboutSection data={data} />
       {/* <FindrSection /> */}
       <TestimonialsSection lang={lang} data={data} testimonials={testimonials} /> 
-      <PartnersSection lang={lang} partnerLogos={partnerLogos.map(logo => logo.secure_url)} />
+      <PartnersSection lang={lang} partnerLogos={partnerLogos.map(logo => ({ 
+        src: logo.secure_url.replace('/upload/', '/upload/f_auto,q_auto/'), 
+        alt: logo.public_id.split('/').pop()?.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Partner Logo' 
+      }))} />
       <ConsultationProcessSection data={data.consultationProcessSection} />
       <WebinarSection />
       <WhyCyprus data={data.whyCyprusSection} />

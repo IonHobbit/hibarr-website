@@ -44,6 +44,7 @@ export default function VideoArchiveForm() {
         ...contactInfo,
         subscribeToEmails: values.subscribeToEmails,
       }
+      if (isPending) return;
       mutate(payload);
     }
   });
