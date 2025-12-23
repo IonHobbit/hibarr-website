@@ -31,7 +31,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].home, metaDescription: seoDescriptions[lang].home } as SeoMetaFields)
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].home, metaDescription: seoDescriptions[lang].home } as SeoMetaFields, undefined, lang)
 }
 
 export const revalidate = 60;
