@@ -73,15 +73,15 @@ export default async function OscarGroup(
       <section className='section md:py-20'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
           <div className='flex flex-col gap-6'>
-            <h2 className='text-2xl md:text-4xl'>
+            <h1 className='text-2xl md:text-4xl'>
               About Oscar Group
-            </h2>
+            </h1>
             <p className='text-md md:text-lg'>
               The Oscar Group of Companies is a family run business, it is now the largest and oldest running company based in Northern Cyprus with a combined estimated market value of approximately 300 million dollars. Also employing a workforce of around 900 personal from a wide variety of ethnic backgrounds. The Oscar Group of Companies is today jointly run by the Oskar family, Mr Erdem Oskar being the Co President and appointing his four children as directors and equal shareholders of the company. The Group&apos;s investments include a large number of subsidairy companies ranging from hotel chains, self drive car hire, importation/distribution, water production, tourism, catering, solar energy, new and used vehicle sales. Somebody once stated &quot;The sky is the limit !&quot; We believe <span className='font-semibold'>there is no limit!</span>
             </p>
           </div>
           <div className='flex flex-col gap-6'>
-            <h3 className='text-xl md:text-2xl'>Discover the Diverse Portfolio of Oscar Group</h3>
+            <h2 className='text-xl md:text-2xl'>Discover the Diverse Portfolio of Oscar Group</h2>
             <div className='grid sm:grid-cols-2 md:grid-cols-5 gap-6'>
               {portfolioCompanies.map((company, index) => (
                 <div key={index} className='relative w-full h-28 overflow-hidden hover:scale-105 transition-all duration-300'>
@@ -122,7 +122,7 @@ export default async function OscarGroup(
           />
         </div>
         <div className='section py-0'>
-          <h3 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h3>
+          <h2 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h2>
           <FAQAccordion lang={lang} />
         </div>
       </section>

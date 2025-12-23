@@ -44,17 +44,17 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
               <p className='text-muted-foreground mb-2'>{job.department} • {job.location} • {job.type}</p>
               <p className='mb-4'>{job.description}</p>
               <div>
-                <h3 className='text-xl font-semibold mb-2' data-token={responsibilities.token}>
+                <h2 className='text-xl font-semibold mb-2' data-token={responsibilities.token}>
                   {responsibilities.text}
-                </h3>
+                </h2>
                 <ul className='list-disc pl-5'>
                   {(job.responsibilities ?? []).map((r: string, i: number) => <li key={i}>{r}</li>)}
                 </ul>
               </div>
               <div>
-                <h3 className='text-xl font-semibold mb-2' data-token={requirements.token}>
+                <h2 className='text-xl font-semibold mb-2' data-token={requirements.token}>
                   {requirements.text}
-                </h3>
+                </h2>
                 <ul className='list-disc pl-5'>
                   {(job.requirements ?? []).map((r: string, i: number) => <li key={i}>{r}</li>)}
                 </ul>
@@ -68,9 +68,9 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
             </aside>
             <div className='md:col-span-3 flex flex-col gap-4'>
               <div id='apply' className='bg-secondary rounded-lg'>
-                <h3 className='text-xl font-semibold mb-2' data-token={applyForThisRole.token}>
+                <h2 className='text-xl font-semibold mb-2' data-token={applyForThisRole.token}>
                   {applyForThisRole.text}
-                </h3>
+                </h2>
                 <ApplicationForm jobId={String(job.id)} />
               </div>
             </div>
