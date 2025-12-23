@@ -19,6 +19,7 @@ import Spacer, { SpacerBlock } from "@/app/[lang]/blog/[slug]/_components/Spacer
 import ContentTable, { TableBlock } from "@/app/[lang]/blog/[slug]/_components/ContentTable";
 import TextWithImage, { TextWithImageBlock } from "@/app/[lang]/blog/[slug]/_components/TextWithImage";
 
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; lang: string }> }) {
   const { slug } = await params
   const post = await fetchBlogPost(slug)
