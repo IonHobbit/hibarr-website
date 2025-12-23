@@ -1,6 +1,6 @@
 import { Locale } from '@/lib/i18n-config'
 import { fetchSanityData } from '@/lib/third-party/sanity.client'
-import { AboutPage, WebinarPage } from '@/types/sanity.types'
+import { AboutPage, WebinarPage, Faq } from '@/types/sanity.types'
 import { Metadata } from 'next'
 import { Fragment } from 'react'
 import FeaturedSection from '../_components/FeaturedSection'
@@ -11,6 +11,7 @@ import { Award, BookOpen, Quote, Star, Users } from 'lucide-react'
 import FAQAccordion from '../_components/FAQAccordion'
 import EbookSignupForm from './_components/EbookSignupForm'
 import { translateBatch } from '@/lib/translation'
+import { generateFAQSchema } from '@/lib/seo-schema'
 import cloudinaryClient from '@/lib/third-party/cloudinary.client'
 
 
@@ -180,6 +181,15 @@ export default async function EbookPage(
           <FAQAccordion lang={lang} />
         </div>
       </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(generateFAQSchema(
+            (await fetchSanityData<Faq[]>(`*[_type == "faq" && language == $lang]`, { lang }, { cache: 'no-store' }))
+              .map(f => ({ question: f.question || '', answer: f.answer || '' }))
+          )),
+        }}
+      />
     </Fragment >
   )
 }
