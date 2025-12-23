@@ -5,7 +5,7 @@ export type Job = {
   department?: string;
   location?: string;
   icon?: string;
-  icon_color?: string;
+  iconColor?: string;
   type?: string;
   description?: string;
   responsibilities?: string[];
