@@ -23,7 +23,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
 
   const pathname = usePathname();
 
-  const excludedPaths = ['/our-packages', '/listings/', 'webinar-recording', '/thank-you', '/blog', '/findr', '/partners/news-central-corp', '/ebook', 'careers']
+  const excludedPaths = ['/our-packages', '/listings/', 'webinar-recording', '/thank-you', '/blog', '/findr', '/partners/news-central-corp', '/ebook', '/careers/']
   const hiddenPaths = ['/calendar', '/consultation/gecitkale']
 
   const isExcludedPath = excludedPaths.some(path => pathname.includes(path))
@@ -33,7 +33,7 @@ export default function ClientHeader({ lang, navigationData }: ClientHeaderProps
   if (isHiddenPath) return null
 
   return (
-    <header className={cn("absolute top-0 z-20 w-full h-[75px] flex items-center", isExcludedPath ? "bg-transparent mt-2 px-4" : "bg-gradient-to-b from-primary/90 to-transparent")}>
+    <header className={cn("absolute top-0 z-50 w-full h-[75px] flex items-center", isExcludedPath ? "bg-transparent mt-2 px-4" : "bg-gradient-to-b from-primary/90 to-transparent")}>
       <nav className={cn("section py-6 px-4 sm:px-6 lg:px-8", isExcludedPath ? "bg-primary rounded-lg py-3" : "")}>
         {process.env.NODE_ENV === 'development' && (
           <p className='absolute top-0 left-0 text-xs text-white'>version: {version}</p>

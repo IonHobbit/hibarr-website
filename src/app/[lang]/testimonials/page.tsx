@@ -12,6 +12,7 @@ import { seoTitles } from '@/lib/seo-titles';
 
 import { seoDescriptions } from '@/data/seo-descriptions';
 
+
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
 

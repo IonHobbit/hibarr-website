@@ -20,9 +20,9 @@ export default function MissionVisionSection({ data }: MissionVisionSectionProps
               className='object-cover'
             />
           </div>
-          <h3 className="text-3xl md:text-4xl">
+          <h2 className="text-3xl md:text-4xl">
             {data?.vision?.title}
-          </h3>
+          </h2>
           <p className="md:text-lg">
             {data?.vision?.content}
           </p>
@@ -31,9 +31,9 @@ export default function MissionVisionSection({ data }: MissionVisionSectionProps
           </Button>
         </div>
         <div className="flex flex-col gap-4 order-1 md:order-2">
-          <h3 className="text-3xl md:text-4xl">
+          <h2 className="text-3xl md:text-4xl">
             {data?.mission?.title}
-          </h3>
+          </h2>
           <p className="md:text-lg">
             {data?.mission?.content}
           </p>

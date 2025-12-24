@@ -21,7 +21,7 @@ export default async function ExposeTestimonialsPage() {
       <div className='flex flex-col items-center gap-4 z-10'>
         <Image src="/logos/logo-full-white.svg" alt="Testimonials Hero" width={200} height={40} className='object-cover' />
         <div className="flex flex-col items-center gap-1">
-          <h3 className='text-4xl font-bold text-primary-foreground'>Testimonials</h3>
+          <h1 className='text-4xl font-bold text-primary-foreground'>Testimonials</h1>
           <p className='text-primary-foreground'>Hear from our clients</p>
         </div>
         <div className="w-[80vw] md:w-[70vw] h-[70dvh] relative overflow-y-auto text-center px-3 lg:px-8 bg-secondary rounded-lg z-10">

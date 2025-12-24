@@ -18,7 +18,7 @@ export default async function WebinarSection() {
     <section id='free-webinar' className='bg-gray-50/60'>
       <div className="section md:min-h-[50dvh]">
         <div className="flex flex-col items-center gap-1.5">
-          <h3 className='text-2xl md:text-4xl text-center md:text-left' data-token={title.token}>{title.text}</h3>
+          <h2 className='text-2xl md:text-4xl text-center md:text-left' data-token={title.token}>{title.text}</h2>
           <p className='text-sm md:text-xl text-center md:text-left' data-token={subText.token}>{subText.text}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 h-full grow">
