@@ -19,7 +19,7 @@ export default async function LeadershipTeamSection({ lang, data }: LeadershipTe
     <section id='leadership-team' className='min-h-[50dvh] bg-gray-50/50'>
       <div className="section">
         <div className="max-w-screen-md mx-auto flex flex-col gap-2">
-          <h3 className="text-3xl md:text-4xl text-center">{data?.title}</h3>
+          <h2 className="text-3xl md:text-4xl text-center">{data?.title}</h2>
           <p className="text-center md:text-lg text-muted-foreground">{data?.description}</p>
         </div>
         <div className="max-w-screen-lg mx-auto">
@@ -32,7 +32,7 @@ export default async function LeadershipTeamSection({ lang, data }: LeadershipTe
       </div>
       <div className="section">
         <div className="max-w-screen-md mx-auto flex flex-col gap-2">
-          <h3 className="text-3xl md:text-4xl text-center">{content.legalTeamTitle}</h3>
+          <h2 className="text-3xl md:text-4xl text-center">{content.legalTeamTitle}</h2>
           {/* <p className="text-center md:text-lg text-muted-foreground">{data?.description}</p> */}
         </div>
         <div className="max-w-screen-lg mx-auto">
