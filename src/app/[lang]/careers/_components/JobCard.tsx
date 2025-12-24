@@ -43,7 +43,7 @@ export default function JobCard({ job, lang }: JobCardProps) {
           {job.description}
         </p>
       </div>
-      <Button fullWidth className='w-full rounded py-2.5' href={`/careers/${job.slug || job.id}`} addLocaleToHref>
+      <Button className='w-full rounded py-2.5' href={`/careers/${job.slug || job.id}`} addLocaleToHref>
         {content.submitApplication}
       </Button>
     </div>

@@ -38,7 +38,6 @@ export default function ApplicationForm({ jobId, lang }: ApplicationFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const content = careersContent[lang] ?? careersContent.en;
-
   // Translation hooks
   const { data: resumeRequiredError } = useTranslation('Please upload your resume/CV');
   const { data: successMessage } = useTranslation('Application submitted. Thank you!');
