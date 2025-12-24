@@ -72,7 +72,7 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {jobs.length !== 0 ? (
+            {jobs.length === 0 ? (
               <div className="col-span-full text-center text-gray-500 h-[40dvh] flex flex-col items-center justify-center">
                 <p className='text-lg font-medium'>{content.noOpenPositions}</p>
                 <p className='text-sm text-gray-500'>{content.pleaseCheckBackLater}</p>
