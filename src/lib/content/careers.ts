@@ -9,6 +9,7 @@ type CareersContent = {
     exploreOpenRolesDescription: string;
     exploreOpenRoles: string;
     noOpenPositions: string;
+    pleaseCheckBackLater: string;
     submitApplication: string;
     applicationForm: {
       title: string;
@@ -38,6 +39,7 @@ export const careersContent: CareersContent = {
     exploreOpenRolesDescription: 'Explore open roles and apply to join our team',
     exploreOpenRoles: 'Explore open roles and apply to join our team',
     noOpenPositions: 'No open positions at the moment.',
+    pleaseCheckBackLater: 'Please check back later.',
     submitApplication: 'Submit Application',
     applicationForm: {
       title: 'Apply for this role',
@@ -64,6 +66,7 @@ export const careersContent: CareersContent = {
     exploreOpenRolesDescription: 'Entdecken Sie offene Stellen und bewerben Sie sich bei unserem Team',
     exploreOpenRoles: 'Entdecken Sie offene Stellen und bewerben Sie sich bei unserem Team',
     noOpenPositions: 'Keine offenen Stellen zur Zeit.',
+    pleaseCheckBackLater: 'Bitte prüfen Sie später erneut.',
     submitApplication: 'Bewerben Sie sich',
     applicationForm: {
       title: 'Für diese Stelle bewerben',
@@ -90,6 +93,7 @@ export const careersContent: CareersContent = {
     exploreOpenRolesDescription: 'Açık pozisyonları keşfedin ve bize katılın',
     exploreOpenRoles: 'Açık pozisyonları keşfedin ve bize katılın',
     noOpenPositions: 'Şu anda açık pozisyon yok.',
+    pleaseCheckBackLater: 'Lütfen daha sonra tekrar deneyin.',
     submitApplication: 'Başvur',
     applicationForm: {
       title: 'Bu pozisyon için başvur',
@@ -116,6 +120,7 @@ export const careersContent: CareersContent = {
     exploreOpenRolesDescription: 'Присоединяйтесь к команде, которая работает в структурированной среде с международными стандартами.',
     exploreOpenRoles: 'Присоединяйтесь к команде, которая работает в структурированной среде с международными стандартами.',
     noOpenPositions: 'На данный момент нет открытых позиций.',
+    pleaseCheckBackLater: 'Пожалуйста, проверьте позже.',
     submitApplication: 'Применить сейчас',
     applicationForm: {
       title: 'Применить на эту должность',
