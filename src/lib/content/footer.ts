@@ -10,7 +10,7 @@ export const footerContent: Content = {
     copyrightSuffix: ' all rights reserved',
   },
   de: {
-    contactUs: 'Kontaktiere uns',
+    contactUs: 'Kontaktieren Sie uns',
     careers: 'Karriere',
     privacyPolicy: 'Datenschutzrichtlinie',
     legalNotice: 'Impressum',
