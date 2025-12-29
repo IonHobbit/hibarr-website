@@ -3,7 +3,7 @@
 import { cn, joinWith } from "@/lib/utils"
 import { Icon } from "@/components/icons";
 import { useMutation } from "@tanstack/react-query";
-import { Fragment, useRef } from "react";
+import { Fragment, useRef, useState } from "react";
 import { uploadFile as uploadFileToBackend } from "@/lib/api/upload";
 
 type FileInputProps = React.ComponentProps<"input"> & {
@@ -13,10 +13,12 @@ type FileInputProps = React.ComponentProps<"input"> & {
   fileValue?: string;
   title?: string;
   folderName?: string;
+  onError?: (error: string) => void;
 }
 
-function FileInput({ className, title, error, required, fileValue, onUpload, folderName = 'banking-packages-form-entries', ...props }: FileInputProps) {
+function FileInput({ className, title, error, required, fileValue, onUpload, folderName = 'banking-packages-form-entries', onError, ...props }: FileInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const TYPE_MAP = {
     'application/pdf': 'pdf',
@@ -31,43 +33,44 @@ function FileInput({ className, title, error, required, fileValue, onUpload, fol
 
   const openFileInput = () => {
     fileInputRef.current?.click();
+    setUploadError(null); // Clear error when opening file picker
   }
-
-  // Use new backend upload API for resumes, keep Bunny for other files
-  const useBackendUpload = folderName === 'resumes';
 
   const { mutateAsync: uploadFile, isPending } = useMutation({
     mutationFn: async (file: File): Promise<string> => {
-      if (useBackendUpload) {
-        // Use new backend upload API for resumes
-        return await uploadFileToBackend(file, folderName, 'backend-uploads');
-      } else {
-        // Keep existing Bunny implementation for other files
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('folderName', folderName);
-        const result = await fetch('/api/file-upload', {
-          method: 'POST',
-          body: formData,
-        });
-        const data = await result.json();
-        return data.fileUrl;
-      }
+      return await uploadFileToBackend(file, folderName, 'backend-uploads');
     },
   })
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const result = await uploadFile(file);
-      onUpload?.(result);
-      event.target.value = '';
+      setUploadError(null); // Clear previous error
+      try {
+        const result = await uploadFile(file);
+        onUpload?.(result);
+        setUploadError(null); // Clear error on success
+      } catch (error) {
+        // Display the error message to the user
+        const errorMessage = error instanceof Error ? error.message : 'Failed to upload file';
+        setUploadError(errorMessage);
+        // Notify parent component of the error (e.g., for Formik validation)
+        onError?.(errorMessage);
+      } finally {
+        event.target.value = '';
+      }
     }
   };
 
   return (
     <div className="relative flex flex-col items-start gap-1">
-      {title && <label htmlFor={props.id} className="text-sm text-muted-foreground">{title} {required && <span className="text-destructive text-xs">*</span>}</label>}
+      {title && (
+        <div className="flex flex-col gap-0.5">
+          <label htmlFor={props.id} className="text-sm text-muted-foreground">
+            {title} {required && <span className="text-destructive text-xs">*</span>}
+          </label>
+        </div>
+      )}
       <div className="relative border-input flex items-center justify-between gap-4 min-h-12 w-full min-w-0 border bg-transparent file:border-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive rounded px-3 py-1.5">
         <div className="flex items-center gap-3">
           <Icon onClick={openFileInput} icon="mdi:file-document-outline" className="w-4 h-4 cursor-pointer" />
@@ -102,7 +105,7 @@ function FileInput({ className, title, error, required, fileValue, onUpload, fol
           {...props}
         />
       </div>
-      {error && <p className="text-red-500 text-xs">{error}</p>}
+      {(error || uploadError) && <p className="text-red-500 text-xs">{error || uploadError}</p>}
     </div>
   )
 }

@@ -153,8 +153,21 @@ export default function ApplicationForm({ jobId, lang }: ApplicationFormProps) {
         name='resumeUrl'
         fileValue={values.resumeUrl}
         title={content.applicationForm.resume}
-        folderName='resumes'
-        onUpload={(value) => setFieldValue('resumeUrl', value)} error={errors.resumeUrl}
+        folderName='backend-uploads/resumes'
+        onUpload={(value) => {
+          setFieldValue('resumeUrl', value);
+          // Clear any previous errors when upload succeeds
+          if (errors.resumeUrl && touched.resumeUrl) {
+            setFieldValue('resumeUrl', value);
+          }
+        }}
+        onError={(errorMessage) => {
+          // Set Formik error when upload fails (e.g., file too large)
+          setFieldValue('resumeUrl', '');
+          // Note: We can't directly set Formik errors, but clearing the value
+          // will trigger validation which will show the required error
+        }}
+        error={touched.resumeUrl ? errors.resumeUrl : undefined}
       />
       <Button type='submit' size='sm' className='mt-4 max-w-80 h-10' isLoading={isPending} disabled={isPending}>
         {content.submitApplication}
