@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     backendFormData.append('file', file, file.name);
 
     // Forward the file to the backend API
-    const backendBaseURL = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001').replace(/\/+$/, '');
+    const backendBaseURL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000').replace(/\/+$/, '');
     const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
     // Build query parameters for the backend URL
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
 
     const headers: HeadersInit = {};
     if (apiKey) {
-      headers['x-api-key'] = apiKey;
+      headers['X-Api-Key'] = apiKey;
     }
     const response = await fetch(backendUrl, {
       method: 'POST',
