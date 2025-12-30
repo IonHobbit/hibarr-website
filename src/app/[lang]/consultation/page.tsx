@@ -10,6 +10,7 @@ import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.cl
 import { ConsultationPage as ConsultationPageType, HomePage, SeoMetaFields, Faq } from '@/types/sanity.types';
 import ConsultationForm from './_components/ConsultationForm';
 import { generateSEOMetadata } from '@/lib/utils';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
 import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
 import { translate, translateBatch } from '@/lib/translation';
 import { interestedInOptions, messageOptions, periodOptions } from '@/lib/options';
@@ -24,7 +25,9 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchRawSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].consultation, metaDescription: seoDescriptions[lang].consultation } as SeoMetaFields)
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].consultation, metaDescription: seoDescriptions[lang].consultation } as SeoMetaFields, {
+    alternates: getHreflangAlternates('/consultation', lang)
+  })
 }
 
 export default async function ConsultationPage(

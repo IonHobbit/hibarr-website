@@ -1,4 +1,5 @@
 import { Locale } from '@/lib/i18n-config'
+import { getHreflangAlternates } from '@/lib/seo-metadata'
 import { fetchSanityData } from '@/lib/third-party/sanity.client'
 import { AboutPage, WebinarPage, Faq } from '@/types/sanity.types'
 import { Metadata } from 'next'
@@ -15,13 +16,14 @@ import { generateFAQSchema } from '@/lib/seo-schema'
 import cloudinaryClient from '@/lib/third-party/cloudinary.client'
 
 
-export async function generateMetadata(): Promise<Metadata> {
-  // const { lang } = await props.params;
+export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await params;
 
   // const { seo } = await client.fetch<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return generateSEOMetadata(undefined, {
     title: 'Download the Ultimate Cyprus Investment Guide',
+    alternates: getHreflangAlternates('/ebook', lang)
   })
 }
 

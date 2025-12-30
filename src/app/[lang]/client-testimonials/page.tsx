@@ -10,11 +10,14 @@ import { Metadata } from 'next';
 import { seoTitles } from '@/lib/seo-titles'
 import { seoDescriptions } from '@/data/seo-descriptions';
 import { generateSEOMetadata } from '@/lib/utils';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
 
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
-  return generateSEOMetadata({ metaTitle: seoTitles[lang].clientTestimonials, metaDescription: seoDescriptions[lang].clientTestimonials } as SeoMetaFields)
+  return generateSEOMetadata({ metaTitle: seoTitles[lang].clientTestimonials, metaDescription: seoDescriptions[lang].clientTestimonials } as SeoMetaFields, {
+    alternates: getHreflangAlternates('/client-testimonials', lang)
+  })
 }
 
 type ClientTestimonialsPageProps = {
