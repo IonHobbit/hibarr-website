@@ -13,11 +13,13 @@ export const metadata: Metadata = {
 
 export default async function NearEastGroup(
   props: {
-    params: Promise<{ lang: Locale }>;
+    params: Promise<{ lang: Locale }>
   }
 ) {
-  const { lang } = await props.params;
-          <h2 className='text-xl sm:text-2xl font-medium text-primary'>Benefits of this partnership</h2>
+  const { lang } = await props.params
+
+  const content = EXPANDED_CONTENT[lang]?.partners?.nearEastGroup || EXPANDED_CONTENT['en'].partners.nearEastGroup
+
   const portfolioCompanies = [
     {
       name: 'Near East University',
@@ -26,23 +28,41 @@ export default async function NearEastGroup(
     {
       name: 'Near East Bank',
       image: 'https://res.cloudinary.com/hibarr/image/upload/near-east-bank_sslkyi',
-          <FAQAccordion lang={lang} items={content.faqs} />
+    },
+    {
+      name: 'Near East Technology',
+      image: 'https://res.cloudinary.com/hibarr/image/upload/near-east-technology_rphsjv',
+    },
+    {
+      name: 'Near East Investment',
+      image: 'https://res.cloudinary.com/hibarr/image/upload/near-east-investment_u6bgx4',
+    },
+  ]
+
+  const portfolioAreas = [
+    {
       name: 'Education',
-      description: 'Near East University is a leading institution offering diverse academic programs and state-of-the-art facilities, preparing students for global success.',
+      description:
+        'Near East University is a leading institution offering diverse academic programs and state-of-the-art facilities, preparing students for global success.',
     },
     {
       name: 'Banking & Insurance',
-      description: 'Near East Bank offers innovative financial solutions, including loans, savings accounts, and medical insurance, tailored to meet your needs.',
+      description:
+        'Near East Bank offers innovative financial solutions, including loans, savings accounts, and medical insurance, tailored to meet your needs.',
     },
     {
       name: 'Medical Care',
-      description: 'Near East Hospital provides advanced healthcare services with cutting-edge technology and expert professionals, ensuring top-quality patient care.',
-    }
+      description:
+        'Near East Hospital provides advanced healthcare services with cutting-edge technology and expert professionals, ensuring top-quality patient care.',
+    },
   ]
 
   return (
     <Fragment>
-  <section id='root' className="relative grid place-items-center place-content-center h-[60dvh] bg-[url('https://res.cloudinary.com/hibarr/image/upload/near-east-group-hero_cotcgf')] bg-cover bg-center">
+      <section
+        id='root'
+        className="relative grid place-items-center place-content-center h-[60dvh] bg-[url('https://res.cloudinary.com/hibarr/image/upload/near-east-group-hero_cotcgf')] bg-cover bg-center"
+      >
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col items-center gap-6'>
             <Image src="https://res.cloudinary.com/hibarr/image/upload/near-east-group-logo_js67p5" alt="Near East Group Logo" width={280} height={280} />
@@ -76,8 +96,8 @@ export default async function NearEastGroup(
               </ul>
             </div>
             <div className='flex flex-col gap-4 mt-4'>
-               <h3 className='text-xl md:text-2xl'>Benefits for Investors</h3>
-               <p className='text-md md:text-lg'>{content.investorBenefits}</p>
+              <h3 className='text-xl md:text-2xl'>Benefits for Investors</h3>
+              <p className='text-md md:text-lg'>{content.investorBenefits}</p>
             </div>
           </div>
           <div className='flex flex-col gap-6'>
@@ -122,6 +142,6 @@ export default async function NearEastGroup(
           <FAQAccordion lang={lang} items={content.faqs} />
         </div>
       </section>
-    </Fragment >
+    </Fragment>
   )
 }
