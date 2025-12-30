@@ -10,7 +10,7 @@ import { seoTitles } from '@/lib/seo-titles'
 import { generateSEOMetadata } from '@/lib/utils'
 import { seoDescriptions } from '@/data/seo-descriptions'
 import { SeoMetaFields } from '@/types/sanity.types'
-import { EXPANDED_CONTENT } from '@/lib/content/expanded-content'
+import { EXPANDED_PACKAGES_BY_LOCALE } from '@/lib/content/expanded/packages'
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
@@ -28,7 +28,7 @@ export default async function BankingPackagesPage(
 
   const { packages = [], subtitle, form } = bankingPackagesPage;
 
-  const enrichedContent = EXPANDED_CONTENT[lang]?.packages || EXPANDED_CONTENT['en'].packages;
+  const enrichedContent = EXPANDED_PACKAGES_BY_LOCALE[lang] || EXPANDED_PACKAGES_BY_LOCALE.en;
 
   return (
     <Fragment>

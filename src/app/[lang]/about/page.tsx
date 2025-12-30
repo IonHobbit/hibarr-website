@@ -13,7 +13,7 @@ import GallerySection from './_components/GallerySection';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
 import { AboutPage as AboutPageType, SeoMetaFields } from '@/types/sanity.types';
 import { generateSEOMetadata } from '@/lib/utils';
-import { EXPANDED_CONTENT } from '@/lib/content/expanded-content'; 
+import { EXPANDED_RABIH_BY_LOCALE } from '@/lib/content/expanded/leadership/rabih';
 
 import { seoTitles } from '@/lib/seo-titles';
 import { seoDescriptions } from '@/data/seo-descriptions';
@@ -45,7 +45,7 @@ export default async function AboutPage(
   const featuredLogos = featuredLogosResult.status === 'fulfilled' ? featuredLogosResult.value : [];
   const partnerLogos = partnerLogosResult.status === 'fulfilled' ? partnerLogosResult.value : [];
 
-  const enrichedRabih = EXPANDED_CONTENT[lang]?.leadership?.rabih || EXPANDED_CONTENT['en'].leadership.rabih;
+  const enrichedRabih = EXPANDED_RABIH_BY_LOCALE[lang] || EXPANDED_RABIH_BY_LOCALE.en;
 
   return (
     <Fragment>

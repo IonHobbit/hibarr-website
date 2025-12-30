@@ -4,7 +4,7 @@ import Image from 'next/image'
 import React, { Fragment } from 'react'
 import FAQAccordion from '../../_components/FAQAccordion'
 import { Locale } from '@/lib/i18n-config'
-import { EXPANDED_CONTENT } from '@/lib/content/expanded-content'
+import { EXPANDED_NEAR_EAST_GROUP_BY_LOCALE } from '@/lib/content/expanded/partners/near-east-group'
 
 export const metadata: Metadata = {
   title: 'Near East Group',
@@ -18,7 +18,7 @@ export default async function NearEastGroup(
 ) {
   const { lang } = await props.params
 
-  const content = EXPANDED_CONTENT[lang]?.partners?.nearEastGroup || EXPANDED_CONTENT['en'].partners.nearEastGroup
+  const content = EXPANDED_NEAR_EAST_GROUP_BY_LOCALE[lang] || EXPANDED_NEAR_EAST_GROUP_BY_LOCALE.en
 
   const portfolioCompanies = [
     {
