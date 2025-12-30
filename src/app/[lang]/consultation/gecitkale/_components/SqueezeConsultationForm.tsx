@@ -94,6 +94,7 @@ export default function SqueezeConsultationForm({ nonce }: SqueezeConsultationFo
       investmentTimeline: Yup.string().required(content.form.validationMessages.investmentTimeline),
     }),
     onSubmit: async () => {
+      if (isPending) return;
       const link = generateCalendlyPrefilledUrl();
       setCalendlyUrl(link);
       mutate()

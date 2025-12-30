@@ -19,6 +19,7 @@ import Spacer, { SpacerBlock } from "@/app/[lang]/blog/[slug]/_components/Spacer
 import ContentTable, { TableBlock } from "@/app/[lang]/blog/[slug]/_components/ContentTable";
 import TextWithImage, { TextWithImageBlock } from "@/app/[lang]/blog/[slug]/_components/TextWithImage";
 
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; lang: string }> }) {
   const { slug, lang } = await params
   const post = await fetchBlogPost(slug)
@@ -115,22 +116,22 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             components={{
               block: {
                 h1: ({ children }) => (
-                  <h1 className="text-4xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h1>
+                  <h2 className="text-4xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h2>
                 ),
                 h2: ({ children }) => (
-                  <h2 className="text-3xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h2>
+                  <h3 className="text-3xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h3>
                 ),
                 h3: ({ children }) => (
-                  <h3 className="text-2xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h3>
+                  <h4 className="text-2xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h4>
                 ),
                 h4: ({ children }) => (
-                  <h4 className="text-xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h4>
-                ),
-                h5: ({ children }) => (
                   <h5 className="text-xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h5>
                 ),
+                h5: ({ children }) => (
+                  <h6 className="text-xl !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h6>
+                ),
                 h6: ({ children }) => (
-                  <h6 className="text-lg !font-medium mt-3 mb-6 !font-sans text-primary">{children}</h6>
+                  <p className="text-lg !font-medium mt-3 mb-6 !font-sans text-primary font-bold">{children}</p>
                 ),
                 normal: ({ children }) => (
                   <p className="text-base text-primary">{children}</p>

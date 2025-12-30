@@ -1,60 +1,90 @@
-import { Metadata } from 'next';
-import JobCard from './_components/JobCard';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { makeGETRequest } from '@/lib/services/api.service';
-import { translate } from '@/lib/translation';
 import { Job } from '@/types/careers';
+import { Button } from '@/components/ui/button';
+import { Locale } from '@/lib/i18n-config';
 
-export const metadata: Metadata = {
-  title: 'Careers',
-  description: 'Career opportunities at Hibarr',
-}
+import HlsVideo from '@/components/HlsVideo';
+import { careersContent } from '@/lib/content/careers';
+import JobCard from './_components/JobCard';
 
-export default async function CareersPage() {
-  // fetch jobs from backend, fallback to mock data if API is unavailable
+export default async function CareersPage({ params }: { params: Promise<{ lang: Locale }> }) {
+  const { lang } = await params;
+
+  const content = careersContent[lang] ?? careersContent.en;
+
   let jobs: Job[] = [];
   try {
     const resp = await makeGETRequest<Job[]>('/jobs');
-    jobs = resp?.data?.filter((job) => job.published) ?? [];
-  } catch {
-    // Use mock data when API is unavailable (e.g., during build time)
-    jobs = [] as Job[];
+    jobs = resp?.data ?? [];
+  } catch (err) {
+    console.error('Failed to fetch jobs', err);
+    jobs = [];
   }
 
-  // Translate the page content
-  const [careerOpportunities, exploreOpenRoles, noOpenRoles, checkBackLater] = await Promise.all([
-    translate('Our Open Positions'),
-    translate('Explore open roles and apply to join our team.'),
-    translate('No open roles right now.'),
-    translate('Check back later for new opportunities.'),
-  ]);
-
   return (
-    <section className='section header-offset gap-4 py-6 pt-14'>
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-10">
-        <div className="col-span-2 flex flex-col gap-4">
-          <h1 className='text-5xl font-bold' data-token={careerOpportunities.token}>
-            {careerOpportunities.text}
-          </h1>
-          <p className='text-muted-foreground' data-token={exploreOpenRoles.token}>
-            {exploreOpenRoles.text}
-          </p>
+    <Fragment>
+      {/* Hero Section */}
+      <section className="relative h-[80dvh] w-full overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <HlsVideo
+            src="https://vz-da4cd036-d13.b-cdn.net/ae6d4543-aa72-4182-9a64-2bd97ca807c2/playlist.m3u8"
+            poster="https://res.cloudinary.com/hibarr/image/upload/v1766485116/output_image_dkxmd1.jpg"
+            autoPlay
+            muted
+            loop
+            className="h-full w-full object-cover"
+          />
         </div>
-        <div className="col-span-3">
-          {jobs.length === 0 ? (
-            <div className='flex flex-col items-center gap-4 min-h-[40dvh] justify-center text-center'>
-              <h1 data-token={noOpenRoles.token} className='text-3xl !font-semibold'>{noOpenRoles.text}</h1>
-              <p className='text-muted-foreground' data-token={checkBackLater.token}>{checkBackLater.text}</p>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0F3057]/90 via-[#0F3057]/60 to-[#0F3057]/20 z-10" />
+        <div className="relative mx-auto flex h-full max-w-7xl flex-col items-center justify-center p-4 text-center z-20">
+          <div className="bg-primary/60 rounded-2xl p-8 md:p-12 max-w-4xl mx-4 backdrop-blur-sm">
+            <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl drop-shadow-lg">
+              {content.title}
+            </h1>
+            <p className="mt-4 text-lg text-white md:text-xl drop-shadow-md">
+              {content.description}
+            </p>
+            <div className="mt-8">
+              <Button
+                href="#open-positions"
+                variant="accent"
+                size="lg"
+                className="uppercase"
+              >
+                {content.applyNow}
+              </Button>
             </div>
-          ) : (
-            <div className='flex flex-col divide-y'>
-              {jobs.map((job) => (
-                <JobCard key={String(job.id)} job={job} />
-              ))}
-            </div>
-          )}
+          </div>
         </div>
-      </div>
-    </section>
-  )
+      </section>
+
+      {/* Open Positions Section */}
+      <section id="open-positions" className="bg-[#f3f4f6] py-16">
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl font-bold text-[#1F2937] md:text-4xl">
+              {content.ourOpenPositions}
+            </h2>
+            <p className="mt-2 text-[#6B7280]">
+              Explore open roles and apply to join our team
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {jobs.length === 0 ? (
+              <div className="col-span-full text-center text-gray-500 h-[40dvh] flex flex-col items-center justify-center">
+                <p className='text-lg font-medium'>{content.noOpenPositions}</p>
+                <p className='text-sm text-gray-500'>{content.pleaseCheckBackLater}</p>
+              </div>
+            ) : (
+              jobs.map((job) => (
+                <JobCard key={job.id} job={job} lang={lang} />
+              ))
+            )}
+          </div>
+        </div>
+      </section>
+    </Fragment>
+  );
 }

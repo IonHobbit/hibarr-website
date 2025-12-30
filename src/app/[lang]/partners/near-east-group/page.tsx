@@ -68,19 +68,19 @@ export default async function NearEastGroup(
       <section className='section md:py-20'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
           <div className='flex flex-col gap-6'>
-            <h2 className='text-2xl md:text-4xl'>
+            <h1 className='text-2xl md:text-4xl'>
               About Near East Group
-            </h2>
+            </h1>
             <p className='text-md md:text-lg'>
               The Near East Group is a leading conglomerate based in Cyprus, renowned for its commitment to excellence, innovation, and community development. With a diverse portfolio spanning education, healthcare, banking, and more, the Near East Group has established itself as a cornerstone of progress in the region.
             </p>
-            <h3 className='text-xl md:text-2xl'>Our Legacy</h3>
+            <h2 className='text-xl md:text-2xl'>Our Legacy</h2>
             <p className='text-md md:text-lg'>
               Founded with a vision to create a better future, the Near East Group has grown into a multifaceted organization that touches the lives of thousands every day. Our journey began with the establishment of <span className='font-semibold'>Near East University</span>, one of the most prestigious higher education institutions in the Eastern Mediterranean. Today, we continue to expand our reach, delivering world-class services across various sectors.
             </p>
           </div>
           <div className='flex flex-col gap-6'>
-            <h3 className='text-xl md:text-2xl'>Discover the Diverse Portfolio of Near East Group</h3>
+            <h2 className='text-xl md:text-2xl'>Discover the Diverse Portfolio of Near East Group</h2>
             <div className='grid sm:grid-cols-2 md:grid-cols-2 gap-6'>
               {portfolioCompanies.map((company, index) => (
                 <div key={index} className='relative w-full h-28 overflow-hidden hover:scale-105 transition-all duration-300'>
@@ -117,7 +117,7 @@ export default async function NearEastGroup(
           <iframe className='w-full h-full object-cover aspect-video rounded-lg overflow-hidden' src="https://www.youtube-nocookie.com/embed/KDPnXIJBDdQ?si=YeSXujsHWIAGxTNR" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen loading="lazy"></iframe>
         </div>
         <div className='section py-0'>
-          <h3 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h3>
+          <h2 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h2>
           <FAQAccordion lang={lang} />
         </div>
       </section>

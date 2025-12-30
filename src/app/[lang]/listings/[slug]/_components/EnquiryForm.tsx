@@ -78,7 +78,10 @@ export default function EnquiryForm({ property }: EnquiryFormProps) {
       phoneNumber: Yup.string().matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number, please use international format (+491234567890)'),
       comment: Yup.string()
     }),
-    onSubmit: () => mutate()
+    onSubmit: () => {
+      if (isPending) return;
+      mutate()
+    }
   })
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
