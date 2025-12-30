@@ -28,8 +28,8 @@ export function generateSEOMetadata(seo?: SeoMetaFields, defaults?: {
   title?: string;
   description?: string;
   keywords?: string[];
+  alternates?: Metadata['alternates'];
 }): Metadata {
-
   return {
     title: seo?.metaTitle || defaults?.title,
     description: seo?.metaDescription || defaults?.description,
@@ -47,6 +47,7 @@ export function generateSEOMetadata(seo?: SeoMetaFields, defaults?: {
       description: seo?.metaDescription || defaults?.description,
       images: seo?.openGraph?.image ? [generateImageUrl(seo?.openGraph?.image).url()] : [],
     },
+    alternates: defaults?.alternates,
   }
 }
 

@@ -4,6 +4,7 @@ import { PortableText } from "next-sanity";
 import Image from "next/image";
 import Link from "next/link";
 import pluralize from "pluralize";
+import { getHreflangAlternates } from "@/lib/seo-metadata";
 import { Locale } from "@/lib/i18n-config";
 import { fetchBlogPost, fetchRelatedBlogPosts } from "@/lib/services/blog.service";
 import BlogPostCard from "../_components/BlogPostCard";
@@ -37,6 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return generateSEOMetadata(seo, {
     title: post?.title,
     description: description,
+    alternates: getHreflangAlternates(`/blog/${slug}`, await params.then(p => p.lang))
   });
 }
 

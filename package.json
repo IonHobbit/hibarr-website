@@ -55,6 +55,7 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.2.0",
     "react-phone-number-input": "^3.4.12",
+    "schema-dts": "^1.1.5",
     "react-slick": "^0.31.0",
     "slick-carousel": "^1.8.1",
     "tailwind-merge": "^3.2.0",

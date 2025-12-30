@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import { PropertyResponse } from '@/types/property';
 import PropertyDetails from './_components/PropertyDetails';
+import React from 'react'
+
 
 export async function generateMetadata(props: { params: Promise<{ slug: string; lang: string }> }): Promise<Metadata> {
   const { slug } = await props.params;
@@ -14,6 +16,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string; 
       }
     }
   `)
+
 
   return {
     title: property?.basicInfo?.title,
