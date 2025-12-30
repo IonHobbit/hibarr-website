@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Metadata } from 'next';
 import { makeGETRequest } from '@/lib/services/api.service';
 import { Job } from '@/types/careers';
 import { Button } from '@/components/ui/button';
