@@ -9,8 +9,8 @@ export async function generateMetadata(props: { params: Promise<{ slug: string; 
   const { slug, lang } = await props.params;
   const decodedSlug = decodeURIComponent(slug);
   
-  const property = await fetchSanityData<PropertyResponse>(`
-    *[_type == "property" && basicInfo.slug.current == "${decodedSlug}"][0] {
+  const property = await fetchSanityData<PropertyResponse>(
+    `*[_type == "property" && basicInfo.slug.current == $slug][0] {
       basicInfo {
         title,
         images[] {
@@ -18,21 +18,29 @@ export async function generateMetadata(props: { params: Promise<{ slug: string; 
           isCover
         }
       }
-    }
-  `)
+    }`,
+    { slug: decodedSlug }
+  );
 
-  // Find cover image or first image
-  const coverImage = property?.basicInfo?.images?.find(img => img.isCover)?.image || property?.basicInfo?.images?.[0]?.image;
+  if (!property?.basicInfo?.title) {
+    return generateSEOMetadata(undefined, { title: 'Listing' }, lang);
+  }
 
-  return generateSEOMetadata({
-    metaTitle: property?.basicInfo?.title,
-    openGraph: {
-      title: property?.basicInfo?.title,
-      image: coverImage
-    }
-  } as SeoMetaFields, {
-    title: property?.basicInfo?.title,
-  }, lang)
+  const coverImage =
+    property?.basicInfo?.images?.find((img) => img.isCover)?.image ||
+    property?.basicInfo?.images?.[0]?.image;
+
+  return generateSEOMetadata(
+    {
+      metaTitle: property.basicInfo.title,
+      openGraph: {
+        title: property.basicInfo.title,
+        image: coverImage,
+      },
+    } as SeoMetaFields,
+    { title: property.basicInfo.title },
+    lang
+  );
 }
 
 export default async function PropertyPage(
@@ -41,6 +49,7 @@ export default async function PropertyPage(
   }
 ) {
   const { slug } = await props.params;
+  const decodedSlug = decodeURIComponent(slug);
 
-  return <PropertyDetails slug={slug} />;
+  return <PropertyDetails slug={decodedSlug} />;
 }
