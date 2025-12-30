@@ -29,7 +29,7 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
   let jobs: Job[] = [];
   try {
     const resp = await makeGETRequest<Job[]>('/jobs');
-    jobs = resp?.data ?? [];
+    jobs = resp?.data.filter((job: Job) => job.published) ?? [];
   } catch (err) {
     console.error('Failed to fetch jobs', err);
     jobs = [];
