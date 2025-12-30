@@ -19,7 +19,7 @@ export default function AboutRabih({ data, enrichedContent }: AboutRabihProps) {
         </div>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
-            <h3 className="text-3xl md:text-4xl">{data?.title}</h3>
+            <h2 className="text-3xl md:text-4xl">{data?.title}</h2>
             <p className="text-muted-foreground md:text-lg">{data?.subTitle}</p>
           </div>
           

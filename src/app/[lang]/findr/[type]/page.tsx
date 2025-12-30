@@ -4,6 +4,15 @@ import { cn } from '@/lib/utils';
 import { PropertyKind } from '@/types/sanity.types';
 import Image from 'next/image';
 
+/**
+ * Render a property-kind gallery page for the requested type.
+ *
+ * Fetches the PropertyKind document matching the provided `type` slug, then renders a responsive image layout:
+ * - a large hero image followed by a two-column alternating grid of remaining images.
+ *
+ * @param params - A promise that resolves to route parameters `{ lang, type }` where `type` is the property-kind slug used to fetch data.
+ * @returns The React element representing the gallery page populated with images for the requested property kind.
+ */
 export default async function FindrPage({ params }: { params: Promise<{ lang: Locale, type: string }> }) {
   const { type } = await params;
 

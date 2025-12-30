@@ -39,7 +39,7 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
       <div className="flex flex-col items-center justify-center gap-4 min-h-[40dvh] w-full overflow-hidden md:overflow-visible max-w-screen-sm md:max-w-screen-md mx-auto">
         <div className="relative w-full mx-auto">
           <div className="flex items-end justify-center w-full gap-2">
-            <h3 className="text-3xl md:text-4xl text-center">{resolvedData?.testimonialsSection?.title}</h3>
+            <h2 className="text-3xl md:text-4xl text-center">{resolvedData?.testimonialsSection?.title}</h2>
           </div>
           <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl text-primary absolute -top-16 left-10' />
           <Icon icon="icon-park-outline:quote" className='hidden md:block text-7xl rotate-180 text-primary absolute -top-16 right-10' />
@@ -47,21 +47,28 @@ export default async function TestimonialsSection({ lang, type = 'client', showI
         <Carousel opts={{ loop: true }} className='max-h-80'>
           <CarouselContent>
             {displayTestimonials.map((testimonial: DisplayTestimonial, index: number) => {
-               // Handle different image sources (Sanity object vs string URL)
-               const imageUrl = testimonial.image 
-                ? testimonial.image 
-                : (testimonial.clientImage ? generateImageUrl(testimonial.clientImage).url() : null);
+              const imageUrl = testimonial.image
+                ? testimonial.image
+                : (testimonial.clientImage ? generateImageUrl(testimonial.clientImage).format('jpg').url() : null);
 
-               return (
+              return (
                 <CarouselItem key={index}>
                   <div className={cn(showImage && imageUrl ? 'items-start' : 'flex-col items-center', 'flex gap-4 p-4 relative')}>
                     {showImage && imageUrl && (
                       <div className='w-32 h-32 rounded overflow-hidden relative shrink-0'>
-                        <Image src={imageUrl} alt={testimonial.clientName || ''} className='w-full h-full object-cover' fill loading='lazy' />
+                        <Image
+                          src={imageUrl}
+                          alt={testimonial.clientName || 'Hibarr Client Testimonial'}
+                          className='w-full h-full object-cover'
+                          fill
+                          loading='lazy'
+                        />
                       </div>
                     )}
                     <div className={cn(showImage && imageUrl ? 'items-start' : 'items-center', 'flex flex-col gap-2')}>
-                      <p className={cn(showImage && imageUrl ? 'text-left' : 'text-center', 'text-base md:text-lg font-medium line-clamp-6')}>{testimonial.comment}</p>
+                      <p className={cn(showImage && imageUrl ? 'text-left' : 'text-center', 'text-base md:text-lg font-medium line-clamp-5')}>
+                        {testimonial.comment}
+                      </p>
                       <div className={cn(showImage && imageUrl ? 'items-start' : 'items-center', 'flex flex-col gap-0.5')}>
                         <p className='text-lg text-primary font-medium'>{testimonial.clientName}</p>
                         {testimonial.role && <p className='text-sm text-muted-foreground font-medium'>{testimonial.role}</p>}

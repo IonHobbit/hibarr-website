@@ -111,7 +111,7 @@ export default async function ConsultationPage(
             </h1>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">
-                <h3 className="text-2xl text-primary-foreground">{data?.subtitle}</h3>
+                <h2 className="text-2xl text-primary-foreground">{data?.subtitle}</h2>
                 <p className="text-primary-foreground">
                   {data?.offerInformation?.label}
                 </p>
@@ -125,7 +125,7 @@ export default async function ConsultationPage(
                 ))}
               </div>
               <div className="flex flex-col gap-2">
-                <h3 className="text-2xl text-primary-foreground">{data?.closerInformation?.title}</h3>
+                <h2 className="text-2xl text-primary-foreground">{data?.closerInformation?.title}</h2>
                 <p className="text-primary-foreground">
                   {data?.closerInformation?.subtitle}
                 </p>
