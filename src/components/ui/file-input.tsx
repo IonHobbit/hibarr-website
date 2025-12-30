@@ -4,6 +4,7 @@ import { cn, joinWith } from "@/lib/utils"
 import { Icon } from "@/components/icons";
 import { useMutation } from "@tanstack/react-query";
 import { Fragment, useRef } from "react";
+import { uploadFile as uploadFileToBackend } from "@/lib/api/upload";
 
 type FileInputProps = React.ComponentProps<"input"> & {
   error?: string;
@@ -32,17 +33,26 @@ function FileInput({ className, title, error, required, fileValue, onUpload, fol
     fileInputRef.current?.click();
   }
 
+  // Use new backend upload API for resumes, keep Bunny for other files
+  const useBackendUpload = folderName === 'resumes';
+
   const { mutateAsync: uploadFile, isPending } = useMutation({
     mutationFn: async (file: File): Promise<string> => {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('folderName', folderName);
-      const result = await fetch('/api/file-upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await result.json();
-      return data.fileUrl;
+      if (useBackendUpload) {
+        // Use new backend upload API for resumes
+        return await uploadFileToBackend(file, folderName, 'backend-uploads');
+      } else {
+        // Keep existing Bunny implementation for other files
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('folderName', folderName);
+        const result = await fetch('/api/file-upload', {
+          method: 'POST',
+          body: formData,
+        });
+        const data = await result.json();
+        return data.fileUrl;
+      }
     },
   })
 

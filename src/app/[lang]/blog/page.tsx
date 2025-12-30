@@ -9,7 +9,6 @@ import BlogCategories, { ALL_CATEGORY } from "./_components/BlogCategories";
 import FeaturedBlogPosts from "./_components/FeaturedBlogPosts";
 import { Suspense } from "react";
 import { Metadata } from "next";
-import { getHreflangAlternates } from "@/lib/seo-metadata";
 
 export async function generateMetadata(props: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await props.params;
