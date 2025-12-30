@@ -8,6 +8,8 @@ import HlsVideo from '@/components/HlsVideo';
 import { careersContent } from '@/lib/content/careers';
 import JobCard from './_components/JobCard';
 
+export const dynamic = 'force-dynamic';
+
 export default async function CareersPage({ params }: { params: Promise<{ lang: Locale }> }) {
   const { lang } = await params;
 
