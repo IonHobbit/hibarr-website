@@ -30,11 +30,11 @@ export default function WhyCyprus({ data, link, disableMedia }: WhyCyprusProps) 
           )}
         </div>
         <div className="flex flex-col gap-6 w-full">
-          <h3 className="text-3xl">{data?.title}</h3>
+          <h2 className="text-3xl">{data?.title}</h2>
           <div className="flex flex-col gap-4">
             {data?.reasons?.map((reason) => (
               <div key={reason.title} className="flex gap-2">
-                <p className="text-sm md:text-base font-semibold"> <span className="rounded-full size-2 bg-primary shrink-0 inline-block mb-0.5"></span> {reason.title}: <span className="font-normal">{reason.description}</span></p>
+                <h3 className="text-sm md:text-base font-semibold"> <span className="rounded-full size-2 bg-primary shrink-0 inline-block mb-0.5"></span> {reason.title}: <span className="font-normal">{reason.description}</span></h3>
               </div>
             ))}
           </div>
