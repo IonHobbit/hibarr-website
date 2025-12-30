@@ -4,6 +4,7 @@ import { fetchSanityData } from '@/lib/third-party/sanity.client';
 import { CaseStudy, SeoMetaFields } from '@/types/sanity.types';
 import Link from 'next/link';
 import { Locale } from '@/lib/i18n-config';
+import { generateReviewSchema, generateVideoSchema } from '@/lib/seo-schema';
 import { seoH1s } from '@/lib/seo-h1';
 import { Metadata } from 'next';
 import { seoTitles } from '@/lib/seo-titles'
@@ -48,6 +49,23 @@ export default async function ClientTestimonialsPage({ params }: ClientTestimoni
           </Button>
         </div>
       </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(generateReviewSchema(caseStudies)),
+        }}
+      />
+      {caseStudies.map((study) => (
+        study.videoUrl && (
+          <script
+            key={study._id}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(generateVideoSchema(study)),
+            }}
+          />
+        )
+      ))}
     </section>
   )
 }
