@@ -64,13 +64,13 @@ export default function AnimatedHeroSection({ logo, title, subtitle, primaryColo
             <Image src={logo} alt="News Central Corp Logo" width={300} height={300} />
           </motion.div>
 
-          <motion.p 
+          <motion.h1 
             className="text-5xl font-semibold uppercase"
             style={{ color: primaryColor }}
             variants={textVariants}
           >
             {title}
-          </motion.p>
+          </motion.h1>
           <motion.p 
             className="text-md md:text-2xl text-white"
             variants={textVariants}

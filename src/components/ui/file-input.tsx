@@ -5,7 +5,16 @@ import { Icon } from "@/components/icons";
 import { useMutation } from "@tanstack/react-query";
 import { Fragment, useRef } from "react";
 
-function FileInput({ className, title, error, required, fileValue, onUpload, ...props }: React.ComponentProps<"input"> & { error?: string, onUpload: (result: string) => void, required?: boolean, fileValue?: string }) {
+type FileInputProps = React.ComponentProps<"input"> & {
+  error?: string;
+  onUpload: (result: string) => void;
+  required?: boolean;
+  fileValue?: string;
+  title?: string;
+  folderName?: string;
+}
+
+function FileInput({ className, title, error, required, fileValue, onUpload, folderName = 'banking-packages-form-entries', ...props }: FileInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const TYPE_MAP = {
@@ -27,7 +36,7 @@ function FileInput({ className, title, error, required, fileValue, onUpload, ...
     mutationFn: async (file: File): Promise<string> => {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('folderName', 'banking-packages-form-entries');
+      formData.append('folderName', folderName);
       const result = await fetch('/api/file-upload', {
         method: 'POST',
         body: formData,

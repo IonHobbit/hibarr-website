@@ -1,119 +1,169 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { useMutation } from '@tanstack/react-query'
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import useTranslation from '@/hooks/useTranslation';
+import { Locale } from '@/lib/i18n-config'
+import { careersContent } from '@/lib/content/careers';
+import { FileInput } from '@/components/ui/file-input'
+import { makePOSTRequest } from '@/lib/services/api.service'
 
-export default function ApplicationForm({ jobId }: { jobId: string }) {
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
+type FormValues = {
+  listingId: number,
+  firstName: string,
+  lastName: string,
+  email: string,
+  phone: string,
+  resumeUrl: string,
+}
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [file, setFile] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+type JobApplicationRequest = {
+  listingId: number,
+  name: string,
+  email: string,
+  phone?: string,
+  resumeUrl?: string,
+}
 
+type ApplicationFormProps = {
+  jobId: string
+  lang: Locale
+}
+
+export default function ApplicationForm({ jobId, lang }: ApplicationFormProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const content = careersContent[lang] ?? careersContent.en;
   // Translation hooks
-  const { data: firstNameLabel } = useTranslation('First name');
-  const { data: lastNameLabel } = useTranslation('Last name');
-  const { data: emailLabel } = useTranslation('Email address');
-  const { data: phoneLabel } = useTranslation('Phone (optional)');
-  const { data: resumeLabel } = useTranslation('Resume / CV');
-  const { data: browseText } = useTranslation('Browse');
-  const { data: changeFileText } = useTranslation('Change file');
-  const { data: submitText } = useTranslation('Submit Application');
   const { data: resumeRequiredError } = useTranslation('Please upload your resume/CV');
   const { data: successMessage } = useTranslation('Application submitted. Thank you!');
   const { data: errorMessage } = useTranslation('An error occurred');
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setMessage(null);
+  const { mutate: submitApplication, isPending, isSuccess, isError, error } = useMutation({
+    mutationFn: async (values: FormValues) => {
+      const payload: JobApplicationRequest = {
+        listingId: values.listingId,
+        name: `${values.firstName} ${values.lastName}`.trim(),
+        email: values.email,
+        phone: values.phone ?? undefined,
+        resumeUrl: values.resumeUrl,
+      }
+      makePOSTRequest('/job-applications', payload)
+    },
+  });
 
-    // Validate required fields
-    if (!file) {
-      setMessage(resumeRequiredError?.text || 'Please upload your resume/CV');
-      setIsSubmitting(false);
-      return;
-    }
-
-    try {
-      const fd = new FormData();
-      fd.append('firstName', firstName);
-      fd.append('lastName', lastName);
-      fd.append('email', email);
-      if (phone) fd.append('phone', phone);
-      fd.append('file', file);
-      fd.append('jobId', jobId);
-
-      const res = await fetch('/api/careers/apply', {
-        method: 'POST',
-        body: fd,
+  const { values, errors, touched, handleChange, handleSubmit, setFieldValue, resetForm } = useFormik<FormValues>({
+    initialValues: {
+      listingId: Number(jobId),
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      resumeUrl: '',
+    },
+    validationSchema: Yup.object({
+      listingId: Yup.number().required('Listing ID is required'),
+      firstName: Yup.string().required('First name is required'),
+      lastName: Yup.string().required('Last name is required'),
+      email: Yup.string().email('Invalid email address').required('Email is required'),
+      phone: Yup.string(),
+      resumeUrl: Yup.string().required(resumeRequiredError?.text || 'Please upload your resume/CV')
+    }),
+    onSubmit: (values) => {
+      submitApplication(values, {
+        onSuccess: () => {
+          resetForm();
+          if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+          }
+        },
       });
+    },
+  });
 
-      if (!res.ok) throw new Error('Submission failed');
-      await res.json();
-      setMessage(successMessage?.text || 'Application submitted. Thank you!');
-      setFirstName('');
-      setLastName('');
-      setEmail('');
-      setPhone('');
-      setFile(null);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err);
-      setMessage(message || errorMessage?.text || 'An error occurred');
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
+  const message = isSuccess
+    ? (successMessage?.text || 'Application submitted. Thank you!')
+    : isError
+      ? (error instanceof Error ? error.message : errorMessage?.text || 'An error occurred')
+      : null;
 
   return (
-    <form onSubmit={onSubmit} className='flex flex-col gap-3'>
+    <form onSubmit={handleSubmit} className='flex flex-col gap-3'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
-        <Input id='firstName' required value={firstName} onChange={(e) => setFirstName(e.target.value)} title={firstNameLabel?.text || 'First name'} />
-        <Input id='lastName' required value={lastName} onChange={(e) => setLastName(e.target.value)} title={lastNameLabel?.text || 'Last name'} />
-      </div>
-      <Input id='email' required type='email' value={email} onChange={(e) => setEmail(e.target.value)} title={emailLabel?.text || 'Email address'} />
-      <Input id='phone' type='tel' value={phone} onChange={(e) => setPhone(e.target.value)} title={phoneLabel?.text || 'Phone (optional)'} />
-      <div>
-        <label className='block text-sm font-medium mb-1'>
-          {resumeLabel?.text || 'Resume / CV'}
-          <span className='text-red-500' aria-hidden>
-            {' '}*
-          </span>
-        </label>
-        <div className='flex items-center gap-3'>
-          <Button
-            type='button'
-            variant='secondary'
-            size='sm'
-            className='relative'
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <div className="flex items-center gap-2">
-              <svg className='mr-2' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'><path d='M16 16v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6' /><polyline points='15 3 21 3 21 9' /><line x1='10' y1='14' x2='21' y2='3' /></svg>
-              {file ? (changeFileText?.text || 'Change file') : (browseText?.text || 'Browse')}
-            </div>
-          </Button>
-          <input
-            ref={fileInputRef}
-            className="hidden"
-            type='file'
-            accept='.pdf,.doc,.docx'
-            onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
-            style={{ display: 'none' }}
+        <div>
+          <Input
+            id='firstName'
+            required
+            value={values.firstName}
+            onChange={handleChange}
+            title={content.applicationForm.firstName}
+            aria-invalid={touched.firstName && !!errors.firstName}
           />
-          {file && <span className='text-xs text-muted-foreground truncate max-w-[180px]'>{file.name}</span>}
+          {touched.firstName && errors.firstName && (
+            <p className='text-sm text-red-500 mt-1'>{errors.firstName}</p>
+          )}
+        </div>
+        <div>
+          <Input
+            id='lastName'
+            required
+            value={values.lastName}
+            onChange={handleChange}
+            title={content.applicationForm.lastName}
+            aria-invalid={touched.lastName && !!errors.lastName}
+          />
+          {touched.lastName && errors.lastName && (
+            <p className='text-sm text-red-500 mt-1'>{errors.lastName}</p>
+          )}
         </div>
       </div>
       <div>
-        <Button type='submit' isLoading={isSubmitting}>{submitText?.text || 'Submit Application'}</Button>
+        <Input
+          id='email'
+          required
+          type='email'
+          value={values.email}
+          onChange={handleChange}
+          title={content.applicationForm.email}
+          aria-invalid={touched.email && !!errors.email}
+        />
+        {touched.email && errors.email && (
+          <p className='text-sm text-red-500 mt-1'>{errors.email}</p>
+        )}
       </div>
-      {message && <p className='text-sm mt-2'>{message}</p>}
+      <div>
+        <Input
+          id='phone'
+          type='tel'
+          value={values.phone}
+          onChange={handleChange}
+          title={content.applicationForm.phone}
+          aria-invalid={touched.phone && !!errors.phone}
+        />
+        {touched.phone && errors.phone && (
+          <p className='text-sm text-red-500 mt-1'>{errors.phone}</p>
+        )}
+      </div>
+      <FileInput
+        required
+        name='resumeUrl'
+        fileValue={values.resumeUrl}
+        title={content.applicationForm.resume}
+        folderName='resumes'
+        onUpload={(value) => setFieldValue('resumeUrl', value)} error={errors.resumeUrl}
+      />
+      <Button type='submit' size='sm' className='mt-4 max-w-80 h-10' isLoading={isPending} disabled={isPending}>
+        {content.submitApplication}
+      </Button>
+      {message && (
+        <p className={`text-sm mt-2 ${isSuccess ? 'text-green-600' : 'text-red-500'}`}>
+          {message}
+        </p>
+      )}
     </form>
   )
 }

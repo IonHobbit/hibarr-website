@@ -56,7 +56,10 @@ export default function WaitlistForm({ formData }: WaitlistFormProps) {
 
   const { values, handleChange, setFieldValue, handleSubmit } = useFormik({
     initialValues: userInfo,
-    onSubmit: () => mutate()
+    onSubmit: () => {
+      if (isPending) return;
+      mutate()
+    }
   })
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {

@@ -7,7 +7,7 @@ import { InfiniteMovingCards } from "@/components/InfiniteMovingCards";
 
 type FeaturedSectionProps = {
   lang: Locale;
-  featuredLogos: string[];
+  featuredLogos: (string | { src: string; alt: string })[];
 }
 
 export default function FeaturedSection({ lang, featuredLogos }: FeaturedSectionProps) {
@@ -17,7 +17,7 @@ export default function FeaturedSection({ lang, featuredLogos }: FeaturedSection
 
   return (
     <section id='featured' className='section'>
-      <h3 className='text-3xl text-center'>{content.title}</h3>
+      <h2 className='text-3xl text-center'>{content.title}</h2>
       <div className='relative w-full'>
         <InfiniteMovingCards
           items={featuredLogos}

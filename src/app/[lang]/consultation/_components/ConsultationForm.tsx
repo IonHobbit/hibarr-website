@@ -181,6 +181,7 @@ export default function ConsultationForm({ translations, showMessage, nonce }: C
       phoneNumber: Yup.string(),
     }),
     onSubmit: async () => {
+      if (isPending) return;
       const link = generateCalendlyPrefilledUrl();
       setCalendlyUrl(link);
       mutate()

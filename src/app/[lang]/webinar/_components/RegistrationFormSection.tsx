@@ -90,7 +90,10 @@ export default function RegistrationFormSection({ data }: RegistrationFormSectio
       lastName: Yup.string().required('Last name is required'),
       email: Yup.string().email('Invalid email address, please enter a valid email address').required('Email is required'),
     }),
-    onSubmit: () => mutate(),
+    onSubmit: () => {
+      if (isPending) return;
+      mutate()
+    },
   });
 
   return (

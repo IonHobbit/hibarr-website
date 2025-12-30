@@ -140,6 +140,7 @@ export default function RegistrationForm({ packages, activePackage, form, select
       }),
     }),
     onSubmit: async (values) => {
+      if (isLoading) return;
       setIsLoading(true);
       try {
         const payload = {

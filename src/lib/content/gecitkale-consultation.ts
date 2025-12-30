@@ -138,13 +138,13 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     title: 'Jetzt investieren zu Vorverkaufspreisen',
     subtitle: 'Erschwingliche Resort-Immobilien in Nordzypern',
     features: [
-      'Von £10,750 abzahlbarer Anzahlung',
+      'Ab £10,750 Anzahlung',
       '£600/Monat - 0% Zinsen (48 Monate)',
-      'Keine Maklermission',
+      'Keine Maklerprovision',
       'Vollständige Privatsphäre - außerhalb der EU'
     ],
     caseStudiesTitle: 'Fallstudien',
-    caseStudiesDescription: 'Erfahren Sie, wie unsere Kunden von Investitionen in unsere Projekte profitiert haben.',
+    caseStudiesDescription: 'Erfahren Sie, wie unsere Kunden durch Investitionen in unsere Projekte profitieren.',
     images: images,
     form: {
       title: 'Jetzt eine Beratungsanfrage stellen',
@@ -154,7 +154,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
         lastName: 'Nachname',
         email: 'E-Mail-Adresse',
         phoneNumber: 'Telefonnummer',
-        interestReason: 'Was hat Ihre Interesse an diesem Investitionsangebot heute ausgelöst?',
+        interestReason: 'Was hat Ihr Interesse an diesem Investitionsangebot heute ausgelöst?',
         interestReasonOther: 'Bitte spezifizieren',
         investmentTimeline: 'Wann planen Sie, zu investieren?',
       },
@@ -175,7 +175,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
       },
       placeholders: {
         interestReasonOther: 'Bitte spezifizieren',
-        chooseOne: 'Wählen Sie eins',
+        chooseOne: 'Wählen Sie aus',
       },
       validationMessages: {
         firstName: 'Vorname ist erforderlich',
@@ -188,7 +188,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
         investmentTimeline: 'Bitte wählen Sie einen Zeitrahmen',
       },
       submitButton: 'Zeit wählen',
-      dataPrivacy: 'Ich erkläre mich damit einverstanden, dass HIBARR mich zur Vorbereitung meiner Beratung sowie in Bezug auf das Projekt Cielo Vista telefonisch und per E-Mail kontaktieren darf. Die Datenschutzerklärung habe ich gelesen.',
+      dataPrivacy: 'Ich erkläre mich hiermit einverstanden, dass HIBARR mich zur Vorbereitung meiner Beratung sowie in Bezug auf das Projekt Cielo Vista telefonisch und per E-Mail kontaktieren darf. Die Datenschutzerklärung habe ich gelesen.',
     },
     imageAlt: {
       rabih: 'Bild von HIBARR Gründer Rabih Rabih',

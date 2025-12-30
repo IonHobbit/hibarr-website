@@ -25,6 +25,7 @@ export default function PackageSelector({ packages, form }: PackageSelectorProps
   return (
     <Fragment>
       <section className='section'>
+        <h2 className="sr-only">Available Packages</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {packages.map((pkg, index) => (
             <PackageCard key={index} pkg={pkg as BankPackage} selectPackage={selectPackage} />

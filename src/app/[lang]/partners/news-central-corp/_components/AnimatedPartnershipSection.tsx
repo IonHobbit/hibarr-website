@@ -138,7 +138,7 @@ export default function AnimatedPartnershipSection({
         className='section py-0'
         variants={itemVariants}
       >
-        <h3 className='text-2xl md:text-4xl text-white text-center'>{benefitsTitle}</h3>
+        <h2 className='text-2xl md:text-4xl text-white text-center'>{benefitsTitle}</h2>
         <motion.div
           className='grid grid-cols-1 md:grid-cols-2 gap-6'
           variants={containerVariants}
