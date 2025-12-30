@@ -4,7 +4,7 @@ import Image from 'next/image'
 import React, { Fragment } from 'react'
 import FAQAccordion from '../../_components/FAQAccordion'
 import { Locale } from '@/lib/i18n-config'
-import { EXPANDED_CONTENT } from '@/data/expanded-content'
+import { EXPANDED_CONTENT } from '@/lib/content/expanded-content'
 
 export const metadata: Metadata = {
   title: 'Near East Group',

@@ -10,7 +10,7 @@ import { seoTitles } from '@/lib/seo-titles'
 import { generateSEOMetadata } from '@/lib/utils'
 import { seoDescriptions } from '@/data/seo-descriptions'
 import { SeoMetaFields } from '@/types/sanity.types'
-import { EXPANDED_CONTENT } from '@/data/expanded-content'
+import { EXPANDED_CONTENT } from '@/lib/content/expanded-content'
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;

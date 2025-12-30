@@ -7,7 +7,7 @@ import { Locale } from '@/lib/i18n-config';
 import { cn, formatDate, generateImageUrl } from '@/lib/utils'
 import Image from 'next/image'
 import { fetchSanityData } from '@/lib/third-party/sanity.client'
-import { EXPANDED_CONTENT } from '@/data/expanded-content'
+import { EXPANDED_CONTENT } from '@/lib/content/expanded-content'
 
 type TestimonialsSectionProps = {
   lang: Locale;

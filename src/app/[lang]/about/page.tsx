@@ -13,7 +13,7 @@ import GallerySection from './_components/GallerySection';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
 import { AboutPage as AboutPageType, SeoMetaFields } from '@/types/sanity.types';
 import { generateSEOMetadata } from '@/lib/utils';
-import { EXPANDED_CONTENT } from '@/data/expanded-content'; 
+import { EXPANDED_CONTENT } from '@/lib/content/expanded-content'; 
 
 import { seoTitles } from '@/lib/seo-titles';
 import { seoDescriptions } from '@/data/seo-descriptions';
