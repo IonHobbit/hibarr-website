@@ -9,6 +9,7 @@ import Video from '@/components/Video'
 export const metadata: Metadata = {
   title: 'Oscar Group',
   description: 'Excellence Starts with the Right Partner – Oscar Group.',
+  robots: { index: false, follow: false },
 }
 
 export default async function OscarGroup(

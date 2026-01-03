@@ -7,12 +7,17 @@ import { Locale } from '@/lib/i18n-config';
 import HlsVideo from '@/components/HlsVideo';
 import { careersContent } from '@/lib/content/careers';
 import JobCard from './_components/JobCard';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await params;
+  const content = careersContent[lang] ?? careersContent.en;
+
   return {
-    title: 'Careers - Join Our Team',
-    description: 'Explore exciting career opportunities at HIBARR. Join a team of innovators shaping the future.',
-  }
+    title: content.title,
+    description: content.description,
+    alternates: getHreflangAlternates('/careers', lang),
+  };
 }
 
 export default async function CareersPage({ params }: { params: Promise<{ lang: Locale }> }) {
@@ -23,7 +28,7 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
   let jobs: Job[] = [];
   try {
     const resp = await makeGETRequest<Job[]>('/jobs');
-    jobs = resp?.data ?? [];
+    jobs = resp?.data.filter((job: Job) => job.published) ?? [];
   } catch (err) {
     console.error('Failed to fetch jobs', err);
     jobs = [];
@@ -74,7 +79,7 @@ export default async function CareersPage({ params }: { params: Promise<{ lang: 
               {content.ourOpenPositions}
             </h2>
             <p className="mt-2 text-[#6B7280]">
-              Explore open roles and apply to join our team
+              {content.exploreOpenRolesDescription}
             </p>
           </div>
 

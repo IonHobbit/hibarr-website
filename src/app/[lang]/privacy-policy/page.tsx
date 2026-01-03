@@ -4,6 +4,7 @@ import { Locale } from '@/lib/i18n-config';
 import { PrivacyPolicy } from '@/types/sanity.types';
 import PrivacyPolicyContent from './_components/PrivacyPolicyContent';
 import { generateSEOMetadata } from '@/lib/utils';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
 import { translate } from '@/lib/translation';
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
@@ -14,7 +15,9 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: Loc
     { lang }
   );
 
-  return generateSEOMetadata(privacyPolicyData.seo);
+  return generateSEOMetadata(privacyPolicyData.seo, { 
+    alternates: getHreflangAlternates('/privacy-policy', lang)
+  });
 }
 
 export default async function PrivacyPolicyPage({ params }: { params: Promise<{ lang: Locale }> }) {

@@ -7,12 +7,14 @@ import { Icon } from '@/components/icons';
 import FAQAccordion from '../_components/FAQAccordion';
 // import CalendlyEmbed from '@/components/CalendlyEmbed';
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client';
-import { ConsultationPage as ConsultationPageType, HomePage, SeoMetaFields } from '@/types/sanity.types';
+import { ConsultationPage as ConsultationPageType, HomePage, SeoMetaFields, Faq } from '@/types/sanity.types';
 import ConsultationForm from './_components/ConsultationForm';
 import { generateSEOMetadata } from '@/lib/utils';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
 import ConsultationProcessSection from '../(landing)/_components/ConsultationProcessSection';
 import { translate, translateBatch } from '@/lib/translation';
 import { interestedInOptions, messageOptions, periodOptions } from '@/lib/options';
+import { generateFAQSchema } from '@/lib/seo-schema';
 import { headers as nextHeaders } from 'next/headers';
 
 import { seoTitles } from '@/lib/seo-titles';
@@ -23,7 +25,9 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchRawSanityData<ConsultationPageType>(`*[_type == "consultationPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].consultation, metaDescription: seoDescriptions[lang].consultation } as SeoMetaFields)
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].consultation, metaDescription: seoDescriptions[lang].consultation } as SeoMetaFields, {
+    alternates: getHreflangAlternates('/consultation', lang)
+  })
 }
 
 export default async function ConsultationPage(
@@ -160,6 +164,15 @@ export default async function ConsultationPage(
           <FAQAccordion lang={lang} />
         </div>
       </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(generateFAQSchema(
+            (await fetchSanityData<Faq[]>(`*[_type == "faq" && language == $lang]`, { lang }, { cache: 'no-store' }))
+              .map(f => ({ question: f.question || '', answer: f.answer || '' }))
+          )),
+        }}
+      />
     </Fragment>
   );
 } 
