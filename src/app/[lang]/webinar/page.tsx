@@ -15,6 +15,7 @@ import TwoForOneSection from './_components/TwoForOneSection'
 import BenefitsSection from './_components/BenefitsSection'
 import StatisticsSection from './_components/StatisticsSection'
 import { generateSEOMetadata } from '@/lib/utils'
+import { getHreflangAlternates } from '@/lib/seo-metadata'
 import Video from '@/components/Video'
 
 import { seoTitles } from '@/lib/seo-titles';
@@ -27,7 +28,9 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchRawSanityData<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].webinar, metaDescription: seoDescriptions[lang].webinar } as SeoMetaFields, undefined, lang)
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].webinar, metaDescription: seoDescriptions[lang].webinar } as SeoMetaFields, {
+    alternates: getHreflangAlternates('/webinar', lang)
+  }, lang)
 }
 
 type ZoomRegistrationPageProps = {

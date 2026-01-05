@@ -83,7 +83,7 @@ export default async function RootLayout(
   }>
 ) {
   const { params, children } = props;
-  const { lang } = await params;
+  const { lang = 'en' } = await params;
   const headerList = await headers();
   const nonce = headerList.get("x-nonce") || undefined;
 

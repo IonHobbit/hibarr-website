@@ -28,6 +28,7 @@ export function generateSEOMetadata(seo?: SeoMetaFields, defaults?: {
   title?: string;
   description?: string;
   keywords?: string[];
+  alternates?: Metadata['alternates'];
 }, locale: string = 'en'): Metadata {
 
   const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://hibarr.de';
@@ -72,6 +73,7 @@ export function generateSEOMetadata(seo?: SeoMetaFields, defaults?: {
       description: metaDescription,
       images: twitterImages,
     },
+    alternates: defaults?.alternates,
   }
 }
 

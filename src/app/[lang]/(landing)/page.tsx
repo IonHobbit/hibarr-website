@@ -1,5 +1,7 @@
 import { Fragment } from 'react';
 import type { Locale } from '@/lib/i18n-config';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
+import { seoH1s } from '@/lib/seo-h1';
 import AboutSection from './_components/AboutSection';
 import PartnersSection from '../_components/PartnersSection';
 import WhyCyprus from './_components/WhyCyprus';
@@ -33,7 +35,9 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   const { seo } = await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
 
-  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].home, metaDescription: seoDescriptions[lang].home } as SeoMetaFields, undefined, lang)
+  return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].home, metaDescription: seoDescriptions[lang].home } as SeoMetaFields, {
+    alternates: getHreflangAlternates('/', lang)
+  }, lang)
 }
 
 export const revalidate = 60;
