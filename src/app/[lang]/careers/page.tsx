@@ -21,6 +21,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: Loc
   };
 }
 
+export const dynamic = 'force-dynamic';
+
 export default async function CareersPage({ params }: { params: Promise<{ lang: Locale }> }) {
   const { lang } = await params;
 

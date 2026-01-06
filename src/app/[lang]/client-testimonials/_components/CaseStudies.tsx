@@ -46,7 +46,7 @@ export default function CaseStudies({ caseStudies }: CaseStudiesProps) {
           <CarouselItem key={index} className='w-full'>
             <div className='grid xl:grid-cols-7 gap-6'>
               <div className="flex flex-col items-start gap-2 xl:col-span-2 text-left">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col gap-1.5">
                   <h2 className="text-4xl font-medium">{caseStudy.clientName}</h2>
                   <p className="text-base text-muted-foreground">{caseStudy.jobTitle}</p>
                 </div>

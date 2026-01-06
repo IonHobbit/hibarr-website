@@ -6,6 +6,7 @@ import FAQAccordion from '../../_components/FAQAccordion'
 import { Locale } from '@/lib/i18n-config'
 
 import { getHreflangAlternates } from '@/lib/seo-metadata'
+import { nearEastGroupContent } from '@/lib/content/partners/near-east-group'
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -18,10 +19,12 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: Loc
 
 export default async function NearEastGroup(
   props: {
-    params: Promise<{ lang: Locale }>;
+    params: Promise<{ lang: Locale }>
   }
 ) {
-  const { lang } = await props.params;
+  const { lang } = await props.params
+
+  const content = nearEastGroupContent[lang] || nearEastGroupContent.en
 
   const portfolioCompanies = [
     {
@@ -45,21 +48,27 @@ export default async function NearEastGroup(
   const portfolioAreas = [
     {
       name: 'Education',
-      description: 'Near East University is a leading institution offering diverse academic programs and state-of-the-art facilities, preparing students for global success.',
+      description:
+        'Near East University is a leading institution offering diverse academic programs and state-of-the-art facilities, preparing students for global success.',
     },
     {
       name: 'Banking & Insurance',
-      description: 'Near East Bank offers innovative financial solutions, including loans, savings accounts, and medical insurance, tailored to meet your needs.',
+      description:
+        'Near East Bank offers innovative financial solutions, including loans, savings accounts, and medical insurance, tailored to meet your needs.',
     },
     {
       name: 'Medical Care',
-      description: 'Near East Hospital provides advanced healthcare services with cutting-edge technology and expert professionals, ensuring top-quality patient care.',
-    }
+      description:
+        'Near East Hospital provides advanced healthcare services with cutting-edge technology and expert professionals, ensuring top-quality patient care.',
+    },
   ]
 
   return (
     <Fragment>
-  <section id='root' className="relative grid place-items-center place-content-center h-[60dvh] bg-[url('https://res.cloudinary.com/hibarr/image/upload/near-east-group-hero_cotcgf')] bg-cover bg-center">
+      <section
+        id='root'
+        className="relative grid place-items-center place-content-center h-[60dvh] bg-[url('https://res.cloudinary.com/hibarr/image/upload/near-east-group-hero_cotcgf')] bg-cover bg-center"
+      >
         <div className="max-w-2xl text-center flex flex-col gap-10 px-4 z-10">
           <div className='flex flex-col items-center gap-6'>
             <Image src="https://res.cloudinary.com/hibarr/image/upload/near-east-group-logo_js67p5" alt="Near East Group Logo" width={280} height={280} />
@@ -78,12 +87,24 @@ export default async function NearEastGroup(
               About Near East Group
             </h1>
             <p className='text-md md:text-lg'>
-              The Near East Group is a leading conglomerate based in Cyprus, renowned for its commitment to excellence, innovation, and community development. With a diverse portfolio spanning education, healthcare, banking, and more, the Near East Group has established itself as a cornerstone of progress in the region.
+              {content.about}
             </p>
             <h2 className='text-xl md:text-2xl'>Our Legacy</h2>
             <p className='text-md md:text-lg'>
-              Founded with a vision to create a better future, the Near East Group has grown into a multifaceted organization that touches the lives of thousands every day. Our journey began with the establishment of <span className='font-semibold'>Near East University</span>, one of the most prestigious higher education institutions in the Eastern Mediterranean. Today, we continue to expand our reach, delivering world-class services across various sectors.
+              {content.history}
             </p>
+            <div className='flex flex-col gap-4 mt-4'>
+              <h3 className='text-xl md:text-2xl'>Why Trust Near East Group?</h3>
+              <ul className='list-disc pl-5 space-y-2'>
+                {content.trustSignals.map((signal, i) => (
+                  <li key={i} className='text-md md:text-lg'>{signal}</li>
+                ))}
+              </ul>
+            </div>
+            <div className='flex flex-col gap-4 mt-4'>
+              <h3 className='text-xl md:text-2xl'>Benefits for Investors</h3>
+              <p className='text-md md:text-lg'>{content.investorBenefits}</p>
+            </div>
           </div>
           <div className='flex flex-col gap-6'>
             <h2 className='text-xl md:text-2xl'>Discover the Diverse Portfolio of Near East Group</h2>
@@ -124,9 +145,9 @@ export default async function NearEastGroup(
         </div>
         <div className='section py-0'>
           <h2 className='text-2xl md:text-4xl text-primary-foreground'>Benefits of this partnership</h2>
-          <FAQAccordion lang={lang} />
+          <FAQAccordion lang={lang} items={content.faqs} />
         </div>
       </section>
-    </Fragment >
+    </Fragment>
   )
 }

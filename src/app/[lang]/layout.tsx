@@ -6,7 +6,6 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import ScrollToTop from '@/app/[lang]/_components/ScrollToTop';
 import { generateOrganizationSchema, generateLocalBusinessSchema } from '@/lib/seo-schema';
-import Script from 'next/script';
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import { getHreflangAlternates } from '@/lib/seo-metadata';
