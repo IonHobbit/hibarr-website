@@ -29,23 +29,49 @@ export function generateSEOMetadata(seo?: SeoMetaFields, defaults?: {
   description?: string;
   keywords?: string[];
   alternates?: Metadata['alternates'];
-}): Metadata {
+}, locale: string = 'en'): Metadata {
+
+  const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://hibarr.de';
+  const metaTitle = seo?.metaTitle || defaults?.title;
+  const metaDescription = seo?.metaDescription || defaults?.description;
+  
+  // Default images
+  const defaultOgImage = `${siteUrl}/og-image.jpg`;
+  const defaultTwitterImage = `${siteUrl}/twitter-image.jpg`;
+
+  const ogImages = seo?.openGraph?.image 
+    ? [generateImageUrl(seo?.openGraph?.image).width(1200).height(630).url()] 
+    : [defaultOgImage];
+
+  const twitterImages = seo?.openGraph?.image 
+    ? [generateImageUrl(seo?.openGraph?.image).width(1200).height(675).url()]
+    : [defaultTwitterImage];
+
   return {
-    title: seo?.metaTitle || defaults?.title,
-    description: seo?.metaDescription || defaults?.description,
+    title: metaTitle,
+    description: metaDescription,
     keywords: seo?.seoKeywords || defaults?.keywords,
     openGraph: {
-      title: seo?.openGraph?.title || defaults?.title,
-      description: seo?.openGraph?.description || defaults?.description,
-      images: seo?.openGraph?.image ? [generateImageUrl(seo?.openGraph?.image).url()] : [],
+      title: seo?.openGraph?.title || metaTitle,
+      description: seo?.openGraph?.description || metaDescription,
+      url: `${siteUrl}/${locale}`,
+      siteName: 'HIBARR',
+      images: ogImages.map(url => ({
+        url,
+        width: 1200,
+        height: 630,
+        alt: metaTitle || 'HIBARR Trading Ltd',
+      })),
+      type: ((seo?.openGraph as { type?: string })?.type || 'website') as 'website' | 'article',
+      locale: locale === 'en' ? 'en_US' : locale === 'de' ? 'de_DE' : locale === 'tr' ? 'tr_TR' : locale === 'ru' ? 'ru_RU' : locale,
     },
     twitter: {
       card: 'summary_large_image',
-      creator: seo?.twitter?.creator,
-      site: seo?.twitter?.site,
-      title: seo?.metaTitle || defaults?.title,
-      description: seo?.metaDescription || defaults?.description,
-      images: seo?.openGraph?.image ? [generateImageUrl(seo?.openGraph?.image).url()] : [],
+      creator: seo?.twitter?.creator || '@hibarr',
+      site: seo?.twitter?.site || '@hibarr',
+      title: metaTitle,
+      description: metaDescription,
+      images: twitterImages,
     },
     alternates: defaults?.alternates,
   }

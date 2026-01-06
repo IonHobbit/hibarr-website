@@ -37,7 +37,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].home, metaDescription: seoDescriptions[lang].home } as SeoMetaFields, {
     alternates: getHreflangAlternates('/', lang)
-  })
+  }, lang)
 }
 
 export const revalidate = 60;

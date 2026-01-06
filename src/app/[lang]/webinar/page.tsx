@@ -30,7 +30,7 @@ export async function generateMetadata(props: { params: Promise<{ lang: Locale }
 
   return generateSEOMetadata({ ...seo, metaTitle: seoTitles[lang].webinar, metaDescription: seoDescriptions[lang].webinar } as SeoMetaFields, {
     alternates: getHreflangAlternates('/webinar', lang)
-  })
+  }, lang)
 }
 
 type ZoomRegistrationPageProps = {
