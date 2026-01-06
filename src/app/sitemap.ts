@@ -90,12 +90,28 @@ async function getProperties() {
     return []
   }
 }
+// Function to fetch careers from Sanity
+async function getCareers() {
+  const query = groq`*[_type == "listing"] {
+    "slug": slug.current,
+    _updatedAt
+  }`
+
+  try {
+    const careers = await fetchSanityData<{ slug: string; _updatedAt: string }[]>(query)
+    return careers
+  } catch (error) {
+    console.error('Error fetching careers:', error)
+    return []
+  }
+}
 
 // Main sitemap generation function
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = generateStaticRoutes()
   const blogPosts = await getBlogPosts()
   const properties = await getProperties()
+  const careers = await getCareers()
 
   const dynamicRoutes: MetadataRoute.Sitemap = []
 
@@ -143,6 +159,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           lastModified: new Date(property._updatedAt),
           changeFrequency: 'daily',
           priority: 0.8,
+          alternates: {
+            languages: alternates
+          }
+        })
+      }
+    }
+  }
+
+  // Process careers
+  for (const career of careers) {
+    if (career.slug) {
+      const alternates: Record<string, string> = {}
+
+      // Create alternates for each language
+      for (const lang of languages) {
+        alternates[lang] = `${baseUrl}/${lang}/careers/${career.slug}`
+      }
+      alternates['x-default'] = `${baseUrl}/en/careers/${career.slug}`
+
+      // Add entries for each language
+      for (const lang of languages) {
+        dynamicRoutes.push({
+          url: `${baseUrl}/${lang}/careers/${career.slug}`,
+          lastModified: new Date(career._updatedAt),
+          changeFrequency: 'monthly',
+          priority: 0.7,
           alternates: {
             languages: alternates
           }

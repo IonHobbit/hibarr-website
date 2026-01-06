@@ -8,13 +8,16 @@ import PackageSelector, { EnrichedPackageContent } from './_components/PackageSe
 import { Metadata } from 'next'
 import { seoTitles } from '@/lib/seo-titles'
 import { generateSEOMetadata } from '@/lib/utils'
+import { getHreflangAlternates } from '@/lib/seo-metadata'
 import { seoDescriptions } from '@/data/seo-descriptions'
 import { SeoMetaFields } from '@/types/sanity.types'
 import { EXPANDED_PACKAGES_BY_LOCALE } from '@/lib/content/expanded/packages'
 
 export async function generateMetadata(props: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await props.params;
-  return generateSEOMetadata({ metaTitle: seoTitles[lang].packages, metaDescription: seoDescriptions[lang].packages } as SeoMetaFields)
+  return generateSEOMetadata({ metaTitle: seoTitles[lang].packages, metaDescription: seoDescriptions[lang].packages } as SeoMetaFields, {
+    alternates: getHreflangAlternates('/our-packages', lang)
+  })
 }
 
 export default async function BankingPackagesPage(

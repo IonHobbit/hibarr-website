@@ -2,6 +2,8 @@ import { Metadata } from 'next'
 import React, { Fragment } from 'react'
 import dynamic from 'next/dynamic'
 import { translate } from '@/lib/translation'
+import { getHreflangAlternates } from '@/lib/seo-metadata'
+import { Locale } from '@/lib/i18n-config'
 
 const AnimatedHeroSection = dynamic(() => import('./_components/AnimatedHeroSection'), {
   loading: () => <div className="min-h-screen bg-black" />
@@ -19,12 +21,16 @@ const AnimatedPartnershipSection = dynamic(() => import('./_components/AnimatedP
   loading: () => <div className="min-h-[25dvh] bg-black" />
 })
 
-export const metadata: Metadata = {
-  title: 'News Central Corp',
-  description: 'Building Excellence in North Cyprus – NCC Partnership.',
+export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await params;
+  return {
+    title: 'News Central Corp',
+    description: 'Building Excellence in North Cyprus – NCC Partnership.',
+    alternates: getHreflangAlternates('/partners/news-central-corp', lang)
+  }
 }
 
-export default async function NewsCentralCorp() {
+export default async function NewsCentralCorp({ params }: { params: Promise<{ lang: Locale }> }) {
   const coreServices = [
     {
       name: 'Asset Growth',
