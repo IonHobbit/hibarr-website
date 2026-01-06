@@ -1,7 +1,16 @@
 import type { Locale } from '@/lib/i18n-config';
-import type { ExpandedTestimonial } from '@/lib/content/expanded-content.types';
 
-export const EXPANDED_TESTIMONIALS_BY_LOCALE = {
+type TestimonialsContent = {
+  [key in Locale]: {
+    clientName: string;
+    role: string;
+    comment: string;
+    image: string;
+    date: string;
+  }[];
+}
+
+export const testimonialsContent = {
   en: [
     {
       clientName: 'Sarah Thompson',
@@ -100,4 +109,4 @@ export const EXPANDED_TESTIMONIALS_BY_LOCALE = {
       date: '2023-11-10',
     },
   ],
-} satisfies Record<Locale, ExpandedTestimonial[]>;
+} as TestimonialsContent;

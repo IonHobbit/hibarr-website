@@ -1,7 +1,24 @@
 import type { Locale } from '@/lib/i18n-config';
-import type { ExpandedPackageContent } from '@/lib/content/expanded-content.types';
 
-export const EXPANDED_PACKAGES_BY_LOCALE = {
+type PackageContent = {
+  description: string;
+  whoIsItFor: string;
+  benefits: string[];
+  faqs: {
+    question: string;
+    answer: string;
+  }[];
+}
+
+type PackagesContent = {
+  [key in Locale]: {
+    'basic-package': PackageContent;
+    'standard-package': PackageContent;
+    'premium-package': PackageContent;
+  }
+}
+
+export const packagesContent = {
   en: {
     'basic-package': {
       description:
@@ -310,4 +327,4 @@ export const EXPANDED_PACKAGES_BY_LOCALE = {
       ],
     },
   },
-} satisfies Record<Locale, Record<string, ExpandedPackageContent>>;
+} as PackagesContent;

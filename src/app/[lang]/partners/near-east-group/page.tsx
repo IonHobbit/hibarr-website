@@ -4,9 +4,9 @@ import Image from 'next/image'
 import React, { Fragment } from 'react'
 import FAQAccordion from '../../_components/FAQAccordion'
 import { Locale } from '@/lib/i18n-config'
-import { EXPANDED_NEAR_EAST_GROUP_BY_LOCALE } from '@/lib/content/expanded/partners/near-east-group'
 
 import { getHreflangAlternates } from '@/lib/seo-metadata'
+import { nearEastGroupContent } from '@/lib/content/partners/near-east-group'
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -24,7 +24,7 @@ export default async function NearEastGroup(
 ) {
   const { lang } = await props.params
 
-  const content = EXPANDED_NEAR_EAST_GROUP_BY_LOCALE[lang] || EXPANDED_NEAR_EAST_GROUP_BY_LOCALE.en
+  const content = nearEastGroupContent[lang] || nearEastGroupContent.en
 
   const portfolioCompanies = [
     {

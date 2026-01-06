@@ -7,7 +7,7 @@ import { Locale } from '@/lib/i18n-config';
 import { cn, formatDate, generateImageUrl } from '@/lib/utils'
 import Image from 'next/image'
 import { fetchSanityData } from '@/lib/third-party/sanity.client'
-import { EXPANDED_TESTIMONIALS_BY_LOCALE } from '@/lib/content/expanded/testimonials'
+import { testimonialsContent } from '@/lib/content/testimonials'
 
 type TestimonialsSectionProps = {
   lang: Locale;
@@ -25,8 +25,7 @@ type DisplayTestimonial = Partial<Testimonial> & {
 export default async function TestimonialsSection({ lang, type = 'client', showImage = false, data, testimonials }: TestimonialsSectionProps) {
   const resolvedData = data ?? await fetchSanityData<HomePage>(`*[_type == "homePage" && language == $lang][0]`, { lang });
   
-  // Use expanded content if available
-  const localTestimonials = EXPANDED_TESTIMONIALS_BY_LOCALE[lang] || EXPANDED_TESTIMONIALS_BY_LOCALE.en;
+  const localTestimonials = testimonialsContent[lang] || testimonialsContent.en;
   
   const displayTestimonials = localTestimonials.length > 0 
     ? localTestimonials 

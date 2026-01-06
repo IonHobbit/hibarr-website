@@ -1,7 +1,19 @@
 import type { Locale } from '@/lib/i18n-config';
-import type { ExpandedPartnerContent } from '@/lib/content/expanded-content.types';
 
-export const EXPANDED_NEAR_EAST_GROUP_BY_LOCALE = {
+type NearEastGroupContent = {
+  [key in Locale]: {
+    about: string;
+    trustSignals: string[];
+    investorBenefits: string;
+    history: string;
+    faqs: {
+      question: string;
+      answer: string;
+    }[];
+  }
+}
+
+export const nearEastGroupContent = {
   en: {
     about:
       "The Near East Group is not just a business conglomerate; it is a foundational pillar of Northern Cyprus's economy and society. With a history spanning over three decades, the group has pioneered developments in education, finance, healthcare, and tourism. Partnering with Near East Group means investing in a legacy of trust, innovation, and unwavering commitment to quality. Their ecosystem is integrated, meaning real estate investors benefit from associated banking, legal, and lifestyle privileges that standalone developers simply cannot offer.",
@@ -106,4 +118,4 @@ export const EXPANDED_NEAR_EAST_GROUP_BY_LOCALE = {
       },
     ],
   },
-} satisfies Record<Locale, ExpandedPartnerContent>;
+} as NearEastGroupContent;

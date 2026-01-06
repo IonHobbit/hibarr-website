@@ -1,7 +1,14 @@
 import type { Locale } from '@/lib/i18n-config';
-import type { ExpandedLeadershipProfile } from '@/lib/content/expanded-content.types';
 
-export const EXPANDED_RABIH_BY_LOCALE = {
+type RabihContent = {
+  [key in Locale]: {
+    bio: string;
+    expertise: string[];
+    achievements: string;
+  }
+}
+
+export const rabihContent = {
   en: {
     bio:
       'Rabih is a visionary leader with over 15 years of experience in international real estate and finance. Before founding Hibarr, he managed multi-million dollar portfolios across the Middle East and Europe. His expertise lies in identifying emerging markets with high growth potential and bridging the gap for international investors through transparent, data-driven advice. Rabih believes that trust is the currency of modern business, a philosophy that permeates every level of our organization.',
@@ -50,4 +57,4 @@ export const EXPANDED_RABIH_BY_LOCALE = {
     achievements:
       'Под его руководством Hibarr привлекла более 50 млн евро инвестиций на Кипр.',
   },
-} satisfies Record<Locale, ExpandedLeadershipProfile>;
+} as RabihContent;
