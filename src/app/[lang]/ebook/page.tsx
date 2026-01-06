@@ -1,6 +1,7 @@
 import { Locale } from '@/lib/i18n-config'
+import { getHreflangAlternates } from '@/lib/seo-metadata'
 import { fetchSanityData } from '@/lib/third-party/sanity.client'
-import { AboutPage, WebinarPage } from '@/types/sanity.types'
+import { AboutPage, WebinarPage, Faq } from '@/types/sanity.types'
 import { Metadata } from 'next'
 import { Fragment } from 'react'
 import FeaturedSection from '../_components/FeaturedSection'
@@ -11,16 +12,18 @@ import { Award, BookOpen, Quote, Star, Users } from 'lucide-react'
 import FAQAccordion from '../_components/FAQAccordion'
 import EbookSignupForm from './_components/EbookSignupForm'
 import { translateBatch } from '@/lib/translation'
+import { generateFAQSchema } from '@/lib/seo-schema'
 import cloudinaryClient from '@/lib/third-party/cloudinary.client'
 
 
-export async function generateMetadata(): Promise<Metadata> {
-  // const { lang } = await props.params;
+export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await params;
 
   // const { seo } = await client.fetch<WebinarPage>(`*[_type == "webinarPage" && language == $lang][0]`, { lang }, { cache: 'no-store' });
 
   return generateSEOMetadata(undefined, {
     title: 'Download the Ultimate Cyprus Investment Guide',
+    alternates: getHreflangAlternates('/ebook', lang)
   })
 }
 
@@ -180,6 +183,15 @@ export default async function EbookPage(
           <FAQAccordion lang={lang} />
         </div>
       </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(generateFAQSchema(
+            (await fetchSanityData<Faq[]>(`*[_type == "faq" && language == $lang]`, { lang }, { cache: 'no-store' }))
+              .map(f => ({ question: f.question || '', answer: f.answer || '' }))
+          )),
+        }}
+      />
     </Fragment >
   )
 }
