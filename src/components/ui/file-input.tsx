@@ -4,11 +4,12 @@ import { cn, joinWith } from "@/lib/utils"
 import { Icon } from "@/components/icons";
 import { useMutation } from "@tanstack/react-query";
 import { Fragment, useRef, useState } from "react";
-import { uploadFile as uploadFileToBackend } from "@/lib/api/upload";
+import { uploadFile, deleteFile } from "@/lib/api/upload";
 
 type FileInputProps = React.ComponentProps<"input"> & {
   error?: string;
   onUpload: (result: string) => void;
+  onUploadComplete?: (result: { url: string; objectPath: string; originalName: string }) => void; // Optional callback with full upload result
   required?: boolean;
   fileValue?: string;
   title?: string;
@@ -16,9 +17,10 @@ type FileInputProps = React.ComponentProps<"input"> & {
   onError?: (error: string) => void;
 }
 
-function FileInput({ className, title, error, required, fileValue, onUpload, folderName = 'banking-packages-form-entries', onError, ...props }: FileInputProps) {
+function FileInput({ className, title, error, required, fileValue, onUpload, onUploadComplete, folderName = 'banking-packages-form-entries', onError, ...props }: FileInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadedObjectPath, setUploadedObjectPath] = useState<string | null>(null);
 
   const TYPE_MAP = {
     'application/pdf': 'pdf',
@@ -33,29 +35,70 @@ function FileInput({ className, title, error, required, fileValue, onUpload, fol
 
   const openFileInput = () => {
     fileInputRef.current?.click();
-    setUploadError(null); // Clear error when opening file picker
+    setUploadError(null); 
   }
 
-  const { mutateAsync: uploadFile, isPending } = useMutation({
-    mutationFn: async (file: File): Promise<string> => {
-      return await uploadFileToBackend(file, folderName, 'backend-uploads');
+
+  const handleRemove = () => {
+    const objectPathToDelete = uploadedObjectPath;
+    
+    setUploadedObjectPath(null);
+    setUploadError(null);
+    onUpload?.("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    
+   
+    if (objectPathToDelete) {
+      console.log('Deleting file with objectPath:', objectPathToDelete);
+      const deleteResult = deleteFile(objectPathToDelete);
+      if (deleteResult instanceof Promise) {
+        deleteResult.catch((error: unknown) => {
+          console.error('Failed to delete file:', error);
+        });
+      }
+    } else {
+      console.warn('No objectPath available to delete. This file was likely loaded from existing data and objectPath was not stored.');
+    }
+  }
+
+  const { mutateAsync: uploadFileMutation, isPending } = useMutation({
+    mutationFn: async (file: File) => {
+      return await uploadFile(file, folderName);
     },
   })
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setUploadError(null); // Clear previous error
+      setUploadError(null); 
+      const previousObjectPath = uploadedObjectPath;
+      
       try {
-        const result = await uploadFile(file);
-        onUpload?.(result);
-        setUploadError(null); // Clear error on success
+        const result = await uploadFileMutation(file);
+        setUploadedObjectPath(result.objectPath);
+        onUpload?.(result.url);
+        onUploadComplete?.(result); 
+        setUploadError(null);
+        
+        if (previousObjectPath && previousObjectPath !== result.objectPath) {
+          console.log('Deleting previous file with objectPath:', previousObjectPath);
+          const deleteResult = deleteFile(previousObjectPath);
+          if (deleteResult instanceof Promise) {
+            deleteResult.catch((error: unknown) => {
+              console.error('Failed to delete previous file:', error);
+            });
+          }
+        }
       } catch (error) {
-        // Display the error message to the user
         const errorMessage = error instanceof Error ? error.message : 'Failed to upload file';
         setUploadError(errorMessage);
-        // Notify parent component of the error (e.g., for Formik validation)
+        setUploadedObjectPath(null);
         onError?.(errorMessage);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
       } finally {
         event.target.value = '';
       }
@@ -92,7 +135,7 @@ function FileInput({ className, title, error, required, fileValue, onUpload, fol
             </Fragment>
           )}
         </div>
-        {fileValue && <p onClick={() => { onUpload?.(""); }} className="text-xs text-destructive hover:font-medium transition-all duration-300 cursor-pointer">Remove</p>}
+        {fileValue && <p onClick={handleRemove} className="text-xs text-destructive hover:font-medium transition-all duration-300 cursor-pointer">Remove</p>}
         <input
           ref={fileInputRef}
           type="file"

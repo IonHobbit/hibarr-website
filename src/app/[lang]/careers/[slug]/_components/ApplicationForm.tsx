@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef } from 'react'
+import React from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useMutation } from '@tanstack/react-query'
@@ -19,6 +19,7 @@ type FormValues = {
   email: string,
   phone: string,
   resumeUrl: string,
+  resumeObjectPath: string | null,
 }
 
 type JobApplicationRequest = {
@@ -35,8 +36,6 @@ type ApplicationFormProps = {
 }
 
 export default function ApplicationForm({ jobId, lang }: ApplicationFormProps) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   const content = careersContent[lang] ?? careersContent.en;
   // Translation hooks
   const { data: resumeRequiredError } = useTranslation('Please upload your resume/CV');
@@ -64,6 +63,7 @@ export default function ApplicationForm({ jobId, lang }: ApplicationFormProps) {
       email: '',
       phone: '',
       resumeUrl: '',
+      resumeObjectPath: null,
     },
     validationSchema: Yup.object({
       listingId: Yup.number().required('Listing ID is required'),
@@ -77,9 +77,6 @@ export default function ApplicationForm({ jobId, lang }: ApplicationFormProps) {
       submitApplication(values, {
         onSuccess: () => {
           resetForm();
-          if (fileInputRef.current) {
-            fileInputRef.current.value = '';
-          }
         },
       });
     },
@@ -149,25 +146,28 @@ export default function ApplicationForm({ jobId, lang }: ApplicationFormProps) {
         )}
       </div>
       <FileInput
+        accept=".pdf,.doc,.docx"
         required
         name='resumeUrl'
         fileValue={values.resumeUrl}
         title={content.applicationForm.resume}
-        folderName='backend-uploads/resumes'
+        folderName='resumes'
         onUpload={(value) => {
           setFieldValue('resumeUrl', value);
-          // Clear any previous errors when upload succeeds
-          if (errors.resumeUrl && touched.resumeUrl) {
-            setFieldValue('resumeUrl', value);
+          if (!value) {
+            setFieldValue('resumeObjectPath', null);
           }
         }}
-        onError={(errorMessage) => {
-          // Set Formik error when upload fails (e.g., file too large)
+        onUploadComplete={(result) => {
+          setFieldValue('resumeUrl', result.url);
+          setFieldValue('resumeObjectPath', result.objectPath);
+        }}
+        onError={() => {
           setFieldValue('resumeUrl', '');
-          // Note: We can't directly set Formik errors, but clearing the value
-          // will trigger validation which will show the required error
+          setFieldValue('resumeObjectPath', null);
         }}
         error={touched.resumeUrl ? errors.resumeUrl : undefined}
+        disabled={isPending}
       />
       <Button type='submit' size='sm' className='mt-4 max-w-80 h-10' isLoading={isPending} disabled={isPending}>
         {content.submitApplication}

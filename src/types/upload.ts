@@ -8,3 +8,9 @@ export interface UploadedFile {
     message: string;
     data: UploadedFile[];
   }
+
+  export interface UploadErrorResponse {
+    error: string;
+    message?: string;
+  }
+  
