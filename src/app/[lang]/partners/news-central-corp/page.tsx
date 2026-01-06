@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: Loc
   }
 }
 
-export default async function NewsCentralCorp({ params }: { params: Promise<{ lang: Locale }> }) {
+export default async function NewsCentralCorp({ params: _params }: { params: Promise<{ lang: Locale }> }) {
   const coreServices = [
     {
       name: 'Asset Growth',
