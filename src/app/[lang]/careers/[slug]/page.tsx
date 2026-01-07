@@ -46,9 +46,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
+  const title = `${job.title} | Careers`;
+  const description = truncateDescription(job.description);
+
   return {
-    title: `${job.title} | Careers`,
-    description: truncateDescription(job.description),
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
     alternates: getHreflangAlternates(`/careers/${decoded}`, lang),
   };
 }
