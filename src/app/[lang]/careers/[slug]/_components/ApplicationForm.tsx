@@ -19,7 +19,6 @@ type FormValues = {
   email: string,
   phone: string,
   resumeUrl: string,
-  resumeObjectPath: string | null,
 }
 
 type JobApplicationRequest = {
@@ -63,7 +62,6 @@ export default function ApplicationForm({ jobId, lang }: ApplicationFormProps) {
       email: '',
       phone: '',
       resumeUrl: '',
-      resumeObjectPath: null,
     },
     validationSchema: Yup.object({
       listingId: Yup.number().required('Listing ID is required'),
@@ -154,17 +152,12 @@ export default function ApplicationForm({ jobId, lang }: ApplicationFormProps) {
         folderName='resumes'
         onUpload={(value) => {
           setFieldValue('resumeUrl', value);
-          if (!value) {
-            setFieldValue('resumeObjectPath', null);
-          }
         }}
         onUploadComplete={(result) => {
           setFieldValue('resumeUrl', result.url);
-          setFieldValue('resumeObjectPath', result.objectPath);
         }}
         onError={() => {
           setFieldValue('resumeUrl', '');
-          setFieldValue('resumeObjectPath', null);
         }}
         error={touched.resumeUrl ? errors.resumeUrl : undefined}
         disabled={isPending}
