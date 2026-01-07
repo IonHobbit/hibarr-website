@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: Loc
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function NewsCentralCorp({ params: _params }: { params: Promise<{ lang: Locale }> }) {
   const coreServices = [
     {

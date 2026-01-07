@@ -1,5 +1,5 @@
 import { UploadResponse } from '@/types/upload';
-import { makePOSTRequest, makeAPIRequest, handleAPIError, APIRequestError } from '@/lib/services/api.service';
+import { makePOSTRequest, makeAPIRequest, handleAPIError } from '@/lib/services/api.service';
 
 
 export async function uploadFile(
