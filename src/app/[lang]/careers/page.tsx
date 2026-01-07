@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
+import { Metadata } from 'next';
 import { makeGETRequest } from '@/lib/services/api.service';
 import { Job } from '@/types/careers';
 import { Button } from '@/components/ui/button';
 import { Locale } from '@/lib/i18n-config';
-import { Metadata } from 'next';
-
 import HlsVideo from '@/components/HlsVideo';
 import { careersContent } from '@/lib/content/careers';
 import JobCard from './_components/JobCard';
