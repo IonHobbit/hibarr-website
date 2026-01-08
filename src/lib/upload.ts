@@ -30,8 +30,13 @@ export async function uploadFile(
       },
     });
 
-    if (response.data && Array.isArray(response.data.data) && response.data.data.length > 0) {
-      const uploadedFile = response.data.data[0];
+    // The backend returns UploadResponse directly: { message, data: [...] }
+    // makePOSTRequest returns response.data from axios, which is the UploadResponse
+    // So response is already the UploadResponse, not wrapped
+    const uploadResponse = response as unknown as UploadResponse;
+
+    if (uploadResponse.data && Array.isArray(uploadResponse.data) && uploadResponse.data.length > 0) {
+      const uploadedFile = uploadResponse.data[0];
       if (uploadedFile.downloadUrl && uploadedFile.objectPath && uploadedFile.originalName) {
         return {
           url: uploadedFile.downloadUrl,
@@ -41,6 +46,7 @@ export async function uploadFile(
       }
     }
 
+    console.error('Upload response missing required fields:', JSON.stringify(uploadResponse, null, 2));
     throw new Error('Invalid response format from upload endpoint: missing required fields');
   } catch (error) {
     handleAPIError(error, 'uploadFile');
