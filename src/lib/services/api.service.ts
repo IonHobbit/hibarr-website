@@ -22,8 +22,6 @@ export class APIRequestError extends Error {
     this.status = status;
     this.details = details;
     this.code = code;
-
-    console.log(this)
   }
 }
 

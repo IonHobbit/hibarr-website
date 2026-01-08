@@ -29,9 +29,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: Loc
     alternates: getHreflangAlternates('/partners/news-central-corp', lang)
   }
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default async function NewsCentralCorp({ params: _params }: { params: Promise<{ lang: Locale }> }) {
+  
+export default async function NewsCentralCorp() {
   const coreServices = [
     {
       name: 'Asset Growth',

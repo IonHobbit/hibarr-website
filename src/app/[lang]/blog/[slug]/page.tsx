@@ -22,7 +22,7 @@ import TextWithImage, { TextWithImageBlock } from "@/app/[lang]/blog/[slug]/_com
 
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; lang: string }> }) {
-  const { slug } = await params
+  const { slug, lang } = await params
   const post = await fetchBlogPost(slug)
   const seo = post?.seo
 
@@ -35,11 +35,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   const description = post?.description || toPlainText(post?.content).slice(0, 160) || '';
 
-  return generateSEOMetadata(seo, {
+  return generateSEOMetadata({
+    ...seo,
+    openGraph: {
+      ...seo?.openGraph,
+      title: seo?.openGraph?.title || post.title,
+      description: seo?.openGraph?.description || description,
+      image: seo?.openGraph?.image || post.image,
+      // @ts-expect-error - 'article' is not in the base type but supported by Next.js
+      type: 'article',
+      article: {
+        publishedTime: post.publishedAt,
+        authors: [post.author?.name || 'Hibarr Team'],
+        tags: post.tags?.map(t => t.title),
+      }
+    }
+  }, {
     title: post?.title,
     description: description,
     alternates: getHreflangAlternates(`/blog/${slug}`, await params.then(p => p.lang))
-  });
+  }, lang);
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string, lang: Locale }> }) {
