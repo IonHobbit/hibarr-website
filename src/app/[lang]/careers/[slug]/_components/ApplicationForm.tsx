@@ -144,23 +144,12 @@ export default function ApplicationForm({ jobId, lang }: ApplicationFormProps) {
         )}
       </div>
       <FileInput
-        accept=".pdf,.doc,.docx"
         required
         name='resumeUrl'
         fileValue={values.resumeUrl}
         title={content.applicationForm.resume}
         folderName='resumes'
-        onUpload={(value) => {
-          setFieldValue('resumeUrl', value);
-        }}
-        onUploadComplete={(result) => {
-          setFieldValue('resumeUrl', result.url);
-        }}
-        onError={() => {
-          setFieldValue('resumeUrl', '');
-        }}
-        error={touched.resumeUrl ? errors.resumeUrl : undefined}
-        disabled={isPending}
+        onUpload={(value) => setFieldValue('resumeUrl', value)} error={errors.resumeUrl}
       />
       <Button type='submit' size='sm' className='mt-4 max-w-80 h-10' isLoading={isPending} disabled={isPending}>
         {content.submitApplication}

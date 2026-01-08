@@ -9,7 +9,6 @@ import { uploadFile, deleteFile } from "@/lib/upload";
 type FileInputProps = React.ComponentProps<"input"> & {
   error?: string;
   onUpload: (result: string) => void;
-  onUploadComplete?: (result: { url: string; objectPath: string; originalName: string }) => void; // Optional callback with full upload result
   required?: boolean;
   fileValue?: string;
   title?: string;
@@ -17,7 +16,7 @@ type FileInputProps = React.ComponentProps<"input"> & {
   onError?: (error: string) => void;
 }
 
-function FileInput({ className, title, error, required, fileValue, onUpload, onUploadComplete, folderName = 'banking-packages-form-entries', onError, ...props }: FileInputProps) {
+function FileInput({ className, title, error, required, fileValue, onUpload, folderName = 'website-uploads', onError, ...props }: FileInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadedObjectPath, setUploadedObjectPath] = useState<string | null>(null);
@@ -79,7 +78,6 @@ function FileInput({ className, title, error, required, fileValue, onUpload, onU
         const result = await uploadFileMutation(file);
         setUploadedObjectPath(result.objectPath);
         onUpload?.(result.url);
-        onUploadComplete?.(result); 
         setUploadError(null);
         
         if (previousObjectPath && previousObjectPath !== result.objectPath) {
