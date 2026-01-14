@@ -1,19 +1,33 @@
-import React from 'react';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import ApplicationForm from './_components/ApplicationForm';
 import { makeGETRequest } from '@/lib/services/api.service';
 import { Job } from '@/types/careers';
-import Link from 'next/link';
-import { Metadata } from 'next';
-import { getHreflangAlternates } from '@/lib/seo-metadata';
 import { Locale } from '@/lib/i18n-config';
 import { careersContent } from '@/lib/content/careers';
+import { getHreflangAlternates } from '@/lib/seo-metadata';
+
+// Helper function to truncate description to SEO-friendly length
+function truncateDescription(description: string | undefined, maxLength: number = 160): string {
+  if (!description) {
+    return 'Join our team and make an impact. Apply now to explore this exciting career opportunity at HIBARR.';
+  }
+
+  if (description.length <= maxLength) {
+    return description;
+  }
+
+  // Truncate at word boundary
+  const truncated = description.substring(0, maxLength);
+  const lastSpace = truncated.lastIndexOf(' ');
+  return lastSpace > 0 ? truncated.substring(0, lastSpace) + '...' : truncated + '...';
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; lang: Locale }> }): Promise<Metadata> {
   const { slug, lang } = await params;
   const decoded = decodeURIComponent(slug);
 
-  // fetch jobs to get title (using same logic as page)
   let jobs: Job[] = [];
   try {
     const resp = await makeGETRequest<Job[]>('/jobs');
@@ -21,16 +35,37 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   } catch {
     jobs = [] as Job[];
   }
+
   const job = jobs.find((j) => String(j.slug) === decoded || String(j.id) === decoded);
 
+  if (!job) {
+    return {
+      title: 'Job Not Found | Careers',
+      description: 'The job position you are looking for is not available.',
+      alternates: getHreflangAlternates(`/careers/${decoded}`, lang),
+    };
+  }
+
+  const title = `${job.title} | Careers`;
+  const description = truncateDescription(job.description);
+
   return {
-    title: job?.title || 'Career Opportunity',
-    description: job?.description?.slice(0, 160) || 'Join our team at HIBARR',
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
     alternates: getHreflangAlternates(`/careers/${decoded}`, lang),
   };
 }
 
-export default async function CareerPage({ params }: { params: Promise<{ slug: string, lang: Locale }> }) {
+export default async function CareerPage({ params }: { params: Promise<{ slug: string; lang: Locale }> }) {
   const { slug, lang } = await params;
   const decoded = decodeURIComponent(slug);
 
@@ -55,8 +90,8 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
       <section className='section header-offset'>
         <div className='grid grid-cols-1 md:grid-cols-5 gap-6'>
           <aside className='md:col-span-2 bg-secondary rounded-lg flex flex-col gap-4'>
-            <Link href='/careers' className='text-muted-foreground hover:text-primary transition-colors'>
-              {content.detailContent.backToCareers}
+            <Link href={`/${lang}/careers`} className='text-muted-foreground hover:text-primary transition-colors'>
+                {content.detailContent.backToCareers}
             </Link>
             <h1 className='text-3xl font-bold mb-2'>{job.title}</h1>
             <p className='text-muted-foreground mb-2'>{job.department} • {job.location} • {job.type}</p>
@@ -95,5 +130,5 @@ export default async function CareerPage({ params }: { params: Promise<{ slug: s
         </div>
       </section>
     </main>
-  )
+  );
 }
