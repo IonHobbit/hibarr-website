@@ -64,11 +64,15 @@ export const metadata: Metadata = {
     title: "HIBARR Trading",
     description: "Unlock the potential of North Cyprus and see why it is the preferred choice for international investors.",
     siteName: "HIBARR Trading",
+    images: ["https://hibarr.de/og-image.jpg"],
   },
   twitter: {
     card: "summary_large_image",
     title: "HIBARR Trading",
     description: "Unlock the potential of North Cyprus and see why it is the preferred choice for international investors.",
+    images: ["https://hibarr.de/twitter-image.jpg"],
+    creator: "@hibarr",
+    site: "@hibarr",
   },
 };
 
