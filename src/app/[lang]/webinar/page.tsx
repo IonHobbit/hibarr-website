@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { seoH1s } from '@/lib/seo-h1'
-import { Locale } from '@/lib/i18n-config'
+import { Locale, LocaleCodes, localeInfo } from '@/lib/i18n-config'
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client'
 import { HomePage, WebinarPage, SeoMetaFields } from '@/types/sanity.types'
 import { Metadata } from 'next'
@@ -85,8 +85,8 @@ export default async function ZoomRegistrationPage(
       </section>
       <FeaturedSection lang={lang} featuredLogos={featuredLogos.map(logo => logo.secure_url)} />
       <BenefitsSection data={webinarPage?.benefitsSection} />
-      <TwoForOneSection data={webinarPage?.benefitsSection} />
-      <AboutHostSection data={webinarPage?.aboutHostSection} />
+      {lang !== LocaleCodes.RU && <TwoForOneSection data={webinarPage?.benefitsSection} />}
+      {lang !== LocaleCodes.RU && <AboutHostSection data={webinarPage?.aboutHostSection} />}
       <StatisticsSection data={webinarPage?.statisticsSection} />
       <TestimonialsSection lang={lang} />
       <WhyCyprus data={homePage.whyCyprusSection} link='#register' />
