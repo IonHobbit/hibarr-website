@@ -116,11 +116,20 @@ export type PropertyListing = {
     created_at: string;
     updated_at: string;
   } | null;
-  photos: any[];
   images: PropertyImage[];
   add_ons: string[];
-  interior_features: any[];
-  exterior_features: any[];
+  interior_features: {
+    id: string,
+    name: string,
+    description: string,
+    image: SanityImageAsset,
+  }[];
+  exterior_features: {
+    id: string,
+    name: string,
+    description: string,
+    image: SanityImageAsset,
+  }[];
   location_features: string[];
   product_id: number;
   product_name: string;

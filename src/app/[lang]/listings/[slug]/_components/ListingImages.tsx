@@ -1,9 +1,8 @@
 'use client'
 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { cn, generateImageUrl } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { PropertyImage } from '@/types/property';
-import { SanityImageAsset } from '@/types/sanity.types';
 import Image from 'next/image';
 import React, { useState, useRef } from 'react'
 

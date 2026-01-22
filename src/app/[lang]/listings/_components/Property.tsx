@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { Icon } from '@/components/icons'
 import Link from 'next/link'
-import { generateImageUrl } from '@/lib/utils'
 import { PropertyListing } from '@/types/property'
 import { formatCurrency } from '@/lib/currency'
 import useSource from '@/hooks/useSource'

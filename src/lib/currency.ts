@@ -1,7 +1,7 @@
-type FormatCurrencyProps = {
-  currency?: 'GBP' | 'USD' | 'EUR' | 'AED' | 'TRY'
-  amount?: number
-}
+// type FormatCurrencyProps = {
+//   currency?: 'GBP' | 'USD' | 'EUR' | 'AED' | 'TRY'
+//   amount?: number
+// }
 
 export function formatCurrency(price?: string) {
   if (!price) return undefined;

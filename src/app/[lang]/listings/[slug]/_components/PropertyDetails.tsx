@@ -3,9 +3,7 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import React, { Fragment } from 'react'
 import EnquiryForm from './EnquiryForm';
-import { SanityImageAsset } from '@/types/sanity.types';
 import { areaUnit, titleDeeds } from '@/lib/property';
-import { PortableText } from 'next-sanity';
 import PropertyDetail from './PropertyDetail';
 import ListingImages from './ListingImages';
 import useListing from '@/hooks/useListing';
@@ -59,7 +57,7 @@ export default function PropertyDetails(
   // const { title, images, location, price, bedrooms, bathrooms, livingRooms, type, saleType } = basicInfo!;
   // const { area, yearBuilt, titleDeed, floors, floorLevel, availableForTrade, gatedCommunity, management, residential, furnished, availableForViewing } = details!;
 
-  const { title, title_deed_type, building_age, description, bedrooms, bathrooms, price, city, sale_type, property_type, living_room, floor_number, floors_in_building, exterior_features, interior_features, photos, product_name, land_size, images } = property;
+  const { title, title_deed_type, building_age, description, bedrooms, bathrooms, price, city, sale_type, property_type, living_room, floor_number, floors_in_building, exterior_features, interior_features, product_name, land_size, images } = property;
 
   // const propertySize = area?.size ? `${area?.size} ${areaUnit[area?.unit as keyof typeof areaUnit]}` : undefined;
   const propertyAge = building_age ?

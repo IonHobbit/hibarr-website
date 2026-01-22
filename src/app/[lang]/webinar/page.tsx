@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { seoH1s } from '@/lib/seo-h1'
-import { Locale, LocaleCodes, localeInfo } from '@/lib/i18n-config'
+import { Locale, LocaleCodes } from '@/lib/i18n-config'
 import { fetchRawSanityData, fetchSanityData } from '@/lib/third-party/sanity.client'
 import { HomePage, WebinarPage, SeoMetaFields } from '@/types/sanity.types'
 import { Metadata } from 'next'
