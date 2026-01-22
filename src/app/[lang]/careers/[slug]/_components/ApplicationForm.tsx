@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef } from 'react'
+import React from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useMutation } from '@tanstack/react-query'
@@ -35,8 +35,6 @@ type ApplicationFormProps = {
 }
 
 export default function ApplicationForm({ jobId, lang }: ApplicationFormProps) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   const content = careersContent[lang] ?? careersContent.en;
   // Translation hooks
   const { data: resumeRequiredError } = useTranslation('Please upload your resume/CV');
@@ -77,9 +75,6 @@ export default function ApplicationForm({ jobId, lang }: ApplicationFormProps) {
       submitApplication(values, {
         onSuccess: () => {
           resetForm();
-          if (fileInputRef.current) {
-            fileInputRef.current.value = '';
-          }
         },
       });
     },

@@ -3,7 +3,8 @@
 import { cn, joinWith } from "@/lib/utils"
 import { Icon } from "@/components/icons";
 import { useMutation } from "@tanstack/react-query";
-import { Fragment, useRef } from "react";
+import { Fragment, useRef, useState } from "react";
+import { uploadFile, deleteFile } from "@/lib/upload";
 
 type FileInputProps = React.ComponentProps<"input"> & {
   error?: string;
@@ -12,10 +13,13 @@ type FileInputProps = React.ComponentProps<"input"> & {
   fileValue?: string;
   title?: string;
   folderName?: string;
+  onError?: (error: string) => void;
 }
 
-function FileInput({ className, title, error, required, fileValue, onUpload, folderName = 'banking-packages-form-entries', ...props }: FileInputProps) {
+function FileInput({ className, title, error, required, fileValue, onUpload, folderName = 'website-uploads', onError, ...props }: FileInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadedObjectPath, setUploadedObjectPath] = useState<string | null>(null);
 
   const TYPE_MAP = {
     'application/pdf': 'pdf',
@@ -30,34 +34,82 @@ function FileInput({ className, title, error, required, fileValue, onUpload, fol
 
   const openFileInput = () => {
     fileInputRef.current?.click();
+    setUploadError(null); 
   }
 
-  const { mutateAsync: uploadFile, isPending } = useMutation({
-    mutationFn: async (file: File): Promise<string> => {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('folderName', folderName);
-      const result = await fetch('/api/file-upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await result.json();
-      return data.fileUrl;
+
+  const handleRemove = () => {
+    const objectPathToDelete = uploadedObjectPath;
+    
+    setUploadedObjectPath(null);
+    setUploadError(null);
+    onUpload?.("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    
+   
+    if (objectPathToDelete) {
+      console.log('Deleting file with objectPath:', objectPathToDelete);
+      const deleteResult = deleteFile(objectPathToDelete);
+      if (deleteResult instanceof Promise) {
+        deleteResult.catch((error: unknown) => {
+          console.error('Failed to delete file:', error);
+        });
+      }
+    } else {
+      console.warn('No objectPath available to delete. This file was likely loaded from existing data and objectPath was not stored.');
+    }
+  }
+
+  const { mutateAsync: uploadFileMutation, isPending } = useMutation({
+    mutationFn: async (file: File) => {
+      return await uploadFile(file, folderName);
     },
   })
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const result = await uploadFile(file);
-      onUpload?.(result);
-      event.target.value = '';
+      setUploadError(null); 
+      const previousObjectPath = uploadedObjectPath;
+      
+      try {
+        const result = await uploadFileMutation(file);
+        setUploadedObjectPath(result.objectPath);
+        onUpload?.(result.url);
+        setUploadError(null);
+        
+        if (previousObjectPath && previousObjectPath !== result.objectPath) {
+          console.log('Deleting previous file with objectPath:', previousObjectPath);
+          const deleteResult = deleteFile(previousObjectPath);
+          if (deleteResult instanceof Promise) {
+            deleteResult.catch((error: unknown) => {
+              console.error('Failed to delete previous file:', error);
+            });
+          }
+        }
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to upload file';
+        setUploadError(errorMessage);
+        setUploadedObjectPath(null);
+        onError?.(errorMessage);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      } finally {
+        event.target.value = '';
+      }
     }
   };
 
   return (
     <div className="relative flex flex-col items-start gap-1">
-      {title && <label htmlFor={props.id} className="text-sm text-muted-foreground">{title} {required && <span className="text-destructive text-xs">*</span>}</label>}
+      {title && (
+        <label htmlFor={props.id} className="text-sm text-muted-foreground">
+          {title} {required && <span className="text-destructive text-xs">*</span>}
+        </label>
+      )}
       <div className="relative border-input flex items-center justify-between gap-4 min-h-12 w-full min-w-0 border bg-transparent file:border-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive rounded px-3 py-1.5">
         <div className="flex items-center gap-3">
           <Icon onClick={openFileInput} icon="mdi:file-document-outline" className="w-4 h-4 cursor-pointer" />
@@ -79,7 +131,7 @@ function FileInput({ className, title, error, required, fileValue, onUpload, fol
             </Fragment>
           )}
         </div>
-        {fileValue && <p onClick={() => { onUpload?.(""); }} className="text-xs text-destructive hover:font-medium transition-all duration-300 cursor-pointer">Remove</p>}
+        {fileValue && <p onClick={handleRemove} className="text-xs text-destructive hover:font-medium transition-all duration-300 cursor-pointer">Remove</p>}
         <input
           ref={fileInputRef}
           type="file"
@@ -92,7 +144,7 @@ function FileInput({ className, title, error, required, fileValue, onUpload, fol
           {...props}
         />
       </div>
-      {error && <p className="text-red-500 text-xs">{error}</p>}
+      {(error || uploadError) && <p className="text-red-500 text-xs">{error || uploadError}</p>}
     </div>
   )
 }
