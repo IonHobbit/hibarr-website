@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
+    "dev": "infisical run -- next dev --turbopack",
+    "build": "infisical run -- next build",
+    "start": "infisical run -- next start",
     "lint": "next lint",
     "prepare": "husky",
-    "build:analyze": "ANALYZE=true next build",
+    "build:analyze": "ANALYZE=true infisical run -- next build",
     "analyze": "npm run build:analyze && npx webpack-bundle-analyzer .next/static/chunks/*.js"
   },
   "dependencies": {
