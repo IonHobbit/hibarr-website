@@ -2,17 +2,18 @@
 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { cn, generateImageUrl } from '@/lib/utils';
+import { PropertyImage } from '@/types/property';
 import { SanityImageAsset } from '@/types/sanity.types';
 import Image from 'next/image';
 import React, { useState, useRef } from 'react'
 
 type ListingImagesProps = {
-  images: { image: SanityImageAsset, alt: string, isCover: boolean }[] | [];
+  images: PropertyImage[] | [];
 }
 
 export default function ListingImages({ images }: ListingImagesProps) {
 
-  const generatedImages = images.map((_) => ({ ..._, url: _.image ? generateImageUrl(_.image)?.url() : '' })).filter((_) => _.url !== '');
+  const generatedImages = images.map((_) => ({ ..._, url: _.url ? _.url : '' })).filter((_) => _.url !== '');
 
   const [activeImage, setActiveImage] = useState(generatedImages[0]);
 
@@ -37,12 +38,12 @@ export default function ListingImages({ images }: ListingImagesProps) {
     <div className="flex flex-col gap-3">
       <div className='hidden md:grid grid-cols-1 md:grid-rows-2 md:grid-cols-4 gap-3'>
         <div className={cn('relative w-full min-h-80 md:col-span-3 md:row-span-2', generatedImages.length === 1 && 'md:col-span-4 md:row-span-2 min-h-96')}>
-          <Image src={activeImage.url} alt={activeImage.alt} fill sizes='100%' className='object-cover' />
+          <Image src={activeImage.url} alt={activeImage.name} fill sizes='100%' className='object-cover' />
         </div>
         {
           generatedImages.slice(1, 3).map((image, index) => (
             <div key={index} className='relative w-full min-h-80 '>
-              <Image src={image.url} alt={image.alt} fill sizes='100%' className='object-cover' onMouseEnter={() => handleImageHover(image)} />
+              <Image src={image.url} alt={image.name} fill sizes='100%' className='object-cover' onMouseEnter={() => handleImageHover(image)} />
             </div>
           ))
         }
@@ -51,7 +52,7 @@ export default function ListingImages({ images }: ListingImagesProps) {
         {
           generatedImages.slice(3).map((image, index) => (
             <div key={index} className='relative size-60 shrink-0'>
-              <Image src={image.url} alt={image.alt} fill sizes='100%' className='object-cover' onMouseEnter={() => handleImageHover(image)} />
+              <Image src={image.url} alt={image.name} fill sizes='100%' className='object-cover' onMouseEnter={() => handleImageHover(image)} />
             </div>
           ))
         }
@@ -62,7 +63,7 @@ export default function ListingImages({ images }: ListingImagesProps) {
             generatedImages.map((image, index) => (
               <CarouselItem key={index}>
                 <div className='relative w-full h-96 shrink-0'>
-                  <Image src={image.url} alt={image.alt} fill sizes='100%' className='object-cover' />
+                  <Image src={image.url} alt={image.name} fill sizes='100%' className='object-cover' />
                 </div>
               </CarouselItem>
             ))

@@ -14,7 +14,7 @@ export default function Property({ property }: PropertyProps) {
 
   const source = useSource();
 
-  const coverImage = property.photos[0]
+  const coverImage = property.images[0]
   const title = property.title || '';
   const price = property.price;
   const bedrooms = property.bedrooms || 0;
@@ -35,7 +35,7 @@ export default function Property({ property }: PropertyProps) {
         <Image
           src={
             coverImage
-              ? generateImageUrl('').url()
+              ? coverImage?.url
               : "https://res.cloudinary.com/hibarr/image/upload/listing-luxury-home-exterior-pool_gjodzh"
           }
           alt={title}

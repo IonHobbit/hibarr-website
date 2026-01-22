@@ -69,6 +69,17 @@ export type ListingsFilters = {
   maxPrice?: number;
 };
 
+export type PropertyImage = {
+  external_url: string | null;
+  formatted_size: string;
+  id: number;
+  file_path: string;
+  url: string;
+  order: number;
+  name: string;
+  tags: string[];
+}
+
 export type PropertyListing = {
   id: number;
   title: string;
@@ -106,6 +117,7 @@ export type PropertyListing = {
     updated_at: string;
   } | null;
   photos: any[];
+  images: PropertyImage[];
   add_ons: string[];
   interior_features: any[];
   exterior_features: any[];

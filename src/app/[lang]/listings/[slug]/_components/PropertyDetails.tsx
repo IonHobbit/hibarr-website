@@ -59,7 +59,7 @@ export default function PropertyDetails(
   // const { title, images, location, price, bedrooms, bathrooms, livingRooms, type, saleType } = basicInfo!;
   // const { area, yearBuilt, titleDeed, floors, floorLevel, availableForTrade, gatedCommunity, management, residential, furnished, availableForViewing } = details!;
 
-  const { title, title_deed_type, building_age, description, bedrooms, bathrooms, price, city, sale_type, property_type, living_room, floor_number, floors_in_building, exterior_features, interior_features, photos, product_name, land_size } = property;
+  const { title, title_deed_type, building_age, description, bedrooms, bathrooms, price, city, sale_type, property_type, living_room, floor_number, floors_in_building, exterior_features, interior_features, photos, product_name, land_size, images } = property;
 
   // const propertySize = area?.size ? `${area?.size} ${areaUnit[area?.unit as keyof typeof areaUnit]}` : undefined;
   const propertyAge = building_age ?
@@ -118,7 +118,9 @@ export default function PropertyDetails(
             <p className='text-sm text-primary-foreground font-medium uppercase'>{sale_type?.replaceAll('-', ' ')}</p>
           </div>
         </div>
-        <ListingImages images={Array.isArray(photos) ? photos : []} />
+        { images && images.length > 0 && (
+          <ListingImages images={images} />
+        )}
         <div className="grid grid-cols-2 md:divide-x md:grid-cols-4 gap-3">
           <div className="flex flex-col items-center gap-2">
             <p className='text-sm font-medium'>Bedrooms</p>
@@ -154,12 +156,12 @@ export default function PropertyDetails(
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   <PropertyDetail label='Property Type' value={property_type ? property_type : undefined} />
                   <PropertyDetail capitalize label='Location' value={city} />
-                  {/* <PropertyDetail label='Price' value={price ? formatCurrency(price) : undefined} /> */}
+                  <PropertyDetail label='Price' value={price ? formatCurrency(price) : undefined} />
                   <PropertyDetail label='Bedrooms' value={bedrooms} />
                   <PropertyDetail label='Bathrooms' value={bathrooms} />
                   <PropertyDetail label='Living Rooms' value={living_room} />
                   <PropertyDetail label='Title Deed' value={title_deed_type ? titleDeeds[title_deed_type as keyof typeof titleDeeds] : undefined} />
-                  {/* <PropertyDetail label='Size' value={propertySize} /> */}
+                  <PropertyDetail label='Size' value={`${land_size} ${areaUnit['m2']}`} />
                   <PropertyDetail label='Year Built' value={propertyAge} />
                   <PropertyDetail label='Floors' value={floors_in_building} />
                   <PropertyDetail label='Floor Level' value={floor_number} />
