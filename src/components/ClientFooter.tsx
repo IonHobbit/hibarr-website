@@ -54,8 +54,8 @@ export default function ClientFooter({ lang, footerData }: ClientFooterProps) {
     },
     {
       icon: "mdi:phone" as const,
-      text: footerData.contactSection?.phone?.phoneNumber || "(+90) 539 136 00 81",
-      link: footerData.contactSection?.phone?.phoneLink || "tel:+905391360081",
+      text: footerData.contactSection?.phone?.phoneNumber || "(+90) 539 119 18 23",
+      link: footerData.contactSection?.phone?.phoneLink || "tel:+905391191823",
     },
     {
       icon: "mdi:map-marker" as const,

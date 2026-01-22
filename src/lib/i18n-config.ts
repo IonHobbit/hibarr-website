@@ -3,23 +3,31 @@ export const i18n = {
   locales: ['en', 'de', 'tr', 'ru'],
 } as const;
 
+
+export enum LocaleCodes {
+  EN = 'en',
+  DE = 'de',
+  TR = 'tr',
+  RU = 'ru',
+}
+
 export const localeInfo = {
-  en: {
+  [LocaleCodes.EN]: {
     flag: '🇬🇧',
     name: 'English',
     countryCode: 'GB',
   },
-  de: {
+  [LocaleCodes.DE]: {
     flag: '🇩🇪',
     name: 'Deutsch',
     countryCode: 'DE',
   },
-  tr: {
+  [LocaleCodes.TR]: {
     flag: '🇹🇷',
     name: 'Türkçe',
     countryCode: 'TR',
   },
-  ru: {
+  [LocaleCodes.RU]: {
     flag: '🇷🇺',
     name: 'Русский',
     countryCode: 'RU',
