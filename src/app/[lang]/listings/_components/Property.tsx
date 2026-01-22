@@ -2,32 +2,31 @@ import Image from 'next/image'
 import { Icon } from '@/components/icons'
 import Link from 'next/link'
 import { generateImageUrl } from '@/lib/utils'
-import { PropertyListResponse } from '@/types/property'
-import { areaUnit } from '@/lib/property'
+import { PropertyListing } from '@/types/property'
 import { formatCurrency } from '@/lib/currency'
 import useSource from '@/hooks/useSource'
 
 interface PropertyProps {
-  property: PropertyListResponse
+  property: PropertyListing
 }
 
 export default function Property({ property }: PropertyProps) {
 
   const source = useSource();
 
-  const coverImage = property.image
+  const coverImage = property.photos[0]
   const title = property.title || '';
   const price = property.price;
   const bedrooms = property.bedrooms || 0;
   const bathrooms = property.bathrooms || 0;
-  const size = property.area.size || 0;
-  const type = property.type || [];
+  // const size = property.area.size || 0;
+  const type = property.property_type || '';
 
   const generateLink = () => {
     if (source === 'alpha-cash') {
-      return `/external/alpha-cash/listings/${property.slug}`
+      return `/external/alpha-cash/listings/${property.id}`
     }
-    return `/listings/${property.slug}`
+    return `/listings/${property.id}`
   }
 
   return (
@@ -36,10 +35,10 @@ export default function Property({ property }: PropertyProps) {
         <Image
           src={
             coverImage
-              ? generateImageUrl(coverImage.image).url()
+              ? generateImageUrl('').url()
               : "https://res.cloudinary.com/hibarr/image/upload/listing-luxury-home-exterior-pool_gjodzh"
           }
-          alt={coverImage?.alt || title}
+          alt={title}
           fill
           sizes='100%'
           className='object-cover group-hover:scale-105 transition-all duration-300'
@@ -62,9 +61,9 @@ export default function Property({ property }: PropertyProps) {
           <Icon icon="mdi:bathtub-outline" className='size-6' />
           <p className='text-sm text-muted-foreground'>{bathrooms}</p>
           <Icon icon="mdi:ruler-square" className='size-6' />
-          <p className='text-sm text-muted-foreground'>{size} {areaUnit[property.area.unit as keyof typeof areaUnit]}</p>
+          {/* <p className='text-sm text-muted-foreground'>{size} {areaUnit[property.area.unit as keyof typeof areaUnit]}</p> */}
         </div>
-        <p className='text-muted-foreground uppercase text-sm'>{type?.join(', ')}</p>
+        <p className='text-muted-foreground uppercase text-sm'>{type}</p>
       </div>
     </Link>
   )

@@ -55,15 +55,24 @@ export default function PropertyDetails(
     );
   }
 
-  const { basicInfo, description, details, features } = property;
-  const { title, images, location, price, bedrooms, bathrooms, livingRooms, type, saleType } = basicInfo!;
-  const { area, yearBuilt, titleDeed, floors, floorLevel, availableForTrade, gatedCommunity, management, residential, furnished, availableForViewing } = details!;
+  // const { basicInfo, description, details, features } = property;
+  // const { title, images, location, price, bedrooms, bathrooms, livingRooms, type, saleType } = basicInfo!;
+  // const { area, yearBuilt, titleDeed, floors, floorLevel, availableForTrade, gatedCommunity, management, residential, furnished, availableForViewing } = details!;
 
-  const propertySize = area?.size ? `${area?.size} ${areaUnit[area?.unit as keyof typeof areaUnit]}` : undefined;
-  const propertyAge = yearBuilt ?
-    <Fragment>
-      {details?.yearBuilt} <span className='text-xs text-gray-500'>({new Date().getFullYear() - yearBuilt} years old)</span>
-    </Fragment> : undefined;
+  const { title, title_deed_type, building_age, description, bedrooms, bathrooms, price, city, sale_type, property_type, living_room, floor_number, floors_in_building, exterior_features, interior_features, photos, product_name, land_size } = property;
+
+  // const propertySize = area?.size ? `${area?.size} ${areaUnit[area?.unit as keyof typeof areaUnit]}` : undefined;
+  const propertyAge = building_age ?
+    (() => {
+      const currentYear = new Date().getFullYear();
+      const yearBuilt = currentYear - building_age;
+      return (
+        <Fragment>
+          {yearBuilt} <span className='text-xs text-gray-500'>({building_age} years old)</span>
+        </Fragment>
+      );
+    })()
+    : undefined;
 
   const generateLink = (link: string) => {
     if (source === 'alpha-cash') {
@@ -85,9 +94,9 @@ export default function PropertyDetails(
               <BreadcrumbLink href={generateLink('listings')}>Listings</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
-            {property.basicInfo.slug &&
+            {product_name &&
               <BreadcrumbItem>
-                <BreadcrumbLink href={generateLink(`listings/${property.basicInfo?.slug}`)}>{property.basicInfo?.title}</BreadcrumbLink>
+                <BreadcrumbLink href={generateLink(`listings/${product_name}`)}>{title}</BreadcrumbLink>
               </BreadcrumbItem>
             }
             {(!property && !isLoading) &&
@@ -100,16 +109,16 @@ export default function PropertyDetails(
         <div className="flex items-start flex-wrap gap-4 justify-between">
           <div className='flex flex-col gap-2'>
             <h1 className='text-4xl font-bold'>{title}</h1>
-            <p className='text-xl font-light capitalize'>{location}</p>
+            <p className='text-xl font-light capitalize'>{city}</p>
           </div>
           <p className='text-4xl font-bold'>{formatCurrency(price)}</p>
         </div>
         <div className="flex items-center gap-2">
           <div className='bg-primary p-1 px-3'>
-            <p className='text-sm text-primary-foreground font-medium uppercase'>{saleType?.replaceAll('-', ' ')}</p>
+            <p className='text-sm text-primary-foreground font-medium uppercase'>{sale_type?.replaceAll('-', ' ')}</p>
           </div>
         </div>
-        <ListingImages images={images as unknown as { image: SanityImageAsset, alt: string, isCover: boolean }[]} />
+        <ListingImages images={Array.isArray(photos) ? photos : []} />
         <div className="grid grid-cols-2 md:divide-x md:grid-cols-4 gap-3">
           <div className="flex flex-col items-center gap-2">
             <p className='text-sm font-medium'>Bedrooms</p>
@@ -121,11 +130,11 @@ export default function PropertyDetails(
           </div>
           <div className="flex flex-col items-center gap-2">
             <p className='text-sm font-medium'>Size</p>
-            <p className='text-lg font-semibold'>{area?.size} {areaUnit[area?.unit as keyof typeof areaUnit]}</p>
+            <p className='text-lg font-semibold'>{land_size} {areaUnit['m2']}</p>
           </div>
           <div className="flex flex-col items-center gap-2">
             <p className='text-sm font-medium'>Type</p>
-            <p className='text-lg font-semibold'>{type?.join(', ')}</p>
+            <p className='text-lg font-semibold'>{property_type}</p>
           </div>
         </div>
       </section>
@@ -133,54 +142,63 @@ export default function PropertyDetails(
         <div className="section">
           <div className="grid grid-cols-1 md:grid-cols-7 gap-6">
             <div className="flex flex-col gap-6 md:col-span-5">
-              {property.description && (
+              {description && (
                 <div className="bg-secondary rounded-lg p-8 flex flex-col gap-2">
                   <p className='text-xl font-medium'>Description</p>
-                  <PortableText value={description || []} />
+                  {/* <PortableText value={description || ''} /> */}
+                  <span>{description}</span>
                 </div>
               )}
               <div className="bg-secondary rounded-lg p-8 flex flex-col gap-4">
                 <p className='text-xl font-medium'>Details</p>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  <PropertyDetail label='Property Type' value={type ? type?.join(', ') : undefined} />
-                  <PropertyDetail capitalize label='Location' value={location} />
-                  <PropertyDetail label='Price' value={price ? formatCurrency(price) : undefined} />
+                  <PropertyDetail label='Property Type' value={property_type ? property_type : undefined} />
+                  <PropertyDetail capitalize label='Location' value={city} />
+                  {/* <PropertyDetail label='Price' value={price ? formatCurrency(price) : undefined} /> */}
                   <PropertyDetail label='Bedrooms' value={bedrooms} />
                   <PropertyDetail label='Bathrooms' value={bathrooms} />
-                  <PropertyDetail label='Living Rooms' value={livingRooms} />
-                  <PropertyDetail label='Title Deed' value={titleDeed ? titleDeeds[titleDeed as keyof typeof titleDeeds] : undefined} />
-                  <PropertyDetail label='Size' value={propertySize} />
+                  <PropertyDetail label='Living Rooms' value={living_room} />
+                  <PropertyDetail label='Title Deed' value={title_deed_type ? titleDeeds[title_deed_type as keyof typeof titleDeeds] : undefined} />
+                  {/* <PropertyDetail label='Size' value={propertySize} /> */}
                   <PropertyDetail label='Year Built' value={propertyAge} />
-                  <PropertyDetail label='Floors' value={floors} />
-                  <PropertyDetail label='Floor Level' value={floorLevel} />
-                  <PropertyDetail label='Available For Trade' value={availableForTrade ? 'Yes' : 'No'} />
+                  <PropertyDetail label='Floors' value={floors_in_building} />
+                  <PropertyDetail label='Floor Level' value={floor_number} />
+                  {/* <PropertyDetail label='Available For Trade' value={availableForTrade ? 'Yes' : 'No'} />
                   <PropertyDetail label='Gated Community' value={gatedCommunity ? 'Yes' : 'No'} />
                   <PropertyDetail label='Management' value={management ? 'Yes' : 'No'} />
                   <PropertyDetail label='Residential' value={residential ? 'Yes' : 'No'} />
                   <PropertyDetail label='Furnished' value={furnished ? 'Yes' : 'No'} />
-                  <PropertyDetail label='Available For Viewing' value={availableForViewing ? 'Yes' : 'No'} />
+                  <PropertyDetail label='Available For Viewing' value={availableForViewing ? 'Yes' : 'No'} /> */}
                 </div>
               </div>
-              <div className="bg-secondary rounded-lg p-8 flex flex-col gap-3">
-                <p className='text-xl font-medium'>Internal Features</p>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {
-                    features?.internal?.map((feature, index) => (
-                      <p key={index} className='text-lg'>{feature.name}</p>
-                    ))
-                  }
+              {
+                interior_features?.length > 0 && (
+                  <div className="bg-secondary rounded-lg p-8 flex flex-col gap-3">
+                    <p className='text-xl font-medium'>Internal Features</p>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {
+                        interior_features?.map((feature, index) => (
+                          <p key={index} className='text-lg'>{feature.name}</p>
+                        ))
+                      }
+                    </div>
+                  </div>
+                )
+              }
+
+              {exterior_features?.length > 0 && (
+                <div className="bg-secondary rounded-lg p-8 flex flex-col gap-3">
+                  <p className='text-xl font-medium'>External Features</p>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {
+                      exterior_features?.map((feature, index) => (
+                        <p key={index} className='text-lg'>{feature.name}</p>
+                      ))
+                    }
+                  </div>
                 </div>
-              </div>
-              <div className="bg-secondary rounded-lg p-8 flex flex-col gap-3">
-                <p className='text-xl font-medium'>External Features</p>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {
-                    features?.external?.map((feature, index) => (
-                      <p key={index} className='text-lg'>{feature.name}</p>
-                    ))
-                  }
-                </div>
-              </div>
+              )}
+
             </div>
             <div className="flex flex-col gap-4 md:col-span-2 relative w-full">
               <EnquiryForm property={property} />

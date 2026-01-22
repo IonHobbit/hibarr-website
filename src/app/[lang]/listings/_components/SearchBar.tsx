@@ -4,7 +4,7 @@ import { Select } from '@/components/Select'
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { count, locations } from '@/lib/constants';
+import { count, locations, propertyTypes } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { Icon } from '@/components/icons';
 import { useFormik } from 'formik';
@@ -13,18 +13,18 @@ import useURL from '@/hooks/useURL';
 import useFeatures from '@/hooks/useFeatures';
 import { decryptJSON, shortenAndEncryptJSON, TOKEN_SECRET } from '@/lib/encryptor';
 import { Filters } from '@/hooks/useListings';
-import usePropertyTypes from '@/hooks/usePropertyTypes';
+// import usePropertyTypes from '@/hooks/usePropertyTypes';
 
 export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const featureHook = useFeatures();
-  const propertyTypesHook = usePropertyTypes();
+  // const propertyTypesHook = usePropertyTypes();
 
   const { searchParams, replaceParams, clearParams } = useURL();
 
   const features = featureHook.data?.map(({ name, id }) => ({ label: name, value: id })).filter(({ value }) => Boolean(value)) || [];
-  const propertyTypes = propertyTypesHook.data?.map(({ name, id }) => ({ label: name, value: id })).filter(({ value }) => Boolean(value)) || [];
+  // const propertyTypes = propertyTypesHook.data?.map(({ name, id }) => ({ label: name, value: id })).filter(({ value }) => Boolean(value)) || [];
 
   const q = searchParams.get('q') || '';
   const filters: Filters = q ? decryptJSON(q, TOKEN_SECRET) || {} : {};
@@ -33,14 +33,19 @@ export default function SearchBar() {
 
   const { values, setFieldValue, handleSubmit, resetForm } = useFormik({
     initialValues: {
-      location: filters.location || [],
-      propertyType: filters.propertyType || [],
+      status: filters.status || '',
+      city: filters.city || '',
+      property_type: filters.property_type || '',
+      sales_type: filters.sales_type || '',
+      fields: filters.fields || [],
+      // location: filters.location || [],
+      // propertyType: filters.propertyType || [],
+      // listingType: filters.listingType || '',
       bedrooms: filters.bedrooms || '',
       bathrooms: filters.bathrooms || '',
       features: filters.features || [],
       minPrice: parseInt(filters.minPrice?.toString() || min.toString()),
       maxPrice: parseInt(filters.maxPrice?.toString() || max.toString()),
-      listingType: filters.listingType || '',
     },
     onSubmit: (values) => {
       const value = shortenAndEncryptJSON(values, TOKEN_SECRET);
@@ -51,24 +56,24 @@ export default function SearchBar() {
 
   const setLocation = (value: string | string[]) => {
     if (Array.isArray(value)) {
-      setFieldValue('location', value[value.length - 1] === '' ? [''] : value.filter(Boolean));
+      setFieldValue('city', value[value.length - 1] === '' ? [''] : value.filter(Boolean));
     } else {
-      setFieldValue('location', value);
+      setFieldValue('city', value);
     }
     setIsOpen(false);
   }
 
   const setPropertyType = (value: string | string[]) => {
     if (Array.isArray(value)) {
-      setFieldValue('propertyType', value[value.length - 1] === '' ? [''] : value.filter(Boolean));
+      setFieldValue('property_type', value[value.length - 1] === '' ? [''] : value.filter(Boolean));
     } else {
-      setFieldValue('propertyType', value);
+      setFieldValue('property_type', value);
     }
     setIsOpen(false);
   }
 
   const setListingType = (value: string) => {
-    setFieldValue('listingType', value);
+    setFieldValue('sales_type', value);
     handleSubmit();
   }
 
@@ -84,18 +89,19 @@ export default function SearchBar() {
 
   return (
     <div className="flex flex-col items-center gap-4 px-4 z-10">
-      <Tabs defaultValue={values.listingType} onValueChange={(value) => setListingType(value)}>
+      <Tabs defaultValue={values.sales_type} onValueChange={(value) => setListingType(value)}>
         <TabsList className="flex-col sm:flex-row">
           <TabsTrigger value='' className='w-full sm:w-auto text-sm'>All</TabsTrigger>
-          <TabsTrigger value='sale' className='w-full sm:w-auto text-sm'>For Sale</TabsTrigger>
-          <TabsTrigger value='rent' className='w-full sm:w-auto text-sm'>For Rent</TabsTrigger>
+          <TabsTrigger value='For Sale' className='w-full sm:w-auto text-sm'>For Sale</TabsTrigger>
+          <TabsTrigger value='For Rent' className='w-full sm:w-auto text-sm'>For Rent</TabsTrigger>
+          <TabsTrigger value='For Daily Rental' className='w-full sm:w-auto text-sm'>For Daily Rental</TabsTrigger>
         </TabsList>
       </Tabs>
       <div className={cn('bg-secondary w-full rounded-md p-4 flex flex-col items-center gap-4 transition-all duration-300 overflow-hidden')}>
         <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4 w-full">
           <div className="flex flex-wrap md:items-center gap-4 md:overflow-x-auto w-full">
-            <Select placeholder='Location' options={locations} value={values.location} onSelect={setLocation} />
-            <Select placeholder='Property type' options={propertyTypes} value={values.propertyType} onSelect={setPropertyType} />
+            <Select placeholder='City' options={locations} value={values.city} onSelect={setLocation} />
+            <Select placeholder='Property type' options={propertyTypes} value={values.property_type} onSelect={setPropertyType} />
             <Select placeholder='Bedrooms' options={count.map(_ => ({ ..._, label: `${_.label} Bedrooms` }))} value={values.bedrooms} onSelect={(value) => setFieldValue('bedrooms', value)} />
             <Select placeholder='Bathrooms' options={count.map(_ => ({ ..._, label: `${_.label} Bathrooms` }))} value={values.bathrooms} onSelect={(value) => setFieldValue('bathrooms', value)} />
             <Select placeholder='Features' options={features} value={values.features} onSelect={(value) => setFieldValue('features', value)} />
@@ -105,7 +111,7 @@ export default function SearchBar() {
               <Icon icon={isOpen ? "mdi:minus" : "mdi:plus"} className='w-4 h-4 text-accent-foreground' />
               Price Range
             </Button>
-            {(values.location.length > 0 || values.propertyType.length > 0 || parseInt(values.bedrooms) > 0 || parseInt(values.bathrooms) > 0 || values.features.length > 0) && (
+            {(values.city || values.property_type || parseInt(values.bedrooms) > 0 || parseInt(values.bathrooms) > 0 || values.features.length > 0) && (
               <Button type='button' onClick={clearFilters} className='rounded w-full xl:w-auto'>
                 Clear Filters
               </Button>

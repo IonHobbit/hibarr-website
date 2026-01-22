@@ -13,16 +13,16 @@ import useUserInfo from '@/hooks/useUserInfo'
 import { makePOSTRequest } from '@/lib/services/api.service'
 import { persistUserInfo } from '@/lib/services/user.service'
 import { ZapierPropertyEnquiryPayload } from '@/types/main'
-import { PropertyResponse } from '@/types/property'
 import { PropertyEnquiryRegistrationRequest } from '@/types/webinar.type'
 import { useMutation } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import Link from 'next/link'
 import { Fragment } from 'react'
 import * as Yup from 'yup'
+import { PropertyListing } from '@/types/property'
 
 type EnquiryFormProps = {
-  property: PropertyResponse
+  property: PropertyListing
 }
 
 export default function EnquiryForm({ property }: EnquiryFormProps) {
@@ -54,9 +54,9 @@ export default function EnquiryForm({ property }: EnquiryFormProps) {
         },
         comment: values.comment,
         property: {
-          id: property.id,
-          title: property.basicInfo.title,
-          slug: property.basicInfo.slug.current!,
+          id: String(property.id),
+          title: property.title,
+          slug: property.product_name,
         }
       }
       await makePOSTRequest('/registration/property-enquiry', payload)
@@ -69,7 +69,7 @@ export default function EnquiryForm({ property }: EnquiryFormProps) {
       ...userInfo,
       comment: '',
       type: 'property-enquiry',
-      propertyId: property.id,
+      propertyId: String(property.id),
     },
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required('First name is required'),

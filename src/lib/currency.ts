@@ -3,12 +3,12 @@ type FormatCurrencyProps = {
   amount?: number
 }
 
-export function formatCurrency(price?: FormatCurrencyProps) {
-  if (!price?.amount) return undefined;
+export function formatCurrency(price?: string) {
+  if (!price) return undefined;
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: price.currency,
+    currency: 'EUR',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(price.amount);
+  }).format(Number(price));
 }

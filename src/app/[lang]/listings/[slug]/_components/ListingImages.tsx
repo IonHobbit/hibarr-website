@@ -7,7 +7,7 @@ import Image from 'next/image';
 import React, { useState, useRef } from 'react'
 
 type ListingImagesProps = {
-  images: { image: SanityImageAsset, alt: string, isCover: boolean }[];
+  images: { image: SanityImageAsset, alt: string, isCover: boolean }[] | [];
 }
 
 export default function ListingImages({ images }: ListingImagesProps) {
