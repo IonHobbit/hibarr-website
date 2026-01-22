@@ -4,11 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "infisical run -- next dev --turbopack",
-    "build": "infisical run -- next build",
-    "start": "infisical run -- next start",
+    "build": "next build",
+    "build:infisical": "infisical run -- next build",
+    "start": "next start",
+    "start:infisical": "infisical run -- next start",
     "lint": "next lint",
     "prepare": "husky",
-    "build:analyze": "ANALYZE=true infisical run -- next build",
+    "build:analyze": "ANALYZE=true next build",
+    "build:analyze:infisical": "ANALYZE=true infisical run -- next build",
     "analyze": "npm run build:analyze && npx webpack-bundle-analyzer .next/static/chunks/*.js"
   },
   "dependencies": {
