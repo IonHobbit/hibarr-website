@@ -1,14 +1,13 @@
-// type FormatCurrencyProps = {
-//   currency?: 'GBP' | 'USD' | 'EUR' | 'AED' | 'TRY'
-//   amount?: number
-// }
+type CurrencyProps = 'GBP' | 'USD' | 'EUR' | 'AED' | 'TRY';
 
-export function formatCurrency(price?: string) {
+export function formatCurrency(price: string, currency: CurrencyProps = 'EUR') {
   if (!price) return undefined;
+  const normalized = price.trim().replace(/,/g, ''); const amount = Number(normalized);
+  if (!Number.isFinite(amount)) return undefined;
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'EUR',
+    currency: currency,
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(Number(price));
+  }).format(amount);
 }

@@ -2,7 +2,7 @@
 
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { ListingsFilters, PropertyListing } from "@/types/property";
-import { APIPaginatedResponse, propertyApi } from "@/lib/services/properties-api.service";
+import { APIPaginatedResponse, makeCRMGETRequest } from "@/lib/services/properties-api.service";
 
 export type Filters = Partial<ListingsFilters>;
 
@@ -52,11 +52,10 @@ export default function useListings(
         params.append('maxPrice', String(filters.maxPrice));
       }
 
-      const response = await propertyApi.get<APIPaginatedResponse<PropertyListing>>(`/api/v1/properties?${params.toString()}`);
-
+      const response = await makeCRMGETRequest<APIPaginatedResponse<PropertyListing>>(`/api/v1/properties?${params.toString()}`);
       return {
-        listings: response.data?.data,
-        count: response?.data?.total,
+        listings: response?.data,
+        count: response?.total,
       };
     },
     placeholderData: keepPreviousData,

@@ -1,17 +1,17 @@
 import { Metadata } from 'next';
-import { generateSEOMetadata, SeoCompatibleFields } from '@/lib/utils';
+import { generateSEOMetadata } from '@/lib/utils';
 import { PropertyListing } from '@/types/property';
 import { SeoMetaFields } from '@/types/sanity.types';
 import PropertyDetails from './_components/PropertyDetails';
 import React from 'react'
-import { propertyApi } from '@/lib/services/properties-api.service';
 import { APIResponse } from '@/lib/services/api.service';
+import { makeCRMGETRequest } from '@/lib/services/properties-api.service';
 
 async function getProperty(id: string): Promise<PropertyListing | null> {
   try {
-    const response = await propertyApi.get<APIResponse<PropertyListing>>(`/api/v1/properties/${id}`);
-    return response.data.data;
-  } catch (error) {
+    const response = await makeCRMGETRequest<APIResponse<PropertyListing>>(`/api/v1/properties/${id}`);
+    return response.data;
+  } catch {
     return null;
   }
 }
@@ -26,26 +26,18 @@ export async function generateMetadata(props: { params: Promise<{ slug: string; 
     return generateSEOMetadata(undefined, { title: 'Listing' }, lang);
   }
 
-  const coverImage = property.images?.[0]?.url || property.product_image_url;
-
-  const seoFields: SeoCompatibleFields = {
-    metaTitle: property.title,
-    metaDescription: property.description,
-    openGraph: {
-      _type: 'openGraph',
-      title: property.title,
-      image: {
-        _type: 'image',
-        asset: {
-          _ref: coverImage,
-          _type: 'reference',
-        },
-      },
-    },
-  };
+  const coverImage = property.images?.[0] || null;
 
   return generateSEOMetadata(
-    seoFields as unknown as SeoMetaFields,
+    {
+      _type: 'seoMetaFields',
+      metaTitle: property.title,
+      openGraph: {
+        title: property.title,
+        image: coverImage?.url,
+        _type: 'openGraph'
+      },
+    } satisfies SeoMetaFields,
     { title: property.title },
     lang
   );

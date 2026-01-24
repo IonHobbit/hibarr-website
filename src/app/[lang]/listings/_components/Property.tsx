@@ -14,7 +14,7 @@ export default function Property({ property }: PropertyProps) {
 
   const source = useSource();
 
-  const coverImage = property.images[0]
+  const coverImage = property.images[0] || null;
   const title = property.title || '';
   const price = property.price;
   const bedrooms = property.bedrooms || 0;
@@ -61,7 +61,7 @@ export default function Property({ property }: PropertyProps) {
           <Icon icon="mdi:bathtub-outline" className='size-6' />
           <p className='text-sm text-muted-foreground'>{bathrooms}</p>
           <Icon icon="mdi:ruler-square" className='size-6' />
-          <p className='text-sm text-muted-foreground'>{size} {areaUnit['m2' as keyof typeof areaUnit]}</p>
+          <p className='text-sm text-muted-foreground'>{size} {areaUnit['m2' as keyof typeof areaUnit].toLocaleString()}</p>
         </div>
         <p className='text-muted-foreground uppercase text-sm'>{type}</p>
       </div>

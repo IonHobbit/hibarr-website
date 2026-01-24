@@ -65,7 +65,7 @@ export default function PropertyDetails(
   const land_size = property.land_size ?? 0;
 
   // const propertySize = area?.size ? `${area?.size} ${areaUnit[area?.unit as keyof typeof areaUnit]}` : undefined;
-  const propertyAge = building_age ?
+  const propertyAge = (building_age !== null && building_age !== undefined) ?
     (() => {
       const currentYear = new Date().getFullYear();
       const yearBuilt = currentYear - building_age;
@@ -93,9 +93,11 @@ export default function PropertyDetails(
               <BreadcrumbLink href='/'>Home</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbLink asChild>
-              <Link href={generateLink('listings')}>Listings</Link>
-            </BreadcrumbLink>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={generateLink('listings')}>Listings</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
             <BreadcrumbSeparator />
             {product_name &&
               <BreadcrumbItem>

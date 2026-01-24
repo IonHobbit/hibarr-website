@@ -6,22 +6,6 @@ import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { SeoMetaFields } from "@/types/sanity.types";
 import { Metadata } from "next";
 
-export interface SeoCompatibleFields {
-  metaTitle: string;
-  metaDescription: string;
-  openGraph: {
-    _type: 'openGraph';
-    title: string;
-    image: {
-      _type: 'image';
-      asset: {
-        _type: 'reference';
-        _ref: string;
-      };
-    };
-  };
-}
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -31,6 +15,7 @@ export function formatDate(date: string) {
 }
 
 export function generateImageUrl(image: SanityImageSource) {
+  
   return createImageUrlBuilder(client).image(image).auto('format');
 }
 
@@ -56,11 +41,15 @@ export function generateSEOMetadata(seo?: SeoMetaFields, defaults?: {
   const defaultTwitterImage = `${siteUrl}/twitter-image.jpg`;
 
   const ogImages = seo?.openGraph?.image 
-    ? [generateImageUrl(seo?.openGraph?.image).width(1200).height(630).url()] 
+    ? [typeof seo.openGraph.image === 'string' 
+        ? seo.openGraph.image 
+        : generateImageUrl(seo.openGraph.image).width(1200).height(630).url()] 
     : [defaultOgImage];
 
   const twitterImages = seo?.openGraph?.image 
-    ? [generateImageUrl(seo?.openGraph?.image).width(1200).height(675).url()]
+    ? [typeof seo.openGraph.image === 'string'
+        ? seo.openGraph.image
+        : generateImageUrl(seo.openGraph.image).width(1200).height(675).url()]
     : [defaultTwitterImage];
 
   return {

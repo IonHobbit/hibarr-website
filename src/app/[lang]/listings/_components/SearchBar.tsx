@@ -39,8 +39,8 @@ export default function SearchBar() {
       bedrooms: filters.bedrooms || '0',
       bathrooms: filters.bathrooms || '0',
       features: filters.features || [],
-      minPrice: parseInt(filters.minPrice?.toString() || min.toString()),
-      maxPrice: parseInt(filters.maxPrice?.toString() || max.toString()),
+      minPrice: parseInt((filters.minPrice ?? min).toString()),
+      maxPrice: parseInt((filters.maxPrice ?? max).toString())
     },
     onSubmit: (values) => {
       const value = shortenAndEncryptJSON(values, TOKEN_SECRET);
@@ -84,7 +84,7 @@ export default function SearchBar() {
 
   return (
     <div className="flex flex-col items-center gap-4 px-4 z-10">
-      <Tabs defaultValue={values.sales_type} onValueChange={(value) => setListingType(value)}>
+      <Tabs value={values.sales_type} onValueChange={(value) => setListingType(value)}>
         <TabsList className="flex-col sm:flex-row">
           <TabsTrigger value='' className='w-full sm:w-auto text-sm'>All</TabsTrigger>
           <TabsTrigger value='For Sale' className='w-full sm:w-auto text-sm'>For Sale</TabsTrigger>
