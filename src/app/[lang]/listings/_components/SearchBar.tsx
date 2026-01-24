@@ -2,28 +2,23 @@
 
 import { Select } from '@/components/Select'
 import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { count, locations, propertyTypes } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { Icon } from '@/components/icons';
 import { useFormik } from 'formik';
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import useURL from '@/hooks/useURL';
-import useFeatures from '@/hooks/useFeatures';
 import { decryptJSON, shortenAndEncryptJSON, TOKEN_SECRET } from '@/lib/encryptor';
 import { Filters } from '@/hooks/useListings';
 // import usePropertyTypes from '@/hooks/usePropertyTypes';
 
 export default function SearchBar() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const featureHook = useFeatures();
-  // const propertyTypesHook = usePropertyTypes();
+  // const [isOpen, setIsOpen] = useState(false);
 
   const { searchParams, replaceParams, clearParams } = useURL();
 
-  const features = featureHook.data?.map(({ name, id }) => ({ label: name, value: id })).filter(({ value }) => Boolean(value)) || [];
+  // const features = featureHook.data?.map(({ name, id }) => ({ label: name, value: id })).filter(({ value }) => Boolean(value)) || [];
   // const propertyTypes = propertyTypesHook.data?.map(({ name, id }) => ({ label: name, value: id })).filter(({ value }) => Boolean(value)) || [];
 
   const q = searchParams.get('q') || '';
@@ -41,8 +36,8 @@ export default function SearchBar() {
       // location: filters.location || [],
       // propertyType: filters.propertyType || [],
       // listingType: filters.listingType || '',
-      bedrooms: filters.bedrooms || '',
-      bathrooms: filters.bathrooms || '',
+      bedrooms: filters.bedrooms || '0',
+      bathrooms: filters.bathrooms || '0',
       features: filters.features || [],
       minPrice: parseInt(filters.minPrice?.toString() || min.toString()),
       maxPrice: parseInt(filters.maxPrice?.toString() || max.toString()),
@@ -60,7 +55,7 @@ export default function SearchBar() {
     } else {
       setFieldValue('city', value);
     }
-    setIsOpen(false);
+    // setIsOpen(false);
   }
 
   const setPropertyType = (value: string | string[]) => {
@@ -69,7 +64,7 @@ export default function SearchBar() {
     } else {
       setFieldValue('property_type', value);
     }
-    setIsOpen(false);
+    // setIsOpen(false);
   }
 
   const setListingType = (value: string) => {
@@ -85,7 +80,7 @@ export default function SearchBar() {
     }, 4);
   }
 
-  const toggleOpen = () => setIsOpen(!isOpen);
+  // const toggleOpen = () => setIsOpen(!isOpen); 
 
   return (
     <div className="flex flex-col items-center gap-4 px-4 z-10">
@@ -104,13 +99,13 @@ export default function SearchBar() {
             <Select placeholder='Property type' options={propertyTypes} value={values.property_type} onSelect={setPropertyType} />
             <Select placeholder='Bedrooms' options={count.map(_ => ({ ..._, label: `${_.label} Bedrooms` }))} value={values.bedrooms} onSelect={(value) => setFieldValue('bedrooms', value)} />
             <Select placeholder='Bathrooms' options={count.map(_ => ({ ..._, label: `${_.label} Bathrooms` }))} value={values.bathrooms} onSelect={(value) => setFieldValue('bathrooms', value)} />
-            <Select placeholder='Features' options={features} value={values.features} onSelect={(value) => setFieldValue('features', value)} />
+            {/* <Select placeholder='Features' options={features} value={values.features} onSelect={(value) => setFieldValue('features', value)} /> */}
           </div>
           <div className="flex flex-wrap items-center justify-center gap-2 w-full">
-            <Button type='button' onClick={toggleOpen} className='hidden cursor-pointer rounded xl:flex'>
+            {/* <Button type='button' onClick={toggleOpen} className='hidden cursor-pointer rounded xl:flex'>
               <Icon icon={isOpen ? "mdi:minus" : "mdi:plus"} className='w-4 h-4 text-accent-foreground' />
               Price Range
-            </Button>
+            </Button> */}
             {(values.city || values.property_type || parseInt(values.bedrooms) > 0 || parseInt(values.bathrooms) > 0 || values.features.length > 0) && (
               <Button type='button' onClick={clearFilters} className='rounded w-full xl:w-auto'>
                 Clear Filters
@@ -122,7 +117,7 @@ export default function SearchBar() {
             </Button>
           </div>
         </form>
-        {isOpen && (
+        {/* {isOpen && (
           <div className='max-w-lg w-full mx-auto flex flex-col items-center gap-2'>
             <p className='text-sm text-muted-foreground flex items-center gap-2'>
               From <span className='font-semibold text-primary text-lg'>€{values.minPrice.toLocaleString()}</span> to <span className='font-semibold text-primary text-lg'>€{values.maxPrice.toLocaleString()}</span>
@@ -137,7 +132,7 @@ export default function SearchBar() {
               max={max}
             />
           </div>
-        )}
+        )} */}
       </div>
     </div>
   )

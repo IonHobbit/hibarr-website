@@ -20,6 +20,7 @@ import Link from 'next/link'
 import { Fragment } from 'react'
 import * as Yup from 'yup'
 import { PropertyListing } from '@/types/property'
+import { generateSlug } from '@/lib/utils'
 
 type EnquiryFormProps = {
   property: PropertyListing
@@ -56,7 +57,7 @@ export default function EnquiryForm({ property }: EnquiryFormProps) {
         property: {
           id: String(property.id),
           title: property.title,
-          slug: property.product_name,
+          slug: generateSlug(property.product_name),
         }
       }
       await makePOSTRequest('/registration/property-enquiry', payload)

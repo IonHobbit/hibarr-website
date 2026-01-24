@@ -2,7 +2,7 @@
 
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { ListingsFilters, PropertyListing } from "@/types/property";
-import usePropertyAxios, { APIPaginatedResponse } from "./usePropertyAxios";
+import { APIPaginatedResponse, propertyApi } from "@/lib/services/properties-api.service";
 
 export type Filters = Partial<ListingsFilters>;
 
@@ -11,7 +11,6 @@ export default function useListings(
   page: number,
   limit: number,
 ) {
-  const propertyAxios = usePropertyAxios();
 
   const fetchListingsQuery = useQuery({
     queryKey: ['listings', filters, page, limit],
@@ -53,7 +52,7 @@ export default function useListings(
         params.append('maxPrice', String(filters.maxPrice));
       }
 
-      const response = await propertyAxios.get<APIPaginatedResponse<PropertyListing>>(`/api/v1/properties?${params.toString()}`);
+      const response = await propertyApi.get<APIPaginatedResponse<PropertyListing>>(`/api/v1/properties?${params.toString()}`);
 
       return {
         listings: response.data?.data,

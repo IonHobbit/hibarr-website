@@ -6,6 +6,22 @@ import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { SeoMetaFields } from "@/types/sanity.types";
 import { Metadata } from "next";
 
+export interface SeoCompatibleFields {
+  metaTitle: string;
+  metaDescription: string;
+  openGraph: {
+    _type: 'openGraph';
+    title: string;
+    image: {
+      _type: 'image';
+      asset: {
+        _type: 'reference';
+        _ref: string;
+      };
+    };
+  };
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -79,6 +95,19 @@ export function generateSEOMetadata(seo?: SeoMetaFields, defaults?: {
 
 export function generateRandomFileName(file: File) {
   return `${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}.${file.type.split('/')[1]}`;
+}
+
+export function generateSlug(name: string): string {
+  return name
+    .toString()
+    .normalize('NFD')                  
+    .replace(/[\u0300-\u036f]/g, '') 
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')    
+    .replace(/\s+/g, '-')          
+    .replace(/-+/g, '-')             
+    .replace(/^-+|-+$/g, '');     
 }
 
 interface PortableTextBlock {

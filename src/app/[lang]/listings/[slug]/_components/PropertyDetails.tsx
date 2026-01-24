@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/icons';
 import { formatCurrency } from '@/lib/currency';
 import useSource from '@/hooks/useSource';
+import { generateSlug } from '@/lib/utils';
 
 export default function PropertyDetails(
   props: {
@@ -57,7 +58,11 @@ export default function PropertyDetails(
   // const { title, images, location, price, bedrooms, bathrooms, livingRooms, type, saleType } = basicInfo!;
   // const { area, yearBuilt, titleDeed, floors, floorLevel, availableForTrade, gatedCommunity, management, residential, furnished, availableForViewing } = details!;
 
-  const { title, title_deed_type, building_age, description, bedrooms, bathrooms, price, city, sale_type, property_type, living_room, floor_number, floors_in_building, exterior_features, interior_features, product_name, land_size, images } = property;
+  const { title, title_deed_type, building_age, description, price, city, sale_type, property_type, living_room, floor_number, floors_in_building, exterior_features, interior_features, product_name, images } = property;
+  // Default bedrooms, bathrooms, and land_size to 0 if undefined/null
+  const bedrooms = property.bedrooms ?? 0;
+  const bathrooms = property.bathrooms ?? 0;
+  const land_size = property.land_size ?? 0;
 
   // const propertySize = area?.size ? `${area?.size} ${areaUnit[area?.unit as keyof typeof areaUnit]}` : undefined;
   const propertyAge = building_age ?
@@ -88,13 +93,15 @@ export default function PropertyDetails(
               <BreadcrumbLink href='/'>Home</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href={generateLink('listings')}>Listings</BreadcrumbLink>
-            </BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href={generateLink('listings')}>Listings</Link>
+            </BreadcrumbLink>
             <BreadcrumbSeparator />
             {product_name &&
               <BreadcrumbItem>
-                <BreadcrumbLink href={generateLink(`listings/${product_name}`)}>{title}</BreadcrumbLink>
+                <BreadcrumbLink asChild>
+                  <Link href={generateLink(`listings/${generateSlug(product_name)}`)}>{title}</Link>
+                </BreadcrumbLink>
               </BreadcrumbItem>
             }
             {(!property && !isLoading) &&
@@ -116,7 +123,7 @@ export default function PropertyDetails(
             <p className='text-sm text-primary-foreground font-medium uppercase'>{sale_type?.replaceAll('-', ' ')}</p>
           </div>
         </div>
-        { images && images.length > 0 && (
+        {images && images.length > 0 && (
           <ListingImages images={images} />
         )}
         <div className="grid grid-cols-2 md:divide-x md:grid-cols-4 gap-3">

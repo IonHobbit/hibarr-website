@@ -1,3 +1,4 @@
+
 import { Metadata } from 'next';
 import { Fragment, Suspense } from 'react';
 import { getHreflangAlternates } from '@/lib/seo-metadata';

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { PropertyListing } from '@/types/property'
 import { formatCurrency } from '@/lib/currency'
 import useSource from '@/hooks/useSource'
+import { areaUnit } from '@/lib/property'
 
 interface PropertyProps {
   property: PropertyListing
@@ -18,7 +19,7 @@ export default function Property({ property }: PropertyProps) {
   const price = property.price;
   const bedrooms = property.bedrooms || 0;
   const bathrooms = property.bathrooms || 0;
-  // const size = property.area.size || 0;
+  const size = property.land_size || 0;
   const type = property.property_type || '';
 
   const generateLink = () => {
@@ -60,7 +61,7 @@ export default function Property({ property }: PropertyProps) {
           <Icon icon="mdi:bathtub-outline" className='size-6' />
           <p className='text-sm text-muted-foreground'>{bathrooms}</p>
           <Icon icon="mdi:ruler-square" className='size-6' />
-          {/* <p className='text-sm text-muted-foreground'>{size} {areaUnit[property.area.unit as keyof typeof areaUnit]}</p> */}
+          <p className='text-sm text-muted-foreground'>{size} {areaUnit['m2' as keyof typeof areaUnit]}</p>
         </div>
         <p className='text-muted-foreground uppercase text-sm'>{type}</p>
       </div>
