@@ -1,4 +1,4 @@
-import ListingsPage from "@/app/[lang]/listings/page"
+import ListingsPage from "@/app/[lang]/_listings/page"
 import { Suspense } from "react"
 
 export default async function ExternalListingsPage() {
