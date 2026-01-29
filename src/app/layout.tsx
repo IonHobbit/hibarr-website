@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     default: "HIBARR Trading",
   },
   description: "Unlock the potential of North Cyprus and see why it is the preferred choice for international investors.",
-  keywords: ["North Cyprus", "real estate", "investment", "property", "HIBARR", "trading"],
+  keywords: ["North Cyprus", "investment", "HIBARR", "trading", "finance"],
   authors: [{ name: "HIBARR Trading" }],
   creator: "HIBARR Trading",
   publisher: "HIBARR Trading",

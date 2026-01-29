@@ -53,7 +53,7 @@ export default async function ConsultationPage(
   const translatedPeriodOptions = await Promise.all(periodOptions.map(async (option) => ({ ...option, label: (await translate(option.label)).text })));
   const translatedMessageOptions = await translateBatch(messageOptions);
   const [firstName, lastName, email, phoneNumber] = await translateBatch(['First Name', 'Last Name', 'Email Address', 'Phone Number']);
-  const [selectLanguagePlaceholder, questionPlaceholder] = await translateBatch(['Select language', 'For example: I am looking for a property in Istanbul, I am a first time buyer, etc.']);
+  const [selectLanguagePlaceholder, questionPlaceholder] = await translateBatch(['Select language', 'For example: I am looking to open a bank account in North Cyprus, I am a first time investor, etc.']);
 
   const showMessage = await translate('Yes');
 

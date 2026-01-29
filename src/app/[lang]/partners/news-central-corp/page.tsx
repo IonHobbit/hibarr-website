@@ -34,12 +34,12 @@ export default async function NewsCentralCorp() {
   const coreServices = [
     {
       name: 'Asset Growth',
-      description: 'Premium residential developments with modern amenities and sustainable design principles.',
+      description: 'Strategic investment opportunities with modern approaches and sustainable growth principles.',
       icon: 'mdi:home-city'
     },
     {
       name: 'Asset Protection',
-      description: 'Premium residential developments with modern amenities and sustainable design principles.',
+      description: 'Comprehensive wealth protection strategies with expert guidance and secure frameworks.',
       icon: 'mdi:key'
     }
   ]
@@ -47,22 +47,22 @@ export default async function NewsCentralCorp() {
   const partnershipBenefits = [
     {
       title: 'Market Intelligence',
-      description: 'Through our partnership with News Central Corp, you\'ll gain access to timely, well-researched insights on local and global real estate trends, helping you make smarter, data-driven investment decisions.',
+      description: 'Through our partnership with News Central Corp, you\'ll gain access to timely, well-researched insights on local and global investment opportunities, helping you make smarter, data-driven investment decisions.',
       icon: 'mdi:chart-line'
     },
     {
       title: 'Risk Mitigation',
-      description: 'NCC\'s expertise in economic, legal, and regulatory environments allows us to help you identify and navigate potential risks in the North Cyprus property market before they impact your investment.',
+      description: 'NCC\'s expertise in economic, legal, and regulatory environments allows us to help you identify and navigate potential risks in the North Cyprus investment opportunities before they impact your investment.',
       icon: 'mdi:shield-alert'
     },
     {
       title: 'Opportunity Access',
-      description: 'Stay ahead of emerging opportunities. With NCC\'s network and intelligence tools, we can alert you to high-potential real estate projects, undervalued assets, and upcoming market shifts.',
+      description: 'Stay ahead of emerging opportunities. With NCC\'s network and intelligence tools, we can alert you to high-potential investment opportunities, undervalued assets, and upcoming market shifts.',  
       icon: 'mdi:lightbulb-on'
     },
     {
       title: 'Asset Protection Guidance',
-      description: 'Our collaboration with NCC gives you strategic insights on asset protection solutions, from gold-backed wealth preservation strategies to region-specific financial planning advice, helping you secure your real estate investment long term.',
+      description: 'Our collaboration with NCC gives you strategic insights on asset protection solutions, from gold-backed wealth preservation strategies to region-specific financial planning advice, helping you secure your investment opportunities long term.',
       icon: 'mdi:safe'
     }
   ];
@@ -73,7 +73,7 @@ export default async function NewsCentralCorp() {
       content: 'With over 15 years in the information sourcing and financial intelligence sector, News Central Corp (NCC) has consistently delivered timely, high-impact insights that help clients seize market opportunities and protect their assets. Their extensive history of client success and information-driven outcomes highlights their reliability and value as a strategic partner.',
       items: [
         '15+ years of industry experience',
-        'Proven success in supporting investment decisions across multiple sectors (funds, real estate, crypto, energy, environment)',
+        'Proven success in supporting investment decisions across multiple sectors (funds, investment opportunities, crypto, energy, environment)',
         'Strong client retention and satisfaction rates',
         'Track record of delivering actionable intelligence with market relevance'
       ]
@@ -136,7 +136,7 @@ export default async function NewsCentralCorp() {
 
     // About section
     translate('About News Central Corp').then(res => res.text),
-    translate('News Central Corp is an information sourcing company with over 15 years of experience. Their mission is to provide accessible, quality information on business, economy, politics, law, and lifestyle to help individuals seize market opportunities in funds, real estate, economic products, cryptocurrencies, energy, and the environment. They aim to help users make informed decisions, open doors, build bridges, expand networks, and strengthen connections for a successful and fulfilling life.').then(res => res.text),
+    translate('News Central Corp is an information sourcing company with over 15 years of experience. Their mission is to provide accessible, quality information on business, economy, politics, law, and lifestyle to help individuals seize market opportunities in funds, investment opportunities, economic products, cryptocurrencies, energy, and the environment. They aim to help users make informed decisions, open doors, build bridges, expand networks, and strengthen connections for a successful and fulfilling life.').then(res => res.text),
 
     // Why section
     translate('Why We Chose to Work with NCC').then(res => res.text),
