@@ -60,7 +60,7 @@ export default function FindrSection() {
     <section className='section gap-6'>
       <div className='container mx-auto flex flex-col gap-2'>
         <h2 className='text-4xl font-bold text-center'>
-          HIBARR Property findr
+          HIBARR findr
         </h2>
         <p className='text-center text-muted-foreground'>Discover the possibilities with Hibarr</p>
       </div>
