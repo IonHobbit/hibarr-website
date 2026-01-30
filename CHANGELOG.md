@@ -3,7 +3,7 @@
 ## Project Overview
 
 **Project Name:** Hibarr Website  
-**Type:** Next.js Real Estate Website  
+**Type:** Next.js Website  
 **Framework:** Next.js 14 with App Router  
 **Language:** TypeScript  
 **Styling:** Tailwind CSS  
@@ -29,7 +29,7 @@ hibarr-website/
 │   │   ├── (landing)/        # Landing page components
 │   │   ├── about/            # About page
 │   │   ├── blog/             # Blog functionality
-│   │   ├── listings/         # Property listings
+│   │   ├── listings/         # Investment listings
 │   │   ├── partners/         # Partner pages
 │   │   ├── waitlist/         # Waitlist functionality
 │   │   └── webinar/          # Webinar pages
@@ -77,11 +77,11 @@ hibarr-website/
 - **Rich Text Support:** Portable Text rendering for blog posts
 - **Image Optimization:** Next.js Image component with CDN integration
 
-#### 3. Property Listings
-- **Search Functionality:** Advanced property search with filters
-- **Property Types:** Categorized property listings
-- **Detail Pages:** Individual property pages with enquiry forms
-- **Image Galleries:** Carousel-based property image displays
+#### 3. Investment Listings
+- **Search Functionality:** Advanced investment search with filters
+- **Investment Types:** Categorized investment listings
+- **Detail Pages:** Individual investment pages with enquiry forms
+- **Image Galleries:** Carousel-based investment image displays
 
 #### 4. Blog System
 - **Category Filtering:** Blog post categorization
@@ -179,7 +179,7 @@ hibarr-website/
 ## Future Roadmap
 
 ### Planned Features
-- **Advanced Search:** Enhanced property search with AI
+- **Advanced Search:** Enhanced investment search with AI
 - **User Authentication:** Member-only content areas
 - **Payment Integration:** Stripe payment processing
 - **Real-time Chat:** Live customer support
@@ -196,7 +196,7 @@ hibarr-website/
 ### v1.0.0 (Current)
 - Initial release with core functionality
 - Multi-language support
-- Property listings and search
+- Investment listings and search
 - Blog system
 - Partner pages
 - Webinar registration

@@ -6,12 +6,12 @@ import { useState, useEffect } from 'react'
 const benefits = [
   {
     icon: BookOpen,
-    title: "The Ultimate Guide to North Cyprus Real Estate",
+    title: "The Ultimate Guide to North Cyprus Investment Opportunities",
     description: "Normally €4.99 — yours free, instantly after joining."
   },
   {
     icon: TrendingUp,
-    title: "Exclusive Property Deals",
+    title: "Exclusive Investment Deals",
     description: "Off-market listings & offers — sent to you 3 days before public release."
   },
   {
@@ -69,7 +69,7 @@ export default function WhyJoinSection() {
             Why Join?
           </h2>
           <p className="text-lg text-primary-foreground/80 max-w-2xl mx-auto">
-            Discover the exclusive benefits that make our community the #1 choice for North Cyprus real estate
+            Discover the exclusive benefits that make our community the #1 choice for North Cyprus investment opportunities
           </p>
         </div>
 
