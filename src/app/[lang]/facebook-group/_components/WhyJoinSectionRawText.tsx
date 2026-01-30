@@ -4,8 +4,8 @@ export default async function WhyJoinSectionRawText() {
   const title = await translate('Why Join?')
 
   const benefits = [
-    // "The Ultimate Guide to North Cyprus Real Estate - Normally 4.99 euros. Yours for free, instantly after joining.",
-    "Exclusive Property Deals - Off market listings and offers sent to you three days before public release.",
+    "The Ultimate Guide to North Cyprus Investment Opportunities - Normally 4.99 euros. Yours for free, instantly after joining.",
+    "Exclusive Investment Deals - Off market listings and offers sent to you three days before public release.",
     // "Expert Trainings - Learn about relocation, tax strategies, legal residency & profitable investments.",
     "Insider Market Updates - Get notified of important legal changes and market shifts.",
     "Private Insights - Tips and advice we don't publish anywhere else.",

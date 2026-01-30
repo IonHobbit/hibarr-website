@@ -11,9 +11,9 @@ type RabihContent = {
 export const rabihContent = {
   en: {
     bio:
-      'Rabih is a visionary leader with over 15 years of experience in international real estate and finance. Before founding Hibarr, he managed multi-million dollar portfolios across the Middle East and Europe. His expertise lies in identifying emerging markets with high growth potential and bridging the gap for international investors through transparent, data-driven advice. Rabih believes that trust is the currency of modern business, a philosophy that permeates every level of our organization.',
+      'Rabih is a visionary leader with over 15 years of experience in international investment and finance. Before founding Hibarr, he managed multi-million dollar portfolios across the Middle East and Europe. His expertise lies in identifying emerging markets with high growth potential and bridging the gap for international investors through transparent, data-driven advice. Rabih believes that trust is the currency of modern business, a philosophy that permeates every level of our organization.',
     expertise: [
-      'International Real Estate Strategy',
+      'International Investment Strategy',
       'Investment Portfolio Management',
       'Cross-border Finance',
       'Market Analysis',
@@ -23,9 +23,9 @@ export const rabihContent = {
   },
   de: {
     bio:
-      'Rabih ist eine visionäre Führungspersönlichkeit mit über 15 Jahren Erfahrung im internationalen Immobilien- und Finanzwesen. Vor der Gründung von Hibarr verwaltete er Portfolios im Wert von mehreren Millionen Dollar im Nahen Osten und Europa. Seine Expertise liegt in der Identifizierung von Wachstumsmärkten und der transparenten Beratung internationaler Investoren. Rabih glaubt daran, dass Vertrauen die Währung des modernen Geschäftslebens ist.',
+      'Rabih ist eine visionäre Führungspersönlichkeit mit über 15 Jahren Erfahrung im internationalen Investment- und Finanzwesen. Vor der Gründung von Hibarr verwaltete er Portfolios im Wert von mehreren Millionen Dollar im Nahen Osten und Europa. Seine Expertise liegt in der Identifizierung von Wachstumsmärkten und der transparenten Beratung internationaler Investoren. Rabih glaubt daran, dass Vertrauen die Währung des modernen Geschäftslebens ist.',
     expertise: [
-      'Internationale Immobilienstrategie',
+      'Internationale Investmentstrategie',
       'Investment-Portfoliomanagement',
       'Grenzüberschreitende Finanzen',
       'Marktanalyse',
@@ -35,9 +35,9 @@ export const rabihContent = {
   },
   tr: {
     bio:
-      "Rabih, uluslararası gayrimenkul ve finans alanında 15 yılı aşkın deneyime sahip vizyoner bir liderdir. Hibarr'ı kurmadan önce Orta Doğu ve Avrupa'da milyonlarca dolarlık portföyleri yönetmiştir.",
+      "Rabih, uluslararası yatırım ve finans alanında 15 yılı aşkın deneyime sahip vizyoner bir liderdir. Hibarr'ı kurmadan önce Orta Doğu ve Avrupa'da milyonlarca dolarlık portföyleri yönetmiştir.",
     expertise: [
-      'Uluslararası Gayrimenkul Stratejisi',
+      'Uluslararası Yatırım Stratejisi',
       'Yatırım Portföy Yönetimi',
       'Sınıraşan Finans',
       'Piyasa Analizi',
@@ -47,9 +47,9 @@ export const rabihContent = {
   },
   ru: {
     bio:
-      'Раби — визионер с более чем 15-летним опытом в международной недвижимости и финансах. До основания Hibarr он управлял многомиллионными портфелями на Ближнем Востоке и в Европе.',
+      'Раби — визионер с более чем 15-летним опытом в международных инвестициях и финансах. До основания Hibarr он управлял многомиллионными портфелями на Ближнем Востоке и в Европе.',
     expertise: [
-      'Международные стратегии недвижимости',
+      'Международные инвестиционные стратегии',
       'Управление портфелем',
       'Трансграничные финансы',
       'Анализ рынка',

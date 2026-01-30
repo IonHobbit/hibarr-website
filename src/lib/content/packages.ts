@@ -24,7 +24,7 @@ export const packagesContent = {
       description:
         "Our Basic Banking Package is the perfect entry point for individuals and small business owners looking to establish a secure financial footing in Cyprus. This package is designed to strip away the complexity of international banking, offering you a streamlined, hassle-free account opening process. Whether you are a student, a freelancer, or just starting your investment journey, the Basic Package provides all the essential tools you need to manage your daily finances with ease and confidence.",
       whoIsItFor:
-        'This package is ideal for students, digital nomads, freelancers, and individuals relocating to Cyprus who need a reliable personal bank account without the burden of excessive fees or complex requirements. It is also suitable for those making their first property investment and needing a local account for transaction purposes.',
+        'This package is ideal for students, digital nomads, freelancers, and individuals relocating to Cyprus who need a reliable personal bank account without the burden of excessive fees or complex requirements. It is also suitable for those making their first investment and needing a local account for transaction purposes.',
       benefits: [
         'Rapid account setup with minimal documentation',
         'Low monthly maintenance fees',
@@ -49,7 +49,7 @@ export const packagesContent = {
       description:
         'The Standard Banking Package is tailored for growing businesses and active investors who require more than just the basics. This comprehensive solution offers higher transaction limits, multi-currency capabilities, and priority support. It bridges the gap between personal banking and corporate financial management, giving you the flexibility to operate internationally while enjoying robust local banking stability.',
       whoIsItFor:
-        'Designed for established SME owners, property investors with multiple units, and expatriate families who manage finances across borders. If you frequently make international transfers or need a business account that scales with your operations, this is the right choice.',
+        'Designed for established SME owners, investors with multiple assets, and expatriate families who manage finances across borders. If you frequently make international transfers or need a business account that scales with your operations, this is the right choice.',
       benefits: [
         'Multi-currency accounts (EUR, USD, GBP, TRY)',
         'Higher daily transaction and withdrawal limits',
@@ -78,7 +78,7 @@ export const packagesContent = {
       benefits: [
         'Dedicated private banker available 24/7',
         'Unlimited free international transfers',
-        'Exclusive access to off-market real estate investment opportunities',
+        'Exclusive access to off-market investment opportunities',
         'Customized wealth management and tax planning advisory',
         'Concierge services and VIP lounge access at select airports',
       ],
@@ -126,7 +126,7 @@ export const packagesContent = {
       description:
         'Das Standard Banking Paket ist auf wachsende Unternehmen und aktive Investoren zugeschnitten, die mehr als nur die Grundlagen benötigen. Diese umfassende Lösung bietet höhere Transaktionslimits, Mehrwährungsfunktionen und priorisierten Support. Es schlägt die Brücke zwischen privatem Banking und Unternehmensfinanzierung und bietet Ihnen die Flexibilität, international zu agieren, während Sie lokale Bankenstabilität genießen.',
       whoIsItFor:
-        'Entwickelt für etablierte KMU-Inhaber, Immobilieninvestoren mit mehreren Einheiten und Expat-Familien, die Finanzen grenzüberschreitend verwalten.',
+        'Entwickelt für etablierte KMU-Inhaber, Investoren mit mehreren Anlagen und Expat-Familien, die Finanzen grenzüberschreitend verwalten.',
       benefits: [
         'Mehrwährungskonten (EUR, USD, GBP, TRY)',
         'Höhere tägliche Transaktions- und Abhebelimits',
@@ -155,7 +155,7 @@ export const packagesContent = {
       benefits: [
         'Persönlicher Private Banker rund um die Uhr verfügbar',
         'Unbegrenzte kostenlose internationale Überweisungen',
-        'Exklusiver Zugang zu Off-Market Immobilienangeboten',
+        'Exklusiver Zugang zu Off-Market Investmentangeboten',
         'Maßgeschneiderte Vermögens- und Steuerberatung',
         'Concierge-Service und VIP-Lounge-Zugang',
       ],
@@ -203,7 +203,7 @@ export const packagesContent = {
       description:
         'Standart Bankacılık Paketi, temelden fazlasını gerektiren büyüyen işletmeler ve aktif yatırımcılar için tasarlanmıştır. Bu kapsamlı çözüm, daha yüksek işlem limitleri, çoklu para birimi özellikleri ve öncelikli destek sunar.',
       whoIsItFor:
-        'KOBİ sahipleri ve birden fazla mülkü olan yatırımcılar için tasarlanmıştır.',
+        'KOBİ sahipleri ve birden fazla yatırımı olan yatırımcılar için tasarlanmıştır.',
       benefits: [
         'Çoklu dçviz hesapları (EUR, USD, GBP, TRY)',
         'Daha yüksek günlük işlem limitleri',
@@ -232,7 +232,7 @@ export const packagesContent = {
       benefits: [
         '7/24 ulaşılabilir özel bankacı',
         'Sınırsız ücretsiz uluslararası transfer',
-        'Piyasa dışı özel gayrimenkul fırsatlarına erişim',
+        'Piyasa dışı özel yatırım fırsatlarına erişim',
         'Özel varlık yönetimi ve vergi planlaması',
         'Havalimanlarında VIP lounge erişimi',
       ],
@@ -280,7 +280,7 @@ export const packagesContent = {
       description:
         'Стандартный Банковский Пакет создан для растущего бизнеса и активных инвесторов. Это комплексное решение предлагает более высокие лимиты транзакций, мультивалютные возможности и приоритетную поддержку, позволяя вам вести дела на международном уровне с уверенностью в местной стабильности.',
       whoIsItFor:
-        'Предназначен для владельцев малого и среднего бизнеса и инвесторов с несколькими объектами недвижимости.',
+        'Предназначен для владельцев малого и среднего бизнеса и инвесторов с несколькими активами.',
       benefits: [
         'Мультивалютные счета (EUR, USD, GBP, TRY)',
         'Повышенные лимиты на транзакции и снятие наличных',
@@ -309,7 +309,7 @@ export const packagesContent = {
       benefits: [
         'Персональный банкир, доступный 24/7',
         'Неограниченные бесплатные международные переводы',
-        'Эксклюзивный доступ к закрытым объектам недвижимости',
+        'Эксклюзивный доступ к закрытым инвестиционным возможностям',
         'Индивидуальное налоговое и инвестиционное планирование',
         'Консьерж-сервис и доступ в VIP-залы',
       ],

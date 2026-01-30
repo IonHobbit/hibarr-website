@@ -42,7 +42,7 @@ export default async function EbookPage(
     cloudinaryClient.fetchFiles('Website/Features'),
   ]);
 
-  const [getTheUltimateCyprusInvestmentGuide, discoverTheInsiderSecrets, hiddenPropertyDeals, stepByStepBuyingProcess, taxLoopholes, boostIncome] = await translateBatch(['Get the Ultimate Cyprus Investment Guide', 'Discover the insider secrets top investors use to maximize profits in North Cyprus! This exclusive guide reveals:', 'Hidden property deals & how to access them before the public', 'Step-by-step buying process to avoid costly mistakes', 'Tax loopholes & financial strategies to keep more money in your pocket', 'How to legally pay less & boost income'])
+  const [getTheUltimateCyprusInvestmentGuide, discoverTheInsiderSecrets, hiddenPropertyDeals, stepByStepBuyingProcess, taxLoopholes, boostIncome] = await translateBatch(['Get the Ultimate Cyprus Investment Guide', 'Discover the insider secrets top investors use to maximize profits in North Cyprus! This exclusive guide reveals:', 'Hidden investment deals & how to access them before the public', 'Step-by-step buying process to avoid costly mistakes', 'Tax loopholes & financial strategies to keep more money in your pocket', 'How to legally pay less & boost income'])
 
   const [whatYoullLearn, provenStrategies, expertInsights, actionableTips, everythingYouNeed, whatOurReadersAreSaying] = await translateBatch(['What You\'ll Learn', 'Proven Strategies', 'Expert Insights', 'Actionable Tips', 'Everything you need to transform your business and achieve lasting success', 'What Our Readers Are Saying']);
 

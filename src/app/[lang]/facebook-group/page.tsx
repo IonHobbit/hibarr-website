@@ -39,7 +39,7 @@ export default async function FacebookGroupPage(
     subtitle: formSubtitle.text,
   }
 
-  const title = await translate('Join the #1 Private Group for North Cyprus Real Estate Buyers & Relocators')
+  const title = await translate('Join the #1 Private Group for North Cyprus Investment Opportunities')
   const subtext = await translate('Gain access to a group of like minded people who are looking to make money in the markets.')
 
   return (

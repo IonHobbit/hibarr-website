@@ -66,7 +66,7 @@ const images = [
 export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
   en: {
     title: 'Invest now at pre-sales prices',
-    subtitle: 'Affordable resort-style real estate in North Cyprus',
+    subtitle: 'Affordable investment opportunity in North Cyprus',
     features: [
       'From £10,750 down payment',
       '£600/month - 0% interest (48 months)',
@@ -90,7 +90,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
         interestReasons: [
           { label: 'Pension capital not growing', value: 'Pension capital not growing' },
           { label: 'Inflation protection', value: 'Inflation protection' },
-          { label: 'Rental income', value: 'Rental income' },
+          { label: 'Passive income', value: 'Passive income' },
           { label: 'Diversifying outside the EU', value: 'Diversifying outside the EU' },
           { label: 'Attractive pricing', value: 'Attractive pricing' },
         ],
@@ -136,7 +136,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
   },
   de: {
     title: 'Jetzt investieren zu Vorverkaufspreisen',
-    subtitle: 'Erschwingliche Resort-Immobilien in Nordzypern',
+    subtitle: 'Erschwingliche Investitionsmöglichkeiten in Nordzypern',
     features: [
       'Ab £10,750 Anzahlung',
       '£600/Monat - 0% Zinsen (48 Monate)',
@@ -162,7 +162,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
         interestReasons: [
           { label: 'Rentenkapital wächst nicht', value: 'Pension capital not growing' },
           { label: 'Inflationsschutz', value: 'Inflation protection' },
-          { label: 'Mieteinnahmen', value: 'Rental income' },
+          { label: 'Passives Einkommen', value: 'Passive income' },
           { label: 'Diversifizierung außerhalb der EU', value: 'Diversifying outside the EU' },
           { label: 'Attraktive Preise', value: 'Attractive pricing' },
         ],
@@ -206,7 +206,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
   },
   tr: {
     title: 'Şimdi ön satış fiyatlarıyla yatırım yapın',
-    subtitle: 'Kuzey Kıbrıs\'ta uygun fiyatlı resort-stilinde gerçek bir emlak',
+    subtitle: 'Kuzey Kıbrıs\'ta uygun fiyatlı investitionsfırsatları',
     features: [
       '£10,750\'den başlayan azalışlı peşinat',
       '£600/ay - 0% faiz (48 ay)',
@@ -232,7 +232,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
         interestReasons: [
           { label: 'Emeklilik sermayesi büyümüyor', value: 'Pension capital not growing' },
           { label: 'Enflasyona karşı korunma', value: 'Inflation protection' },
-          { label: 'Kira geliri', value: 'Rental income' },
+          { label: 'Pasif gelir', value: 'Passive income' },
           { label: 'AB dışında çeşitlendirme', value: 'Diversifying outside the EU' },
           { label: 'Cazip fiyatlandırma', value: 'Attractive pricing' },
         ],
@@ -275,8 +275,8 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     ]
   },
   ru: {
-    title: 'Запишитесь на бесплатную консультацию по недвижимости',
-    subtitle: 'Доступная недвижимость в Северном Кипре по ценам предпродажи',
+    title: 'Инвестируйте сейчас по ценам предпродажи',
+    subtitle: 'Доступные инвестиционные возможности на Северном Кипре по ценам предпродажи',
     features: [
       'От £10,750 начального взноса',
       '£600/месяц - 0% процентов (48 месяцев)',
@@ -287,7 +287,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
     caseStudiesTitle: 'Кейсы',
     caseStudiesDescription: 'Узнайте, как наши клиенты получили выгоду, инвестируя в наши проекты.',
     form: {
-      title: 'Запишитесь на бесплатную консультацию по недвижимости',
+      title: 'Запросить консультацию сейчас',
       subtitle: 'Ваши данные будут использоваться исключительно для планирования и подготовки вашей консультации по проекту Cielo Vista. Ваши данные не будут переданы третьим лицам для рекламных целей',
       fields: {
         firstName: 'Имя',
@@ -302,7 +302,7 @@ export const gecitkaleConsultationContent: GecitkaleConsultationContent = {
         interestReasons: [
           { label: 'Пенсионный капитал не растет', value: 'Pension capital not growing' },
           { label: 'Защита от инфляции', value: 'Inflation protection' },
-          { label: 'Арендный доход', value: 'Rental income' },
+          { label: 'Пассивный доход', value: 'Passive income' },
           { label: 'Диверсификация вне ЕС', value: 'Diversifying outside the EU' },
           { label: 'Привлекательные цены', value: 'Attractive pricing' },
         ],
