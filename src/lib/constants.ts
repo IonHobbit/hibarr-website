@@ -87,3 +87,22 @@ export const locations = [
     label: 'Meneou',
   },
 ]
+
+export const propertyTypes = [
+  {
+    value: '',
+    label: 'All Property Types',
+  },
+  {
+    value: 'Villa',
+    label: 'Villa',
+  },
+  {
+    value: 'Apartment',
+    label: 'Apartment',
+  },
+  {
+    value: 'Office',
+    label: 'Office',
+  },
+]
