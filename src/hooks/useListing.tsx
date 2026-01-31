@@ -1,25 +1,19 @@
-import { fetchSanityData } from "@/lib/third-party/sanity.client";
-import { PropertyResponse } from "@/types/property";
-import { useQuery } from "@tanstack/react-query";
+'use client';
 
-export default function useListing(slug: string) {
+import { PropertyListing } from "@/types/property";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { APIResponse } from "@/lib/services/api.service";
+import { makeCRMGETRequest } from "@/lib/services/properties-api.service";
+
+export default function useListing(id: string) {
 
   const fetchListingQuery = useQuery({
-    queryKey: ['listing', slug],
-    queryFn: () => fetchSanityData<PropertyResponse>(`
-      *[_type == "property" && basicInfo.slug.current == "${slug}"][0] {
-      ...,
-      "id": _id,
-      "basicInfo": {
-        ...basicInfo,
-        "type": basicInfo.type[]->name
-      },
-      "agent": agent->{firstName, lastName, phone, image, code},
-      "features": {
-        "external": features.external[]->{"id": _id, name, description, image},
-        "internal": features.internal[]->{"id": _id, name, description, image},
-      },
-    }`)
+    queryKey: ['listing', id],
+    queryFn: async () => {
+      const response = await makeCRMGETRequest<APIResponse<PropertyListing>>(`/api/v1/properties/${id}`);
+      return response?.data;
+    },
+    placeholderData: keepPreviousData
   });
 
   return fetchListingQuery;

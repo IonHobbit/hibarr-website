@@ -50,7 +50,7 @@ export default function ApplicationForm({ jobId, lang }: ApplicationFormProps) {
         phone: values.phone ?? undefined,
         resumeUrl: values.resumeUrl,
       }
-      makePOSTRequest('/job-applications', payload)
+      makePOSTRequest('/jobs/applications', payload)
     },
   });
 

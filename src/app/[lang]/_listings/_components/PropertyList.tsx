@@ -5,12 +5,13 @@ import Property from "./Property";
 import { Pagination, PaginationNext } from "@/components/ui/pagination";
 import { PaginationContent, PaginationItem, PaginationLink, PaginationPrevious } from "@/components/ui/pagination";
 import useURL from "@/hooks/useURL";
-import { joinWith, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { decryptJSON, TOKEN_SECRET } from "@/lib/encryptor";
 import useFeatures from "@/hooks/useFeatures";
 import pluralize from "pluralize";
-import usePropertyTypes from "@/hooks/usePropertyTypes";
+// import usePropertyTypes from "@/hooks/usePropertyTypes";
 import { Icon } from "@/components/icons";
+import { propertyTypes } from "@/lib/constants";
 
 export default function PropertyList() {
   const { searchParams, updateParams } = useURL();
@@ -18,52 +19,61 @@ export default function PropertyList() {
   const q = searchParams.get('q') || '';
   const filters: Filters = q ? decryptJSON(q, TOKEN_SECRET) || {} : {};
 
-  const location = filters.location || [];
-  const propertyType = filters.propertyType || [];
+  const status = filters.status || '';
+  const city = filters.city || '';
+  const property_type = filters.property_type || '';
+  const sales_type = filters.sales_type || '';
+  const fields = filters.fields || [];
+  // const location = filters.location || [];
+  // const propertyType = filters.propertyType || [];
   const bedrooms = filters.bedrooms || '';
   const bathrooms = filters.bathrooms || '';
   const features = filters.features || [];
   const minPrice = parseInt(searchParams.get('minPrice') || '0');
   const maxPrice = parseInt(searchParams.get('maxPrice') || '0');
-  const listingType = filters.listingType || '';
 
   const { listings, isPending, error, refetch, paginationInfo } = useListings(
     {
-      location,
-      propertyType,
+      status,
+      city,
+      property_type,
+      sales_type,
+      fields,
+
       bedrooms,
       bathrooms,
       features,
       minPrice,
       maxPrice,
-      listingType,
     },
     parseInt(searchParams.get('page') || '1'),
     parseInt(searchParams.get('limit') || '9'),
   );
 
   const featuresHook = useFeatures();
-  const propertyTypesHook = usePropertyTypes();
+  // const propertyTypesHook = usePropertyTypes();
 
   const findFeature = (id: string) => {
     return featuresHook.data?.find(({ id: featureId }) => featureId === id)?.name;
   }
 
-  const findPropertyType = (id: string) => {
-    return propertyTypesHook.data?.find(({ id: propertyTypeId }) => propertyTypeId === id)?.name;
-  }
+  // const findPropertyType = (id: string) => {
+  //   return propertyTypesHook.data?.find(({ id: propertyTypeId }) => propertyTypeId === id)?.name;
+  // }
 
   const featureList = features.map(feature => pluralize(findFeature(feature) || ''));
-  const propertyTypeList = propertyType.map(propertyType => pluralize(findPropertyType(propertyType) || '', 1));
+  const propertyType = pluralize(propertyTypes.find(pt => pt.value === property_type)?.label || '', 1);
+  // const propertyType = pluralize(findPropertyType(property_type) || '', 1);
 
   return (
     <section className="section h-full grow">
       <div className="min-h-[80dvh]">
         {listings?.length === 0 && (
           <div className="flex flex-col gap-1 items-center justify-center h-[40dvh] grow max-w-screen-sm mx-auto">
-            <h1 className="text-2xl font-bold">No {joinWith(propertyTypeList, 'or')} listings found</h1>
+            <h1 className="text-2xl font-bold">No {propertyType} listings found</h1>
             <p className="text-sm text-muted-foreground text-center">
-              {location.filter(Boolean).length > 0 ? `in ${joinWith(location, 'or')}` : ''}
+              {/* {location.filter(Boolean).length > 0 ? `in ${joinWith(location, 'or')}` : ''} */}
+              {city ? ` in ${city}` : ''}
               {bedrooms ? ` with ${bedrooms} ${pluralize('bedroom', parseInt(bedrooms))}` : ''}
               {bathrooms ? `${bedrooms ? ' and' : ' with'} ${bathrooms} ${pluralize('bathroom', parseInt(bathrooms))}` : ''}
               {featureList.length > 0 ? ` featuring ${featureList.join(', ')}` : ''}

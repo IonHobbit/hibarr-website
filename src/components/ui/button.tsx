@@ -77,9 +77,9 @@ function Button({
           className={cn(buttonVariants({ variant, size, className }))}
           {...props}
         >
-          <div className="flex items-center justify-center gap-2 min-w-0">
-            <span>{props.children}</span>
-          </div>
+          <span className="flex items-center justify-center gap-1 min-w-0">
+            {props.children}
+          </span>
         </Comp>
       </Link>
     )
@@ -91,10 +91,10 @@ function Button({
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     >
-      <div className="flex items-center justify-center gap-2 min-w-0">
+      <span className="flex items-center justify-center gap-1 min-w-0">
         {isLoading && <Icon icon="mdi:loading" className="size-4 animate-spin shrink-0" />}
-        <span>{props.children}</span>
-      </div>
+        {props.children}
+      </span>
     </Comp>
   )
 }

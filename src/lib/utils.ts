@@ -15,6 +15,7 @@ export function formatDate(date: string) {
 }
 
 export function generateImageUrl(image: SanityImageSource) {
+  
   return createImageUrlBuilder(client).image(image).auto('format');
 }
 
@@ -40,11 +41,15 @@ export function generateSEOMetadata(seo?: SeoMetaFields, defaults?: {
   const defaultTwitterImage = `${siteUrl}/twitter-image.jpg`;
 
   const ogImages = seo?.openGraph?.image 
-    ? [generateImageUrl(seo?.openGraph?.image).width(1200).height(630).url()] 
+    ? [typeof seo.openGraph.image === 'string' 
+        ? seo.openGraph.image 
+        : generateImageUrl(seo.openGraph.image).width(1200).height(630).url()] 
     : [defaultOgImage];
 
   const twitterImages = seo?.openGraph?.image 
-    ? [generateImageUrl(seo?.openGraph?.image).width(1200).height(675).url()]
+    ? [typeof seo.openGraph.image === 'string'
+        ? seo.openGraph.image
+        : generateImageUrl(seo.openGraph.image).width(1200).height(675).url()]
     : [defaultTwitterImage];
 
   return {
@@ -79,6 +84,19 @@ export function generateSEOMetadata(seo?: SeoMetaFields, defaults?: {
 
 export function generateRandomFileName(file: File) {
   return `${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}.${file.type.split('/')[1]}`;
+}
+
+export function generateSlug(name: string): string {
+  return name
+    .toString()
+    .normalize('NFD')                  
+    .replace(/[\u0300-\u036f]/g, '') 
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')    
+    .replace(/\s+/g, '-')          
+    .replace(/-+/g, '-')             
+    .replace(/^-+|-+$/g, '');     
 }
 
 interface PortableTextBlock {
